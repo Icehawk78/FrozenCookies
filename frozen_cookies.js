@@ -208,7 +208,7 @@ function buyFunctionToggle(upgrade) {
       if (a.split('+=').length > 1) {
         reversed = a.split('+=').join('-=');
       } else if (a.split('-=').length > 1) {
-        reversed = a.split('+=').join('+=');
+        reversed = a.split('-=').join('+=');
       } else if (achievementMatch && Game.Achievements[achievementMatch[1]].won == 0) {
         reversed = 'Game.Achievements[\'' + achievementMatch[1] + '\'].won=0';
       } else if (a.split('=').length > 1) {
