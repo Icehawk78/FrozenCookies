@@ -1,3 +1,41 @@
+// Global Variables
+
+var autoBuy = true;
+var frequency = 100;
+var non_gc_time = 0;
+var gc_time = 0;
+var last_gc_state = (Game.frenzy > 0);
+var last_gc_time = Date.now();
+var cookie_click_speed = 0;
+var gc_click_percent = 1;
+var initial_clicks = 0;
+var initial_load_time = Date.now();
+var full_history = [];
+
+var cookieBot = -1;
+var autoclickBot = -1;
+
+function Beautify (value) {
+  notation = ['', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion'];
+  base = 0;
+  if (value >= 1000000) {
+    value /= 1000;
+    while(value >= 1000){
+      value /= 1000;
+      base++;
+    }
+  }
+  value = Math.round(value * 1000) / 1000.0;
+  if(base < notation.length){
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + notation[base];
+  }
+  return 'Infinity';
+}
+
+function showGCTimes() {
+  return "\nNormal CPS: " + timeDisplay(non_gc_time / 1000) + "\nGC CPS:     " + timeDisplay(gc_time / 1000) + "\nPercentage GC: " + (gc_time * 1.0) / (non_gc_time + gc_time);
+}
+
 function timeDisplay(seconds) {
 	if (seconds === '---' || seconds === 0) { return '---'; }
 	seconds = Math.floor(seconds);
