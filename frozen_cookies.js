@@ -296,6 +296,9 @@ function autoCookie() {
         tickerTxt += "<br/>Max out GC ROI: " + Beautify(gcRoi());
       }
     }
+    if (Game.HowMuchPrestige(Game.cookiesReset) < Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned)) {
+      tickerTxt += "<br/>New HC Amount: " + Beautify(Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned));
+    }
     Game.Ticker = tickerTxt;
     Game.TickerAge = frequency;
   }
