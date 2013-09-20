@@ -1,6 +1,5 @@
 $('#logButton').before(
-  $(fcButton).addClass('button')
-    .attr('id', 'fcButton')
+  $('<div id="fcButton" />').addClass('button')
     .html('Frozen Cookie')
     .click(function(){
       Game.ShowMenu('fc_menu');
