@@ -65,16 +65,20 @@ Game.UpdateMenu = function() {
 }
 
 function updateTimers() {
-  var canvas = $('#fcTimer')[0].getContext('2d');
-  canvas.beginPath();
-  canvas.strokeStyle = '#CCC';
-  canvas.arc(60,65,50,0,2*Math.PI);
-  canvas.lineWidth = 10;
-  canvas.stroke();
-  canvas.beginPath();
-  canvas.strokeStyle = '#FFF';
+  var canvas = $('#fcTimer');
+  canvas.drawArc({
+    strokeStyle: '#CCC',
+    strokeWidth: 10,
+    x: 60, y: 60,
+    radius: 50
+  });
   fill_amount = Game.goldenCookie.delay / (1200 * Game.fps)
-  canvas.arc(60,65,50,0,fill_amount * 2 * Math.PI);
-  canvas.lineWidth = 10;
-  canvas.stroke();
+  canvas.drawArc({
+    strokeStyle: '#FFF',
+    strokeWidth: 10,
+    x: 60, y: 60,
+    radius: 50,
+    start: 0,
+    end: 360 * fill_amount
+  })
 }
