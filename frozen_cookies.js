@@ -122,6 +122,14 @@ function maxLuckyValue() {
   return Game.cookiesPs * gcMod;
 }
 
+function maxCookieTime() {
+  var baseCookieTime = Game.fps * 60 * 15;
+  if (Game.Has('Lucky day')) baseCookieTime/=2;
+  if (Game.Has('Serendipity')) baseCookieTime/=2;
+  if (Game.Has('Gold hoard')) baseCookieTime=0.01;
+  return baseCookieTime;
+}
+
 function gcPs(gcValue) {
   var averageGCTime = 600
   if (Game.Has('Lucky day')) averageGCTime/=2;
