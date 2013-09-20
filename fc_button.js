@@ -9,8 +9,7 @@ $('#logButton').before(
 $('<style type="text/css">')
   .html(
   '#fcButton {font-size: 60%; top: 0px; right: -16px; padding: 14px 16px 10px 0px;}' +
-  '#fcButton:hover {right: -8px;}' +
-  '#fcTimer {width:100%; height: 60px;}')
+  '#fcButton:hover {right: -8px;}')
   .appendTo('head');
 
 Game.oldUpdateMenu = Game.UpdateMenu;
@@ -23,7 +22,7 @@ Game.UpdateMenu = function() {
     menu.append($('<div />').addClass('section').html('Frozen Cookie'));
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Timer Tests'));
-    var timers = $('<canvas id="fcTimer" />').html('Your browser does not support the HTML5 canvas tag.');
+    var timers = $('<canvas id="fcTimer" width="100%" height="100px"/>').html('Your browser does not support the HTML5 canvas tag.');
     updateTimers();
     subsection.append(timers);
     menu.append(subsection);
