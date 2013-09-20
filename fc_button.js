@@ -9,7 +9,8 @@ $('#logButton').before(
 $('<style type="text/css">')
   .html(
   '#fcButton {font-size: 60%; top: 0px; right: -16px; padding: 14px 16px 10px 0px;}' +
-  '#fcButton:hover {right: -8px;}')
+  '#fcButton:hover {right: -8px;}' +
+  '#fcTimer {width:100%; height: 60px;}')
   .appendTo('head');
 
 Game.oldUpdateMenu = Game.UpdateMenu;
@@ -20,6 +21,12 @@ Game.UpdateMenu = function() {
   } else {
     var menu = $('#menu').html('');
     menu.append($('<div />').addClass('section').html('Frozen Cookie'));
+    var subsection = $('<div />').addClass('subsection');
+    subsection.append($('<div />').addClass('title').html('Timer Tests'));
+    var timers = $('<canvas id="fcTimer" />').html('Your browser does not support the HTML5 canvas tag.');
+    updateTimers();
+    subsection.append(timers);
+    menu.append(subsection);
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Autobuy Information'));
     var recommendation = nextPurchase();
@@ -55,4 +62,19 @@ Game.UpdateMenu = function() {
     }
     menu.append(subsection);
   }
+}
+
+function updateTimers() {
+  var canvas = timers.getContext('2d');
+  canvas.beginPath();
+  canvas.strokeStyle = '#CCC';
+  canvas.arc(60,65,50,0,2*Math.PI);
+  canvas.lineWidth = 10;
+  canvas.stroke();
+  canvas.beginPath();
+  canvas.strokeStyle = '#FFF';
+  fill_amount = Game.goldenCookie.delay / (1200 * Game.fps)
+  canvas.arc(60,65,50,0,fill_amount * 2 * Math.PI);
+  canvas.lineWidth = 10;
+  canvas.stroke();
 }
