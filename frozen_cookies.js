@@ -6,7 +6,7 @@ if (true) {
   jquery.setAttribute('type', 'text/javascript');
   jquery.setAttribute('src', 'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
   jquery.onload = function() {
-    scipt_list.forEach(function(url){
+    script_list.forEach(function(url){
       $.getScript(url);
     });
   };
