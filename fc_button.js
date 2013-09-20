@@ -5,7 +5,7 @@ $('#logButton').before(
     .html('Frozen Cookie')
     .click(function(){
       Game.ShowMenu('fc_menu');
-    });
+    })
 );
 
 Game.oldUpdateMenu = Game.UpdateMenu;
