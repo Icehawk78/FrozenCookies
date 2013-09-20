@@ -1,4 +1,3 @@
-var frozenCookieButton = "<div id='fcButton' class='button' style='font-size:60%;' onclick=\"function(){Game.ShowMenu('fc_menu');}\">Frozen Cookie</div>";
 var fcButton = document.createElement('div');
 $(fcButton).addClass('button')
   .html('Frozen Cookie')
@@ -14,10 +13,9 @@ $(fcStyle).type('text/css')
 
 Game.oldUpdateMenu = Game.UpdateMenu;
 
-Game.UpdateMenu = function()
-{
-	if (Game.onMenu !== 'fc_menu') {
-		return Game.oldUpdateMenu();
+Game.UpdateMenu = function() {
+  if (Game.onMenu !== 'fc_menu') {
+    return Game.oldUpdateMenu();
   } else {
     return "<div class='section'>Frozen Cookie</div>";
   }
