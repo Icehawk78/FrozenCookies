@@ -15,15 +15,16 @@ $('<style type="text/css">')
 Game.oldUpdateMenu = Game.UpdateMenu;
 
 function updateTimers() {
+  var gc_delay = Game.goldenCookie.delay / maxCookieTime();
+  var frenzy_delay = Game.frenzy / maxCookieTime();
   var canvas = $('#fcTimer');
   canvas.drawArc({
     strokeStyle: '#CCC',
     strokeWidth: 10,
     x: 50, y: 50,
     radius: 40
-  });
-  fill_amount = Game.goldenCookie.delay / (150 * 1.5 * Game.fps)
-  canvas.drawArc({
+  })
+  .drawArc({
     strokeStyle: '#FFF',
     strokeWidth: 10,
     x: 50, y: 50,
