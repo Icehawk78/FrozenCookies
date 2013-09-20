@@ -6,9 +6,6 @@ if (true) {
   jquery.setAttribute('type', 'text/javascript');
   jquery.setAttribute('src', 'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
   jquery.onload = function() {
-    $.get('https://raw.github.com/Icehawk78/FrozenCookies/master/frozen_cookies.css', function(data) {
-      $('<style type="text/css" />').html(data).appendTo('head');
-    });
     script_list.forEach(function(url){
       $.getScript(url);
     });
