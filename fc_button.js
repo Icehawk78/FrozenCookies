@@ -6,11 +6,6 @@ $(fcButton).addClass('button')
     Game.ShowMenu('fc_menu');
   });
 
-var fcStyle = document.createElement('style');
-$(fcStyle).type('text/css')
-  .html('#fcButton { font-size: 60%; top: 0px; right: -16px; padding-top: 14px; padding-right: 16px; padding-bottom: 10px; padding-left: 0px; } #fcButton:hover { right: -8px; }')
-  .appendTo($('head'));
-
 Game.oldUpdateMenu = Game.UpdateMenu;
 
 Game.UpdateMenu = function() {
