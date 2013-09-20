@@ -1,11 +1,12 @@
 var fcButton = document.createElement('div');
-$(fcButton).addClass('button')
-  .attr('id', 'fcButton')
-  .html('Frozen Cookie')
-  .appendTo($("#comments"))
-  .click(function(){
-    Game.ShowMenu('fc_menu');
-  });
+$('#logButton').before(
+  $(fcButton).addClass('button')
+    .attr('id', 'fcButton')
+    .html('Frozen Cookie')
+    .click(function(){
+      Game.ShowMenu('fc_menu');
+    });
+);
 
 Game.oldUpdateMenu = Game.UpdateMenu;
 
