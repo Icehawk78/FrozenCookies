@@ -295,27 +295,6 @@ function autoCookie() {
     full_history.push(recommendation);
     purchase.clickFunction = null;
     purchase.buy();
-  } else {
-    var tickerTxt = "Next purchase: " + purchase.name + ".<br/>ROI: " + Beautify(recommendation.roi) + " - Cost: " + Beautify(recommendation.cost);
-    if (delayAmount()) {
-      tickerTxt += " + " + Beautify(delayAmount()) + " banked for GC";
-    }
-    if (gc_click_percent > 0) {
-      tickerTxt += "<br/>Base &#916; CPS: " + Beautify(recommendation.base_delta_cps) + " - Full &#916; CPS: " + Beautify(recommendation.delta_cps);
-    } else {
-      tickerTxt += " - &#916; CPS: " + Beautify(recommendation.base_delta_cps);
-    }
-    if (Game.cookiesPs > 0) {
-      tickerTxt += "<br/>Time til purchase: " + timeDisplay((recommendation.cost + delayAmount() - Game.cookies) / Game.cookiesPs);
-      if (gcRoi() > 0 && gcRoi() != Number.MAX_VALUE) {
-        tickerTxt += "<br/>Max out GC ROI: " + Beautify(gcRoi());
-      }
-    }
-    if (Game.HowMuchPrestige(Game.cookiesReset) < Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned)) {
-      tickerTxt += "<br/>New HC Amount: " + Beautify(Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned));
-    }
-    Game.Ticker = tickerTxt;
-    Game.TickerAge = frequency;
   }
   if (shouldClickGC()) {
     Game.goldenCookie.click();
