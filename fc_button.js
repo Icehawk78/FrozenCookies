@@ -12,6 +12,6 @@ Game.UpdateMenu = function() {
   if (Game.onMenu !== 'fc_menu') {
     return Game.oldUpdateMenu();
   } else {
-    return "<div class='section'>Frozen Cookie</div>";
+    $('#menu').html("<div class='section'>Frozen Cookie</div>");
   }
 }
