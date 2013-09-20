@@ -1,5 +1,6 @@
 var fcButton = document.createElement('div');
 $(fcButton).addClass('button')
+  .id('fcButton')
   .html('Frozen Cookie')
   .appendTo($("#comments"))
   .click(function(){
