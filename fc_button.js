@@ -18,7 +18,7 @@ Game.UpdateMenu = function() {
   if (Game.onMenu !== 'fc_menu') {
     return Game.oldUpdateMenu();
   } else {
-    var menu = $('#menu')
+    var menu = $('#menu').html('');
     menu.append($('<div />').addClass('section').html('Frozen Cookie'));
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Autobuy Information'));
