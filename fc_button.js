@@ -65,7 +65,7 @@ Game.UpdateMenu = function() {
 }
 
 function updateTimers() {
-  var canvas = $(#'fcTimer').getContext('2d');
+  var canvas = $('#fcTimer').getContext('2d');
   canvas.beginPath();
   canvas.strokeStyle = '#CCC';
   canvas.arc(60,65,50,0,2*Math.PI);
