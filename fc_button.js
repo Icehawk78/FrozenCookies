@@ -34,7 +34,7 @@ function updateTimers() {
   })
   .drawArc({
     strokeStyle: 'red',
-    strokeWidth: 5,
+    strokeWidth: 10,
     radius: 30,
     start: 0,
     end: (360 * frenzy_delay)
