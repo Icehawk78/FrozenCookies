@@ -30,13 +30,13 @@ function updateTimers() {
     strokeStyle: '#FFF',
     strokeWidth: 10,
     start: 0,
-    end: 360 - (360 * gc_delay)
+    end: (360 * gc_delay)
   })
   .drawArc({
     strokeStyle: 'red',
     strokeWidth: 5,
     start: 0,
-    end: 360 - (360 * frenzy_delay)
+    end: (360 * frenzy_delay)
   });
 }
 
