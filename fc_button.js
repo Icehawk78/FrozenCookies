@@ -23,7 +23,7 @@ function updateTimers() {
     radius: 40
   })
   .drawArc({
-    strokeStyle: '#CCC',
+    strokeStyle: '#AAA',
     strokeWidth: 10,
   })
   .drawArc({
