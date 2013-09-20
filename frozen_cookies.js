@@ -7,7 +7,7 @@ if (true) {
   jquery.setAttribute('src', 'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
   jquery.onload = function() {
     var css = $('<link rel="stylesheet" type="text/css" />').appendTo('head');
-    css.attr('href', 'https://raw.github.com/Icehawk78/FrozenCookies/master/frozen_cookies.css'));
+    css.attr('href', 'https://raw.github.com/Icehawk78/FrozenCookies/master/frozen_cookies.css');
     script_list.forEach(function(url){
       $.getScript(url);
     });
