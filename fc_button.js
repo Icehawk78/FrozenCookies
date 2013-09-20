@@ -19,17 +19,17 @@ function updateTimers() {
   canvas.drawArc({
     strokeStyle: '#CCC',
     strokeWidth: 10,
-    x: 20, y: 20,
+    x: 50, y: 50,
     radius: 50
   });
   fill_amount = Game.goldenCookie.delay / (1200 * Game.fps)
   canvas.drawArc({
     strokeStyle: '#FFF',
     strokeWidth: 10,
-    x: 20, y: 20,
+    x: 50, y: 50,
     radius: 50,
     start: 0,
-    end: 360 * fill_amount
+    end: 180 * fill_amount
   })
 }
 
