@@ -18,20 +18,26 @@ function updateTimers() {
   var gc_delay = Game.goldenCookie.delay / maxCookieTime();
   var frenzy_delay = Game.frenzy / maxCookieTime();
   var canvas = $('#fcTimer');
-  canvas.drawArc({
-    strokeStyle: '#CCC',
-    strokeWidth: 10,
+  canvas.jCanvas({
     x: 50, y: 50,
     radius: 40
   })
   .drawArc({
+    strokeStyle: '#CCC',
+    strokeWidth: 10,
+  })
+  .drawArc({
     strokeStyle: '#FFF',
     strokeWidth: 10,
-    x: 50, y: 50,
-    radius: 40,
     start: 0,
-    end: 360 * fill_amount
+    end: 360 * gc_delay
   })
+  .drawArc({
+    strokeStyle: 'red',
+    strokeWidth: 5,
+    start: 0,
+    end: 360 * frenzy_delay
+  });
 }
 
 Game.UpdateMenu = function() {
