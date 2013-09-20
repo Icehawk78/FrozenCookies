@@ -26,14 +26,15 @@ Game.UpdateMenu = function() {
     var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
     var purchase = store[recommendation.id];
     subsection.append($('<div />').addClass('listing').html('Next Purchase: ' + purchase.name));
+    if (Game.cookiesPs > 0) {
+      subsection.append($('<div />').addClass('listing').html('Time til completion: ' + timeDisplay((recommendation.cost + delayAmount() - Game.cookies) / Game.cookiesPs));
+    }
     subsection.append($('<div />').addClass('listing').html('Cost: ' + Beautify(recommendation.cost)));
     subsection.append($('<div />').addClass('listing').html('Golden Cookie Bank: ' + Beautify(delayAmount())));
     subsection.append($('<div />').addClass('listing').html('Base &#916; CPS: ' + Beautify(recommendation.base_delta_cps)));
     subsection.append($('<div />').addClass('listing').html('Full &#916; CPS: ' + Beautify(recommendation.delta_cps)));
     subsection.append($('<div />').addClass('listing').html('Purchase ROI: ' + Beautify(recommendation.roi)));
     subsection.append($('<div />').addClass('listing').html('Golden Cookie ROI: ' + Beautify(gcRoi())));
-    subsection.append($('<div />').addClass('listing').html('Cost: ' + Beautify(recommendation.cost)));
-    subsection.append($('<div />').addClass('listing').html('Cost: ' + Beautify(recommendation.cost)));
     menu.append(subsection);
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Golden Cookie Information'));
