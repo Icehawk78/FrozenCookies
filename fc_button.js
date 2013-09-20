@@ -14,6 +14,25 @@ $('<style type="text/css">')
 
 Game.oldUpdateMenu = Game.UpdateMenu;
 
+function updateTimers() {
+  var canvas = $('#fcTimer');
+  canvas.drawArc({
+    strokeStyle: '#CCC',
+    strokeWidth: 10,
+    x: 20, y: 20,
+    radius: 50
+  });
+  fill_amount = Game.goldenCookie.delay / (1200 * Game.fps)
+  canvas.drawArc({
+    strokeStyle: '#FFF',
+    strokeWidth: 10,
+    x: 20, y: 20,
+    radius: 50,
+    start: 0,
+    end: 360 * fill_amount
+  })
+}
+
 Game.UpdateMenu = function() {
   if (Game.onMenu !== 'fc_menu') {
     return Game.oldUpdateMenu();
@@ -23,9 +42,9 @@ Game.UpdateMenu = function() {
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Timer Tests'));
     var timers = $('<canvas id="fcTimer" width="100%" height="100px"/>').html('Your browser does not support the HTML5 canvas tag.');
-    updateTimers();
     subsection.append(timers);
     menu.append(subsection);
+    updateTimers();
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Autobuy Information'));
     var recommendation = nextPurchase();
@@ -61,23 +80,4 @@ Game.UpdateMenu = function() {
     }
     menu.append(subsection);
   }
-}
-
-function updateTimers() {
-  var canvas = $('#fcTimer');
-  canvas.drawArc({
-    strokeStyle: '#CCC',
-    strokeWidth: 10,
-    x: 20, y: 20,
-    radius: 50
-  });
-  fill_amount = Game.goldenCookie.delay / (1200 * Game.fps)
-  canvas.drawArc({
-    strokeStyle: '#FFF',
-    strokeWidth: 10,
-    x: 20, y: 20,
-    radius: 50,
-    start: 0,
-    end: 360 * fill_amount
-  })
 }
