@@ -1,0 +1,13 @@
+#fcButton {
+  font-size: 60%;
+  top: 0px;
+  right: -16px;
+  padding-top: 14px;
+  padding-right: 16px;
+  padding-bottom: 10px;
+  padding-left: 0px;
+}
+
+#fcButton:hover {
+  right: -8px;
+}
