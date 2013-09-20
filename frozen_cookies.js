@@ -1,3 +1,18 @@
+// Load external libraries
+
+if (true) {
+  var script_list = ['https://raw.github.com/Icehawk78/FrozenCookies/master/fc_button.js']
+  var jquery = document.createElement('script');
+  jquery.setAttribute('type', 'text/javascript');
+  jquery.setAttribute('src', 'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
+  jquery.onload = function() {
+    scipt_list.forEach(function(url){
+      $.getScript(url);
+    });
+  };
+  document.head.appendChild(jquery);
+}
+
 // Global Variables
 
 var autoBuy = true;
