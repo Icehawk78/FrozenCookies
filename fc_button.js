@@ -27,7 +27,7 @@ Game.UpdateMenu = function() {
     var purchase = store[recommendation.id];
     subsection.append($('<div />').addClass('listing').html('<b>Next Purchase:</b> ' + purchase.name));
     if (Game.cookiesPs > 0) {
-      subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay((recommendation.cost + delayAmount() - Game.cookies) / Game.cookiesPs));
+      subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay((recommendation.cost + delayAmount() - Game.cookies) / Game.cookiesPs)));
     }
     subsection.append($('<div />').addClass('listing').html('<b>Cost:</b> ' + Beautify(recommendation.cost)));
     subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Bank:</b> ' + Beautify(delayAmount())));
