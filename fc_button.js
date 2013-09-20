@@ -1,6 +1,6 @@
 var fcButton = document.createElement('div');
 $('#logButton').before(
-  $(fcButton).addClass('button')
+  $(fcButton).addClass('button').addClass('fcButton')
     .attr('id', 'fcButton')
     .html('Frozen Cookie')
     .click(function(){
