@@ -50,6 +50,9 @@ function Beautify (value) {
   return 'Infinity';
 }
 
+Game.RebuildStore();
+Game.RebuildUpgrades();
+
 function showGCTimes() {
   return "\nNormal CPS: " + timeDisplay(non_gc_time / 1000) + "\nGC CPS:     " + timeDisplay(gc_time / 1000) + "\nPercentage GC: " + (gc_time * 1.0) / (non_gc_time + gc_time);
 }
