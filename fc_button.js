@@ -25,28 +25,28 @@ Game.UpdateMenu = function() {
     var recommendation = nextPurchase();
     var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
     var purchase = store[recommendation.id];
-    subsection.append($('<div />').addClass('listing').html('Next Purchase: ' + purchase.name));
+    subsection.append($('<div />').addClass('listing').html('<b>Next Purchase:</b> ' + purchase.name));
     if (Game.cookiesPs > 0) {
-      subsection.append($('<div />').addClass('listing').html('Time til completion: ' + timeDisplay((recommendation.cost + delayAmount() - Game.cookies) / Game.cookiesPs));
+      subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay((recommendation.cost + delayAmount() - Game.cookies) / Game.cookiesPs));
     }
-    subsection.append($('<div />').addClass('listing').html('Cost: ' + Beautify(recommendation.cost)));
-    subsection.append($('<div />').addClass('listing').html('Golden Cookie Bank: ' + Beautify(delayAmount())));
-    subsection.append($('<div />').addClass('listing').html('Base &#916; CPS: ' + Beautify(recommendation.base_delta_cps)));
-    subsection.append($('<div />').addClass('listing').html('Full &#916; CPS: ' + Beautify(recommendation.delta_cps)));
-    subsection.append($('<div />').addClass('listing').html('Purchase ROI: ' + Beautify(recommendation.roi)));
-    subsection.append($('<div />').addClass('listing').html('Golden Cookie ROI: ' + Beautify(gcRoi())));
+    subsection.append($('<div />').addClass('listing').html('<b>Cost:</b> ' + Beautify(recommendation.cost)));
+    subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Bank:</b> ' + Beautify(delayAmount())));
+    subsection.append($('<div />').addClass('listing').html('<b>Base &#916; CPS:</b> ' + Beautify(recommendation.base_delta_cps)));
+    subsection.append($('<div />').addClass('listing').html('<b>Full &#916; CPS:</b> ' + Beautify(recommendation.delta_cps)));
+    subsection.append($('<div />').addClass('listing').html('<b>Purchase ROI:</b> ' + Beautify(recommendation.roi)));
+    subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie ROI:</b> ' + Beautify(gcRoi())));
     menu.append(subsection);
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Golden Cookie Information'));
-    subsection.append($('<div />').addClass('listing').html('Current Average Cookie Value: ' + Beautify(weightedCookieValue(true))));
-    subsection.append($('<div />').addClass('listing').html('Max Average Cookie Value: ' + Beautify(weightedCookieValue())));
-    subsection.append($('<div />').addClass('listing').html('Max Lucky Cookie Value: ' + Beautify(maxLuckyValue())));
-    subsection.append($('<div />').addClass('listing').html('Estimated Cookie CPS: ' + Beautify(gcPs(weightedCookieValue(true)))));
+    subsection.append($('<div />').addClass('listing').html('<b>Current Average Cookie Value:</b> ' + Beautify(weightedCookieValue(true))));
+    subsection.append($('<div />').addClass('listing').html('<b>Max Average Cookie Value:</b> ' + Beautify(weightedCookieValue())));
+    subsection.append($('<div />').addClass('listing').html('<b>Max Lucky Cookie Value:</b> ' + Beautify(maxLuckyValue())));
+    subsection.append($('<div />').addClass('listing').html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(weightedCookieValue(true)))));
     menu.append(subsection);
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Heavenly Chips Information'));
-    subsection.append($('<div />').addClass('listing').html('HC After Reset: ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset+Game.cookiesEarned))));
-    subsection.append($('<div />').addClass('listing').html('Estimated time to next HC: ' + nextHC()));
+    subsection.append($('<div />').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset+Game.cookiesEarned))));
+    subsection.append($('<div />').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
     menu.append(subsection);
   }
 }
