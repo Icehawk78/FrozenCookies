@@ -29,7 +29,8 @@ function updateTimers() {
     strokeWidth: 10,
   })
   .drawArc({
-    strokeStyle: function(layer) {
+    strokeStyle: 'gold',
+/*    function(layer) {
       return $(this).createGradient({
         x1: layer.x, y1: layer.y,
         x2: layer.x, y2: layer.y,
@@ -37,6 +38,7 @@ function updateTimers() {
         c1: "gold", c2: "white"
       });
     },
+*/
     strokeWidth: 7,
     start: 0,
     end: (360 * gc_delay)
@@ -52,7 +54,8 @@ function updateTimers() {
     radius:35
   })
   .drawArc({
-    strokeStyle: function(layer) {
+    strokeStyle: 'red',
+/*    function(layer) {
       return $(this).createGradient({
         x1: layer.x, y1: layer.y,
         x2: layer.x, y2: layer.y,
@@ -60,6 +63,7 @@ function updateTimers() {
         c1: "red", c2: "white"
       });
     },
+*/
     strokeWidth: 7,
     radius: 30,
     start: 0,
@@ -76,7 +80,8 @@ function updateTimers() {
     radius:25
   })
   .drawArc({
-    strokeStyle: function(layer) {
+    strokeStyle: '00C4FF',
+/*    function(layer) {
       return $(this).createGradient({
         x1: layer.x, y1: layer.y,
         x2: layer.x, y2: layer.y,
@@ -84,6 +89,7 @@ function updateTimers() {
         c1: "00C4FF", c2: "white"
       });
     },
+*/
     strokeWidth: 7,
     radius: 20,
     start: 0,
@@ -100,7 +106,8 @@ function updateTimers() {
     radius:15
   })
   .drawArc({
-    strokeStyle: function(layer) {
+    strokeStyle: 'black'
+/*    function(layer) {
       return $(this).createGradient({
         x1: layer.x, y1: layer.y,
         x2: layer.x, y2: layer.y,
@@ -108,6 +115,7 @@ function updateTimers() {
         c1: "#000", c2: "white"
       });
     },
+*/
     strokeWidth: 7,
     radius: 10,
     start: 0,
