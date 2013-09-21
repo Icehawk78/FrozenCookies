@@ -62,9 +62,18 @@ function updateTimers() {
     radius: 30,
     start: 0,
     end: (360 * frenzy_delay)
-	});
+	})
+  .drawArc({
+    strokeStyle: '#CCC',
+    strokeWidth: 10,
+    radius:20
+  })
+  .drawArc({
+    strokeStyle: '#DDD',
+    strokeWidth: 1,
+    radius:25
+  });
 }
-
 Game.UpdateMenu = function() {
   if (Game.onMenu !== 'fc_menu') {
     return Game.oldUpdateMenu();
@@ -106,6 +115,7 @@ Game.UpdateMenu = function() {
     menu.append(subsection);
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Heavenly Chips Information'));
+    subsection.append($('<div />').addClass('listing').html('<b>HC:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset))));
     subsection.append($('<div />').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset+Game.cookiesEarned))));
     if (Game.cookiesPs > 0) {
       subsection.append($('<div />').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
