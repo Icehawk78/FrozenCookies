@@ -20,17 +20,12 @@ function updateTimers() {
   var canvas = $('#fcTimer');
   var grd=canvas.createGradient({
     x1: 45, y1: 45,
-    x2: 45, y2:45,
+    x2: 45, y2: 45,
     r1: 0, r2: 45,
     c1: "red",
     c2: "white",
   });
   var grd2=canvas.createGradient({
-    x1: 45, y1: 45,
-    x2: 45, y2:45,
-    r1: 0, r2: 45,
-    c1: "gold",
-    c2: "white",
   });
   canvas.jCanvas({
     x: 50, y: 50,
@@ -41,7 +36,15 @@ function updateTimers() {
     strokeWidth: 10,
   })
   .drawArc({
-    strokeStyle: grd2,
+    strokeStyle: function(layer) {
+      return $(this).createGradient({
+        x1: 0, y1: layer.y,
+        x2: 0, y2: layer.y,
+        r1: layer.radius-layer.StrokeWidth*2, r2: layer.radius+layer.StrokeWidth,
+        c1: "gold",
+        c2: "white",
+      });
+    },
     strokeWidth: 6,
     start: 0,
     end: (360 * gc_delay)
