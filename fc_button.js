@@ -36,13 +36,13 @@ function updateTimers() {
     strokeWidth: 10,
   })
   .drawArc({
+    layer:true,
     strokeStyle: function(layer) {
       return $(this).createGradient({
         x1: 0, y1: layer.y,
         x2: 0, y2: layer.y,
         r1: layer.radius-layer.StrokeWidth*2, r2: layer.radius+layer.StrokeWidth,
-        c1: "gold",
-        c2: "white",
+        c1: "gold", c2: "white"
       });
     },
     strokeWidth: 6,
