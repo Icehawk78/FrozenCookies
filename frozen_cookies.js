@@ -114,7 +114,7 @@ function weightedCookieValue(useCurrent) {
     if (lucky_mod) {
       base_golden -= ((1200 * base_cps) - Math.min(1200 * base_cps, Game.cookies * 0.1)) * 0.49 * 0.5 + (maxLuckyValue() - (Game.cookies * 0.1)) * 0.49 * 0.5;
     } else {
-      base_golden -= maxLuckyValue() - (Game.cookies * 0.1);
+      base_golden -= (maxLuckyValue() - (Game.cookies * 0.1)) * 0.49;
     }
   }
   return Game.elderWrath / 3.0 * base_wrath + (3 - Game.elderWrath) / 3.0 * base_golden;
