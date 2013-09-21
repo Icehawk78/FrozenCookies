@@ -3,7 +3,7 @@
 if (true) {
   var script_list = [
     'https://raw.github.com/caleb531/jcanvas/master/jcanvas.min.js',
-    'https://raw.github.com/Icehawk78/FrozenCookies/master/fc_button.js'
+    'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/fc_button.js'
   ]
   var jquery = document.createElement('script');
   jquery.setAttribute('type', 'text/javascript');
@@ -76,11 +76,11 @@ function timeDisplay(seconds) {
 
 Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
 
-function nextHC() {
-  var futureHC = Math.floor(Math.sqrt((Game.cookiesEarned + Game.cookiesReset) / 1000000000000));
-  var nextHC = (futureHC + 1) * (futureHC + 1) * 1000000000000;
+function nextHC(tg) {
+  var futureHC = Math.ceil(Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5);
+  var nextHC = futureHC*(futureHC+1)*0.5e12;
   var toGo = nextHC - (Game.cookiesEarned + Game.cookiesReset);
-  return timeDisplay(toGo / Game.cookiesPs);
+  return tg ? toGo : timeDisplay(toGo / Game.cookiesPs);
 }
 
 document.addEventListener('keydown', function(event) {
