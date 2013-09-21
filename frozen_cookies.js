@@ -152,7 +152,7 @@ function gcRoi() {
 }
 
 function costDelta() {
-  if (weightedCookieValue() < weightedCookieValue(true)) {
+  if (weightedCookieValue() > weightedCookieValue(true)) {
     return Math.max(0,(maxLuckyValue() * 10 - Game.cookies)) / (weightedCookieValue() - weightedCookieValue(true));
   }
   return null;
