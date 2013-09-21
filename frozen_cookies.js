@@ -152,14 +152,19 @@ function gcRoi() {
 }
 
 function costDelta() {
-  return Math.max(0,(maxLuckyValue() * 10 - Game.cookies)) / (weightedCookieValue() - weightedCookieValue(true));
+  if (weightedCookieValue() < weightedCookieValue(true)) {
+    return Math.max(0,(maxLuckyValue() * 10 - Game.cookies)) / (weightedCookieValue() - weightedCookieValue(true));
+  }
+  return null;
 }
 
 function delayAmount() {
   if (nextPurchase().roi > gcRoi()) {
     return maxLuckyValue() * 10;
-  } else {
+  } else if (costDelta()) {
     return nextPurchase().roi - (costDelta() * Game.cookiesPs);
+  } else {
+   return 0;
   }
 }
 
