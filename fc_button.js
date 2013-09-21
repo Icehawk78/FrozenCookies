@@ -17,6 +17,8 @@ Game.oldUpdateMenu = Game.UpdateMenu;
 function updateTimers() {
   var gc_delay = Game.goldenCookie.delay / maxCookieTime();
   var frenzy_delay = Game.frenzy / maxCookieTime();
+  var click_frenzy_delay = Game.clickFrenzy / maxCookieTime();
+  var decimal_HC_complete = ((Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5)%1);
   var canvas = $('#fcTimer');
   canvas.jCanvas({
     x: 50, y: 50,
@@ -72,8 +74,47 @@ function updateTimers() {
     strokeStyle: '#DDD',
     strokeWidth: 1,
     radius:25
+  })
+  .drawArc({
+    strokeStyle: function(layer) {
+      return $(this).createGradient({
+        x1: layer.x, y1: layer.y,
+        x2: layer.x, y2: layer.y,
+        r1: layer.radius-layer.strokeWidth, r2: layer.radius+layer.strokeWidth*1.5,
+        c1: "00C4FF", c2: "white"
+      });
+    },
+    strokeWidth: 7,
+    radius: 20,
+    start: 0,
+    end: 360*click_frenzy_delay
+	})
+  .drawArc({
+    strokeStyle: '#DDD',
+    strokeWidth: 10,
+    radius:10
+  })
+  .drawArc({
+    strokeStyle: '#EEE',
+    strokeWidth: 1,
+    radius:15
+  })
+  .drawArc({
+    strokeStyle: function(layer) {
+      return $(this).createGradient({
+        x1: layer.x, y1: layer.y,
+        x2: layer.x, y2: layer.y,
+        r1: layer.radius-layer.strokeWidth, r2: layer.radius+layer.strokeWidth*1.75,
+        c1: "#000", c2: "white"
+      });
+    },
+    strokeWidth: 7,
+    radius: 10,
+    start: 0,
+    end: 360*decimal_HC_complete
   });
 }
+
 Game.UpdateMenu = function() {
   if (Game.onMenu !== 'fc_menu') {
     return Game.oldUpdateMenu();
