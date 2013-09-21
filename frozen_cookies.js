@@ -76,11 +76,11 @@ function timeDisplay(seconds) {
 
 Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
 
-function nextHC() {
+function nextHC(tg) {
   var futureHC = Math.ceil(Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5);
   var nextHC = futureHC*(futureHC+1)*0.5e12;
   var toGo = nextHC - (Game.cookiesEarned + Game.cookiesReset);
-  return timeDisplay(toGo / Game.cookiesPs);
+  return tg ? toGo : timeDisplay(toGo / Game.cookiesPs);
 }
 
 document.addEventListener('keydown', function(event) {
