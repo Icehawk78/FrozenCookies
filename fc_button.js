@@ -156,7 +156,7 @@ Game.UpdateMenu = function() {
     menu.append(subsection);
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Heavenly Chips Information'));
-    subsection.append($('<div />').addClass('listing').html('<b>HC:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset))));
+    subsection.append($('<div />').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset))));
     subsection.append($('<div />').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset+Game.cookiesEarned))));
     subsection.append($('<div />').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
     if (Game.cookiesPs > 0) {
