@@ -21,7 +21,7 @@ function updateTimers() {
   var decimal_HC_complete = ((Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5)%1);
   var canvas = $('#fcTimer');
   canvas.jCanvas({
-    x: 50, y: 50,
+    x: 75, y: 75,
     radius: 40
   })
   .drawArc({
@@ -123,7 +123,7 @@ Game.UpdateMenu = function() {
     menu.append($('<div />').addClass('section').html('Frozen Cookie'));
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Timer Tests'));
-    var timers = $('<canvas id="fcTimer" width="100%" height="100px"/>').html('Your browser does not support the HTML5 canvas tag.');
+    var timers = $('<canvas id="fcTimer" width="400px" height="150px"/>').html('Your browser does not support the HTML5 canvas tag.');
     subsection.append(timers);
     menu.append(subsection);
     updateTimers();
