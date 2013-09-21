@@ -94,7 +94,7 @@ function weightedCookieValue(useCurrent) {
   var base_cps = Game.cookiesPs / frenzy_mod;
   var lucky_mod = Game.Has('Get lucky');
   var base_wrath = lucky_mod ? 401.835 * base_cps : 396.51 * base_cps;
-  base_wrath += 192125500000;
+//  base_wrath += 192125500000;
   var base_golden = lucky_mod ? 2804.76 * base_cps : 814.38 * base_cps;
   if (Game.cookiesEarned >= 100000) {
     var remainingProbability = 1;
@@ -107,13 +107,14 @@ function weightedCookieValue(useCurrent) {
     }
     rollingEstimate += remainingProbability * startingValue;
 //    base_golden += 10655700000;
-    base_golden += rollingEstimate;
+    base_golden += rollingEstimate * 0.0033;
+    base_wrath += rollingEstimate * 0.0595;
   }
   if (useCurrent && Game.cookies < maxLuckyValue() * 10) {
     if (lucky_mod) {
-      base_golden -= (Math.min(1200 * base_cps, Game.cookies * 0.1) - 1200 * base_cps) * 0.49 * 0.5 + (Game.cookies * 0.1 - maxLuckyValue()) * 0.49 * 0.5;
+      base_golden -= ((1200 * base_cps) - Math.min(1200 * base_cps, Game.cookies * 0.1)) * 0.49 * 0.5 + (maxLuckyValue() - (Game.cookies * 0.1)) * 0.49 * 0.5;
     } else {
-      base_golden -= Game.cookies * 0.1 - maxLuckyValue();
+      base_golden -= maxLuckyValue() - (Game.cookies * 0.1);
     }
   }
   return Game.elderWrath / 3.0 * base_wrath + (3 - Game.elderWrath) / 3.0 * base_golden;
