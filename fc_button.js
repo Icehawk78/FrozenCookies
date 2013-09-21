@@ -43,7 +43,8 @@ function updateTimers() {
   .drawArc({
     strokeStyle: grd2,
     strokeWidth: 6,
-    start: 0
+    start: 0,
+    end: (360 * gc_delay)
   })
   .drawArc({
     strokeStyle: '#BBB',
@@ -59,7 +60,8 @@ function updateTimers() {
     strokeStyle: grd,
     strokeWidth: 6,
     radius: 30,
-    start: 0
+    start: 0,
+    end: (360 * frenzy_delay)
 	});
 }
 
