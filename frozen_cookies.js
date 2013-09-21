@@ -151,11 +151,16 @@ function gcRoi() {
   return Math.max(0,(maxLuckyValue() * 10 - Game.cookies)) * ((Game.cookiesPs / frenzy_mod) + gcPs(weightedCookieValue(true))) / gcPs(weightedCookieValue(true));
 }
 
+function costDelta() {
+  return Math.max(0,(maxLuckyValue() * 10 - Game.cookies)) / (weightedCookieValue() - weightedCookieValue(true));
+}
+
 function delayAmount() {
   if (nextPurchase().roi > gcRoi()) {
     return maxLuckyValue() * 10;
+  } else {
+    return nextPurchase().roi - (costDelta() * Game.cookiesPs);
   }
-  return 0;
 }
 
 function recommendationList() {
