@@ -18,6 +18,20 @@ function updateTimers() {
   var gc_delay = Game.goldenCookie.delay / maxCookieTime();
   var frenzy_delay = Game.frenzy / maxCookieTime();
   var canvas = $('#fcTimer');
+  var grd=canvas.createGradient({
+    x1: 45, y1: 45,
+    x2: 45, y2:45,
+    r1: 0, r2: 45,
+    c1: "red",
+    c2: "white",
+  });
+  var grd2=canvas.createGradient({
+    x1: 45, y1: 45,
+    x2: 45, y2:45,
+    r1: 0, r2: 45,
+    c1: "gold",
+    c2: "white",
+  });
   canvas.jCanvas({
     x: 50, y: 50,
     radius: 40
@@ -27,18 +41,26 @@ function updateTimers() {
     strokeWidth: 10,
   })
   .drawArc({
-    strokeStyle: '#FFF',
-    strokeWidth: 10,
-    start: 0,
-    end: (360 * gc_delay)
+    strokeStyle: grd2,
+    strokeWidth: 6,
+    start: 0
   })
   .drawArc({
-    strokeStyle: 'red',
+    strokeStyle: '#BBB',
     strokeWidth: 10,
+    radius:30
+  })
+  .drawArc({
+    strokeStyle: '#CCC',
+    strokeWidth: 1,
+    radius:35
+  })
+  .drawArc({
+    strokeStyle: grd,
+    strokeWidth: 6,
     radius: 30,
-    start: 0,
-    end: (360 * frenzy_delay)
-  });
+    start: 0
+	});
 }
 
 Game.UpdateMenu = function() {
