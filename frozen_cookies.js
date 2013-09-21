@@ -162,7 +162,7 @@ function delayAmount() {
   if (nextPurchase().roi > gcRoi()) {
     return maxLuckyValue() * 10;
   } else if (costDelta()) {
-    return (nextPurchase().roi - (costDelta() * Game.cookiesPs)) / costDelta();
+    return Math.min(maxLuckyValue * 10, Math.max(0,(nextPurchase().roi - (costDelta() * Game.cookiesPs)) / costDelta()));
   } else {
    return 0;
   }
