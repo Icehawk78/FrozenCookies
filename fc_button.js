@@ -106,7 +106,7 @@ function updateTimers() {
     radius:15
   })
   .drawArc({
-    strokeStyle: 'black'
+    strokeStyle: 'black',
 /*    function(layer) {
       return $(this).createGradient({
         x1: layer.x, y1: layer.y,
