@@ -173,8 +173,10 @@ Game.UpdateMenu = function() {
     menu.append(subsection);
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Frozen Cookie Controls'));
-    subsection.append($(Game.WriteButton('autobuy','autobuyButton','Autobuy ON','Autobuy OFF','')));
-    subsection.append($(Game.WriteButton('autogc','autogcButton','Autoclick GC ON','Autoclick GC OFF','')));
+    var listing = $('<div />').addClass('listing');
+    listing.append($(Game.WriteButton('autobuy','autobuyButton','Autobuy ON','Autobuy OFF','frozenToggle("autobuy");')));
+    listing.append($(Game.WriteButton('autogc','autogcButton','Autoclick GC ON','Autoclick GC OFF','frozenToggle("autogc");')));
+    subsection.append(listing);
     menu.append(subsection);
   }
 }
