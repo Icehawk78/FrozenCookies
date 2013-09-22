@@ -18,14 +18,14 @@ if (true) {
 
 // Global Variables
 
-var autoBuy = true;
+//var autoBuy = true;
 var frequency = 100;
 var non_gc_time = 0;
 var gc_time = 0;
 var last_gc_state = (Game.frenzy > 0);
 var last_gc_time = Date.now();
 var cookie_click_speed = 0;
-var gc_click_percent = 1;
+//var gc_click_percent = 1;
 var initial_clicks = 0;
 var initial_load_time = Date.now();
 var full_history = [];
@@ -101,18 +101,14 @@ document.addEventListener('keydown', function(event) {
 // Press 'a' to toggle autobuy.
 document.addEventListener('keydown', function(event) {
     if(event.keyCode == 65) {
-        autoBuy = !autoBuy;
+        Game.Toggle('autobuy','autobuyButton','Autobuy OFF','Autobuy ON');
     }
 });
 
 // Press 'c' to toggle auto-GC
 document.addEventListener('keydown', function(event) {
   if(event.keyCode == 67) {
-    if (gc_click_percent == 0) {
-      gc_click_percent = 1;
-    } else if (gc_click_percent == 1) {
-      gc_click_percent = 0;
-    }
+    Game.Toggle('autogc','autogcButton','Autoclick GC OFF','Autoclick GC ON');
   }
 });
 
@@ -166,7 +162,8 @@ function gcPs(gcValue) {
   if (Game.Has('Lucky day')) averageGCTime/=2;
   if (Game.Has('Serendipity')) averageGCTime/=2;
   gcValue /= averageGCTime;
-  gcValue *= gc_click_percent;
+//  gcValue *= gc_click_percent;
+  gcValue *= Game.prefs.autogc ? 1 : 0;
   return gcValue;
 }
 
@@ -330,7 +327,8 @@ function buyFunctionToggle(upgrade) {
 }
 
 function shouldClickGC() {
-  return Game.goldenCookie.life > 0 && gc_click_percent > 0 && Game.missedGoldenClicks + Game.goldenClicks >= 0 && ((Game.goldenClicks / (Game.missedGoldenClicks + Game.goldenClicks) <= gc_click_percent) || (Game.missedGoldenClicks + Game.goldenClicks == 0));
+//  return Game.goldenCookie.life > 0 && gc_click_percent > 0 && Game.missedGoldenClicks + Game.goldenClicks >= 0 && ((Game.goldenClicks / (Game.missedGoldenClicks + Game.goldenClicks) <= gc_click_percent) || (Game.missedGoldenClicks + Game.goldenClicks == 0));
+  return Game.goldenCookie.life > 0 && Game.prefs.autogc;
 }
 
 function autoCookie() {
@@ -342,7 +340,7 @@ function autoCookie() {
   var recommendation = nextPurchase();
   var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
   var purchase = store[recommendation.id];
-  if (autoBuy && Game.cookies >= delayAmount() + recommendation.cost) {
+  if (Game.prefs.autobuy && Game.cookies >= delayAmount() + recommendation.cost) {
     recommendation.time = Date.now() - initial_load_time;
     full_history.push(recommendation);
     purchase.clickFunction = null;
