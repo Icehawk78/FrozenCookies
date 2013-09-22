@@ -14,113 +14,105 @@ $('<style type="text/css">')
 
 Game.oldUpdateMenu = Game.UpdateMenu;
 
+function drawCircles(t_d) {
+  var canvas = $('#fcTimer');
+  /*c = canvas.jCanvas({
+    x: 50, y:50,
+    radius: 40
+  });*/
+  var c = canvas;
+  var i_c = 0;
+  var t_b = ['#AAA','#BBB','#CCC','#DDD','#EEE','#FFF'];
+  c.drawRect({
+    fillStyle: '#999',
+    x: 225, y: 12.5+t_d.length/2*15,
+    width: 250, height: 5+t_d.length*15
+  });
+  t_d.forEach( function(o_draw) {
+    c.drawArc({
+      strokeStyle: t_b[i_c],
+      strokeWidth: 10,
+      x: 45, y:45,
+      radius: 40-i_c*10,
+    });
+    c.drawArc({
+      strokeStyle: t_b[i_c+2],
+      strokeWidth: 1,
+      x: 45, y:45,
+      radius: 35-i_c*10
+    });
+    c.drawArc({
+      strokeStyle: function(layer) {
+        return $(this).createGradient({
+          x1: layer.x, y1: layer.y,
+          x2: layer.x, y2: layer.y,
+          r1: layer.radius-layer.strokeWidth, r2: layer.radius+layer.strokeWidth*(1+i_c*0.25),
+          c1: o_draw.c1, c2: o_draw.c2
+        });
+      },
+      x: 45, y:45,
+      strokeWidth: 7,
+      start: 0,
+      radius: 40-i_c*10,
+      end: (360 * o_draw.f_percent)
+    });
+    if (o_draw.name && o_draw.display)
+    {
+      var s_t = o_draw.name+": "+o_draw.display;
+      c.drawText({
+        font: "10px Arial",
+        fillStyle: o_draw.c1,
+        x: 200+s_t.length, y: 20+15*i_c,
+        text: s_t
+      });   
+    }
+    i_c++;
+  });
+}
+
 function updateTimers() {
   var gc_delay = Game.goldenCookie.delay / maxCookieTime();
   var frenzy_delay = Game.frenzy / maxCookieTime();
   var click_frenzy_delay = Game.clickFrenzy / maxCookieTime();
   var decimal_HC_complete = ((Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5)%1);
-  var canvas = $('#fcTimer');
-  canvas.jCanvas({
-    x: 75, y: 75,
-    radius: 40
-  })
-  .drawArc({
-    strokeStyle: '#AAA',
-    strokeWidth: 10,
-  })
-  .drawArc({
-    strokeStyle: 'gold',
-/*    function(layer) {
-      return $(this).createGradient({
-        x1: layer.x, y1: layer.y,
-        x2: layer.x, y2: layer.y,
-        r1: layer.radius-layer.strokeWidth, r2: layer.radius+layer.strokeWidth,
-        c1: "gold", c2: "white"
-      });
-    },
-*/
-    strokeWidth: 7,
-    start: 0,
-    end: (360 * gc_delay)
-  })
-  .drawArc({
-    strokeStyle: '#BBB',
-    strokeWidth: 10,
-    radius:30
-  })
-  .drawArc({
-    strokeStyle: '#CCC',
-    strokeWidth: 1,
-    radius:35
-  })
-  .drawArc({
-    strokeStyle: 'red',
-/*    function(layer) {
-      return $(this).createGradient({
-        x1: layer.x, y1: layer.y,
-        x2: layer.x, y2: layer.y,
-        r1: layer.radius-layer.strokeWidth, r2: layer.radius+layer.strokeWidth*1.25,
-        c1: "red", c2: "white"
-      });
-    },
-*/
-    strokeWidth: 7,
-    radius: 30,
-    start: 0,
-    end: (360 * frenzy_delay)
-	})
-  .drawArc({
-    strokeStyle: '#CCC',
-    strokeWidth: 10,
-    radius:20
-  })
-  .drawArc({
-    strokeStyle: '#DDD',
-    strokeWidth: 1,
-    radius:25
-  })
-  .drawArc({
-    strokeStyle: '00C4FF',
-/*    function(layer) {
-      return $(this).createGradient({
-        x1: layer.x, y1: layer.y,
-        x2: layer.x, y2: layer.y,
-        r1: layer.radius-layer.strokeWidth, r2: layer.radius+layer.strokeWidth*1.5,
-        c1: "00C4FF", c2: "white"
-      });
-    },
-*/
-    strokeWidth: 7,
-    radius: 20,
-    start: 0,
-    end: 360*click_frenzy_delay
-	})
-  .drawArc({
-    strokeStyle: '#DDD',
-    strokeWidth: 10,
-    radius:10
-  })
-  .drawArc({
-    strokeStyle: '#EEE',
-    strokeWidth: 1,
-    radius:15
-  })
-  .drawArc({
-    strokeStyle: 'black',
-/*    function(layer) {
-      return $(this).createGradient({
-        x1: layer.x, y1: layer.y,
-        x2: layer.x, y2: layer.y,
-        r1: layer.radius-layer.strokeWidth, r2: layer.radius+layer.strokeWidth*1.75,
-        c1: "#000", c2: "white"
-      });
-    },
-*/
-    strokeWidth: 7,
-    radius: 10,
-    start: 0,
-    end: 360*decimal_HC_complete
-  });
+  var t_draw = [];
+  if (gc_delay>0) {
+    t_draw.push({
+      f_percent: gc_delay,
+      c1: "gold",
+      c2: "white",
+      name: "Golden Cookie Time",
+      display: timeDisplay(Game.goldenCookie.delay/Game.fps)
+    });
+  }
+  if (frenzy_delay>0) {
+    t_draw.push({
+      f_percent: frenzy_delay,
+      c1: "red",
+      c2: "white",
+      name: "Frenzy Time",
+      display: timeDisplay(Game.frenzy/Game.fps)
+    });
+  }
+  if (click_frenzy_delay>0) {
+    t_draw.push({
+      f_percent: click_frenzy_delay,
+      c1: "#00C4FF",
+      c2: "white",
+      name: "Click Frenzy Time",
+      display: timeDisplay(Game.clickFrenzy/Game.fps)
+    });
+  }
+  if (decimal_HC_complete>0) {
+    t_draw.push({
+      f_percent: decimal_HC_complete,
+      c1: "#000",
+      c2: "white",
+      name: "HC Completion",
+      display: (Math.round(decimal_HC_complete*10000)/100)+"%"
+    });
+  }
+  drawCircles(t_draw);
 }
 
 Game.UpdateMenu = function() {
@@ -131,7 +123,7 @@ Game.UpdateMenu = function() {
     menu.append($('<div />').addClass('section').html('Frozen Cookie'));
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Timer Tests'));
-    var timers = $('<canvas id="fcTimer" width="400px" height="150px"/>').html('Your browser does not support the HTML5 canvas tag.');
+    var timers = $('<canvas id="fcTimer" width="400px" height="100px"/>').html('Your browser does not support the HTML5 canvas tag.');
     subsection.append(timers);
     menu.append(subsection);
     updateTimers();
