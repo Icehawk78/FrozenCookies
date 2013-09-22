@@ -18,14 +18,16 @@ if (true) {
 
 // Global Variables
 
-//var autoBuy = true;
+//var autoBuy = localStorage.getItem('autobuy');
+Game.prefs['autobuy'] = localStorage.getItem('autobuy');
 var frequency = 100;
 var non_gc_time = 0;
 var gc_time = 0;
 var last_gc_state = (Game.frenzy > 0);
 var last_gc_time = Date.now();
 var cookie_click_speed = 0;
-//var gc_click_percent = 1;
+//var gc_click_percent = localStorage.getItem('autogc');
+Game.prefs['autogc'] = localStorage.getItem('autogc');
 var initial_clicks = 0;
 var initial_load_time = Date.now();
 var full_history = [];
@@ -100,17 +102,29 @@ document.addEventListener('keydown', function(event) {
 
 // Press 'a' to toggle autobuy.
 document.addEventListener('keydown', function(event) {
-    if(event.keyCode == 65) {
-        Game.Toggle('autobuy','autobuyButton','Autobuy OFF','Autobuy ON');
-    }
+  if(event.keyCode == 65) {
+    toggleFrozen('autobuy');
+    Game.Toggle('autobuy','autobuyButton','Autobuy OFF','Autobuy ON');
+  }
 });
 
 // Press 'c' to toggle auto-GC
 document.addEventListener('keydown', function(event) {
   if(event.keyCode == 67) {
+    toggleFrozen('autogc');
     Game.Toggle('autogc','autogcButton','Autoclick GC OFF','Autoclick GC ON');
   }
 });
+
+function toggleFrozen(setting) {
+  if (!localStorage.getItem(setting)) {
+    localStorage.setItem(setting,1);
+//    Game.prefs[setting] = 1;
+  } else {
+    localStorage.setItem(setting,0);
+//    Game.prefs[setting] = 0;
+  }
+}
 
 function weightedCookieValue(useCurrent) {
   var frenzy_mod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
