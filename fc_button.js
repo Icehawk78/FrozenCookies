@@ -171,5 +171,10 @@ Game.UpdateMenu = function() {
       subsection.append($('<div />').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
     }
     menu.append(subsection);
+    var subsection = $('<div />').addClass('subsection');
+    subsection.append($('<div />').addClass('title').html('Frozen Cookie Controls'));
+    subsection.append($(Game.WriteButton('autobuy','autobuyButton','Autobuy ON','Autobuy OFF','')));
+    subsection.append($(Game.WriteButton('autogc','autogcButton','Autoclick GC ON','Autoclick GC OFF','')));
+    menu.append(subsection);
   }
 }
