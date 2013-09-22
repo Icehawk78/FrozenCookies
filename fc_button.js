@@ -75,6 +75,7 @@ function updateTimers() {
   var frenzy_delay = Game.frenzy / maxCookieTime();
   var click_frenzy_delay = Game.clickFrenzy / maxCookieTime();
   var decimal_HC_complete = ((Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5)%1);
+<<<<<<< HEAD
   var t_draw = [];
   if (gc_delay>0) {
     t_draw.push({
@@ -113,6 +114,110 @@ function updateTimers() {
     });
   }
   drawCircles(t_draw);
+=======
+  var canvas = $('#fcTimer');
+  canvas.jCanvas({
+    x: 75, y: 75,
+    radius: 40
+  })
+  .drawArc({
+    strokeStyle: '#AAA',
+    strokeWidth: 10,
+  })
+  .drawArc({
+    strokeStyle: 'gold',
+/*    function(layer) {
+      return $(this).createGradient({
+        x1: layer.x, y1: layer.y,
+        x2: layer.x, y2: layer.y,
+        r1: layer.radius-layer.strokeWidth, r2: layer.radius+layer.strokeWidth,
+        c1: "gold", c2: "white"
+      });
+    },
+*/
+    strokeWidth: 7,
+    start: 0,
+    end: (360 * gc_delay)
+  })
+  .drawArc({
+    strokeStyle: '#BBB',
+    strokeWidth: 10,
+    radius:30
+  })
+  .drawArc({
+    strokeStyle: '#CCC',
+    strokeWidth: 1,
+    radius:35
+  })
+  .drawArc({
+    strokeStyle: 'red',
+/*    function(layer) {
+      return $(this).createGradient({
+        x1: layer.x, y1: layer.y,
+        x2: layer.x, y2: layer.y,
+        r1: layer.radius-layer.strokeWidth, r2: layer.radius+layer.strokeWidth*1.25,
+        c1: "red", c2: "white"
+      });
+    },
+*/
+    strokeWidth: 7,
+    radius: 30,
+    start: 0,
+    end: (360 * frenzy_delay)
+	})
+  .drawArc({
+    strokeStyle: '#CCC',
+    strokeWidth: 10,
+    radius:20
+  })
+  .drawArc({
+    strokeStyle: '#DDD',
+    strokeWidth: 1,
+    radius:25
+  })
+  .drawArc({
+    strokeStyle: '00C4FF',
+/*    function(layer) {
+      return $(this).createGradient({
+        x1: layer.x, y1: layer.y,
+        x2: layer.x, y2: layer.y,
+        r1: layer.radius-layer.strokeWidth, r2: layer.radius+layer.strokeWidth*1.5,
+        c1: "00C4FF", c2: "white"
+      });
+    },
+*/
+    strokeWidth: 7,
+    radius: 20,
+    start: 0,
+    end: 360*click_frenzy_delay
+	})
+  .drawArc({
+    strokeStyle: '#DDD',
+    strokeWidth: 10,
+    radius:10
+  })
+  .drawArc({
+    strokeStyle: '#EEE',
+    strokeWidth: 1,
+    radius:15
+  })
+  .drawArc({
+    strokeStyle: 'black',
+/*    function(layer) {
+      return $(this).createGradient({
+        x1: layer.x, y1: layer.y,
+        x2: layer.x, y2: layer.y,
+        r1: layer.radius-layer.strokeWidth, r2: layer.radius+layer.strokeWidth*1.75,
+        c1: "#000", c2: "white"
+      });
+    },
+*/
+    strokeWidth: 7,
+    radius: 10,
+    start: 0,
+    end: 360*decimal_HC_complete
+  });
+>>>>>>> origin/master
 }
 
 Game.UpdateMenu = function() {
@@ -123,7 +228,11 @@ Game.UpdateMenu = function() {
     menu.append($('<div />').addClass('section').html('Frozen Cookie'));
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Timer Tests'));
+<<<<<<< HEAD
     var timers = $('<canvas id="fcTimer" width="400px" height="100px"/>').html('Your browser does not support the HTML5 canvas tag.');
+=======
+    var timers = $('<canvas id="fcTimer" width="400px" height="150px"/>').html('Your browser does not support the HTML5 canvas tag.');
+>>>>>>> origin/master
     subsection.append(timers);
     menu.append(subsection);
     updateTimers();
@@ -162,6 +271,13 @@ Game.UpdateMenu = function() {
     if (Game.cookiesPs > 0) {
       subsection.append($('<div />').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
     }
+    menu.append(subsection);
+    var subsection = $('<div />').addClass('subsection');
+    subsection.append($('<div />').addClass('title').html('Frozen Cookie Controls'));
+    var listing = $('<div />').addClass('listing');
+    listing.append($(Game.WriteButton('autobuy','autobuyButton','Autobuy ON','Autobuy OFF',"toggleFrozen('autobuy');")));
+    listing.append($(Game.WriteButton('autogc','autogcButton','Autoclick GC ON','Autoclick GC OFF',"toggleFrozen('autogc');")));
+    subsection.append(listing);
     menu.append(subsection);
   }
 }

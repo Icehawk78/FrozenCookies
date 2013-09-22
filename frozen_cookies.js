@@ -2,8 +2,8 @@
 
 if (true) {
   var script_list = [
-    'https://raw.github.com/caleb531/jcanvas/master/jcanvas.min.js',
-    'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/fc_button.js'
+    'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js',
+    'https://raw.github.com/Icehawk78/FrozenCookies/master/fc_button.js'
   ]
   var jquery = document.createElement('script');
   jquery.setAttribute('type', 'text/javascript');
@@ -18,14 +18,16 @@ if (true) {
 
 // Global Variables
 
-var autoBuy = true;
+//var autoBuy = localStorage.getItem('autobuy');
+Game.prefs['autobuy'] = localStorage.getItem('autobuy');
 var frequency = 100;
 var non_gc_time = 0;
 var gc_time = 0;
 var last_gc_state = (Game.frenzy > 0);
 var last_gc_time = Date.now();
 var cookie_click_speed = 0;
-var gc_click_percent = 1;
+//var gc_click_percent = localStorage.getItem('autogc');
+Game.prefs['autogc'] = localStorage.getItem('autogc');
 var initial_clicks = 0;
 var initial_load_time = Date.now();
 var full_history = [];
@@ -83,11 +85,46 @@ function nextHC(tg) {
   return tg ? toGo : timeDisplay(toGo / Game.cookiesPs);
 }
 
+function copyToClipboard (text) {
+  window.prompt ("Copy to clipboard: Ctrl+C, Enter", text);
+}
+ 
+function getBuildingSpread () {
+  return Game.ObjectsById.map(function(a){return a.amount;}).join('/')
+}
+
+// Press 'b' to pop up a copyable window with building spread. 
 document.addEventListener('keydown', function(event) {
-    if(event.keyCode == 65) {
-        autoBuy = !autoBuy;
+    if(event.keyCode == 66) {
+        copyToClipboard(getBuildingSpread());
     }
 });
+
+// Press 'a' to toggle autobuy.
+document.addEventListener('keydown', function(event) {
+  if(event.keyCode == 65) {
+    toggleFrozen('autobuy');
+    Game.Toggle('autobuy','autobuyButton','Autobuy OFF','Autobuy ON');
+  }
+});
+
+// Press 'c' to toggle auto-GC
+document.addEventListener('keydown', function(event) {
+  if(event.keyCode == 67) {
+    toggleFrozen('autogc');
+    Game.Toggle('autogc','autogcButton','Autoclick GC OFF','Autoclick GC ON');
+  }
+});
+
+function toggleFrozen(setting) {
+  if (!localStorage.getItem(setting)) {
+    localStorage.setItem(setting,1);
+//    Game.prefs[setting] = 1;
+  } else {
+    localStorage.setItem(setting,0);
+//    Game.prefs[setting] = 0;
+  }
+}
 
 function weightedCookieValue(useCurrent) {
   var frenzy_mod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
@@ -139,7 +176,8 @@ function gcPs(gcValue) {
   if (Game.Has('Lucky day')) averageGCTime/=2;
   if (Game.Has('Serendipity')) averageGCTime/=2;
   gcValue /= averageGCTime;
-  gcValue *= gc_click_percent;
+//  gcValue *= gc_click_percent;
+  gcValue *= Game.prefs.autogc ? 1 : 0;
   return gcValue;
 }
 
@@ -303,7 +341,8 @@ function buyFunctionToggle(upgrade) {
 }
 
 function shouldClickGC() {
-  return Game.goldenCookie.life > 0 && gc_click_percent > 0 && Game.missedGoldenClicks + Game.goldenClicks >= 0 && ((Game.goldenClicks / (Game.missedGoldenClicks + Game.goldenClicks) <= gc_click_percent) || (Game.missedGoldenClicks + Game.goldenClicks == 0));
+//  return Game.goldenCookie.life > 0 && gc_click_percent > 0 && Game.missedGoldenClicks + Game.goldenClicks >= 0 && ((Game.goldenClicks / (Game.missedGoldenClicks + Game.goldenClicks) <= gc_click_percent) || (Game.missedGoldenClicks + Game.goldenClicks == 0));
+  return Game.goldenCookie.life > 0 && Game.prefs.autogc;
 }
 
 function autoCookie() {
@@ -315,7 +354,7 @@ function autoCookie() {
   var recommendation = nextPurchase();
   var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
   var purchase = store[recommendation.id];
-  if (autoBuy && Game.cookies >= delayAmount() + recommendation.cost) {
+  if (Game.prefs.autobuy && Game.cookies >= delayAmount() + recommendation.cost) {
     recommendation.time = Date.now() - initial_load_time;
     full_history.push(recommendation);
     purchase.clickFunction = null;
