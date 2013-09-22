@@ -32,6 +32,7 @@ function drawCircles(t_d) {
     c.drawArc({
       strokeStyle: t_b[i_c],
       strokeWidth: 10,
+      x: 40, y:40,
       radius: 40-i_c*10,
     });
     c.drawArc({
