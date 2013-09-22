@@ -83,10 +83,37 @@ function nextHC(tg) {
   return tg ? toGo : timeDisplay(toGo / Game.cookiesPs);
 }
 
+function copyToClipboard (text) {
+  window.prompt ("Copy to clipboard: Ctrl+C, Enter", text);
+}
+ 
+function getBuildingSpread () {
+  return Game.ObjectsById.map(function(a){return a.amount;}).join('/')
+}
+
+// Press 'b' to pop up a copyable window with building spread. 
+document.addEventListener('keydown', function(event) {
+    if(event.keyCode == 66) {
+        copyToClipboard(getBuildingSpread());
+    }
+});
+
+// Press 'a' to toggle autobuy.
 document.addEventListener('keydown', function(event) {
     if(event.keyCode == 65) {
         autoBuy = !autoBuy;
     }
+});
+
+// Press 'c' to toggle auto-GC
+document.addEventListener('keydown', function(event) {
+  if(event.keyCode == 67) {
+    if (gc_click_percent == 0) {
+      gc_click_percent = 1;
+    } else if (gc_click_percent == 1) {
+      gc_click_percent = 0;
+    }
+  }
 });
 
 function weightedCookieValue(useCurrent) {
