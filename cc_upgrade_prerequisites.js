@@ -1,4 +1,4 @@
-var upgradeJson = [
+upgradeJson = [
   {'id':0,'buildings':[1,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':1,'buildings':[1,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':2,'buildings':[10,0,0,0,0,0,0,0,0,0],'upgrades':[]},
