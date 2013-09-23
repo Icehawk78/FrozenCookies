@@ -148,9 +148,14 @@ Game.UpdateMenu = function() {
     menu.append(subsection);
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Golden Cookie Information'));
-    subsection.append($('<div />').addClass('listing').html('<b>Current Average Cookie Value:</b> ' + Beautify(weightedCookieValue(true))));
-    subsection.append($('<div />').addClass('listing').html('<b>Max Average Cookie Value:</b> ' + Beautify(weightedCookieValue())));
+    var isMaxed = weightedCookieValue(true) == weightedCookieValue();
+    var maxTxt = isMaxed ? ' (Max)' : '';
+    subsection.append($('<div />').addClass('listing').html('<b>Current Average Cookie Value' + maxTxt + ':</b> ' + Beautify(weightedCookieValue(true))));
+    if (!isMaxed) {
+      subsection.append($('<div />').addClass('listing').html('<b>Max Average Cookie Value:</b> ' + Beautify(weightedCookieValue())));
+    }
     subsection.append($('<div />').addClass('listing').html('<b>Max Lucky Cookie Value:</b> ' + Beautify(maxLuckyValue())));
+    subsection.append($('<div />').addClass('listing').html('<b>Cookie Bank Required for Max Lucky:</b> ' + Beautify(maxLuckyValue() * 10)));
     if (Game.cookiesPs > 0) {
       subsection.append($('<div />').addClass('listing').html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(weightedCookieValue(true)))));
     }
@@ -163,6 +168,15 @@ Game.UpdateMenu = function() {
     if (Game.cookiesPs > 0) {
       subsection.append($('<div />').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
     }
+    menu.append(subsection);
+    var subsection = $('<div />').addClass('subsection');
+    subsection.append($('<div />').addClass('title').html('Other Information'));
+    var frenzy_mod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
+    var base_cps = Game.cookiesPs / frenzy_mod;
+    var baseChosen = (Game.frenzy > 0) ? '' : ' (*)';
+    var frenzyChosen = (Game.frenzy > 0) ? ' (*)' : '';
+    subsection.append($('<div />').addClass('listing').html('<b>Base CPS' + baseChosen + ':</b> ' + Beautify(base_cps)));
+    subsection.append($('<div />').addClass('listing').html('<b>Frenzy CPS' + frenzyChosen + ':</b> ' + Beautify(base_cps * 7)));
     menu.append(subsection);
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Frozen Cookie Controls'));
