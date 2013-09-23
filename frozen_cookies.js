@@ -232,20 +232,22 @@ function buildingStats() {
 
 function upgradeStats() {
   return Game.UpgradesInStore.map(function (current, index) {
-    var base_cps_orig = Game.cookiesPs;
-    var cps_orig = Game.cookiesPs + gcPs(weightedCookieValue(true));
-    var game_current_state = Game;
-    var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
-    var existing_wrath = Game.elderWrath;
-    var reverseFunctions = upgradeToggle(current);
-    var base_cps_new = Game.cookiesPs;
-    var cps_new = Game.cookiesPs + gcPs(weightedCookieValue(true));
-    upgradeToggle(current, existing_achievements, reverseFunctions);
-    Game.elderWrath = existing_wrath;
-    var delta_cps = cps_new - cps_orig;
-    var base_delta_cps = base_cps_new - base_cps_orig;
-    var roi = (delta_cps > 0) ? current.basePrice * cps_new / delta_cps : Number.MAX_VALUE;
-    return {'id' : current.id, 'roi' : roi, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : current.basePrice, 'type' : 'upgrade'};
+    if (!current.bought) {
+      var base_cps_orig = Game.cookiesPs;
+      var cps_orig = Game.cookiesPs + gcPs(weightedCookieValue(true));
+      var game_current_state = Game;
+      var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
+      var existing_wrath = Game.elderWrath;
+      var reverseFunctions = upgradeToggle(current);
+      var base_cps_new = Game.cookiesPs;
+      var cps_new = Game.cookiesPs + gcPs(weightedCookieValue(true));
+      upgradeToggle(current, existing_achievements, reverseFunctions);
+      Game.elderWrath = existing_wrath;
+      var delta_cps = cps_new - cps_orig;
+      var base_delta_cps = base_cps_new - base_cps_orig;
+      var roi = (delta_cps > 0) ? current.basePrice * cps_new / delta_cps : Number.MAX_VALUE;
+      return {'id' : current.id, 'roi' : roi, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : current.basePrice, 'type' : 'upgrade'};
+    }
   });
 }
 
