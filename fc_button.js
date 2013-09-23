@@ -177,6 +177,7 @@ Game.UpdateMenu = function() {
     var frenzyChosen = (Game.frenzy > 0) ? ' (*)' : '';
     subsection.append($('<div />').addClass('listing').html('<b>Base CPS' + baseChosen + ':</b> ' + Beautify(base_cps)));
     subsection.append($('<div />').addClass('listing').html('<b>Frenzy CPS' + frenzyChosen + ':</b> ' + Beautify(base_cps * 7)));
+    subsection.append($('<div />').addClass('listing').html('<b>Estimated Effective CPS:</b>' + Beautify(base_cps + gcPs(weightedCookieValue(true)))));
     menu.append(subsection);
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Frozen Cookie Controls'));
