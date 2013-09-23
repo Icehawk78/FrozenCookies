@@ -3,7 +3,8 @@
 if (true) {
   var script_list = [
     'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js',
-    'https://raw.github.com/Icehawk78/FrozenCookies/master/fc_button.js'
+    'https://raw.github.com/Icehawk78/FrozenCookies/master/fc_button.js',
+    'https://raw.github.com/Icehawk78/FrozenCookies/master/cc_upgrade_prerequisites.js'
   ]
   var jquery = document.createElement('script');
   jquery.setAttribute('type', 'text/javascript');
@@ -211,7 +212,13 @@ function recommendationList() {
 }
 
 function nextPurchase() {
-  return recommendationList()[0];
+  var recList = recommendationList();
+  var nextPurchase = recList[0];
+  if (nextPurchase.type == 'upgrade' && unfinishedUpgradePrereqs(Game.UpgradesById[nextPurchase.id])) {
+    var prereqList = unfinishedUpgradePrereqs(Game.UpgradesById[nextPurchase.id]);
+    nextPurchase = recList.filter(function(a){return prereqList.some(function(b){return b.id == a.id && b.type == a.type})})[0];
+  }
+  return nextPurchase;
 }
 
 function buildingStats() {
@@ -230,12 +237,11 @@ function buildingStats() {
   });
 }
 
-function upgradeStats() {
+function oldUpgradeStats() {
   return Game.UpgradesInStore.map(function (current, index) {
     if (!current.bought) {
       var base_cps_orig = Game.cookiesPs;
       var cps_orig = Game.cookiesPs + gcPs(weightedCookieValue(true));
-      var game_current_state = Game;
       var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
       var existing_wrath = Game.elderWrath;
       var reverseFunctions = upgradeToggle(current);
@@ -249,6 +255,90 @@ function upgradeStats() {
       return {'id' : current.id, 'roi' : roi, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : current.basePrice, 'type' : 'upgrade'};
     }
   });
+}
+
+function upgradeStats() {
+  return Game.UpgradesById.map(function (current) {
+    if (!current.bought) {
+      var needed = unfinishedUpgradePrereqs(current);
+      if (!current.unlocked && !needed) {
+        return null;
+      }
+      var base_cps_orig = Game.cookiesPs;
+      var cps_orig = Game.cookiesPs + gcPs(weightedCookieValue(true));
+      var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
+      var existing_wrath = Game.elderWrath;
+      var reverseFunctions = upgradeToggle(current);
+      var base_cps_new = Game.cookiesPs;
+      var cps_new = Game.cookiesPs + gcPs(weightedCookieValue(true));
+      upgradeToggle(current, existing_achievements, reverseFunctions);
+      Game.elderWrath = existing_wrath;
+      var delta_cps = cps_new - cps_orig;
+      var base_delta_cps = base_cps_new - base_cps_orig;
+      var roi = (delta_cps > 0) ? upgradePrereqCost(current) * cps_new / delta_cps : Number.MAX_VALUE;
+      return {'id' : current.id, 'roi' : roi, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : upgradePrereqCost(current), 'type' : 'upgrade'};
+    }
+  }).filter(function(a){return a;});
+}
+
+function upgradePrereqCost(upgrade) {
+  var cost = upgrade.basePrice;
+  if (upgrade.unlocked) {
+    return cost;
+  }
+  var prereqs = upgradeJson.filter(function(a){return a.id == upgrade.id;});
+  if (prereqs.length) {
+    prereqs = prereqs[0];
+    cost += prereqs.buildings.reduce(function(sum,item,index) {
+      var building = Game.ObjectsById[index];
+      if (item && building.amount < item) {
+        for (var i = building.amount; i < item; i++) {
+          sum += building.basePrice * Math.pow(Game.priceIncrease, i);
+        }
+      }
+      return sum;
+    },0);
+    cost += prereqs.upgrades.reduce(function(sum,item) {
+      var reqUpgrade = Game.UpgradesById[item];
+      if (!upgrade.bought) {
+        sum += upgradePrereqCost(reqUpgrade);
+      }
+      return sum;
+    }, 0);
+  }
+  return cost;
+}
+
+function unfinishedUpgradePrereqs(upgrade) {
+  if (upgrade.unlocked) {
+    return null;
+  }
+  var needed = [];
+  var prereqs = upgradeJson.filter(function(a){return a.id == upgrade.id;});
+  if (prereqs.length) {
+    prereqs = prereqs[0];
+    prereqs.buildings.forEach(function(a, b) {
+      if (a && Game.ObjectsById[b].amount < a) {
+        needed.push({'type' : 'building', 'id' : b});
+      }
+    });
+    prereqs.upgrades.forEach(function(a) {
+      if (!Game.UpgradesById[a].bought) {
+        var recursiveUpgrade = Game.UpgradesById[a];
+        var recursivePrereqs = unfinishedUpgradePrereqs(recursiveUpgrade);
+        if (recursiveUpgrade.unlocked || !recursivePrereqs) {
+          needed.push({'type' : 'upgrade', 'id' : a});
+        } else {
+          recursivePrereqs.forEach(function(a) {
+            if (!needed.some(function(b){return b.id == a.id && b.type == a.type;})) {
+              needed.push(a);
+            }
+          });
+        }
+      }
+    });
+  }
+  return needed.length ? needed : null;
 }
 
 function upgradeToggle(upgrade, achievements, reverseFunctions) {
