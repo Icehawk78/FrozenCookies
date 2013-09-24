@@ -2,9 +2,9 @@
 
 if (true) {
   var script_list = [
-    'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/cc_upgrade_prerequisites.js',
+    'https://raw.github.com/Icehawk78/FrozenCookies/master/cc_upgrade_prerequisites.js',
     'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js',
-    'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/fc_button.js'
+    'https://raw.github.com/Icehawk78/FrozenCookies/master/fc_button.js'
   ]
   var done = 0;
   var jquery = document.createElement('script');
