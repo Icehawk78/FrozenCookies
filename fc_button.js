@@ -133,7 +133,7 @@ Game.UpdateMenu = function() {
     var recommendation = nextPurchase();
     var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
     var purchase = store[recommendation.id];
-    var chain_reccomend = recommendationList()[0];
+    var chain_recommend = recommendationList()[0];
     subsection.append($('<div />').addClass('listing').html('<b>Next Purchase:</b> ' + purchase.name));
     if (!(recommendation.id == chain_recommend.id && recommendation.type == chain_recommend.type)) {
       subsection.append($('<div />').addClass('listing').html('<b>Building Chain to:</b> ' + store[chain_recommend.id].name));
