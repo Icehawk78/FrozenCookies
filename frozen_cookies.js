@@ -199,7 +199,7 @@ function costDelta() {
 }
 
 function delayAmount() {
-  if (nextChainedPurchase().roi > gcRoi()) {
+  if (nextChainedPurchase().roi > gcRoi() || Game.goldenCookie.delay < Game.frenzy) {
     return maxLuckyValue() * 10;
   } else if (costDelta()) {
     return Math.min(maxLuckyValue() * 10, Math.max(0,(nextChainedPurchase().roi - (costDelta() * Game.cookiesPs)) / costDelta()));
