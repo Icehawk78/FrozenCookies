@@ -134,9 +134,11 @@ Game.UpdateMenu = function() {
     var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
     var purchase = store[recommendation.id];
     var chain_recommend = recommendationList()[0];
+    var chain_store = null;
     subsection.append($('<div />').addClass('listing').html('<b>Next Purchase:</b> ' + purchase.name));
     if (!(recommendation.id == chain_recommend.id && recommendation.type == chain_recommend.type)) {
-      subsection.append($('<div />').addClass('listing').html('<b>Building Chain to:</b> ' + store[chain_recommend.id].name));
+      chain_store = (chain_recommend.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
+      subsection.append($('<div />').addClass('listing').html('<b>Building Chain to:</b> ' + chain_store[chain_recommend.id].name));
     }
     if (Game.cookiesPs > 0) {
       subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay((recommendation.cost + delayAmount() - Game.cookies) / Game.cookiesPs)));
