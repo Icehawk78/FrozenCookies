@@ -124,77 +124,75 @@ Game.UpdateMenu = function() {
     return Game.oldUpdateMenu();
   } else {
     if(!window.ifOnce) {
-    var menu = $('#menu').html('');
-    menu.append($('<div />').addClass('section').html('Frozen Cookie'));
-    var subsection = $('<div />').addClass('subsection');
-    subsection.append($('<div />').addClass('title').html('Timer Tests'));
-    var timers = $('<canvas id="fcTimer" width="400px" height="100px"/>').html('Your browser does not support the HTML5 canvas tag.');
-    subsection.append(timers);
-    menu.append(subsection);
-    updateTimers();
-    var subsection = $('<div />').addClass('subsection');
-    subsection.append($('<div />').addClass('title').html('Autobuy Information'));
-    var recommendation = nextPurchase();
-    var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
-    var purchase = store[recommendation.id];
-    subsection.append($('<div />').addClass('listing').html('<b>Next Purchase:</b> ' + purchase.name));
-    if (Game.cookiesPs > 0) {
-      subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay((recommendation.cost + delayAmount() - Game.cookies) / Game.cookiesPs)));
-    }
-    subsection.append($('<div />').addClass('listing').html('<b>Cost:</b> ' + Beautify(recommendation.cost)));
-    subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Bank:</b> ' + Beautify(delayAmount())));
-    subsection.append($('<div />').addClass('listing').html('<b>Base &#916; CPS:</b> ' + Beautify(recommendation.base_delta_cps)));
-    subsection.append($('<div />').addClass('listing').html('<b>Full &#916; CPS:</b> ' + Beautify(recommendation.delta_cps)));
-    subsection.append($('<div />').addClass('listing').html('<b>Purchase ROI:</b> ' + Beautify(recommendation.roi)));
-    if (Game.cookiesPs > 0) {
-      subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie ROI:</b> ' + Beautify(gcRoi())));
-    }
-    menu.append(subsection);
-    var subsection = $('<div />').addClass('subsection');
-    subsection.append($('<div />').addClass('title').html('Golden Cookie Information'));
-    var isMaxed = weightedCookieValue(true) == weightedCookieValue();
-    var maxTxt = isMaxed ? ' (Max)' : '';
-    subsection.append($('<div />').addClass('listing').html('<b>Current Average Cookie Value' + maxTxt + ':</b> ' + Beautify(weightedCookieValue(true))));
-    if (!isMaxed) {
-      subsection.append($('<div />').addClass('listing').html('<b>Max Average Cookie Value:</b> ' + Beautify(weightedCookieValue())));
-    }
-    subsection.append($('<div />').addClass('listing').html('<b>Max Lucky Cookie Value:</b> ' + Beautify(maxLuckyValue())));
-    subsection.append($('<div />').addClass('listing').html('<b>Cookie Bank Required for Max Lucky:</b> ' + Beautify(maxLuckyValue() * 10)));
-    if (Game.cookiesPs > 0) {
-      subsection.append($('<div />').addClass('listing').html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(weightedCookieValue(true)))));
-    }
-    menu.append(subsection);
-    var subsection = $('<div />').addClass('subsection');
-    subsection.append($('<div />').addClass('title').html('Heavenly Chips Information'));
-    subsection.append($('<div />').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset))));
-    subsection.append($('<div />').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset+Game.cookiesEarned))));
-    subsection.append($('<div />').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
-    if (Game.cookiesPs > 0) {
-      subsection.append($('<div />').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
-    }
-    menu.append(subsection);
-    var subsection = $('<div />').addClass('subsection');
-    subsection.append($('<div />').addClass('title').html('Other Information'));
-    var frenzy_mod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
-    var base_cps = Game.cookiesPs / frenzy_mod;
-    var baseChosen = (Game.frenzy > 0) ? '' : ' (*)';
-    var frenzyChosen = (Game.frenzy > 0) ? ' (*)' : '';
-    subsection.append($('<div />').addClass('listing').html('<b>Base CPS' + baseChosen + ':</b> ' + Beautify(base_cps)));
-    subsection.append($('<div />').addClass('listing').html('<b>Frenzy CPS' + frenzyChosen + ':</b> ' + Beautify(base_cps * 7)));
-    subsection.append($('<div />').addClass('listing').html('<b>Estimated Effective CPS:</b>' + Beautify(base_cps + gcPs(weightedCookieValue(true)))));
-    menu.append(subsection);
-    var subsection = $('<div />').addClass('subsection');
-    subsection.append($('<div />').addClass('title').html('Frozen Cookie Controls'));
-    var listing = $('<div />').addClass('listing');
-    listing.append($(Game.WriteButton('autobuy','autobuyButton','Autobuy ON','Autobuy OFF',"toggleFrozen('autobuy');")));
-    listing.append($(Game.WriteButton('autogc','autogcButton','Autoclick GC ON','Autoclick GC OFF',"toggleFrozen('autogc');")));
-    subsection.append(listing);
-    menu.append(subsection);
-    
-    window.ifOnce = true;
-    
-    } else {
+      var menu = $('#menu').html('');
+      menu.append($('<div />').addClass('section').html('Frozen Cookie'));
+      var subsection = $('<div />').addClass('subsection');
+      subsection.append($('<div />').addClass('title').html('Timer Tests'));
+      var timers = $('<canvas id="fcTimer" width="400px" height="100px"/>').html('Your browser does not support the HTML5 canvas tag.');
+      subsection.append(timers);
+      menu.append(subsection);
+      updateTimers();
+      var subsection = $('<div />').addClass('subsection');
+      subsection.append($('<div />').addClass('title').html('Autobuy Information'));
+      var recommendation = nextPurchase();
+      var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
+      var purchase = store[recommendation.id];
+      subsection.append($('<div />').addClass('listing').html('<b>Next Purchase:</b> ' + purchase.name));
+      if (Game.cookiesPs > 0) {
+        subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay((recommendation.cost + delayAmount() - Game.cookies) / Game.cookiesPs)));
+      }
+      subsection.append($('<div />').addClass('listing').html('<b>Cost:</b> ' + Beautify(recommendation.cost)));
+      subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Bank:</b> ' + Beautify(delayAmount())));
+      subsection.append($('<div />').addClass('listing').html('<b>Base &#916; CPS:</b> ' + Beautify(recommendation.base_delta_cps)));
+      subsection.append($('<div />').addClass('listing').html('<b>Full &#916; CPS:</b> ' + Beautify(recommendation.delta_cps)));
+      subsection.append($('<div />').addClass('listing').html('<b>Purchase ROI:</b> ' + Beautify(recommendation.roi)));
+      if (Game.cookiesPs > 0) {
+        subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie ROI:</b> ' + Beautify(gcRoi())));
+      }
+      menu.append(subsection);
+      var subsection = $('<div />').addClass('subsection');
+      subsection.append($('<div />').addClass('title').html('Golden Cookie Information'));
+      var isMaxed = weightedCookieValue(true) == weightedCookieValue();
+      var maxTxt = isMaxed ? ' (Max)' : '';
+      subsection.append($('<div />').addClass('listing').html('<b>Current Average Cookie Value' + maxTxt + ':</b> ' + Beautify(weightedCookieValue(true))));
+      if (!isMaxed) {
+        subsection.append($('<div />').addClass('listing').html('<b>Max Average Cookie Value:</b> ' + Beautify(weightedCookieValue())));
+      }
+      subsection.append($('<div />').addClass('listing').html('<b>Max Lucky Cookie Value:</b> ' + Beautify(maxLuckyValue())));
+      subsection.append($('<div />').addClass('listing').html('<b>Cookie Bank Required for Max Lucky:</b> ' + Beautify(maxLuckyValue() * 10)));
+      if (Game.cookiesPs > 0) {
+        subsection.append($('<div />').addClass('listing').html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(weightedCookieValue(true)))));
+      }
+      menu.append(subsection);
+      var subsection = $('<div />').addClass('subsection');
+      subsection.append($('<div />').addClass('title').html('Heavenly Chips Information'));
+      subsection.append($('<div />').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset))));
+      subsection.append($('<div />').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset+Game.cookiesEarned))));
+      subsection.append($('<div />').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
+      if (Game.cookiesPs > 0) {
+        subsection.append($('<div />').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
+      }
+      menu.append(subsection);
+      var subsection = $('<div />').addClass('subsection');
+      subsection.append($('<div />').addClass('title').html('Other Information'));
+      var frenzy_mod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
+      var base_cps = Game.cookiesPs / frenzy_mod;
+      var baseChosen = (Game.frenzy > 0) ? '' : ' (*)';
+      var frenzyChosen = (Game.frenzy > 0) ? ' (*)' : '';
+      subsection.append($('<div />').addClass('listing').html('<b>Base CPS' + baseChosen + ':</b> ' + Beautify(base_cps)));
+      subsection.append($('<div />').addClass('listing').html('<b>Frenzy CPS' + frenzyChosen + ':</b> ' + Beautify(base_cps * 7)));
+      subsection.append($('<div />').addClass('listing').html('<b>Estimated Effective CPS:</b>' + Beautify(base_cps + gcPs(weightedCookieValue(true)))));
+      menu.append(subsection);
+      var subsection = $('<div />').addClass('subsection');
+      subsection.append($('<div />').addClass('title').html('Frozen Cookie Controls'));
+      var listing = $('<div />').addClass('listing');
+      listing.append($(Game.WriteButton('autobuy','autobuyButton','Autobuy ON','Autobuy OFF',"toggleFrozen('autobuy');")));
+      listing.append($(Game.WriteButton('autogc','autogcButton','Autoclick GC ON','Autoclick GC OFF',"toggleFrozen('autogc');")));
+      subsection.append(listing);
+      menu.append(subsection);
       
+      window.ifOnce = true;
+    } else {
       updateTimers();
       var menu = $('#menu');
       var menuSubs = menu.find('.subsection');
@@ -206,7 +204,7 @@ Game.UpdateMenu = function() {
       var purchase = store[recommendation.id];
       
       $(elems[1]).html('<b>Next Purchase:</b> ' + purchase.name);
-      if (Game.cookiePs > 0) {
+      if (Game.cookiesPs > 0) {
         $(elems[2]).html('<b>Time til completion:</b> ' + timeDisplay((recommendation.cost + delayAmount() - Game.cookies) / Game.cookiesPs));
       }
       $(elems[3]).html('<b>Cost:</b> ' + Beautify(recommendation.cost));
@@ -228,7 +226,7 @@ Game.UpdateMenu = function() {
       }
       $(elems[3]).html('<b>Max Lucky Cookie Value:</b> ' + Beautify(maxLuckyValue()));
       $(elems[4]).html('<b>Cookie Bank Required for Max Lucky:</b> ' + Beautify(maxLuckyValue() * 10));
-      if(Game.cookiesPs > 0) {
+      if (Game.cookiesPs > 0) {
         $(elems[5]).html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(weightedCookieValue(true))));
       }
       
@@ -238,7 +236,7 @@ Game.UpdateMenu = function() {
       $(elems[1]).html('<b>HC Now:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset)));
       $(elems[2]).html('<b>HC After Reset:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset+Game.cookiesEarned)));
       $(elems[3]).html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true)));
-      if(Game.cookiesPs > 0) {
+      if (Game.cookiesPs > 0) {
         $(elems[4]).html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(weightedCookieValue(true))));
       }
       
