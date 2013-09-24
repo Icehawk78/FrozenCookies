@@ -23,7 +23,12 @@ What can Frozen Cookies do?
  - Automatically updates to the most recent version upon load.
  - Might not eat all of your cookies.
  
-*Note: Not guaranteed to actually be the most efficient purchase. Just the most efficient that I currently know of.
+\*Note: Not guaranteed to actually be the most efficient purchase. Just the most efficient that I currently know of.
+
+What's new?
+-----------
+
+2013-09-23: Added Chained Upgrade purchases
 
 Information about Frozen Cookies' Data
 ======================================
@@ -61,7 +66,7 @@ Known Issues
 
  - Currently will not ever buy or recommend buying any of the Grandmapocalypse-increasing buildings while the Autoclick GC is turned on. (Due to the severe lack of efficiency in Wrath Cookies compared to Golden Cookies.)
  - Currently will not ever buy or recommend buying the Sacrificial Rolling Pin. (Due to not modelling the cost of the Elder Pact as lost CPS.)
- - Currently will not buy or recommend buying chains of buildings in order to unlock an upgrade that, itself, might be the most efficient purchase even when combined with the cost of the prerequisite buildings. (Should be fixed in an upcoming version, but isn't yet.)
+ - ~~Currently will not buy or recommend buying chains of buildings in order to unlock an upgrade that, itself, might be the most efficient purchase even when combined with the cost of the prerequisite buildings. (Should be fixed in an upcoming version, but isn't yet.)~~
  - Reports of people buying upgrades and having the cost deducted, but the purchase reverted has been noted. This is difficult to reproduce and *may* have already been fixed, but that is not currently guaranteed. Recommend saving before making any large upgrade purchases, just in case.
  - Possibly other things?
  
