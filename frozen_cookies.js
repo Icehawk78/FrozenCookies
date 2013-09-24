@@ -61,20 +61,20 @@ function showGCTimes() {
 }
 
 function timeDisplay(seconds) {
-	if (seconds === '---' || seconds === 0) { return '---'; }
-	seconds = Math.floor(seconds);
-	var days, hours, minutes;
-	days = Math.floor(seconds / (24 * 60 * 60));
-	days = (days > 0) ? Beautify(days) + 'd ' : '';
-	seconds %= (24 * 60 * 60);
-	hours = Math.floor(seconds / (60 * 60));
-	hours = (hours > 0) ? Beautify(hours) + 'h ' : '';
-	seconds %= (60 * 60);
-	minutes = Math.floor(seconds / 60);
-	minutes = (minutes > 0) ? minutes + 'm ' : '';
-	seconds %= 60;
-	seconds = (seconds > 0) ? seconds + 's' : '';
-	return (hours + minutes + seconds).trim();
+  if (seconds === '---' || seconds === 0) { return '---'; }
+  seconds = Math.floor(seconds);
+  var days, hours, minutes;
+  days = Math.floor(seconds / (24 * 60 * 60));
+  days = (days > 0) ? Beautify(days) + 'd ' : '';
+  seconds %= (24 * 60 * 60);
+  hours = Math.floor(seconds / (60 * 60));
+  hours = (hours > 0) ? Beautify(hours) + 'h ' : '';
+  seconds %= (60 * 60);
+  minutes = Math.floor(seconds / 60);
+  minutes = (minutes > 0) ? minutes + 'm ' : '';
+  seconds %= 60;
+  seconds = (seconds > 0) ? seconds + 's' : '';
+  return (hours + minutes + seconds).trim();
 }
 
 Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
@@ -96,9 +96,9 @@ function getBuildingSpread () {
 
 // Press 'b' to pop up a copyable window with building spread. 
 document.addEventListener('keydown', function(event) {
-    if(event.keyCode == 66) {
-        copyToClipboard(getBuildingSpread());
-    }
+  if(event.keyCode == 66) {
+    copyToClipboard(getBuildingSpread());
+  }
 });
 
 // Press 'a' to toggle autobuy.
@@ -153,6 +153,7 @@ function weightedCookieValue(useCurrent) {
       base_golden -= ((1200 * base_cps) - Math.min(1200 * base_cps, Game.cookies * 0.1)) * 0.49 * 0.5 + (maxLuckyValue() - (Game.cookies * 0.1)) * 0.49 * 0.5;
     } else {
       base_golden -= (maxLuckyValue() - (Game.cookies * 0.1)) * 0.49;
+      base_wrath  -= (maxLuckyValue() - (Game.cookies * 0.1)) * 0.29;
     }
   }
   return Game.elderWrath / 3.0 * base_wrath + (3 - Game.elderWrath) / 3.0 * base_golden;
