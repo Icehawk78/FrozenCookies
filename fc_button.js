@@ -194,6 +194,7 @@ Game.UpdateMenu = function() {
     subsection.append($('<div />').addClass('listing').html('<b>Base CPS' + baseChosen + ':</b> ' + Beautify(base_cps)));
     subsection.append($('<div />').addClass('listing').html('<b>Frenzy CPS' + frenzyChosen + ':</b> ' + Beautify(base_cps * 7)));
     subsection.append($('<div />').addClass('listing').html('<b>Estimated Effective CPS:</b> ' + Beautify(base_cps + gcPs(weightedCookieValue(true)))));
+    subsection.append($('<div />').addClass('listing').html('<b>Game Started:</b> ' + Game.sayTime((Date.now()-Game.startDate)/1000*Game.fps)));
     menu.append(subsection);
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Frozen Cookie Controls'));
