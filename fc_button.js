@@ -196,7 +196,7 @@ Game.UpdateMenu = function() {
       updateTimers();
       var menu = $('#menu');
       var menuSubs = menu.find('.subsection');
-      var selectedSubs = menuSubs[1];
+      var selectedSubs = menuSubs[0];
       var elems = $(selectedSubs).children();
       
       var recommendation = nextPurchase();
@@ -214,7 +214,7 @@ Game.UpdateMenu = function() {
       $(elems[7]).html('<b>Purchase ROI:</b> ' + Beautify(recommendation.roi));
       $(elems[8]).html('<b>Golden Cookie ROI:</b> ' + Beautify(gcRoi()));
       
-      selectedSubs = menuSubs[2];
+      selectedSubs = menuSubs[1];
       elems = $(selectedSubs).children();
       
       var isMaxed = weightedCookieValue(true) == weightedCookieValue();
@@ -230,14 +230,14 @@ Game.UpdateMenu = function() {
         $(elems[5]).html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(weightedCookieValue(true))));
       }
       
-      selectedSubs = menuSubs[3];
+      selectedSubs = menuSubs[2];
       elems = $(selectedSubs).children();
       
       $(elems[1]).html('<b>HC Now:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset)));
       $(elems[2]).html('<b>HC After Reset:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset+Game.cookiesEarned)));
       $(elems[3]).html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true)));
       if (Game.cookiesPs > 0) {
-        $(elems[4]).html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(weightedCookieValue(true))));
+        $(elems[4]).html('<b>Estimated time to next HC:</b> ' + nextHC());
       }
       
       selectedSubs = menuSubs[3];
