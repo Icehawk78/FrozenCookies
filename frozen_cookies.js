@@ -354,8 +354,9 @@ function upgradeToggle(upgrade, achievements, reverseFunctions) {
     buyFunctionToggle(reverseFunctions);
     Game.AchievementsOwned = 0;
     achievements.forEach(function(won, index){
-      Game.AchievementsById[index].won = won;
-      if (won) {
+      var achievement = Game.AchievementsById[index];
+      achievement.won = won;
+      if (won && achievement.hide < 3) {
         Game.AchievementsOwned += 1;
       }
     });
@@ -376,8 +377,9 @@ function buildingToggle(building, achievements) {
     Game.BuildingsOwned -= 1;
     Game.AchievementsOwned = 0;
     achievements.forEach(function(won, index){
-      Game.AchievementsById[index].won = won;
-      if (won) {
+      var achievement = Game.AchievementsById[index];
+      achievement.won = won;
+      if (won && achievement.hide < 3) {
         Game.AchievementsOwned += 1;
       }
     });
