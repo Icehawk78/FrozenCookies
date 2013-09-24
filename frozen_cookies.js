@@ -20,7 +20,7 @@ if (true) {
 // Global Variables
 
 //var autoBuy = localStorage.getItem('autobuy');
-Game.prefs['autobuy'] = localStorage.getItem('autobuy');
+Game.prefs['autobuy'] = Number(localStorage.getItem('autobuy'));
 var frequency = 100;
 var non_gc_time = 0;
 var gc_time = 0;
@@ -28,7 +28,7 @@ var last_gc_state = (Game.frenzy > 0);
 var last_gc_time = Date.now();
 var cookie_click_speed = 0;
 //var gc_click_percent = localStorage.getItem('autogc');
-Game.prefs['autogc'] = localStorage.getItem('autogc');
+Game.prefs['autogc'] = Number(localStorage.getItem('autogc'));
 var initial_clicks = 0;
 var initial_load_time = Date.now();
 var full_history = [];
@@ -460,6 +460,7 @@ function autoCookie() {
     full_history.push(recommendation);
     purchase.clickFunction = null;
     purchase.buy();
+    autoCookie();
   }
   if (shouldClickGC()) {
     Game.goldenCookie.click();
