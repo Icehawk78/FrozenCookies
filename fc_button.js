@@ -133,7 +133,13 @@ Game.UpdateMenu = function() {
     var recommendation = nextPurchase();
     var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
     var purchase = store[recommendation.id];
+    var chain_recommend = recommendationList()[0];
+    var chain_store = null;
     subsection.append($('<div />').addClass('listing').html('<b>Next Purchase:</b> ' + purchase.name));
+    if (!(recommendation.id == chain_recommend.id && recommendation.type == chain_recommend.type)) {
+      chain_store = (chain_recommend.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
+      subsection.append($('<div />').addClass('listing').html('<b>Building Chain to:</b> ' + chain_store[chain_recommend.id].name));
+    }
     if (Game.cookiesPs > 0) {
       subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay((recommendation.cost + delayAmount() - Game.cookies) / Game.cookiesPs)));
     }
@@ -142,6 +148,9 @@ Game.UpdateMenu = function() {
     subsection.append($('<div />').addClass('listing').html('<b>Base &#916; CPS:</b> ' + Beautify(recommendation.base_delta_cps)));
     subsection.append($('<div />').addClass('listing').html('<b>Full &#916; CPS:</b> ' + Beautify(recommendation.delta_cps)));
     subsection.append($('<div />').addClass('listing').html('<b>Purchase ROI:</b> ' + Beautify(recommendation.roi)));
+    if (!(recommendation.id == chain_recommend.id && recommendation.type == chain_recommend.type)) {
+      subsection.append($('<div />').addClass('listing').html('<b>Chain ROI:</b> ' + Beautify(chain_recommend.roi)));
+    }
     if (Game.cookiesPs > 0) {
       subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie ROI:</b> ' + Beautify(gcRoi())));
     }
@@ -159,6 +168,9 @@ Game.UpdateMenu = function() {
     if (Game.cookiesPs > 0) {
       subsection.append($('<div />').addClass('listing').html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(weightedCookieValue(true)))));
     }
+    subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Clicks:</b> ' + Beautify(Game.goldenClicks)));
+    subsection.append($('<div />').addClass('listing').html('<b>Missed Golden Cookie Clicks:</b> ' + Beautify(Game.missedGoldenClicks)));
+    subsection.append($('<div />').addClass('listing').html('<b>Last Golden Cookie Effect:</b> ' + Game.goldenCookie.last));
     menu.append(subsection);
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Heavenly Chips Information'));
@@ -177,7 +189,7 @@ Game.UpdateMenu = function() {
     var frenzyChosen = (Game.frenzy > 0) ? ' (*)' : '';
     subsection.append($('<div />').addClass('listing').html('<b>Base CPS' + baseChosen + ':</b> ' + Beautify(base_cps)));
     subsection.append($('<div />').addClass('listing').html('<b>Frenzy CPS' + frenzyChosen + ':</b> ' + Beautify(base_cps * 7)));
-    subsection.append($('<div />').addClass('listing').html('<b>Estimated Effective CPS:</b>' + Beautify(base_cps + gcPs(weightedCookieValue(true)))));
+    subsection.append($('<div />').addClass('listing').html('<b>Estimated Effective CPS:</b> ' + Beautify(base_cps + gcPs(weightedCookieValue(true)))));
     menu.append(subsection);
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Frozen Cookie Controls'));
