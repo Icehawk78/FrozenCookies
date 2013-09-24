@@ -13,7 +13,7 @@ How to use
 What can Frozen Cookies do?
 ---------------------------
 
- - Long number shortening. (convert 1,234,567,890 to 1.234 billion)
+ - Long number shortening. (convert 1,234,567,890 to 1.235 billion)
  - Calculates the most efficient* next purchase.
  - Optionally, will automatically buy that most efficient* next purchase.
  - Calculates all sorts of stuff having to do with Golden Cookies.
