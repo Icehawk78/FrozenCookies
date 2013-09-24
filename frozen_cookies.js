@@ -2,9 +2,9 @@
 
 if (true) {
   var script_list = [
-    {url: 'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/cc_upgrade_prerequisites.js', ready: false},
-    {url: 'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js', ready: false},
-    {url: 'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/fc_button.js', ready: false}
+    'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/cc_upgrade_prerequisites.js',
+    'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js',
+    'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/fc_button.js'
   ]
   var done = 0;
   var jquery = document.createElement('script');
@@ -12,19 +12,18 @@ if (true) {
   jquery.setAttribute('src', 'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
   jquery.onload = function() {
     script_list.forEach(function(url,id){
-      $.getScript(url.url,function() {
-        script_list[id].ready = true;
+      $.getScript(url,function() {
         done++;
+        if (done>=script_list.length)
+        {
+          FCStart();
+        }
       });
     });
   };
   document.head.appendChild(jquery);
 }
 
-while (done<script_list.length)
-{
-  //Do Jack All.
-}
 // Global Variables
 
 //var autoBuy = localStorage.getItem('autobuy');
@@ -485,9 +484,12 @@ function autoCookie() {
   }
 }
 
-if (frequency) {
-  var cookieBot = setInterval(function() {autoCookie()}, frequency);
-}
-if (cookie_click_speed) {
-  var autoclickBot = setInterval(function() {Game.ClickCookie()}, cookie_click_speed);
+function FCStart(){
+  if (frequency) {
+    var cookieBot = setInterval(function() {autoCookie()}, frequency);
+  }
+  if (cookie_click_speed) {
+    var autoclickBot = setInterval(function() {Game.ClickCookie()}, cookie_click_speed);
+  }
+  FCMenu();
 }
