@@ -2,23 +2,29 @@
 
 if (true) {
   var script_list = [
+    {url: 'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/cc_upgrade_prerequisites.js', ready: false},
     {url: 'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js', ready: false},
-    {url: 'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/fc_button.js', ready: false},
-    {url: 'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/cc_upgrade_prerequisites.js', ready: false}
+    {url: 'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/fc_button.js', ready: false}
   ]
+  var done = 0;
   var jquery = document.createElement('script');
   jquery.setAttribute('type', 'text/javascript');
   jquery.setAttribute('src', 'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
   jquery.onload = function() {
-    script_list.forEach(function(url){
+    script_list.forEach(function(url,id){
       $.getScript(url.url,function() {
-        console.log(this);
+        script_list[id].ready = true;
+        done++;
       });
     });
   };
   document.head.appendChild(jquery);
 }
 
+while (done<script_list.length)
+{
+  //Do Jack All.
+}
 // Global Variables
 
 //var autoBuy = localStorage.getItem('autobuy');
