@@ -198,10 +198,10 @@ function costDelta() {
 }
 
 function delayAmount() {
-  if (nextPurchase().roi > gcRoi()) {
+  if (nextChainedPurchase().roi > gcRoi()) {
     return maxLuckyValue() * 10;
   } else if (costDelta()) {
-    return Math.min(maxLuckyValue() * 10, Math.max(0,(nextPurchase().roi - (costDelta() * Game.cookiesPs)) / costDelta()));
+    return Math.min(maxLuckyValue() * 10, Math.max(0,(nextChainedPurchase().roi - (costDelta() * Game.cookiesPs)) / costDelta()));
   } else {
    return 0;
   }
@@ -219,6 +219,10 @@ function nextPurchase() {
     purchase = recList.filter(function(a){return prereqList.some(function(b){return b.id == a.id && b.type == a.type})})[0];
   }
   return purchase;
+}
+
+function nextChainedPurchase() {
+  return recommendationList()[0];
 }
 
 function buildingStats() {
