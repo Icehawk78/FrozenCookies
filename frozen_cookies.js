@@ -2,16 +2,18 @@
 
 if (true) {
   var script_list = [
-    'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js',
-    'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/fc_button.js',
-    'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/cc_upgrade_prerequisites.js'
+    {url: 'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js', ready: false},
+    {url: 'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/fc_button.js', ready: false},
+    {url: 'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/cc_upgrade_prerequisites.js', ready: false}
   ]
   var jquery = document.createElement('script');
   jquery.setAttribute('type', 'text/javascript');
   jquery.setAttribute('src', 'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
   jquery.onload = function() {
     script_list.forEach(function(url){
-      $.getScript(url);
+      $.getScript(url.url,function() {
+        console.log(this);
+      });
     });
   };
   document.head.appendChild(jquery);
