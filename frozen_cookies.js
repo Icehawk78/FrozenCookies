@@ -213,12 +213,12 @@ function recommendationList() {
 
 function nextPurchase() {
   var recList = recommendationList();
-  var nextPurchase = recList[0];
-  if (nextPurchase.type == 'upgrade' && unfinishedUpgradePrereqs(Game.UpgradesById[nextPurchase.id])) {
-    var prereqList = unfinishedUpgradePrereqs(Game.UpgradesById[nextPurchase.id]);
-    nextPurchase = recList.filter(function(a){return prereqList.some(function(b){return b.id == a.id && b.type == a.type})})[0];
+  var purchase = recList[0];
+  if (purchase.type == 'upgrade' && unfinishedUpgradePrereqs(Game.UpgradesById[purchase.id])) {
+    var prereqList = unfinishedUpgradePrereqs(Game.UpgradesById[purchase.id]);
+    purchase = recList.filter(function(a){return prereqList.some(function(b){return b.id == a.id && b.type == a.type})})[0];
   }
-  return nextPurchase;
+  return purchase;
 }
 
 function buildingStats() {
@@ -326,8 +326,10 @@ function unfinishedUpgradePrereqs(upgrade) {
       if (!Game.UpgradesById[a].bought) {
         var recursiveUpgrade = Game.UpgradesById[a];
         var recursivePrereqs = unfinishedUpgradePrereqs(recursiveUpgrade);
-        if (recursiveUpgrade.unlocked || !recursivePrereqs) {
+        if (recursiveUpgrade.unlocked) {
           needed.push({'type' : 'upgrade', 'id' : a});
+        } else if (!recursivePrereqs) {
+          // Research is being done.
         } else {
           recursivePrereqs.forEach(function(a) {
             if (!needed.some(function(b){return b.id == a.id && b.type == a.type;})) {
