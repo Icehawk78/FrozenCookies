@@ -27,18 +27,19 @@ if (true) {
 // Global Variables
 
 //var autoBuy = localStorage.getItem('autobuy');
+var frequency = 10;
 Game.prefs['autobuy'] = Number(localStorage.getItem('autobuy'));
-var frequency = 100;
-var non_gc_time = 0;
-var gc_time = 0;
+Game.prefs['autogc'] = Number(localStorage.getItem('autogc'));
+var simulatedGCPercent = Number(localStorage.getItem('simulategc') || 1);
+var non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
+var gc_time = Number(localStorage.getItem('frenzyTime'));
 var last_gc_state = (Game.frenzy > 0);
 var last_gc_time = Date.now();
 var cookie_click_speed = 0;
-//var gc_click_percent = localStorage.getItem('autogc');
-Game.prefs['autogc'] = Number(localStorage.getItem('autogc'));
 var initial_clicks = 0;
-var initial_load_time = Date.now();
-var full_history = [];
+// var full_history = [];  // This may be a super leaky thing
+var lastCPS = Game.cookiesPs;
+
 
 var cookieBot = -1;
 var autoclickBot = -1;
@@ -185,8 +186,7 @@ function gcPs(gcValue) {
   if (Game.Has('Lucky day')) averageGCTime/=2;
   if (Game.Has('Serendipity')) averageGCTime/=2;
   gcValue /= averageGCTime;
-//  gcValue *= gc_click_percent;
-  gcValue *= Game.prefs.autogc ? 1 : 0;
+  gcValue *= simulatedGCPercent;
   return gcValue;
 }
 
