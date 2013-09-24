@@ -74,7 +74,7 @@ function timeDisplay(seconds) {
   minutes = (minutes > 0) ? minutes + 'm ' : '';
   seconds %= 60;
   seconds = (seconds > 0) ? seconds + 's' : '';
-  return (hours + minutes + seconds).trim();
+  return (days + hours + minutes + seconds).trim();
 }
 
 Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
