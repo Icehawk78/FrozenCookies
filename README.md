@@ -13,7 +13,7 @@ How to use
 What can Frozen Cookies do?
 ---------------------------
 
- - Long number shortening. (convert 1,234,567,890 to 1.234 billion)
+ - Long number shortening. (convert 1,234,567,890 to 1.235 billion)
  - Calculates the most efficient* next purchase.
  - Optionally, will automatically buy that most efficient* next purchase.
  - Calculates all sorts of stuff having to do with Golden Cookies.
@@ -23,12 +23,16 @@ What can Frozen Cookies do?
  - Automatically updates to the most recent version upon load.
  - Might not eat all of your cookies.
  
+<<<<<<< HEAD
+*Note: Not guaranteed to actually be the most efficient purchase. Just the most efficient that I currently know of.
+=======
 \*Note: Not guaranteed to actually be the most efficient purchase. Just the most efficient that I currently know of.
 
 What's new?
 -----------
 
 2013-09-23: Added Chained Upgrade purchases
+>>>>>>> origin/master
 
 Information about Frozen Cookies' Data
 ======================================

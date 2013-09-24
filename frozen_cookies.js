@@ -2,16 +2,23 @@
 
 if (true) {
   var script_list = [
+    'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/cc_upgrade_prerequisites.js',
     'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js',
-    'https://raw.github.com/Icehawk78/FrozenCookies/master/fc_button.js',
-    'https://raw.github.com/Icehawk78/FrozenCookies/master/cc_upgrade_prerequisites.js'
+    'https://raw.github.com/Icehawk78/FrozenCookies/Saeldur/fc_button.js'
   ]
+  var done = 0;
   var jquery = document.createElement('script');
   jquery.setAttribute('type', 'text/javascript');
   jquery.setAttribute('src', 'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
   jquery.onload = function() {
-    script_list.forEach(function(url){
-      $.getScript(url);
+    script_list.forEach(function(url,id){
+      $.getScript(url,function() {
+        done++;
+        if (done>=script_list.length)
+        {
+          FCStart();
+        }
+      });
     });
   };
   document.head.appendChild(jquery);
@@ -477,9 +484,12 @@ function autoCookie() {
   }
 }
 
-if (frequency) {
-  var cookieBot = setInterval(function() {autoCookie()}, frequency);
-}
-if (cookie_click_speed) {
-  var autoclickBot = setInterval(function() {Game.ClickCookie()}, cookie_click_speed);
+function FCStart(){
+  if (frequency) {
+    var cookieBot = setInterval(function() {autoCookie()}, frequency);
+  }
+  if (cookie_click_speed) {
+    var autoclickBot = setInterval(function() {Game.ClickCookie()}, cookie_click_speed);
+  }
+  FCMenu();
 }

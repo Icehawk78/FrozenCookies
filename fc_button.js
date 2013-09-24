@@ -116,6 +116,7 @@ function updateTimers() {
   drawCircles(t_draw);
 }
 
+function FCMenu() {
 Game.UpdateMenu = function() {
   if (Game.onMenu !== 'fc_menu') {
     return Game.oldUpdateMenu();
@@ -202,4 +203,5 @@ Game.UpdateMenu = function() {
     subsection.append(listing);
     menu.append(subsection);
   }
+}
 }
