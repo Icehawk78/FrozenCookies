@@ -132,7 +132,7 @@ function updateBuyTimers() {
       c1: "gold",
       c2: 'gold',
       name: "Golden Cookie Bank",
-      display: timeDisplay(Math.max(bankTotal - Game.cookies,0) * Game.cookiesPs)
+      display: timeDisplay(Math.max(bankTotal - Game.cookies,0) / Game.cookiesPs)
     });
   }
   if (chainTotal - purchaseTotal > 0) {
@@ -141,7 +141,7 @@ function updateBuyTimers() {
       c1: 'blue',
       c2: 'blue',
       name: "Chain Completion Time",
-      display: timeDisplay(Math.max(chainTotal + bankTotal - Game.cookies,0) * Game.cookiesPs)
+      display: timeDisplay(Math.max(chainTotal + bankTotal - Game.cookies,0) / Game.cookiesPs)
     });
   }
   if (purchaseTotal > 0) {
@@ -150,7 +150,7 @@ function updateBuyTimers() {
       c1: 'white',
       c2: 'white',
       name: "Purchase Completion Time",
-      display: timeDisplay(Math.max(purchaseTotal + bankTotal - Game.cookies,0) * Game.cookiesPs)
+      display: timeDisplay(Math.max(purchaseTotal + bankTotal - Game.cookies,0) / Game.cookiesPs)
     });
   }
   drawCircles(t_draw, $('#fcBuyTimer'));
