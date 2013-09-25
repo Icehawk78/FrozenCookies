@@ -41,6 +41,7 @@ var initial_clicks = 0;
 // var full_history = [];  // This may be a super leaky thing
 var lastCPS = Game.cookiesPs;
 var recalculateCaches = true;
+var disabledPopups = true;
 
 // Store the setInterval ids here for the various processes.
 var cookieBot = 0;
@@ -464,6 +465,25 @@ function buyFunctionToggle(upgrade) {
   return null;
 }
 
+Game.Win = function (what) {
+  if (typeof what==='string') {
+    if (Game.Achievements[what]) {
+      if (Game.Achievements[what].won==0) {
+        Game.Achievements[what].won=1;
+        if (!disabledPopups) {
+          Game.Popup('Achievement unlocked :<br>'+Game.Achievements[what].name+'<br> ');
+        }
+        if (Game.Achievements[what].hide!=3) {
+          Game.AchievementsOwned++;
+        }
+        Game.recalculateGains=1;
+      }
+    }
+	} else {
+	  for (var i in what) {Game.Win(what[i]);}
+  }
+}
+
 function shouldClickGC() {
 //  return Game.goldenCookie.life > 0 && gc_click_percent > 0 && Game.missedGoldenClicks + Game.goldenClicks >= 0 && ((Game.goldenClicks / (Game.missedGoldenClicks + Game.goldenClicks) <= gc_click_percent) || (Game.missedGoldenClicks + Game.goldenClicks == 0));
   return Game.goldenCookie.life > 0 && Game.prefs.autogc;
@@ -499,7 +519,9 @@ function autoCookie() {
     recommendation.time = Date.now() - Game.startDate;
 //    full_history.push(recommendation);  // Probably leaky, maybe laggy?
     purchase.clickFunction = null;
+    disabledPopups = false;
     purchase.buy();
+    disabledPopups = true;
     autoCookie();
   }
   if ((Game.frenzy > 0) != last_gc_state) {
