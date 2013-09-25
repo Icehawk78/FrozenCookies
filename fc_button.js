@@ -166,11 +166,11 @@ Game.UpdateMenu = function() {
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Game Timers'));
     var timers = $('<canvas id="fcTimer" width="400px" height="100px"/>').html('Your browser does not support the HTML5 canvas tag.');
-    subsection.append($('<div />').addClass('listing').append(timers);
+    subsection.append($('<div />').addClass('listing').append(timers));
     menu.append(subsection);
     updateTimers();
     var timers = $('<canvas id="fcBuyTimer" width="400px" height="100px"/>').html('Your browser does not support the HTML5 canvas tag.');
-    subsection.append($('<div />').addClass('listing').append(timers);
+    subsection.append($('<div />').addClass('listing').append(timers));
     menu.append(subsection);
     updateBuyTimers();
     var subsection = $('<div />').addClass('subsection');
