@@ -129,7 +129,7 @@ document.addEventListener('keydown', function(event) {
 });
 
 function toggleFrozen(setting) {
-  if (!localStorage.getItem(setting)) {
+  if (!Number(localStorage.getItem(setting))) {
     localStorage.setItem(setting,1);
 //    Game.prefs[setting] = 1;
   } else {
