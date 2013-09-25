@@ -256,7 +256,7 @@ function FCMenu() {
         var item  = store[rec.id];
         subsection.append($('<div />').addClass('listing').html('<b>' + item.name + ':</b> ROI - ' + Beautify(rec.roi) + ', Cost - ' + Beautify(rec.cost) + ', &#916; CPS:' + Beautify(rec.delta_cps)));
       });
-      subsection.append($('<div />').addClass('listing').html('<b>Golden Bank:</b> ROI - ' + Beautify(gcRoi()) + ', Cost - ' + Beautify(Math.max(0,(maxLuckyValue() * 10 - Game.cookies))) + ', &#916; CPS:' + Beautify(gcPs(weightedCookieValue() - weightedCookieValue(true)))));
+      subsection.append($('<div />').addClass('listing').html('<b>Golden Bank:</b> ROI - ' + Beautify(gcRoi()) + ', Cost - ' + Beautify(Math.max(0,(maxLuckyValue() * 10 - Game.cookies))) + ', &#916; CPS - ' + Beautify(gcPs(weightedCookieValue() - weightedCookieValue(true)))));
       menu.append(subsection);
     }
   }
