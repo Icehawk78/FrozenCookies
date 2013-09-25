@@ -251,12 +251,14 @@ function FCMenu() {
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Internal Information'));
+      var buildTable = $('<table />').html('<th><td>Building</td><td>ROI</td><td>Cost</td><td>&#916; CPS</td></th>');
       recommendationList().forEach(function(rec) {
         var store = (rec.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
         var item  = store[rec.id];
-        subsection.append($('<div />').addClass('listing').html('<b>' + item.name + ':</b> ROI - ' + Beautify(rec.roi) + ', Cost - ' + Beautify(rec.cost) + ', &#916; CPS:' + Beautify(rec.delta_cps)));
+        buildTable.append($('<tr><td><b>' + item.name + '</b></td><td>' + Beautify(rec.roi) + '</td><td>' + Beautify(rec.cost) + '</td><td>' + Beautify(rec.delta_cps) + '</td></tr>'));
       });
-      subsection.append($('<div />').addClass('listing').html('<b>Golden Bank:</b> ROI - ' + Beautify(gcRoi()) + ', Cost - ' + Beautify(Math.max(0,(maxLuckyValue() * 10 - Game.cookies))) + ', &#916; CPS - ' + Beautify(gcPs(weightedCookieValue() - weightedCookieValue(true)))));
+      buildTable.append($('<tr><td><b>Golden Bank</b></td><td>' + Beautify(gcRoi()) + '</td><td>' + Beautify(Math.max(0,(maxLuckyValue() * 10 - Game.cookies))) + '</td><td>' + Beautify(gcPs(weightedCookieValue() - weightedCookieValue(true))) + '</td></tr>'));
+      subsection.append($('<div />').addClass('listing').append(buildTable);
       menu.append(subsection);
     }
   }
