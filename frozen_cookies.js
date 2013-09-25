@@ -515,7 +515,7 @@ function autoCookie() {
   }
 }
 
-function FCStart(){
+function FCStart() {
   //  To allow polling frequency to change, clear intervals before setting new ones.
   
   if (cookieBot) {
@@ -523,6 +523,9 @@ function FCStart(){
   }
   if (autoclickBot) {
     clearInterval(autoclickBot);
+  }
+  if (goldenBot) {
+    clearInterval(goldenBot);
   }
   
   // Now create new intervals with their specified frequencies.
@@ -532,7 +535,7 @@ function FCStart(){
   }
   
   if (Game.prefs.autogc) {
-    goldenBot = setInterval(function() {autoGolden();}, Game.fps)
+    goldenBot = setInterval(function() {autoGolden();}, frequency);
   }
   
   if (cookie_click_speed) {
