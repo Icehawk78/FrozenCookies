@@ -72,7 +72,7 @@ function showGCTimes() {
 }
 
 function timeDisplay(seconds) {
-  if (seconds === '---' || seconds === 0) { return '---'; }
+  if (seconds === '---' || seconds === 0) { return 'Done!'; }
   seconds = Math.floor(seconds);
   var days, hours, minutes;
   days = Math.floor(seconds / (24 * 60 * 60));
