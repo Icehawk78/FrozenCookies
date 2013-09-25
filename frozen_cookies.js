@@ -518,7 +518,7 @@ function autoCookie() {
   }
   if (shouldClickGC()) {
     Game.goldenCookie.click();
-    Game.goldenCookies.life = 0;
+    Game.goldenCookie.life = 0;
 //    full_history.push({'type' : 'golden_cookie', 'time' : Date.now() - initial_load_time});  // Probably leaky, maybe laggy?
   }
   if ((Game.frenzy > 0) != last_gc_state) {
