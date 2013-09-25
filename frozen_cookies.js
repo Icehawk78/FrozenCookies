@@ -46,7 +46,6 @@ var disabledPopups = true;
 // Store the setInterval ids here for the various processes.
 var cookieBot = 0;
 var autoclickBot = 0;
-var goldenBot = 0;
 
 function Beautify (value) {
   notation = ['', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion'];
@@ -489,13 +488,6 @@ function shouldClickGC() {
   return Game.goldenCookie.life > 0 && Game.prefs.autogc;
 }
 
-function autoGolden() {
-  if (shouldClickGC()) {
-    Game.goldenCookie.click();
-//    full_history.push({'type' : 'golden_cookie', 'time' : Date.now() - initial_load_time});  // Probably leaky, maybe laggy?
-  }
-}
-
 function autoclickFrenzy() {
   if (Game.clickFrenzy > 0) {
     Game.ClickCookie();
@@ -524,6 +516,10 @@ function autoCookie() {
     disabledPopups = true;
     autoCookie();
   }
+  if (shouldClickGC()) {
+    Game.goldenCookie.click();
+//    full_history.push({'type' : 'golden_cookie', 'time' : Date.now() - initial_load_time});  // Probably leaky, maybe laggy?
+  }
   if ((Game.frenzy > 0) != last_gc_state) {
     if (last_gc_state) {
       gc_time += Date.now() - last_gc_time;
@@ -546,18 +542,11 @@ function FCStart() {
   if (autoclickBot) {
     clearInterval(autoclickBot);
   }
-  if (goldenBot) {
-    clearInterval(goldenBot);
-  }
   
   // Now create new intervals with their specified frequencies.
   
   if (frequency) {
     cookieBot = setInterval(function() {autoCookie();}, frequency);
-  }
-  
-  if (Game.prefs.autogc) {
-    goldenBot = setInterval(function() {autoGolden();}, frequency);
   }
   
   if (cookie_click_speed) {
