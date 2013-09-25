@@ -39,6 +39,7 @@ var cookie_click_speed = 0;
 var clickFrenzySpeed = 0;
 var initial_clicks = 0;
 // var full_history = [];  // This may be a super leaky thing
+var hcHistory = [];
 var lastCPS = Game.cookiesPs;
 var recalculateCaches = true;
 var disabledPopups = true;
@@ -48,8 +49,13 @@ var cookieBot = 0;
 var autoclickBot = 0;
 
 function Beautify (value) {
-  notation = ['', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion'];
-  base = 0;
+  var notation = ['', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion'];
+  var base = 0;
+  var negative = false;
+  if (value < 0) {
+    negative = true;
+    value *= -1;
+  }
   if (value >= 1000000) {
     value /= 1000;
     while(value >= 1000){
@@ -59,7 +65,8 @@ function Beautify (value) {
   }
   value = Math.round(value * 1000) / 1000.0;
   if(base < notation.length){
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + notation[base];
+    var output = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + notation[base];
+    return negative ? '-' + output : output;
   }
   return 'Infinity';
 }
