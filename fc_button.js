@@ -112,7 +112,7 @@ function updateTimers() {
       display: (Math.round(decimal_HC_complete*10000)/100)+"%"
     });
   }
-  drawCircles(t_draw, $('#fcTimer'););
+  drawCircles(t_draw, $('#fcTimer'));
 }
 
 function updateBuyTimers() {
@@ -153,7 +153,7 @@ function updateBuyTimers() {
       display: timeDisplay(Math.min(purchaseTotal + bankTotal - Game.cookies,0) * Game.cookiesPs)
     });
   }
-  drawCircles(t_draw, $('#fcBuyTimer'););
+  drawCircles(t_draw, $('#fcBuyTimer'));
 }
 
 function FCMenu() {
