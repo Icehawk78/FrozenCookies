@@ -172,7 +172,9 @@ function FCMenu() {
       var timers = $('<canvas id="fcBuyTimer" width="400px" height="100px"/>').html('Your browser does not support the HTML5 canvas tag.');
       subsection.append($('<div />').addClass('listing').append(timers));
       menu.append(subsection);
-      updateBuyTimers();
+      if (Game.cookiesPs > 0) {
+        updateBuyTimers();
+      }
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Autobuy Information'));
       var recommendation = nextPurchase();
