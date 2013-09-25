@@ -36,13 +36,16 @@ var gc_time = Number(localStorage.getItem('frenzyTime'));
 var last_gc_state = (Game.frenzy > 0);
 var last_gc_time = Date.now();
 var cookie_click_speed = 0;
+var clickFrenzySpeed = 0;
 var initial_clicks = 0;
 // var full_history = [];  // This may be a super leaky thing
 var lastCPS = Game.cookiesPs;
+var recalculateCaches = true;
 
-
-var cookieBot = -1;
-var autoclickBot = -1;
+// Store the setInterval ids here for the various processes.
+var cookieBot = 0;
+var autoclickBot = 0;
+var goldenBot = 0;
 
 function Beautify (value) {
   notation = ['', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion'];
@@ -219,34 +222,42 @@ function recommendationList() {
   return upgradeStats().concat(buildingStats()).sort(function(a,b){return (a.roi - b.roi)});
 }
 
+var cachedNextPurchase = null;
 function nextPurchase() {
-  var recList = recommendationList();
-  var purchase = recList[0];
-  if (purchase.type == 'upgrade' && unfinishedUpgradePrereqs(Game.UpgradesById[purchase.id])) {
-    var prereqList = unfinishedUpgradePrereqs(Game.UpgradesById[purchase.id]);
-    purchase = recList.filter(function(a){return prereqList.some(function(b){return b.id == a.id && b.type == a.type})})[0];
+  if (recalculateCaches) {
+    var recList = recommendationList();
+    var purchase = recList[0];
+    if (purchase.type == 'upgrade' && unfinishedUpgradePrereqs(Game.UpgradesById[purchase.id])) {
+      var prereqList = unfinishedUpgradePrereqs(Game.UpgradesById[purchase.id]);
+      purchase = recList.filter(function(a){return prereqList.some(function(b){return b.id == a.id && b.type == a.type})})[0];
+    }
+    cachedNextPurchase = purchase;
   }
-  return purchase;
+  return cachedNextPurchase;
 }
 
 function nextChainedPurchase() {
   return recommendationList()[0];
 }
 
+var cachedBuildings = null;
 function buildingStats() {
-  return Game.ObjectsById.map(function (current, index) {
-    var base_cps_orig = Game.cookiesPs;
-    var cps_orig = Game.cookiesPs + gcPs(weightedCookieValue(true));
-    var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
-    buildingToggle(current);
-    var base_cps_new = Game.cookiesPs;
-    var cps_new = Game.cookiesPs + gcPs(weightedCookieValue(true));
-    buildingToggle(current, existing_achievements);
-    var delta_cps = cps_new - cps_orig;
-    var base_delta_cps = base_cps_new - base_cps_orig;
-    var roi = current.price * cps_new / delta_cps;
-    return {'id' : current.id, 'roi' : roi, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : current.price, 'type' : 'building'};
-  });
+  if (recalculateCaches) {
+    cachedBuildings = Game.ObjectsById.map(function (current, index) {
+      var base_cps_orig = Game.cookiesPs;
+      var cps_orig = Game.cookiesPs + gcPs(weightedCookieValue(true));
+      var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
+      buildingToggle(current);
+      var base_cps_new = Game.cookiesPs;
+      var cps_new = Game.cookiesPs + gcPs(weightedCookieValue(true));
+      buildingToggle(current, existing_achievements);
+      var delta_cps = cps_new - cps_orig;
+      var base_delta_cps = base_cps_new - base_cps_orig;
+      var roi = current.price * cps_new / delta_cps;
+      return {'id' : current.id, 'roi' : roi, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : current.price, 'type' : 'building'};
+    });
+  }
+  return cachedBuildings;
 }
 
 function oldUpgradeStats() {
@@ -269,28 +280,32 @@ function oldUpgradeStats() {
   });
 }
 
+var cachedUpgrades = null;
 function upgradeStats() {
-  return Game.UpgradesById.map(function (current) {
-    if (!current.bought) {
-      var needed = unfinishedUpgradePrereqs(current);
-      if (!current.unlocked && !needed) {
-        return null;
+  if (recalculateCaches) {
+    cachedUpgrades = Game.UpgradesById.map(function (current) {
+      if (!current.bought) {
+        var needed = unfinishedUpgradePrereqs(current);
+        if (!current.unlocked && !needed) {
+          return null;
+        }
+        var base_cps_orig = Game.cookiesPs;
+        var cps_orig = Game.cookiesPs + gcPs(weightedCookieValue(true));
+        var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
+        var existing_wrath = Game.elderWrath;
+        var reverseFunctions = upgradeToggle(current);
+        var base_cps_new = Game.cookiesPs;
+        var cps_new = Game.cookiesPs + gcPs(weightedCookieValue(true));
+        upgradeToggle(current, existing_achievements, reverseFunctions);
+        Game.elderWrath = existing_wrath;
+        var delta_cps = cps_new - cps_orig;
+        var base_delta_cps = base_cps_new - base_cps_orig;
+        var roi = (delta_cps > 0) ? upgradePrereqCost(current) * cps_new / delta_cps : Number.MAX_VALUE;
+        return {'id' : current.id, 'roi' : roi, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : upgradePrereqCost(current), 'type' : 'upgrade'};
       }
-      var base_cps_orig = Game.cookiesPs;
-      var cps_orig = Game.cookiesPs + gcPs(weightedCookieValue(true));
-      var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
-      var existing_wrath = Game.elderWrath;
-      var reverseFunctions = upgradeToggle(current);
-      var base_cps_new = Game.cookiesPs;
-      var cps_new = Game.cookiesPs + gcPs(weightedCookieValue(true));
-      upgradeToggle(current, existing_achievements, reverseFunctions);
-      Game.elderWrath = existing_wrath;
-      var delta_cps = cps_new - cps_orig;
-      var base_delta_cps = base_cps_new - base_cps_orig;
-      var roi = (delta_cps > 0) ? upgradePrereqCost(current) * cps_new / delta_cps : Number.MAX_VALUE;
-      return {'id' : current.id, 'roi' : roi, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : upgradePrereqCost(current), 'type' : 'upgrade'};
-    }
-  }).filter(function(a){return a;});
+    }).filter(function(a){return a;});
+  }
+  return cachedUpgrades;
 }
 
 function upgradePrereqCost(upgrade) {
@@ -453,31 +468,46 @@ function shouldClickGC() {
   return Game.goldenCookie.life > 0 && Game.prefs.autogc;
 }
 
+function autoGolden() {
+  if (shouldClickGC()) {
+    Game.goldenCookie.click();
+//    full_history.push({'type' : 'golden_cookie', 'time' : Date.now() - initial_load_time});  // Probably leaky, maybe laggy?
+  }
+}
+
+function autoclickFrenzy() {
+  if (Game.clickFrenzy > 0) {
+    Game.ClickCookie();
+  }
+}
+
 function autoCookie() {
   if (Game.cookieClicks < initial_clicks) {
     for (var i=0; i<initial_clicks; i++) {
       Game.ClickCookie();
     }
   }
+  // Handle possible lag issues? Only recalculate when CPS changes.
+  if (lastCPS != Game.cookiesPs) {
+    recalculateCaches = true;
+  }
   var recommendation = nextPurchase();
   var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
   var purchase = store[recommendation.id];
   if (Game.prefs.autobuy && Game.cookies >= delayAmount() + recommendation.cost) {
-    recommendation.time = Date.now() - initial_load_time;
-    full_history.push(recommendation);
+    recommendation.time = Date.now() - Game.startDate;
+//    full_history.push(recommendation);  // Probably leaky, maybe laggy?
     purchase.clickFunction = null;
     purchase.buy();
     autoCookie();
   }
-  if (shouldClickGC()) {
-    Game.goldenCookie.click();
-    full_history.push({'type' : 'golden_cookie', 'time' : Date.now() - initial_load_time});
-  }
   if ((Game.frenzy > 0) != last_gc_state) {
     if (last_gc_state) {
       gc_time += Date.now() - last_gc_time;
+      localStorage.setItem('frenzyTime', gc_time);
     } else {
       non_gc_time += Date.now() - last_gc_time;
+      localStorage.setItem('nonFrenzyTime', non_gc_time);
     }
     last_gc_state = (Game.frenzy > 0);
     last_gc_time = Date.now();
@@ -485,11 +515,30 @@ function autoCookie() {
 }
 
 function FCStart(){
+  //  To allow polling frequency to change, clear intervals before setting new ones.
+  
+  if (cookieBot) {
+    clearInterval(cookieBot);
+  }
+  if (autoclickBot) {
+    clearInterval(autoclickBot);
+  }
+  
+  // Now create new intervals with their specified frequencies.
+  
   if (frequency) {
-    var cookieBot = setInterval(function() {autoCookie()}, frequency);
+    cookieBot = setInterval(function() {autoCookie();}, frequency);
   }
+  
+  if (Game.prefs.autogc) {
+    goldenBot = setInterval(function() {autoGolden();}, Game.fps)
+  }
+  
   if (cookie_click_speed) {
-    var autoclickBot = setInterval(function() {Game.ClickCookie()}, cookie_click_speed);
+    autoclickBot = setInterval(function() {Game.ClickCookie();}, cookie_click_speed);
+  } else if (clickFrenzySpeed > 0) {
+    autoclickBot = setInterval(function() {autoclickFrenzy();}, clickFrenzySpeed);
   }
+  
   FCMenu();
 }
