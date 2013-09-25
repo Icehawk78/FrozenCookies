@@ -258,7 +258,7 @@ function FCMenu() {
         buildTable.append($('<tr><td><b>' + item.name + '</b></td><td>' + Beautify(rec.roi) + '</td><td>' + Beautify(rec.cost) + '</td><td>' + Beautify(rec.delta_cps) + '</td></tr>'));
       });
       buildTable.append($('<tr><td><b>Golden Bank</b></td><td>' + Beautify(gcRoi()) + '</td><td>' + Beautify(Math.max(0,(maxLuckyValue() * 10 - Game.cookies))) + '</td><td>' + Beautify(gcPs(weightedCookieValue() - weightedCookieValue(true))) + '</td></tr>'));
-      subsection.append($('<div />').addClass('listing').append(buildTable);
+      subsection.append($('<div />').addClass('listing').append(buildTable));
       menu.append(subsection);
     }
   }
