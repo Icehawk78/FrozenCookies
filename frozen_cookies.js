@@ -115,16 +115,16 @@ document.addEventListener('keydown', function(event) {
 // Press 'a' to toggle autobuy.
 document.addEventListener('keydown', function(event) {
   if(event.keyCode == 65) {
-    toggleFrozen('autobuy');
     Game.Toggle('autobuy','autobuyButton','Autobuy OFF','Autobuy ON');
+    toggleFrozen('autobuy');
   }
 });
 
 // Press 'c' to toggle auto-GC
 document.addEventListener('keydown', function(event) {
   if(event.keyCode == 67) {
-    toggleFrozen('autogc');
     Game.Toggle('autogc','autogcButton','Autoclick GC OFF','Autoclick GC ON');
+    toggleFrozen('autogc');
   }
 });
 
@@ -136,6 +136,7 @@ function toggleFrozen(setting) {
     localStorage.setItem(setting,0);
 //    Game.prefs[setting] = 0;
   }
+  FCStart();
 }
 
 function weightedCookieValue(useCurrent) {
