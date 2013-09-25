@@ -129,8 +129,8 @@ function updateBuyTimers() {
   if (bankTotal > 0) {
     t_draw.push({
       f_percent: bankCompletion,
-      c1: "gold",
-      c2: 'gold',
+      c1: '#666',
+      c2: '#666',
       name: "Golden Cookie Bank",
       display: timeDisplay(Math.max(bankTotal - Game.cookies,0) / Game.cookiesPs)
     });
@@ -138,8 +138,8 @@ function updateBuyTimers() {
   if (chainTotal - purchaseTotal > 0) {
     t_draw.push({
       f_percent: chainCompletion,
-      c1: 'blue',
-      c2: 'blue',
+      c1: '#333',
+      c2: '#333',
       name: "Chain Completion Time",
       display: timeDisplay(Math.max(chainTotal + bankTotal - Game.cookies,0) / Game.cookiesPs)
     });
@@ -147,8 +147,8 @@ function updateBuyTimers() {
   if (purchaseTotal > 0) {
     t_draw.push({
       f_percent: purchaseCompletion,
-      c1: 'white',
-      c2: 'white',
+      c1: '#111',
+      c2: '#111',
       name: "Purchase Completion Time",
       display: timeDisplay(Math.max(purchaseTotal + bankTotal - Game.cookies,0) / Game.cookiesPs)
     });
