@@ -249,6 +249,15 @@ function FCMenu() {
       listing.append($(Game.WriteButton('autogc','autogcButton','Autoclick GC ON','Autoclick GC OFF',"toggleFrozen('autogc');")));
       subsection.append(listing);
       menu.append(subsection);
+      var subsection = $('<div />').addClass('subsection');
+      subsection.append($('<div />').addClass('title').html('Internal Information'));
+      recommendationList().forEach(function(rec) {
+        var store = (rec.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
+        var item  = store[rec.id];
+        subsection.append($('<div />').addClass('listing').html('<b>' + item.name + ':</b> ROI - ' + Beautify(rec.roi) + ', Cost - ' + Beautify(rec.cost) + ', &#916; CPS:' + Beautify(rec.delta_cps)));
+      });
+      subsection.append($('<div />').addClass('listing').html('<b>Golden Bank:</b> ROI - ' + Beautify(gcRoi()) + ', Cost - ' + Beautify(Math.max(0,(maxLuckyValue() * 10 - Game.cookies))) + ', &#916; CPS:' + Beautify(gcPs(weightedCookieValue() - weightedCookieValue(true)))));
+      menu.append(subsection);
     }
   }
 }
