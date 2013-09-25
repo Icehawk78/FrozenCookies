@@ -14,8 +14,7 @@ $('<style type="text/css">')
 
 Game.oldUpdateMenu = Game.UpdateMenu;
 
-function drawCircles(t_d) {
-  var canvas = $('#fcTimer');
+function drawCircles(t_d, canvas) {
   /*c = canvas.jCanvas({
     x: 50, y:50,
     radius: 40
@@ -113,7 +112,48 @@ function updateTimers() {
       display: (Math.round(decimal_HC_complete*10000)/100)+"%"
     });
   }
-  drawCircles(t_draw);
+  drawCircles(t_draw, $('#fcTimer'););
+}
+
+function updateBuyTimers() {
+  var bankTotal = delayAmount();
+  var purchaseTotal = nextPurchase().cost;
+  var chainTotal = nextChainedPurchase().cost;
+  var bankCompletion = bankTotal ? (Math.min(Game.cookies, bankTotal)) / bankTotal : 0;
+  var purchaseCompletion = Math.max(Game.cookies - bankTotal, 0) / (bankTotal + purchaseTotal);
+  var chainCompletion = Math.max(Game.cookies - bankTotal, 0) / (bankTotal + chainTotal);
+  var bankPercent = bankTotal / (purchaseTotal + bankTotal);
+  var purchasePercent = purchaseTotal / (purchaseTotal + bankTotal);
+  
+  var t_draw = [];
+  if (bankTotal > 0) {
+    t_draw.push({
+      f_percent: bankCompletion,
+      c1: "gold",
+      c2: 'gold',
+      name: "Golden Cookie Bank",
+      display: timeDisplay(Math.min(bankTotal - Game.cookies,0) * Game.cookiesPs)
+    });
+  }
+  if (chainTotal - purchaseTotal > 0) {
+    t_draw.push({
+      f_percent: chainCompletion,
+      c1: 'blue',
+      c2: 'blue',
+      name: "Chain Completion Time",
+      display: timeDisplay(Math.min(chainTotal + bankTotal - Game.cookies,0) * Game.cookiesPs)
+    });
+  }
+  if (purchaseTotal > 0) {
+    t_draw.push({
+      f_percent: purchaseCompletion,
+      c1: 'white',
+      c2: 'white',
+      name: "Purchase Completion Time",
+      display: timeDisplay(Math.min(purchaseTotal + bankTotal - Game.cookies,0) * Game.cookiesPs)
+    });
+  }
+  drawCircles(t_draw, $('#fcBuyTimer'););
 }
 
 function FCMenu() {
@@ -124,11 +164,15 @@ Game.UpdateMenu = function() {
     var menu = $('#menu').html('');
     menu.append($('<div />').addClass('section').html('Frozen Cookie'));
     var subsection = $('<div />').addClass('subsection');
-    subsection.append($('<div />').addClass('title').html('Timer Tests'));
+    subsection.append($('<div />').addClass('title').html('Game Timers'));
     var timers = $('<canvas id="fcTimer" width="400px" height="100px"/>').html('Your browser does not support the HTML5 canvas tag.');
-    subsection.append(timers);
+    subsection.append($('<div />').addClass('listing').append(timers);
     menu.append(subsection);
     updateTimers();
+    var timers = $('<canvas id="fcBuyTimer" width="400px" height="100px"/>').html('Your browser does not support the HTML5 canvas tag.');
+    subsection.append($('<div />').addClass('listing').append(timers);
+    menu.append(subsection);
+    updateBuyTimers();
     var subsection = $('<div />').addClass('subsection');
     subsection.append($('<div />').addClass('title').html('Autobuy Information'));
     var recommendation = nextPurchase();
