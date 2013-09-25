@@ -251,7 +251,7 @@ function FCMenu() {
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Internal Information'));
-      var buildTable = $('<table />').html('<th><td>Building</td><td>ROI</td><td>Cost</td><td>&#916; CPS</td></th>');
+      var buildTable = $('<table />').html('<tr><th>Building</th><th>ROI</th><th>Cost</th><th>&#916; CPS</th></tr>');
       recommendationList().forEach(function(rec) {
         var store = (rec.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
         var item  = store[rec.id];
