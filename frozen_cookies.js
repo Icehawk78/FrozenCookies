@@ -208,7 +208,7 @@ function gcEfficiency() {
     return Number.MAX_VALUE;
   }
   var cost = Math.max(0,(maxLuckyValue() * 10 - Game.cookies));
-  var deltaCps = gcPs(weightedCookieValue() - weightedCookieValue(true));
+  var deltaCps = gcPs(weightedCookieValue(true));
   var currentCps = (Game.cookiesPs / frenzyMod);
   return  efficiencyWeight * cost / currentCps + cost / deltaCps;
 }
