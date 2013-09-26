@@ -522,7 +522,7 @@ function autoCookie() {
 //    full_history.push(recommendation);  // Probably leaky, maybe laggy?
     purchase.clickFunction = null;
     disabledPopups = false;
-    console.log(purchase.name + ': ' + Beautify(recommendation.roi) + ',' + Beautify(recommendation.delta_cps));
+//    console.log(purchase.name + ': ' + Beautify(recommendation.roi) + ',' + Beautify(recommendation.delta_cps));
     purchase.buy();
     disabledPopups = true;
     autoCookie();
