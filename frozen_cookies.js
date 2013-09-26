@@ -114,7 +114,7 @@ function updateLocalStorage() {
 
 Game.oldReset = Game.Reset;
 
-var divCps(value, cps) {
+function divCps(value, cps) {
   return cps ? value / cps : Number.POSITIVE_INFINITY;
 }
 
