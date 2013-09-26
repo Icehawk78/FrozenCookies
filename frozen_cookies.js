@@ -27,7 +27,7 @@ if (true) {
 // Global Variables
 
 //var autoBuy = localStorage.getItem('autobuy');
-var frequency = 10;
+var frequency = 100;  // Too fast and we bump into ourselves, and that's BAD.
 Game.prefs['autobuy'] = Number(localStorage.getItem('autobuy'));
 Game.prefs['autogc'] = Number(localStorage.getItem('autogc'));
 var simulatedGCPercent = Number(localStorage.getItem('simulategc') || 1);
