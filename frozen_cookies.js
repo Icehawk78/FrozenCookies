@@ -233,7 +233,6 @@ function delayAmount() {
   if (nextChainedPurchase().efficiency > gcEfficiency() || Game.goldenCookie.delay < Game.frenzy) {
     return maxLuckyValue() * 10;
   } else if (weightedCookieValue() > weightedCookieValue(true)) {
-    var cost = 
     return Math.min(maxLuckyValue() * 10, Math.max(0,(nextChainedPurchase().efficiency - (gcEfficiency() * Game.cookiesPs)) / gcEfficiency()));
   } else {
    return 0;
