@@ -28,6 +28,7 @@ if (true) {
 
 //var autoBuy = localStorage.getItem('autobuy');
 var frequency = 100;  // Too fast and we bump into ourselves, and that's BAD.
+var efficiencyWeight = 1.15;
 Game.prefs['autobuy'] = Number(localStorage.getItem('autobuy'));
 Game.prefs['autogc'] = Number(localStorage.getItem('autogc'));
 var simulatedGCPercent = Number(localStorage.getItem('simulategc') || 1);
@@ -201,33 +202,29 @@ function gcPs(gcValue) {
   return gcValue;
 }
 
-function gcRoi() {
-  var frenzy_mod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
+function gcEfficiency() {
+  var frenzyMod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
   if (gcPs(weightedCookieValue()) <= 0) {
     return Number.MAX_VALUE;
   }
-  return Math.max(0,(maxLuckyValue() * 10 - Game.cookies)) * ((Game.cookiesPs / frenzy_mod) + gcPs(weightedCookieValue(true))) / gcPs(weightedCookieValue(true));
-}
-
-function costDelta() {
-  if (weightedCookieValue() > weightedCookieValue(true)) {
-    return Math.max(0,(maxLuckyValue() * 10 - Game.cookies)) / (gcPs(weightedCookieValue() - weightedCookieValue(true)));
-  }
-  return null;
+  var cost = Math.max(0,(maxLuckyValue() * 10 - Game.cookies));
+  var deltaCps = gcPs(weightedCookieValue() - weightedCookieValue(true));
+  var currentCps = (Game.cookiesPs / frenzyMod);
+  return  efficiencyWeight * cost / currentCps + cost / deltaCps;
 }
 
 function delayAmount() {
-  if (nextChainedPurchase().roi > gcRoi() || Game.goldenCookie.delay < Game.frenzy) {
+  if (nextChainedPurchase().efficiency > gcEfficiency() || Game.goldenCookie.delay < Game.frenzy) {
     return maxLuckyValue() * 10;
-  } else if (costDelta()) {
-    return Math.min(maxLuckyValue() * 10, Math.max(0,(nextChainedPurchase().roi - (costDelta() * Game.cookiesPs)) / costDelta()));
+  } else if (weightedCookieValue() > weightedCookieValue(true)) {
+    return Math.min(maxLuckyValue() * 10, Math.max(0,(nextChainedPurchase().efficiency - (gcEfficiency() * Game.cookiesPs)) / costDelta()));
   } else {
    return 0;
   }
 }
 
 function recommendationList() {
-  return upgradeStats().concat(buildingStats()).sort(function(a,b){return (a.roi - b.roi)});
+  return upgradeStats().concat(buildingStats()).sort(function(a,b){return (a.efficiency - b.efficiency)});
 }
 
 //var cachedNextPurchase = null;
@@ -263,8 +260,8 @@ function buildingStats() {
     buildingToggle(current, existing_achievements);
     var delta_cps = cps_new - cps_orig;
     var base_delta_cps = base_cps_new - base_cps_orig;
-    var roi = current.price * cps_new / delta_cps;
-    return {'id' : current.id, 'roi' : roi, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : current.price, 'type' : 'building'};
+    var efficiency = efficiencyWeight * current.price / cps_orig + current.price / delta_cps;
+    return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : current.price, 'type' : 'building'};
   });
 //  }
 //  return cachedBuildings;
@@ -284,8 +281,8 @@ function oldUpgradeStats() {
       Game.elderWrath = existing_wrath;
       var delta_cps = cps_new - cps_orig;
       var base_delta_cps = base_cps_new - base_cps_orig;
-      var roi = (delta_cps > 0) ? current.basePrice * cps_new / delta_cps : Number.MAX_VALUE;
-      return {'id' : current.id, 'roi' : roi, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : current.basePrice, 'type' : 'upgrade'};
+      var efficiency = (delta_cps > 0) ? current.basePrice * cps_new / delta_cps : Number.MAX_VALUE;
+      return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : current.basePrice, 'type' : 'upgrade'};
     }
   });
 }
@@ -311,8 +308,12 @@ function upgradeStats() {
       Game.elderWrath = existing_wrath;
       var delta_cps = cps_new - cps_orig;
       var base_delta_cps = base_cps_new - base_cps_orig;
-      var roi = (delta_cps > 0) ? upgradePrereqCost(current) * cps_new / delta_cps : Number.MAX_VALUE;
-      return {'id' : current.id, 'roi' : roi, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : upgradePrereqCost(current), 'type' : 'upgrade'};
+      if (delta_cps <= 0) {
+        return null;
+      }
+      var cost = upgradePrereqCost(current);
+      var efficiency = efficiencyWeight * cost / cps_orig + cost / delta_cps;
+      return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : cost, 'type' : 'upgrade'};
     }
   }).filter(function(a){return a;});
 //  }
@@ -522,7 +523,7 @@ function autoCookie() {
 //    full_history.push(recommendation);  // Probably leaky, maybe laggy?
     purchase.clickFunction = null;
     disabledPopups = false;
-//    console.log(purchase.name + ': ' + Beautify(recommendation.roi) + ',' + Beautify(recommendation.delta_cps));
+//    console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
     purchase.buy();
     disabledPopups = true;
     autoCookie();
