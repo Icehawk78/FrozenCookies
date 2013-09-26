@@ -197,12 +197,12 @@ function FCMenu() {
       subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Bank:</b> ' + Beautify(delayAmount())));
       subsection.append($('<div />').addClass('listing').html('<b>Base &#916; CPS:</b> ' + Beautify(recommendation.base_delta_cps)));
       subsection.append($('<div />').addClass('listing').html('<b>Full &#916; CPS:</b> ' + Beautify(recommendation.delta_cps)));
-      subsection.append($('<div />').addClass('listing').html('<b>Purchase ROI:</b> ' + Beautify(recommendation.roi)));
+      subsection.append($('<div />').addClass('listing').html('<b>Purchase Efficiency:</b> ' + Beautify(recommendation.efficiency)));
       if (!(recommendation.id == chain_recommend.id && recommendation.type == chain_recommend.type)) {
-        subsection.append($('<div />').addClass('listing').html('<b>Chain ROI:</b> ' + Beautify(chain_recommend.roi)));
+        subsection.append($('<div />').addClass('listing').html('<b>Chain efficiency:</b> ' + Beautify(chain_recommend.efficiency)));
       }
       if (Game.cookiesPs > 0) {
-        subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie ROI:</b> ' + Beautify(gcRoi())));
+        subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie efficiency:</b> ' + Beautify(gcEfficiency())));
       }
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
@@ -251,13 +251,13 @@ function FCMenu() {
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Internal Information'));
-      var buildTable = $('<table />').html('<tr><th>Building</th><th>ROI</th><th>Cost</th><th>&#916; CPS</th></tr>');
+      var buildTable = $('<table />').html('<tr><th>Building</th><th>efficiency</th><th>Cost</th><th>&#916; CPS</th></tr>');
       recommendationList().forEach(function(rec) {
         var store = (rec.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
         var item  = store[rec.id];
-        buildTable.append($('<tr><td><b>' + item.name + '</b></td><td>' + Beautify(rec.roi) + '</td><td>' + Beautify(rec.cost) + '</td><td>' + Beautify(rec.delta_cps) + '</td></tr>'));
+        buildTable.append($('<tr><td><b>' + item.name + '</b></td><td>' + Beautify(rec.efficiency) + '</td><td>' + Beautify(rec.cost) + '</td><td>' + Beautify(rec.delta_cps) + '</td></tr>'));
       });
-      buildTable.append($('<tr><td><b>Golden Bank</b></td><td>' + Beautify(gcRoi()) + '</td><td>' + Beautify(Math.max(0,(maxLuckyValue() * 10 - Game.cookies))) + '</td><td>' + Beautify(gcPs(weightedCookieValue() - weightedCookieValue(true))) + '</td></tr>'));
+      buildTable.append($('<tr><td><b>Golden Bank</b></td><td>' + Beautify(gcEfficiency()) + '</td><td>' + Beautify(Math.max(0,(maxLuckyValue() * 10 - Game.cookies))) + '</td><td>' + Beautify(gcPs(weightedCookieValue() - weightedCookieValue(true))) + '</td></tr>'));
       subsection.append($('<div />').addClass('listing').append(buildTable));
       menu.append(subsection);
     }
