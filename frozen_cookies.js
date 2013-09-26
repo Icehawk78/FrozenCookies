@@ -194,9 +194,7 @@ function maxCookieTime() {
 }
 
 function gcPs(gcValue) {
-  var averageGCTime = 600
-  if (Game.Has('Lucky day')) averageGCTime/=2;
-  if (Game.Has('Serendipity')) averageGCTime/=2;
+  var averageGCTime = maxCookieTime() * 19 / 900
   gcValue /= averageGCTime;
   gcValue *= simulatedGCPercent;
   return gcValue;
