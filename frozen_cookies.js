@@ -61,7 +61,7 @@ function Beautify (value) {
     negative = true;
     value *= -1;
   }
-  if (value >= 1000000) {
+  if (value >= 1000000 && Number.isFinite(value)) {
     value /= 1000;
     while(value >= 1000){
       value /= 1000;
@@ -69,11 +69,12 @@ function Beautify (value) {
     }
   }
   value = Math.round(value * 1000) / 1000.0;
-  if(base < notation.length){
+  if (!Number.isFinite(value) || base > notation.length) {
+    return 'Infinity';
+  } else {
     var output = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + notation[base];
     return negative ? '-' + output : output;
   }
-  return 'Infinity';
 }
 
 Game.RebuildStore();
