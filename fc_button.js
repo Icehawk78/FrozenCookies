@@ -226,17 +226,21 @@ function FCMenu() {
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Heavenly Chips Information'));
-      subsection.append($('<div />').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset))));
-      subsection.append($('<div />').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset+Game.cookiesEarned))));
+      var currHC = Game.prestige['Heavenly chips'];
+      var resetHC = Game.HowMuchPrestige(Game.cookiesReset+Game.cookiesEarned);
+      subsection.append($('<div />').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.prestige['Heavenly chips'])));
+      subsection.append($('<div />').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(resetHC)));
       subsection.append($('<div />').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
       if (Game.cookiesPs > 0) {
         subsection.append($('<div />').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
       }
       subsection.append($('<div />').addClass('listing').html('<b>Time since last HC:</b> ' + timeDisplay((Date.now()- lastHCTime)/1000)));
-      subsection.append($('<div />').addClass('listing').html('<b>Average HC Gain/hr:</b> ' + Beautify(60 * 60 * (lastHCAmount - Game.HowMuchPrestige(Game.cookiesReset))/((lastHCTime - Game.startDate)/1000))));
-      if (lastHCAmount - 1 >= Game.HowMuchPrestige(Game.cookiesReset)) {
+      if (lastHCAmount - 1 >= currHC) {
         subsection.append($('<div />').addClass('listing').html('<b>Previous time since last HC:</b> ' + timeDisplay((Date.now()- prevLastHCTime)/1000)));
-        subsection.append($('<div />').addClass('listing').html('<b>Previous Average HC Gain/hr:</b> ' + Beautify(60 * 60 *(lastHCAmount - 1 - Game.HowMuchPrestige(Game.cookiesReset))/((prevLastHCTime - Game.startDate)/1000))));
+      }
+      subsection.append($('<div />').addClass('listing').html('<b>Average HC Gain/hr:</b> ' + Beautify(60 * 60 * (lastHCAmount - currHC)/((lastHCTime - Game.startDate)/1000))));
+      if (lastHCAmount - 1 >= currHC) {
+        subsection.append($('<div />').addClass('listing').html('<b>Previous Average HC Gain/hr:</b> ' + Beautify(60 * 60 *(lastHCAmount - 1 - currHC)/((prevLastHCTime - Game.startDate)/1000))));
       }
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
