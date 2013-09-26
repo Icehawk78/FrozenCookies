@@ -233,9 +233,9 @@ function FCMenu() {
         subsection.append($('<div />').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
       }
       subsection.append($('<div />').addClass('listing').html('<b>Time since last HC:</b> ' + timeDisplay((Date.now()- lastHCTime)/1000)));
-      subsection.append($('<div />').addClass('listing').html('<b>Average HC Gain:</b> ' + Beautify((lastHCAmount - Game.HowMuchPrestige(Game.cookiesReset))/((Game.startDate - lastHCTime)/1000))));
+      subsection.append($('<div />').addClass('listing').html('<b>Average HC Gain:</b> ' + Beautify((lastHCAmount - Game.HowMuchPrestige(Game.cookiesReset))/((lastHCTime - Game.startDate)/1000))));
       if (lastHCAmount - 1 >= Game.HowMuchPrestige(Game.cookiesReset))
-      subsection.append($('<div />').addClass('listing').html('<b>Previous Average HC Gain:</b> ' + Beautify((lastHCAmount - 1 - Game.HowMuchPrestige(Game.cookiesReset))/((Game.startDate - prevLastHCTime)/1000))));
+      subsection.append($('<div />').addClass('listing').html('<b>Previous Average HC Gain:</b> ' + Beautify((lastHCAmount - 1 - Game.HowMuchPrestige(Game.cookiesReset))/((prevLastHCTime - Game.startDate)/1000))));
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Other Information'));
