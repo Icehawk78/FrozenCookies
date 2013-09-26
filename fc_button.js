@@ -236,7 +236,7 @@ function FCMenu() {
       }
       subsection.append($('<div />').addClass('listing').html('<b>Time since last HC:</b> ' + timeDisplay((Date.now()- lastHCTime)/1000)));
       if (lastHCAmount - 1 >= currHC) {
-        subsection.append($('<div />').addClass('listing').html('<b>Previous time since last HC:</b> ' + timeDisplay((Date.now()- prevLastHCTime)/1000)));
+        subsection.append($('<div />').addClass('listing').html('<b>Time to get last HC:</b> ' + timeDisplay((lastHCTime - prevLastHCTime)/1000)));
       }
       subsection.append($('<div />').addClass('listing').html('<b>Average HC Gain/hr:</b> ' + Beautify(60 * 60 * (lastHCAmount - currHC)/((lastHCTime - Game.startDate)/1000))));
       if (lastHCAmount - 1 >= currHC) {
