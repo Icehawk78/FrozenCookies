@@ -111,11 +111,14 @@ function updateLocalStorage() {
   localStorage.setItem('prevLastHCTime', prevLastHCTime);
 }
 
+Game.oldReset = Game.Reset;
+
 function nextHC(tg) {
   var futureHC = Math.ceil(Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5);
   var nextHC = futureHC*(futureHC+1)*0.5e12;
   var toGo = nextHC - (Game.cookiesEarned + Game.cookiesReset);
-  return tg ? toGo : timeDisplay(toGo / Game.cookiesPs);
+  var cps = Game.cookiesPs > 0 ? Game.cookiesPs : Number.MAX_VALUE;
+  return tg ? toGo : timeDisplay(toGo / cps);
 }
 
 function copyToClipboard (text) {
