@@ -132,7 +132,7 @@ function updateBuyTimers() {
       c1: '#666',
       c2: '#666',
       name: "Golden Cookie Bank",
-      display: timeDisplay(Math.max(bankTotal - Game.cookies,0) / Game.cookiesPs)
+      display: timeDisplay(divCps(Math.max(bankTotal - Game.cookies,0), Game.cookiesPs))
     });
   }
   if (chainTotal - purchaseTotal > 0) {
@@ -141,7 +141,7 @@ function updateBuyTimers() {
       c1: '#333',
       c2: '#333',
       name: "Chain Completion Time",
-      display: timeDisplay(Math.max(chainTotal + bankTotal - Game.cookies,0) / Game.cookiesPs)
+      display: timeDisplay(divCps(Math.max(chainTotal + bankTotal - Game.cookies,0), Game.cookiesPs))
     });
   }
   if (purchaseTotal > 0) {
@@ -150,7 +150,7 @@ function updateBuyTimers() {
       c1: '#111',
       c2: '#111',
       name: "Purchase Completion Time",
-      display: timeDisplay(Math.max(purchaseTotal + bankTotal - Game.cookies,0) / Game.cookiesPs)
+      display: timeDisplay(divCps(Math.max(purchaseTotal + bankTotal - Game.cookies,0), Game.cookiesPs))
     });
   }
   drawCircles(t_draw, $('#fcBuyTimer'));
@@ -187,8 +187,7 @@ function FCMenu() {
         chain_store = (chain_recommend.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
         subsection.append($('<div />').addClass('listing').html('<b>Building Chain to:</b> ' + chain_store[chain_recommend.id].name));
       }
-      if (Game.cookiesPs > 0) {
-        subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay((recommendation.cost + delayAmount() - Game.cookies) / Game.cookiesPs)));
+      subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay(divCps((recommendation.cost + delayAmount() - Game.cookies), Game.cookiesPs))));
       }
       if (!(recommendation.id == chain_recommend.id && recommendation.type == chain_recommend.type)) {
         subsection.append($('<div />').addClass('listing').html('<b>Time til Chain completion:</b> ' + timeDisplay(chain_recommend.cost)));
@@ -231,9 +230,7 @@ function FCMenu() {
       subsection.append($('<div />').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.prestige['Heavenly chips'])));
       subsection.append($('<div />').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(resetHC)));
       subsection.append($('<div />').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
-      if (Game.cookiesPs > 0) {
-        subsection.append($('<div />').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
-      }
+      subsection.append($('<div />').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
       if (currHC < resetHC) {
         subsection.append($('<div />').addClass('listing').html('<b>Time since last HC:</b> ' + timeDisplay((Date.now()- lastHCTime)/1000)));
         if (lastHCAmount - 1 >= currHC) {
