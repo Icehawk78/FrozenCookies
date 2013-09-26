@@ -40,7 +40,11 @@ var cookie_click_speed = 0;
 var clickFrenzySpeed = 0;
 var initial_clicks = 0;
 // var full_history = [];  // This may be a super leaky thing
-var hcHistory = [];
+
+var lastHCAmount = Number(localStorage.getItem('lastHCAmount'));
+var lastHCTime = Number(localStorage.getItem('lastHCTime'));
+var prevLastHCTime = Number(localStorage.getItem('prevLastHCTime'));
+
 var lastCPS = Game.cookiesPs;
 var recalculateCaches = true;
 var disabledPopups = true;
@@ -97,6 +101,15 @@ function timeDisplay(seconds) {
 }
 
 Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
+
+function updateLocalStorage() {
+  localStorage.setItem('simulategc', simulatedGCPercent);
+  localStorage.setItem('nonFrenzyTime', non_gc_time);
+  localStorage.setItem('frenzyTime', gc_time);
+  localStorage.setItem('lastHCAmount', lastHCAmount);
+  localStorage.setItem('lastHCTime', lastHCTime);
+  localStorage.setItem('prevLastHCTime', prevLastHCTime);
+}
 
 function nextHC(tg) {
   var futureHC = Math.ceil(Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5);
@@ -513,6 +526,12 @@ function autoCookie() {
 //  if (lastCPS != Game.cookiesPs) {
 //    recalculateCaches = true;
 //  }
+  if (lastHCAmount < Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)) {
+    lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset);
+    prevLastHCTime = lastHCTime;
+    lastHCTime = Date.now();
+    updateLocalStorage();
+  }
   var recommendation = nextPurchase();
   var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
   var purchase = store[recommendation.id];
@@ -534,11 +553,10 @@ function autoCookie() {
   if ((Game.frenzy > 0) != last_gc_state) {
     if (last_gc_state) {
       gc_time += Date.now() - last_gc_time;
-      localStorage.setItem('frenzyTime', gc_time);
     } else {
       non_gc_time += Date.now() - last_gc_time;
-      localStorage.setItem('nonFrenzyTime', non_gc_time);
     }
+    updateLocalStorage();
     last_gc_state = (Game.frenzy > 0);
     last_gc_time = Date.now();
   }
