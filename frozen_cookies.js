@@ -221,20 +221,19 @@ function gcPs(gcValue) {
 }
 
 function gcEfficiency() {
-  var frenzyMod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
   if (gcPs(weightedCookieValue()) <= 0) {
     return Number.MAX_VALUE;
   }
   var cost = Math.max(0,(maxLuckyValue() * 10 - Game.cookies));
   var deltaCps = gcPs(weightedCookieValue());
-  var currentCps = (Game.cookiesPs / frenzyMod);
-  return  efficiencyWeight * divCps(cost, currentCps) + divCps(cost, deltaCps);
+  return  efficiencyWeight * divCps(cost, Game.cookiesPs) + divCps(cost, deltaCps);
 }
 
 function delayAmount() {
   if (nextChainedPurchase().efficiency > gcEfficiency() || Game.goldenCookie.delay < Game.frenzy) {
     return maxLuckyValue() * 10;
   } else if (weightedCookieValue() > weightedCookieValue(true)) {
+    var cost = 
     return Math.min(maxLuckyValue() * 10, Math.max(0,(nextChainedPurchase().efficiency - (gcEfficiency() * Game.cookiesPs)) / gcEfficiency()));
   } else {
    return 0;
