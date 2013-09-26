@@ -234,13 +234,15 @@ function FCMenu() {
       if (Game.cookiesPs > 0) {
         subsection.append($('<div />').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
       }
-      subsection.append($('<div />').addClass('listing').html('<b>Time since last HC:</b> ' + timeDisplay((Date.now()- lastHCTime)/1000)));
-      if (lastHCAmount - 1 >= currHC) {
-        subsection.append($('<div />').addClass('listing').html('<b>Time to get last HC:</b> ' + timeDisplay((lastHCTime - prevLastHCTime)/1000)));
-      }
-      subsection.append($('<div />').addClass('listing').html('<b>Average HC Gain/hr:</b> ' + Beautify(60 * 60 * (lastHCAmount - currHC)/((lastHCTime - Game.startDate)/1000))));
-      if (lastHCAmount - 1 >= currHC) {
-        subsection.append($('<div />').addClass('listing').html('<b>Previous Average HC Gain/hr:</b> ' + Beautify(60 * 60 *(lastHCAmount - 1 - currHC)/((prevLastHCTime - Game.startDate)/1000))));
+      if (currHC < resetHC) {
+        subsection.append($('<div />').addClass('listing').html('<b>Time since last HC:</b> ' + timeDisplay((Date.now()- lastHCTime)/1000)));
+        if (lastHCAmount - 1 >= currHC) {
+          subsection.append($('<div />').addClass('listing').html('<b>Time to get last HC:</b> ' + timeDisplay((lastHCTime - prevLastHCTime)/1000)));
+        }
+        subsection.append($('<div />').addClass('listing').html('<b>Average HC Gain/hr:</b> ' + Beautify(60 * 60 * (lastHCAmount - currHC)/((lastHCTime - Game.startDate)/1000))));
+        if (lastHCAmount - 1 >= currHC) {
+          subsection.append($('<div />').addClass('listing').html('<b>Previous Average HC Gain/hr:</b> ' + Beautify(60 * 60 *(lastHCAmount - 1 - currHC)/((prevLastHCTime - Game.startDate)/1000))));
+        }
       }
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
