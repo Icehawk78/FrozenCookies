@@ -221,8 +221,8 @@ function FCMenu() {
       subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Clicks:</b> ' + Beautify(Game.goldenClicks)));
       subsection.append($('<div />').addClass('listing').html('<b>Missed Golden Cookie Clicks:</b> ' + Beautify(Game.missedGoldenClicks)));
       subsection.append($('<div />').addClass('listing').html('<b>Last Golden Cookie Effect:</b> ' + Game.goldenCookie.last));
-      subsection.append($('<div />').addClass('listing').html('<b>Total Recorded Frenzy Time:</b> ' + timeDisplay(gc_time)));
-      subsection.append($('<div />').addClass('listing').html('<b>Total Recorded Non-Frenzy Time:</b> ' + timeDisplay(non_gc_time)));
+      subsection.append($('<div />').addClass('listing').html('<b>Total Recorded Frenzy Time:</b> ' + timeDisplay(gc_time/1000)));
+      subsection.append($('<div />').addClass('listing').html('<b>Total Recorded Non-Frenzy Time:</b> ' + timeDisplay(non_gc_time/1000)));
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Heavenly Chips Information'));
@@ -232,7 +232,7 @@ function FCMenu() {
       if (Game.cookiesPs > 0) {
         subsection.append($('<div />').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
       }
-      subsection.append($('<div />').addClass('listing').html('<b>Time since last HC:</b> ' + timeDisplay(Date.now()- lastHCTime)));
+      subsection.append($('<div />').addClass('listing').html('<b>Time since last HC:</b> ' + timeDisplay((Date.now()- lastHCTime)/1000)));
       subsection.append($('<div />').addClass('listing').html('<b>Average HC Gain:</b> ' + Beautify((lastHCAmount - Game.HowMuchPrestige(Game.cookiesReset))/((Game.startDate - lastHCTime)/1000))));
       if (lastHCAmount - 1 >= Game.HowMuchPrestige(Game.cookiesReset))
       subsection.append($('<div />').addClass('listing').html('<b>Previous Average HC Gain:</b> ' + Beautify((lastHCAmount - 1 - Game.HowMuchPrestige(Game.cookiesReset))/((Game.startDate - prevLastHCTime)/1000))));
