@@ -225,7 +225,7 @@ function gcEfficiency() {
     return Number.MAX_VALUE;
   }
   var cost = Math.max(0,(maxLuckyValue() * 10 - Game.cookies));
-  var deltaCps = gcPs(weightedCookieValue());
+  var deltaCps = gcPs(weightedCookieValue() - weightedCookieValue(true));
   return  efficiencyWeight * divCps(cost, Game.cookiesPs) + divCps(cost, deltaCps);
 }
 
