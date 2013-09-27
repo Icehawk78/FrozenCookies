@@ -234,7 +234,9 @@ function gcEfficiency() {
   }
   var cost = Math.max(0,(maxLuckyValue() * 10 - Game.cookies));
   var deltaCps = gcPs(weightedCookieValue() - weightedCookieValue(true));
-  return  efficiencyWeight * divCps(cost, Game.cookiesPs) + divCps(cost, deltaCps);
+// removed, pending verification of efficacy
+//  return  efficiencyWeight * divCps(cost, Game.cookiesPs) + divCps(cost, deltaCps);
+  return divCps(cost, deltaCps);
 }
 
 function delayAmount() {
