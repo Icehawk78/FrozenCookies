@@ -243,12 +243,11 @@ function FCMenu() {
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Other Information'));
-      var frenzy_mod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
-      var base_cps = Game.cookiesPs / frenzy_mod;
+      var cps = baseCps();
       var baseChosen = (Game.frenzy > 0) ? '' : ' (*)';
       var frenzyChosen = (Game.frenzy > 0) ? ' (*)' : '';
-      subsection.append($('<div />').addClass('listing').html('<b>Base CPS' + baseChosen + ':</b> ' + Beautify(base_cps)));
-      subsection.append($('<div />').addClass('listing').html('<b>Frenzy CPS' + frenzyChosen + ':</b> ' + Beautify(base_cps * 7)));
+      subsection.append($('<div />').addClass('listing').html('<b>Base CPS' + baseChosen + ':</b> ' + Beautify(cps)));
+      subsection.append($('<div />').addClass('listing').html('<b>Frenzy CPS' + frenzyChosen + ':</b> ' + Beautify(cps * 7)));
       subsection.append($('<div />').addClass('listing').html('<b>Estimated Effective CPS:</b> ' + Beautify(base_cps + gcPs(weightedCookieValue(true)))));
       subsection.append($('<div />').addClass('listing').html('<b>Game Started:</b> ' + Game.sayTime((Date.now()-Game.startDate)/1000*Game.fps)));
       menu.append(subsection);
