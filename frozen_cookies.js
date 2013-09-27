@@ -115,7 +115,15 @@ function updateLocalStorage() {
 Game.oldReset = Game.Reset;
 
 function divCps(value, cps) {
-  return cps ? value / cps : Number.POSITIVE_INFINITY;
+  var result = 0;
+  if (value) {
+    if (cps) {
+      result = value / cps;
+    } else {
+      result = Number.POSITIVE_INFINITY;
+    }
+  }
+  return result;
 }
 
 function nextHC(tg) {
