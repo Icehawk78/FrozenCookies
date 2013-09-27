@@ -29,6 +29,14 @@ if (true) {
 //var autoBuy = localStorage.getItem('autobuy');
 var frequency = 100;  // Too fast and we bump into ourselves, and that's BAD.
 var efficiencyWeight = 1.15;
+var preferenceValues = [
+  {'autobuy' : [0,1]},
+  {'autogc' : [0,1]},
+  {'autofrenzy' : [0,1,10,25,50,100,250]},
+  {'autoclick' : [0,1,10,25,50,100,250]},
+  {'simulategc' : [0,1,2]},
+  {'numberdisplay' : [0,1,2,3]}
+];
 Game.prefs['autobuy'] = Number(localStorage.getItem('autobuy'));
 Game.prefs['autogc'] = Number(localStorage.getItem('autogc'));
 var simulatedGCPercent = Number(localStorage.getItem('simulategc') || 1);
@@ -164,6 +172,10 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
+function writeFCButton(setting) {
+  
+}
+
 function toggleFrozen(setting) {
   if (!Number(localStorage.getItem(setting))) {
     localStorage.setItem(setting,1);
@@ -175,13 +187,17 @@ function toggleFrozen(setting) {
   FCStart();
 }
 
-function weightedCookieValue(useCurrent) {
+function baseCps() {
   var frenzy_mod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
-  var base_cps = Game.cookiesPs / frenzy_mod;
+  return Game.cookiesPs / frenzy_mod;
+}
+
+function weightedCookieValue(useCurrent) {
+  var cps = baseCps();
   var lucky_mod = Game.Has('Get lucky');
-  var base_wrath = lucky_mod ? 401.835 * base_cps : 396.51 * base_cps;
+  var base_wrath = lucky_mod ? 401.835 * cps : 396.51 * cps;
 //  base_wrath += 192125500000;
-  var base_golden = lucky_mod ? 2804.76 * base_cps : 814.38 * base_cps;
+  var base_golden = lucky_mod ? 2804.76 * cps : 814.38 * cps;
   if (Game.cookiesEarned >= 100000) {
     var remainingProbability = 1;
     var startingValue = '6666';
@@ -198,7 +214,7 @@ function weightedCookieValue(useCurrent) {
   }
   if (useCurrent && Game.cookies < maxLuckyValue() * 10) {
     if (lucky_mod) {
-      base_golden -= ((1200 * base_cps) - Math.min(1200 * base_cps, Game.cookies * 0.1)) * 0.49 * 0.5 + (maxLuckyValue() - (Game.cookies * 0.1)) * 0.49 * 0.5;
+      base_golden -= ((1200 * cps) - Math.min(1200 * cps, Game.cookies * 0.1)) * 0.49 * 0.5 + (maxLuckyValue() - (Game.cookies * 0.1)) * 0.49 * 0.5;
     } else {
       base_golden -= (maxLuckyValue() - (Game.cookies * 0.1)) * 0.49;
       base_wrath  -= (maxLuckyValue() - (Game.cookies * 0.1)) * 0.29;
@@ -209,8 +225,7 @@ function weightedCookieValue(useCurrent) {
 
 function maxLuckyValue() {
   var gcMod = Game.Has('Get lucky') ? 8400 : 1200;
-  gcMod /= Game.frenzy ? Game.frenzyPower : 1;
-  return Game.cookiesPs * gcMod;
+  return baseCps() * gcMod;
 }
 
 function maxCookieTime() {
@@ -243,7 +258,7 @@ function delayAmount() {
   if (nextChainedPurchase().efficiency > gcEfficiency() || Game.goldenCookie.delay < Game.frenzy) {
     return maxLuckyValue() * 10;
   } else if (weightedCookieValue() > weightedCookieValue(true)) {
-    return Math.min(maxLuckyValue() * 10, Math.max(0,(nextChainedPurchase().efficiency - (gcEfficiency() * Game.cookiesPs)) / gcEfficiency()));
+    return Math.min(maxLuckyValue() * 10, Math.max(0,(nextChainedPurchase().efficiency - (gcEfficiency() * baseCps())) / gcEfficiency()));
   } else {
    return 0;
   }
@@ -277,17 +292,17 @@ function buildingStats() {
 //  if (recalculateCaches) {
 //    cachedBuildings = Game.ObjectsById.map(function (current, index) {
   return Game.ObjectsById.map(function (current, index) {
-    var base_cps_orig = Game.cookiesPs;
-    var cps_orig = Game.cookiesPs + gcPs(weightedCookieValue(true));
+    var baseCpsOrig = baseCps();
+    var cpsOrig = baseCpsOrig + gcPs(weightedCookieValue(true));
     var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
     buildingToggle(current);
-    var base_cps_new = Game.cookiesPs;
-    var cps_new = Game.cookiesPs + gcPs(weightedCookieValue(true));
+    var baseCpsNew = baseCps();
+    var cpsNew = baseCpsNew + gcPs(weightedCookieValue(true));
     buildingToggle(current, existing_achievements);
-    var delta_cps = cps_new - cps_orig;
-    var base_delta_cps = base_cps_new - base_cps_orig;
-    var efficiency = efficiencyWeight * divCps(current.price, cps_orig) + divCps(current.price, delta_cps);
-    return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : current.price, 'type' : 'building'};
+    var deltaCps = cpsNew - cpsOrig;
+    var baseDeltaCps = baseCpsNew - baseCpsOrig;
+    var efficiency = efficiencyWeight * divCps(current.price, cpsOrig) + divCps(current.price, deltaCps);
+    return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.price, 'type' : 'building'};
   });
 //  }
 //  return cachedBuildings;
@@ -303,23 +318,23 @@ function upgradeStats() {
       if (!current.unlocked && !needed) {
         return null;
       }
-      var base_cps_orig = Game.cookiesPs;
-      var cps_orig = Game.cookiesPs + gcPs(weightedCookieValue(true));
+      var baseCpsOrig = baseCps();
+      var cpsOrig = baseCpsOrig + gcPs(weightedCookieValue(true));
       var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
       var existing_wrath = Game.elderWrath;
       var reverseFunctions = upgradeToggle(current);
-      var base_cps_new = Game.cookiesPs;
-      var cps_new = Game.cookiesPs + gcPs(weightedCookieValue(true));
+      var baseCpsNew = baseCps();
+      var cpsNew = baseCpsNew + gcPs(weightedCookieValue(true));
       upgradeToggle(current, existing_achievements, reverseFunctions);
       Game.elderWrath = existing_wrath;
-      var delta_cps = cps_new - cps_orig;
-      var base_delta_cps = base_cps_new - base_cps_orig;
+      var deltaCps = cpsNew - cpsOrig;
+      var baseDeltaCps = baseCpsNew - baseCpsOrig;
       var cost = upgradePrereqCost(current);
-      var efficiency = efficiencyWeight * divCps(cost, cps_orig) + divCps(cost, delta_cps);
-      if (delta_cps < 0) {
+      var efficiency = efficiencyWeight * divCps(cost, cpsOrig) + divCps(cost, deltaCps);
+      if (deltaCps < 0) {
         efficiency = Number.POSITIVE_INFINITY;
       }
-      return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : base_delta_cps, 'delta_cps' : delta_cps, 'cost' : cost, 'type' : 'upgrade'};
+      return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : cost, 'type' : 'upgrade'};
     }
   }).filter(function(a){return a;});
 //  }
