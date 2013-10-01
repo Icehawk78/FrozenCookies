@@ -10,11 +10,11 @@ $('<style type="text/css">')
   .html(
   '#fcButton {font-size: 60%; top: 0px; right: -16px; padding: 14px 16px 10px 0px;}' +
   '#fcButton:hover {right: -8px;}' +
-  '.worst {border-width:1px; border-style:solid; border-color:#330000;' +
-  '.bad {border-width:1px; border-style:solid; border-color:#660033;' +
-  '.average {border-width:1px; border-style:solid; border-color:#663399;' +
-  '.good {border-width:1px; border-style:solid; border-color:#3399FF;' +
-  '.best {border-width:1px; border-style:solid; border-color:#00FFFF;'
+  '.worst {border-width:1px; border-style:solid; border-color:#330000;}' +
+  '.bad {border-width:1px; border-style:solid; border-color:#660033;}' +
+  '.average {border-width:1px; border-style:solid; border-color:#663399;}' +
+  '.good {border-width:1px; border-style:solid; border-color:#3399FF;}' +
+  '.best {border-width:1px; border-style:solid; border-color:#00FFFF;}'
   )
   .appendTo('head');
 
