@@ -130,6 +130,9 @@ function rebuildUpgrades() {
 Game.RebuildStore=function() {rebuildStore();}
 Game.RebuildUpgrades=function() {rebuildUpgrades();}
 
+Game.RebuildStore();
+Game.RebuildUpgrades();
+
 Game.oldUpdateMenu = Game.UpdateMenu;
 
 function drawCircles(t_d, canvas) {
