@@ -39,7 +39,10 @@ var preferenceValues = [
 ];
 Game.prefs['autobuy'] = Number(localStorage.getItem('autobuy'));
 Game.prefs['autogc'] = Number(localStorage.getItem('autogc'));
-var simulatedGCPercent = Number(localStorage.getItem('simulategc') || 1);
+if (!localStorage.getItem('simulategc')) {
+  localStorage.setItem('simulategc', 1);
+}
+var simulatedGCPercent = Number(localStorage.getItem('simulategc'));
 var non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
 var gc_time = Number(localStorage.getItem('frenzyTime'));
 var last_gc_state = (Game.frenzy > 0);
