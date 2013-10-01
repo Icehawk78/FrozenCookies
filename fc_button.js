@@ -42,6 +42,7 @@ function getUpgradeTooltip(upgrade) {
   parent.append($('<div />').attr('style', 'font-size:80%;').text('[Upgrade]'));
   parent.append($('<div />').addClass('description').html(upgrade.desc));
   if (recommendation) {
+    console.log('cps: ' + Beautify(recommendation.delta_cps) + ', total cost: ' + Beautify(recommendation.cost + delayAmount()));
     parent.append($('<div />').addClass('fc_cps').html('&#916; CPS: ' + Beautify(recommendation.delta_cps)));
     parent.append($('<div />').addClass('fc_efficiency').text('Efficiency: ' + (Math.floor(efficiencyScore(upgrade, 'upgrade') * 10000) / 100).toString() + '%'));
     parent.append($('<div />').addClass('fc_build_time').text('Build time: ' + timeDisplay((recommendation.cost + delayAmount()) / Game.cookiesPs)));
