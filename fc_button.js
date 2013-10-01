@@ -19,7 +19,7 @@ $('<style type="text/css">')
   .appendTo('head');
 
 function getBuildingTooltip(building) {
-  var recommendation = recommendationList().filter(function(a) {return a.id == building.id && a.type == 'building';});
+  var recommendation = recommendationList().filter(function(a) {return a.id == building.id && a.type == 'building';})[0];
   var parent = $('<div />').attr('style','min-width:300px;');
   parent.append($('<div />').addClass('price').attr('style', 'float:right;').text(Beautify(building.price)));
   parent.append($('<div />').addClass('name').text(building.name));
@@ -35,7 +35,7 @@ function getBuildingTooltip(building) {
 }
 
 function getUpgradeTooltip(upgrade) {
-  var recommendation = recommendationList().filter(function(a) {return a.id == upgrade.id && a.type == 'upgrade';});
+  var recommendation = recommendationList().filter(function(a) {return a.id == upgrade.id && a.type == 'upgrade';})[0];
   var parent = $('<div />').attr('style','min-width:300px;');
   parent.append($('<div />').addClass('price').attr('style', 'float:right;').text(Beautify(upgrade.basePrice)));
   parent.append($('<div />').addClass('name').text(upgrade.name));
