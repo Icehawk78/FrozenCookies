@@ -2,6 +2,7 @@
 
 if (true) {
   var script_list = [
+    'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
     'https://raw.github.com/Icehawk78/FrozenCookies/master/cc_upgrade_prerequisites.js',
     'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js',
     'https://raw.github.com/Icehawk78/FrozenCookies/master/fc_button.js'
@@ -30,19 +31,18 @@ if (true) {
 var frequency = 100;  // Too fast and we bump into ourselves, and that's BAD.
 var efficiencyWeight = 1.15;
 var preferenceValues = [
-  {'autobuy' : [0,1]},
-  {'autogc' : [0,1]},
-  {'autofrenzy' : [0,1,10,25,50,100,250]},
-  {'autoclick' : [0,1,10,25,50,100,250]},
-  {'simulategc' : [0,1,2]},
-  {'numberdisplay' : [0,1,2,3]}
+  {'autobuy' : ["Autobuy OFF","Autobuy ON"]},
+  {'autogc' : ["Autoclick GC OFF", "Autoclick GC ON"]},
+  {'autofrenzy' : ["Autoclick Frenzy OFF","Autoclick Frenzy 1cps","Autoclick Frenzy 10cps","Autoclick Frenzy 25cps","Autoclick Frenzy 50cps","Autoclick Frenzy 100cps","Autoclick Frenzy 250cps"]},
+  {'autoclick' : ["Autoclick Cookie OFF","Autoclick Cookie 1cps","Autoclick Cookie 10cps","Autoclick Cookie 25cps","Autoclick Cookie 50cps","Autoclick Cookie 100cps","Autoclick Cookie 250cps"]},
+  {'simulategc' : ["GC for Calculations: 0%","GC for Calculations: Actual Ratio","GC for Calculations: 100%"]},
+  {'numberdisplay' : ["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"]}
 ];
+var numberDisplay = Number(localStorage.getItem('numberdisplay'));
+if (numberDisplay )
 Game.prefs['autobuy'] = Number(localStorage.getItem('autobuy'));
 Game.prefs['autogc'] = Number(localStorage.getItem('autogc'));
-if (!localStorage.getItem('simulategc')) {
-  localStorage.setItem('simulategc', 1);
-}
-var simulatedGCPercent = Number(localStorage.getItem('simulategc'));
+var simulatedGCPercent = Number(localStorage.getItem('simulategc') || 1);
 var non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
 var gc_time = Number(localStorage.getItem('frenzyTime'));
 var last_gc_state = (Game.frenzy > 0);
@@ -65,21 +65,24 @@ var cookieBot = 0;
 var autoclickBot = 0;
 
 function Beautify (value) {
-  var notation = ['', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion'];
-  var base = 0;
-  var negative = false;
-  if (value < 0) {
-    negative = true;
-    value *= -1;
-  }
-  if (value >= 1000000 && Number.isFinite(value)) {
-    value /= 1000;
-    while(value >= 1000){
-      value /= 1000;
-      base++;
+  if (numberDisplay) {
+    
+    var notation = ['', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion'];
+    var base = 0;
+    var negative = false;
+    if (value < 0) {
+      negative = true;
+      value *= -1;
     }
+    if (value >= 1000000 && Number.isFinite(value)) {
+      value /= 1000;
+      while(value >= 1000){
+        value /= 1000;
+        base++;
+      }
+    }
+    value = Math.round(value * 1000) / 1000.0;
   }
-  value = Math.round(value * 1000) / 1000.0;
   if (!Number.isFinite(value) || base > notation.length) {
     return 'Infinity';
   } else {
