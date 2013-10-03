@@ -118,6 +118,13 @@ Other Information
  - *Estimated Effective CPS*: This is an estimate (over time) of roughly how many cookies you create every second, when including the effects of clicking Golden Cookies. This will currently be the same as the Base CPS if Autoclick GC is turned off.
  - *Game Started*: How long it's been since the most recent reset.
  
+Internal Information
+--------------------
+This is actually a table of literally every purchase that Frozen Cookies is currently considering buying. 
+ - *Efficiency*: The calculated Efficiency value of that purchase. This returns Infinity if the Δ CPS is negative. Smaller numbers are better.
+ - *Cost*: The cost of either the individual purchase, or the entire chain, for chained upgrades.
+ - *Δ CPS*: The full CPS change that buying this purchase would have. Includes estimated Golden Cookie CPS changes, meaning that it may be negative (especially for Elder Covenant.)
+ 
  
 Known Issues
 ============
