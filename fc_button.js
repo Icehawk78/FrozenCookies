@@ -187,9 +187,9 @@ function FCMenu() {
         chain_store = (chain_recommend.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
         subsection.append($('<div />').addClass('listing').html('<b>Building Chain to:</b> ' + chain_store[chain_recommend.id].name));
       }
-      subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay(divCps((recommendation.cost + delayAmount() - Game.cookies), Game.cookiesPs))));
+      subsection.append($('<div />').addClass('listing').html('<b>Time til Completion:</b> ' + timeDisplay(divCps((recommendation.cost + delayAmount() - Game.cookies), Game.cookiesPs))));
       if (!(recommendation.id == chain_recommend.id && recommendation.type == chain_recommend.type)) {
-        subsection.append($('<div />').addClass('listing').html('<b>Time til Chain completion:</b> ' + timeDisplay(divCps(chain_recommend.cost + delayAmount() - Game.cookies, Game.cookiesPs))));
+        subsection.append($('<div />').addClass('listing').html('<b>Time til Chain Completion:</b> ' + timeDisplay(divCps(chain_recommend.cost + delayAmount() - Game.cookies, Game.cookiesPs))));
       }
       subsection.append($('<div />').addClass('listing').html('<b>Cost:</b> ' + Beautify(recommendation.cost)));
       subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Bank:</b> ' + Beautify(delayAmount())));
@@ -197,10 +197,10 @@ function FCMenu() {
       subsection.append($('<div />').addClass('listing').html('<b>Full &#916; CPS:</b> ' + Beautify(recommendation.delta_cps)));
       subsection.append($('<div />').addClass('listing').html('<b>Purchase Efficiency:</b> ' + Beautify(recommendation.efficiency)));
       if (!(recommendation.id == chain_recommend.id && recommendation.type == chain_recommend.type)) {
-        subsection.append($('<div />').addClass('listing').html('<b>Chain efficiency:</b> ' + Beautify(chain_recommend.efficiency)));
+        subsection.append($('<div />').addClass('listing').html('<b>Chain Efficiency:</b> ' + Beautify(chain_recommend.efficiency)));
       }
       if (Game.cookiesPs > 0) {
-        subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie efficiency:</b> ' + Beautify(gcEfficiency())));
+        subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Efficiency:</b> ' + Beautify(gcEfficiency())));
       }
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
@@ -260,7 +260,7 @@ function FCMenu() {
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Internal Information'));
-      var buildTable = $('<table />').html('<tr><th>Building</th><th>efficiency</th><th>Cost</th><th>&#916; CPS</th></tr>');
+      var buildTable = $('<table />').html('<tr><th>Building</th><th>Efficiency</th><th>Cost</th><th>&#916; CPS</th></tr>');
       recommendationList().forEach(function(rec) {
         var store = (rec.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
         var item  = store[rec.id];
