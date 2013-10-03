@@ -121,9 +121,9 @@ Other Information
 Internal Information
 --------------------
 This is actually a table of literally every purchase that Frozen Cookies is currently considering buying. 
- - *Efficiency*: The calculated Efficiency value of that purchase. This returns Infinity if the Δ CPS is negative. Smaller numbers are better.
- - *Cost*: The cost of either the individual purchase, or the entire chain, for chained upgrades.
- - *Δ CPS*: The full CPS change that buying this purchase would have. Includes estimated Golden Cookie CPS changes, meaning that it may be negative (especially for Elder Covenant.)
+ - **Efficiency**: The calculated Efficiency value of that purchase. This returns Infinity if the Δ CPS is negative. Smaller numbers are better.
+ - **Cost**: The cost of either the individual purchase, or the entire chain, for chained upgrades.
+ - **Δ CPS**: The full CPS change that buying this purchase would have. Includes estimated Golden Cookie CPS changes, meaning that it may be negative (especially for Elder Covenant.)
  
  
 Known Issues
@@ -141,4 +141,16 @@ Contact Us!
 Everyone who is contributing to this project can be found at some time or another on the Cookie Clicker IRC.
 
 Server:  irc.gamesurge.net
+
 Channel: #ccdev or #dashnet
+
+Special Thanks
+==============
+From the Cookie Clicker IRC, thanks to the following users:
+
+ - Vandalite, for tons of calculations and other general help with the underlying math
+ - Code14715, for excessively helpful amounts of testing
+ - Eearslya, for constantly nagging me to add more non-cheat-y features
+ - Saeldur, for helping make the timers suck less
+ - Icehawk78, for writing this section and being a conceited ass
+ - Other people who I've temporarily forgotten and will add later
