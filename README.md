@@ -76,47 +76,47 @@ This is an explanation of each piece of data contained in the Frozen Cookie menu
 Autobuy Information
 -------------------
 
- - *Next Purchase*: This is what FC's formulas have determined is the optimal next purchase, and if autobuy is turned on, is *what* FC will buy next.
- - *Building Chain to*: This is only visible if FC has calculated that the best purchase is an upgrade that has prerequisites that are not yet met. In that case, this is that upgrade (whereas the "Next Purchase" will be the recommended prerequisite to purchase).
- - *Time til completion*: This is how long, at your current CPS, it will take to purchase the Next Purchase. This includes any calculated needed GC Bank.
- - *Time til Chain completion*: Only visible if building to a chain, this is how long, at your current CPS, it will take to purchase all prerequisites and the target upgrade.
- - *Cost*: The cost of the Next Purchase.
- - *Golden Cookie Bank*: The amount of cookies that FC has calculated you should keep on hand as a bank to maximise the value from Golden Cookies.
- - *Base Δ CPS*: The total amount of displayed CPS that will increase from the Next Purchase. (This includes all bonuses, regardless of what items they're on - it's just the raw amount that your CPS will increase above the Big Cookie.)
- - *Full Δ CPS*: The amount of estimated effective CPS that will increase from the Next Purchase. This is the Base Δ CPS + the amount of change in the estimated CPS value of Golden Cookies.
- - *Purchase Efficiency*: This is the efficiency calculation for the next purchase. If building to a chain, this may temporarily appear much worse than other options. If the recommendation engine formula changes, this number will too.
- - *Chain Efficiency*: Only visible if building to a chain. This is the efficiency calculation for the entire chain. (This currently does not take into account CPS increases from the purchase of prerequisites, and thus is actually under-estimating how efficient the full chain will be, to simplify calculations. This may be changed at a later date.)
- - *Golden Cookie Efficiency*: This the efficiency calculation of holding on to a bank of 10x Max Golden Cookie Value (and thus maximize the amount of Cookies earned across all Golden Cookie clicks).
+ - **Next Purchase**: This is what FC's formulas have determined is the optimal next purchase, and if autobuy is turned on, is *what* FC will buy next.
+ - **Building Chain to**: This is only visible if FC has calculated that the best purchase is an upgrade that has prerequisites that are not yet met. In that case, this is that upgrade (whereas the "Next Purchase" will be the recommended prerequisite to purchase).
+ - **Time til completion**: This is how long, at your current CPS, it will take to purchase the Next Purchase. This includes any calculated needed GC Bank.
+ - **Time til Chain completion**: Only visible if building to a chain, this is how long, at your current CPS, it will take to purchase all prerequisites and the target upgrade.
+ - **Cost**: The cost of the Next Purchase.
+ - **Golden Cookie Bank**: The amount of cookies that FC has calculated you should keep on hand as a bank to maximise the value from Golden Cookies.
+ - **Base Δ CPS**: The total amount of displayed CPS that will increase from the Next Purchase. (This includes all bonuses, regardless of what items they're on - it's just the raw amount that your CPS will increase above the Big Cookie.)
+ - **Full Δ CPS**: The amount of estimated effective CPS that will increase from the Next Purchase. This is the Base Δ CPS + the amount of change in the estimated CPS value of Golden Cookies.
+ - **Purchase Efficiency**: This is the efficiency calculation for the next purchase. If building to a chain, this may temporarily appear much worse than other options. If the recommendation engine formula changes, this number will too.
+ - **Chain Efficiency**: Only visible if building to a chain. This is the efficiency calculation for the entire chain. (This currently does not take into account CPS increases from the purchase of prerequisites, and thus is actually under-estimating how efficient the full chain will be, to simplify calculations. This may be changed at a later date.)
+ - **Golden Cookie Efficiency**: This the efficiency calculation of holding on to a bank of 10x Max Golden Cookie Value (and thus maximize the amount of Cookies earned across all Golden Cookie clicks).
 
 Golden Cookie Information
 -------------------------
- - *Current Average Cookie Value*: This is the average value of Golden Cookies with your current CPS, Cookie Bank, and upgrades. This is the idealised equivalent to clicking 1000 Golden Cookies with your current CPS/Bank/Upgrades, and then dividing the total amount of Cookies gained by 1000. If your GC Average is currently maxed out, then this will be marked as *(Max)*.
- - *Max Lucky Cookie Value*: This is the absolute maximum value that you can get from a Lucky! Golden Cookie, with the upgrades you have purchased. (Specifically, if you have Get Lucky, it's 8400 * Current CPS; Otherwise, it's 1200 * Current CPS).
- - *Cookie Bank Required for Max Lucky*: This is the amount of cookies needed to maximise a Lucky! Golden Cookie. It's just the previous value * 10.
- - *Estimated Cookie CPS*: This is a rough estimate of how much CPS you'd effectively add by clicking every Golden Cookie. Currently, with the Autoclick GC turned off, this will return 0.
- - *Golden Cookie Clicks*: The number of times you've clicked a Golden Cookie.
- - *Missed Golden Cookie Clicks*: The number of times you've *not* clicked a Golden Cookie before it faded from view.
- - *Last Golden Cookie Effect*: The internal name of the last Golden Cookie effect.
- - *Total Recorded Frenzy Time*: The total amount of time (while FC was loaded) that has been spent in a Frenzy.
- - *Total Recorded Non-Frenzy Time*: The total amount of time (while FC was loaded) that has been spent not in a Frenzy.
+ - **Current Average Cookie Value**: This is the average value of Golden Cookies with your current CPS, Cookie Bank, and upgrades. This is the idealised equivalent to clicking 1000 Golden Cookies with your current CPS/Bank/Upgrades, and then dividing the total amount of Cookies gained by 1000. If your GC Average is currently maxed out, then this will be marked as *(Max)*.
+ - **Max Lucky Cookie Value**: This is the absolute maximum value that you can get from a Lucky! Golden Cookie, with the upgrades you have purchased. (Specifically, if you have Get Lucky, it's 8400 * Current CPS; Otherwise, it's 1200 * Current CPS).
+ - **Cookie Bank Required for Max Lucky**: This is the amount of cookies needed to maximise a Lucky! Golden Cookie. It's just the previous value * 10.
+ - **Estimated Cookie CPS**: This is a rough estimate of how much CPS you'd effectively add by clicking every Golden Cookie. Currently, with the Autoclick GC turned off, this will return 0.
+ - **Golden Cookie Clicks**: The number of times you've clicked a Golden Cookie.
+ - **Missed Golden Cookie Clicks**: The number of times you've *not* clicked a Golden Cookie before it faded from view.
+ - **Last Golden Cookie Effect**: The internal name of the last Golden Cookie effect.
+ - **Total Recorded Frenzy Time**: The total amount of time (while FC was loaded) that has been spent in a Frenzy.
+ - **Total Recorded Non-Frenzy Time**: The total amount of time (while FC was loaded) that has been spent not in a Frenzy.
 
 Heavenly Chips Information
 --------------------------
- - *HC Now*: The number of HC currently owned.
- - *HC After Reset*: The number of HC you'll have if you reset right now.
- - *Cookies to next HC*: The number of cookies needed to gain one more HC after reset.
- - *Estimated time to next HC*: This is how long, at your current CPS, it will take to make enough cookies to gain one more HC after reset.
- - *Time since last HC*: This is how long it has been since the last time you gained an HC.
- - *Time to get last HC*: This is how long it actually took (including lucky bonuses, frenzy time, etc) to gain the last HC.
- - *Average HC Gain/hr*: When the last HC was gained, this was the total number of HC that have been gained (ever) since the last reset, divided by the total amount of play time. Used in conjunction with the next value, this provides a (very) rough estimate of when you should begin to think about resetting. (When Average HC/hr is constantly less than Prev HC/hr.)
- - *Previous Average HC Gain/hr*: This is the same calculation as the previous, but for the HC prior to the last one. (Yes, it's confusing. Sorry.)
+ - **HC Now**: The number of HC currently owned.
+ - **HC After Reset**: The number of HC you'll have if you reset right now.
+ - **Cookies to next HC**: The number of cookies needed to gain one more HC after reset.
+ - **Estimated time to next HC**: This is how long, at your current CPS, it will take to make enough cookies to gain one more HC after reset.
+ - **Time since last HC**: This is how long it has been since the last time you gained an HC.
+ - **Time to get last HC**: This is how long it actually took (including lucky bonuses, frenzy time, etc) to gain the last HC.
+ - **Average HC Gain/hr**: When the last HC was gained, this was the total number of HC that have been gained (ever) since the last reset, divided by the total amount of play time. Used in conjunction with the next value, this provides a (very) rough estimate of when you should begin to think about resetting. (When Average HC/hr is constantly less than Prev HC/hr.)
+ - **Previous Average HC Gain/hr**: This is the same calculation as the previous, but for the HC prior to the last one. (Yes, it's confusing. Sorry.)
 
 Other Information
 -----------------
- - *Base CPS*: This is how many cookies you create every second, when a Frenzy is not active. (Marked with (*) when this is the current CPS.)
- - *Frenzy CPS*: This is how many cookies you create every second, when a Frenzy is active. (Marked with (*) when this is the current CPS.)
- - *Estimated Effective CPS*: This is an estimate (over time) of roughly how many cookies you create every second, when including the effects of clicking Golden Cookies. This will currently be the same as the Base CPS if Autoclick GC is turned off.
- - *Game Started*: How long it's been since the most recent reset.
+ - **Base CPS**: This is how many cookies you create every second, when a Frenzy is not active. (Marked with (*) when this is the current CPS.)
+ - **Frenzy CPS**: This is how many cookies you create every second, when a Frenzy is active. (Marked with (*) when this is the current CPS.)
+ - **Estimated Effective CPS**: This is an estimate (over time) of roughly how many cookies you create every second, when including the effects of clicking Golden Cookies. This will currently be the same as the Base CPS if Autoclick GC is turned off.
+ - **Game Started**: How long it's been since the most recent reset.
  
 Internal Information
 --------------------
@@ -143,6 +143,7 @@ Everyone who is contributing to this project can be found at some time or anothe
 Server:  irc.gamesurge.net
 
 Channel: #ccdev or #dashnet
+
 
 Special Thanks
 ==============
