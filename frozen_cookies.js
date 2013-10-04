@@ -38,11 +38,20 @@ var preferenceValues = [
   {'simulategc' : ["GC for Calculations: 0%","GC for Calculations: Actual Ratio","GC for Calculations: 100%"]},
   {'numberdisplay' : ["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"]}
 ];
-var numberDisplay = Number(localStorage.getItem('numberdisplay'));
-if (numberDisplay )
-Game.prefs['autobuy'] = Number(localStorage.getItem('autobuy'));
-Game.prefs['autogc'] = Number(localStorage.getItem('autogc'));
-var simulatedGCPercent = Number(localStorage.getItem('simulategc') || 1);
+
+function preferenceParse(setting, default) {
+  var value = localStorage.getItem(setting);
+  if (value == null || isNaN(Number(value)) || preferenceValues[setting].length <= value) {
+    value = default;
+    localStorage.setItem(setting, value);
+  }
+  return value;
+}
+
+var numberDisplay = preferenceParse('numberdisplay', 0);
+Game.prefs['autobuy'] = preferenceParse('autobuy', 0);
+Game.prefs['autogc'] = preferenceParse('autogc', 0);
+var simulatedGCPercent = preferenceParse('simulategc', 1);
 var non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
 var gc_time = Number(localStorage.getItem('frenzyTime'));
 var last_gc_state = (Game.frenzy > 0);
@@ -65,28 +74,38 @@ var cookieBot = 0;
 var autoclickBot = 0;
 
 function Beautify (value) {
+  var notationValue = '';
+  var negative = false;
+  if (value < 0) {
+    negative = true;
+    value *= -1;
+  }
   if (numberDisplay) {
-    
-    var notation = ['', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion'];
+    var notationList = [['', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion'],
+                        ['', ' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp'],
+                        ['', ' M', ' G', ' T', ' P', ' E', ' Z', ' Y'],
+                        ['', '*10⁶', '*10⁹', '*10¹²', '*10¹⁵', '*10¹⁸', '*10²¹', '*10²⁴']
+                        ];
+    var notation = notationList[numberDisplay-1];
     var base = 0;
-    var negative = false;
-    if (value < 0) {
-      negative = true;
-      value *= -1;
-    }
     if (value >= 1000000 && Number.isFinite(value)) {
       value /= 1000;
       while(value >= 1000){
         value /= 1000;
         base++;
       }
+      if (base > notation.length) {
+        value = Math.POSITIVE_INFINITY;
+      } else {
+        notationValue = notation[base];
+      }
     }
     value = Math.round(value * 1000) / 1000.0;
   }
-  if (!Number.isFinite(value) || base > notation.length) {
+  if (!Number.isFinite(value)) {
     return 'Infinity';
   } else {
-    var output = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + notation[base];
+    var output = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + notationValue;
     return negative ? '-' + output : output;
   }
 }
@@ -179,7 +198,7 @@ document.addEventListener('keydown', function(event) {
 });
 
 function writeFCButton(setting) {
-  
+  var current = preferenceParse(setting);
 }
 
 function toggleFrozen(setting) {
