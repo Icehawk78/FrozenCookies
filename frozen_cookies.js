@@ -589,6 +589,10 @@ function autoCookie() {
     if (FrozenCookies.lastHCAmount < Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)) {
       FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset);
       FrozenCookies.prevLastHCTime = FrozenCookies.lastHCTime;
+      var currHCPercent = (60 * 60 * (FrozenCookies.lastHCAmount - Game.prestige['Heavenly chips'])/((FrozenCookies.lastHCTime - Game.startDate)/1000));
+      if (currHCPercent > FrozenCookies.maxHCPercent) {
+        FrozenCookies.maxHCPercent = currHCPercent;
+      }
       FrozenCookies.lastHCTime = Date.now();
       updateLocalStorage();
     }
