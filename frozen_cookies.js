@@ -343,20 +343,20 @@ function nextChainedPurchase() {
 
 function buildingStats() {
   if (FrozenCookies.recalculateCaches) {
-    FrozenCookies.caches.buildings = Game.ObjectsById.map(function (current, index) {
-//  return Game.ObjectsById.map(function (current, index) {
-    var baseCpsOrig = baseCps();
-    var cpsOrig = baseCpsOrig + gcPs(weightedCookieValue(true));
-    var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
-    buildingToggle(current);
-    var baseCpsNew = baseCps();
-    var cpsNew = baseCpsNew + gcPs(weightedCookieValue(true));
-    buildingToggle(current, existing_achievements);
-    var deltaCps = cpsNew - cpsOrig;
-    var baseDeltaCps = baseCpsNew - baseCpsOrig;
-    var efficiency = FrozenCookies.efficiencyWeight * divCps(current.price, cpsOrig) + divCps(current.price, deltaCps);
-    return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.price, 'type' : 'building'};
-//  });
+      FrozenCookies.caches.buildings = Game.ObjectsById.map(function (current, index) {
+  //  return Game.ObjectsById.map(function (current, index) {
+      var baseCpsOrig = baseCps();
+      var cpsOrig = baseCpsOrig + gcPs(weightedCookieValue(true));
+      var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
+      buildingToggle(current);
+      var baseCpsNew = baseCps();
+      var cpsNew = baseCpsNew + gcPs(weightedCookieValue(true));
+      buildingToggle(current, existing_achievements);
+      var deltaCps = cpsNew - cpsOrig;
+      var baseDeltaCps = baseCpsNew - baseCpsOrig;
+      var efficiency = FrozenCookies.efficiencyWeight * divCps(current.price, cpsOrig) + divCps(current.price, deltaCps);
+      return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.price, 'type' : 'building'};
+    });
   }
   return FrozenCookies.caches.buildings;
 }
@@ -364,31 +364,31 @@ function buildingStats() {
 function upgradeStats() {
   if (FrozenCookies.recalculateCaches) {
     FrozenCookies.caches.upgrades = Game.UpgradesById.map(function (current) {
-//  return Game.UpgradesById.map(function (current) {
-    if (!current.bought) {
-      var needed = unfinishedUpgradePrereqs(current);
-      if (!current.unlocked && !needed) {
-        return null;
+  //  return Game.UpgradesById.map(function (current) {
+      if (!current.bought) {
+        var needed = unfinishedUpgradePrereqs(current);
+        if (!current.unlocked && !needed) {
+          return null;
+        }
+        var baseCpsOrig = baseCps();
+        var cpsOrig = baseCpsOrig + gcPs(weightedCookieValue(true));
+        var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
+        var existing_wrath = Game.elderWrath;
+        var reverseFunctions = upgradeToggle(current);
+        var baseCpsNew = baseCps();
+        var cpsNew = baseCpsNew + gcPs(weightedCookieValue(true));
+        upgradeToggle(current, existing_achievements, reverseFunctions);
+        Game.elderWrath = existing_wrath;
+        var deltaCps = cpsNew - cpsOrig;
+        var baseDeltaCps = baseCpsNew - baseCpsOrig;
+        var cost = upgradePrereqCost(current);
+        var efficiency = FrozenCookies.efficiencyWeight * divCps(cost, cpsOrig) + divCps(cost, deltaCps);
+        if (deltaCps < 0) {
+          efficiency = Number.POSITIVE_INFINITY;
+        }
+        return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : cost, 'type' : 'upgrade'};
       }
-      var baseCpsOrig = baseCps();
-      var cpsOrig = baseCpsOrig + gcPs(weightedCookieValue(true));
-      var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
-      var existing_wrath = Game.elderWrath;
-      var reverseFunctions = upgradeToggle(current);
-      var baseCpsNew = baseCps();
-      var cpsNew = baseCpsNew + gcPs(weightedCookieValue(true));
-      upgradeToggle(current, existing_achievements, reverseFunctions);
-      Game.elderWrath = existing_wrath;
-      var deltaCps = cpsNew - cpsOrig;
-      var baseDeltaCps = baseCpsNew - baseCpsOrig;
-      var cost = upgradePrereqCost(current);
-      var efficiency = FrozenCookies.efficiencyWeight * divCps(cost, cpsOrig) + divCps(cost, deltaCps);
-      if (deltaCps < 0) {
-        efficiency = Number.POSITIVE_INFINITY;
-      }
-      return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : cost, 'type' : 'upgrade'};
-    }
-//  }).filter(function(a){return a;});
+    }).filter(function(a){return a;});
   }
   return FrozenCookies.caches.upgrades;
 }
