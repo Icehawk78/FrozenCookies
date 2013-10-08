@@ -144,8 +144,8 @@ function drawCircles(t_d, canvas) {
   var c = canvas;
   var i_c = 0;
   var t_b = ['#AAA','#BBB','#CCC','#DDD','#EEE','#FFF'];
-  var maxWidth = Math.max.apply(null,t_d.map(function(o){return (o.name && o.display) ? c.measureText({font: "10px Arial", maxWidth:c.width, text: o.name + ': ' + o.display}).width : 250;}));
-  var maxHeight = t_d.map(function(o){return (o.name && o.display) ? c.measureText({font: "10px Arial", maxWidth:c.width, text: o.name + ': ' + o.display}).height : 250;})
+  var maxWidth = Math.max.apply(null,t_d.map(function(o){return (o.name && o.display) ? c.measureText({font: "8px Arial", maxWidth:c.width, text: o.name + ': ' + o.display}).width : 250;}));
+  var maxHeight = t_d.map(function(o){return (o.name && o.display) ? c.measureText({font: "8px Arial", maxWidth:c.width, text: o.name + ': ' + o.display}).height : 250;})
                      .reduce(function(sum,item){return sum+item;},0);
   c.drawRect({
     fillStyle: '#999',
@@ -177,7 +177,7 @@ function drawCircles(t_d, canvas) {
     {
       var s_t = o_draw.name+": "+o_draw.display;
       c.drawText({
-        font: "10px Arial",
+        font: "8px Arial",
         fillStyle: o_draw.c1,
         x: 225, y: 20+15*i_c,
         text: s_t
