@@ -102,15 +102,19 @@ function rebuildUpgrades(recalculate) {
   Game.UpgradesInStore = Game.UpgradesById.filter(function(a){return !a.bought && a.unlocked;}).sort(function(a,b){return a.basePrice - b.basePrice;});
   Game.UpgradesInStore.forEach(function(me) {
     var purchaseRec = recommendations.filter(function(a) {return a.id == me.id && a.type == 'upgrade';})[0];
-    store.append($('<div />')
-      .addClass('crate')
-      .addClass('upgrade')
-      .addClass(colorizeScore(purchaseRec.efficiencyScore))
-      .mouseenter(function() {Game.tooltip.draw(this, escape(getUpgradeTooltip(purchaseRec)), 0, 16, 'bottom-right')})
-      .mouseleave(function() {Game.tooltip.hide()})
-      .click(function() {Game.ObjectsById[me.id].buy()})
-      .attr('id', 'upgrade' + me.id)
-      .attr('style', 'background-position:' + (-me.icon[0] * 48 + 6) + 'px ' + (-me.icon[1] * 48 + 6) + 'px;'));
+    if (!purchaseRec) {
+      console.log(me.name + ' not found in recommendationList()');
+    } else {
+      store.append($('<div />')
+        .addClass('crate')
+        .addClass('upgrade')
+        .addClass(colorizeScore(purchaseRec.efficiencyScore))
+        .mouseenter(function() {Game.tooltip.draw(this, escape(getUpgradeTooltip(purchaseRec)), 0, 16, 'bottom-right')})
+        .mouseleave(function() {Game.tooltip.hide()})
+        .click(function() {Game.ObjectsById[me.id].buy()})
+        .attr('id', 'upgrade' + me.id)
+        .attr('style', 'background-position:' + (-me.icon[0] * 48 + 6) + 'px ' + (-me.icon[1] * 48 + 6) + 'px;'));
+    }
   });
   Game.Draw();
 }
