@@ -319,13 +319,13 @@ function delayAmount() {
   }
 }
 
-function recommendationList() {
-  return upgradeStats().concat(buildingStats()).sort(function(a,b){return (a.efficiency - b.efficiency)});
+function recommendationList(recalculate) {
+  return upgradeStats(recalculate).concat(buildingStats(recalculate)).sort(function(a,b){return (a.efficiency - b.efficiency)});
 }
 
-function nextPurchase() {
-  if (FrozenCookies.recalculateCaches) {
-    var recList = recommendationList();
+function nextPurchase(recalculate) {
+  if (recalculate) {
+    var recList = recommendationList(recalculate);
     var purchase = recList[0];
     if (purchase.type == 'upgrade' && unfinishedUpgradePrereqs(Game.UpgradesById[purchase.id])) {
       var prereqList = unfinishedUpgradePrereqs(Game.UpgradesById[purchase.id]);
@@ -341,8 +341,8 @@ function nextChainedPurchase() {
   return recommendationList()[0];
 }
 
-function buildingStats() {
-  if (FrozenCookies.recalculateCaches) {
+function buildingStats(recalculate) {
+  if (recalculate) {
       FrozenCookies.caches.buildings = Game.ObjectsById.map(function (current, index) {
   //  return Game.ObjectsById.map(function (current, index) {
       var baseCpsOrig = baseCps();
@@ -361,8 +361,8 @@ function buildingStats() {
   return FrozenCookies.caches.buildings;
 }
 
-function upgradeStats() {
-  if (FrozenCookies.recalculateCaches) {
+function upgradeStats(recalculate) {
+  if (recalculate) {
     FrozenCookies.caches.upgrades = Game.UpgradesById.map(function (current) {
   //  return Game.UpgradesById.map(function (current) {
       if (!current.bought) {
@@ -602,8 +602,9 @@ function autoCookie() {
     }
     if (FrozenCookies.lastCPS != Game.cookiesPs) {
       FrozenCookies.recalculateCaches = true;
+      FrozenCookies.lastCPS = Game.cookiesPs;
     }
-    var recommendation = nextPurchase();
+    var recommendation = nextPurchase(FrozenCookies.recalculateCaches);
     if (FrozenCookies.recalculateCaches) {
       FrozenCookies.recalculateCaches = false;
     }
