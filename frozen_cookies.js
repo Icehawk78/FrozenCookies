@@ -36,23 +36,23 @@ function fcInit() {
   FrozenCookies.frequency = 100;
   FrozenCookies.efficiencyWeight = 1.15;
   FrozenCookies.preferenceValues = [
-    {'autobuy' : ["Autobuy OFF","Autobuy ON"]},
-    {'autogc' : ["Autoclick GC OFF", "Autoclick GC ON"]},
-    {'autofrenzy' : ["Autoclick Frenzy OFF","Autoclick Frenzy 1cps","Autoclick Frenzy 10cps","Autoclick Frenzy 25cps","Autoclick Frenzy 50cps","Autoclick Frenzy 100cps","Autoclick Frenzy 250cps"]},
-    {'autoclick' : ["Autoclick Cookie OFF","Autoclick Cookie 1cps","Autoclick Cookie 10cps","Autoclick Cookie 25cps","Autoclick Cookie 50cps","Autoclick Cookie 100cps","Autoclick Cookie 250cps"]},
-    {'simulategc' : ["GC for Calculations: 0%","GC for Calculations: Actual Ratio","GC for Calculations: 100%"]},
-    {'numberdisplay' : ["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"]}
+    {'autoBuy' : ["Autobuy OFF","Autobuy ON"]},
+    {'autoGC' : ["Autoclick GC OFF", "Autoclick GC ON"]},
+    {'clickFrenzySpeed' : ["Autoclick Frenzy OFF","Autoclick Frenzy 1cps","Autoclick Frenzy 10cps","Autoclick Frenzy 25cps","Autoclick Frenzy 50cps","Autoclick Frenzy 100cps","Autoclick Frenzy 250cps"]},
+    {'cookieClickSpeed' : ["Autoclick Cookie OFF","Autoclick Cookie 1cps","Autoclick Cookie 10cps","Autoclick Cookie 25cps","Autoclick Cookie 50cps","Autoclick Cookie 100cps","Autoclick Cookie 250cps"]},
+    {'simulatedGCPercent' : ["GC for Calculations: 0%","GC for Calculations: Actual Ratio","GC for Calculations: 100%"]},
+    {'numberDisplay' : ["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"]}
   ];
-  FrozenCookies.numberDisplay = preferenceParse('numberdisplay', 1);
-  FrozenCookies.autoBuy = preferenceParse('autobuy', 0);
-  FrozenCookies.autoGC = preferenceParse('autogc', 0);
-  FrozenCookies.simulatedGCPercent = preferenceParse('simulategc', 1);
+  FrozenCookies.numberDisplay = preferenceParse('numberDisplay', 1);
+  FrozenCookies.autoBuy = preferenceParse('autoBuy', 0);
+  FrozenCookies.autoGC = preferenceParse('autoGC', 0);
+  FrozenCookies.simulatedGCPercent = preferenceParse('simulatedGCPercent', 1);
   FrozenCookies.non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
   FrozenCookies.gc_time = Number(localStorage.getItem('frenzyTime'));
   FrozenCookies.last_gc_state = (Game.frenzy > 0);
   FrozenCookies.last_gc_time = Date.now();
-  FrozenCookies.cookieClickSpeed = Number(localStorage.getItem('autoclick'),0);
-  FrozenCookies.clickFrenzySpeed = Number(localStorage.getItem('autofrenzy'),0);
+  FrozenCookies.cookieClickSpeed = Number(localStorage.getItem('cookieClickSpeed'),0);
+  FrozenCookies.clickFrenzySpeed = Number(localStorage.getItem('clickFrenzySpeed'),0);
   FrozenCookies.initial_clicks = 0;
   FrozenCookies.lastHCAmount = Number(localStorage.getItem('lastHCAmount'));
   FrozenCookies.lastHCTime = Number(localStorage.getItem('lastHCTime'));
@@ -66,8 +66,8 @@ function fcInit() {
   FrozenCookies.cookieBot = 0;
   FrozenCookies.autoclickBot = 0;
   
-  Game.prefs.autobuy = FrozenCookies.autoBuy;
-  Game.prefs.autogc = FrozenCookies.autoGC;
+  Game.prefs.autoBuy = FrozenCookies.autoBuy;
+  Game.prefs.autoGC = FrozenCookies.autoGC;
   Game.RebuildStore();
   Game.RebuildUpgrades();
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
@@ -155,10 +155,12 @@ function fcReset(bypass) {
 }
 
 function updateLocalStorage() {
-  localStorage.numberdisplay = FrozenCookies.numberDisplay;
-  localStorage.autobuy = FrozenCookies.autoBuy;
-  localStorage.autogc = FrozenCookies.autoGc;
-  localStorage.simulategc = FrozenCookies.simulatedGCPercent;
+  localStorage.numberDisplay = FrozenCookies.numberDisplay;
+  localStorage.autoBuy = FrozenCookies.autoBuy;
+  localStorage.autoGC = FrozenCookies.autoGC;
+  localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
+  localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
+  localStorage.simulatedGCPercent = FrozenCookies.simulatedGCPercent;
   localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
   localStorage.frenzyTime = FrozenCookies.gc_time;
   localStorage.lastHCAmount = FrozenCookies.lastHCAmount;
@@ -204,16 +206,16 @@ document.addEventListener('keydown', function(event) {
 // Press 'a' to toggle autobuy.
 document.addEventListener('keydown', function(event) {
   if(event.keyCode == 65) {
-    Game.Toggle('autobuy','autobuyButton','Autobuy OFF','Autobuy ON');
-    toggleFrozen('autobuy');
+    Game.Toggle('autoBuy','autobuyButton','Autobuy OFF','Autobuy ON');
+    toggleFrozen('autoBuy');
   }
 });
 
 // Press 'c' to toggle auto-GC
 document.addEventListener('keydown', function(event) {
   if(event.keyCode == 67) {
-    Game.Toggle('autogc','autogcButton','Autoclick GC OFF','Autoclick GC ON');
-    toggleFrozen('autogc');
+    Game.Toggle('autoGC','autogcButton','Autoclick GC OFF','Autoclick GC ON');
+    toggleFrozen('autoGC');
   }
 });
 
