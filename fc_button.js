@@ -18,8 +18,7 @@ $('<style type="text/css">')
   )
   .appendTo('head');
 
-function getBuildingTooltip(building) {
-  var recommendation = recommendationList().filter(function(a) {return a.id == building.id && a.type == 'building';})[0];
+function getBuildingTooltip(building, recommendation) {
   var parent = $('<div />').attr('style','min-width:300px;');
   parent.append($('<div />').addClass('price').attr('style', 'float:right;').text(Beautify(building.price)));
   parent.append($('<div />').addClass('name').text(building.name));
@@ -34,8 +33,7 @@ function getBuildingTooltip(building) {
   return parent[0].outerHTML;
 }
 
-function getUpgradeTooltip(upgrade) {
-  var recommendation = recommendationList().filter(function(a) {return a.id == upgrade.id && a.type == 'upgrade';})[0];
+function getUpgradeTooltip(upgrade, recommendation) {
   var parent = $('<div />').attr('style','min-width:300px;');
   parent.append($('<div />').addClass('price').attr('style', 'float:right;').text(Beautify(upgrade.basePrice)));
   parent.append($('<div />').addClass('name').text(upgrade.name));
@@ -90,10 +88,11 @@ function rebuildStore() {
   store[0].innerHTML = '';
   var recommendations = recommendationList().filter(function(a){return a.efficiency < Number.POSITIVE_INFINITY && a.efficiency > Number.NEGATIVE_INFINITY;});
   Game.ObjectsById.forEach(function(me) {
+    var recommendation = recommendations.filter(function(a) {return a.id == me.id && a.type == 'building';})[0];
     var button = $('<div />')
       .addClass('product')
       .addClass(colorizeScore(efficiencyScore(recommendations, me, 'building')))
-      .mouseenter(function() {Game.tooltip.draw(this, escape(getBuildingTooltip(me)), 0, 0, 'left')})
+      .mouseenter(function() {Game.tooltip.draw(this, escape(getBuildingTooltip(me, recommendation)), 0, 0, 'left')})
       .mouseleave(function() {Game.tooltip.hide()})
       .click(function() {Game.ObjectsById[me.id].buy()})
       .attr('id', 'product' + me.id);
@@ -116,11 +115,12 @@ function rebuildUpgrades() {
   var recommendations = recommendationList().filter(function(a){return a.efficiency < Number.POSITIVE_INFINITY && a.efficiency > Number.NEGATIVE_INFINITY;});
   Game.UpgradesInStore = Game.UpgradesById.filter(function(a){return !a.bought && a.unlocked;}).sort(function(a,b){return a.basePrice - b.basePrice;});
   Game.UpgradesInStore.forEach(function(me) {
+    var recommendation = recommendations.filter(function(a) {return a.id == me.id && a.type == 'upgrade';})[0];
     store.append($('<div />')
       .addClass('crate')
       .addClass('upgrade')
       .addClass(colorizeScore(efficiencyScore(recommendations, me, 'upgrade')))
-      .mouseenter(function() {Game.tooltip.draw(this, escape(getUpgradeTooltip(me)), 0, 16, 'bottom-right')})
+      .mouseenter(function() {Game.tooltip.draw(this, escape(getUpgradeTooltip(me, recommendation)), 0, 16, 'bottom-right')})
       .mouseleave(function() {Game.tooltip.hide()})
       .click(function() {Game.ObjectsById[me.id].buy()})
       .attr('id', 'upgrade' + me.id)
