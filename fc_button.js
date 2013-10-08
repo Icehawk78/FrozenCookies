@@ -145,9 +145,10 @@ function drawCircles(t_d, canvas) {
   var i_c = 0;
   var t_b = ['#AAA','#BBB','#CCC','#DDD','#EEE','#FFF'];
   var maxWidth = Math.max.apply(null,t_d.map(function(o){return (o.name && o.display) ? c.measureText({font: "10px Arial", maxWidth:c.width, text: o.name + ': ' + o.display}).width : 250;}));
+  var height = t_d.map(function(o){return (o.name && o.display) ? c.measureText({font: "10px Arial", maxWidth:c.width, text: o.name + ': ' + o.display}).height;}).reduce(function(sum,item){return sum+item;},0);
   c.drawRect({
     fillStyle: '#999',
-    x: 225, y: 12.5+t_d.length/2*15,
+    x: 225+maxWidth, y: 12.5+t_d.length/2*15,
     width: maxWidth, height: 5+t_d.length*15
   });
   t_d.forEach( function(o_draw) {
