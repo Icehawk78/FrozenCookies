@@ -115,8 +115,8 @@ function rebuildUpgrades(recalculate) {
   Game.Draw();
 }
 
-Game.RebuildStore=function() {rebuildStore();}
-Game.RebuildUpgrades=function() {rebuildUpgrades();}
+Game.RebuildStore=function(recalculate) {rebuildStore(recalculate);}
+Game.RebuildUpgrades=function(recalculate) {rebuildUpgrades(recalculate);}
 
 Game.RebuildStore(true);
 Game.RebuildUpgrades(true);
