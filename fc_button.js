@@ -144,10 +144,11 @@ function drawCircles(t_d, canvas) {
   var c = canvas;
   var i_c = 0;
   var t_b = ['#AAA','#BBB','#CCC','#DDD','#EEE','#FFF'];
+  var maxWidth = Math.max(t_d.map(function(o){return (o.name && o.display) ? (o.name + ': ' + o.display).length : 250;}));
   c.drawRect({
     fillStyle: '#999',
     x: 225, y: 12.5+t_d.length/2*15,
-    width: 250, height: 5+t_d.length*15
+    width: maxWidth, height: 5+t_d.length*15
   });
   t_d.forEach( function(o_draw) {
     c.drawArc({
@@ -164,14 +165,6 @@ function drawCircles(t_d, canvas) {
     });
     c.drawArc({
       strokeStyle: o_draw.c1,
-/*      function(layer) {
-        return $(this).createGradient({
-          x1: layer.x, y1: layer.y,
-          x2: layer.x, y2: layer.y,
-          r1: layer.radius-layer.strokeWidth, r2: layer.radius+layer.strokeWidth*(1+i_c*0.25),
-          c1: o_draw.c1, c2: o_draw.c2
-        });
-      },*/
       x: 45, y:45,
       strokeWidth: 7,
       start: 0,
@@ -184,7 +177,7 @@ function drawCircles(t_d, canvas) {
       c.drawText({
         font: "10px Arial",
         fillStyle: o_draw.c1,
-        x: 200+s_t.length, y: 20+15*i_c,
+        x: 225+s_t.length, y: 20+15*i_c,
         text: s_t
       });   
     }
@@ -341,8 +334,8 @@ function FCMenu() {
       subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Clicks:</b> ' + Beautify(Game.goldenClicks)));
       subsection.append($('<div />').addClass('listing').html('<b>Missed Golden Cookie Clicks:</b> ' + Beautify(Game.missedGoldenClicks)));
       subsection.append($('<div />').addClass('listing').html('<b>Last Golden Cookie Effect:</b> ' + Game.goldenCookie.last));
-      subsection.append($('<div />').addClass('listing').html('<b>Total Recorded Frenzy Time:</b> ' + timeDisplay(gc_time/1000)));
-      subsection.append($('<div />').addClass('listing').html('<b>Total Recorded Non-Frenzy Time:</b> ' + timeDisplay(non_gc_time/1000)));
+      subsection.append($('<div />').addClass('listing').html('<b>Total Recorded Frenzy Time:</b> ' + timeDisplay(FrozenCookies.gc_time/1000)));
+      subsection.append($('<div />').addClass('listing').html('<b>Total Recorded Non-Frenzy Time:</b> ' + timeDisplay(FrozenCookies.non_gc_time/1000)));
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Heavenly Chips Information'));
@@ -354,12 +347,15 @@ function FCMenu() {
       subsection.append($('<div />').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
       if (currHC < resetHC) {
         subsection.append($('<div />').addClass('listing').html('<b>Time since last HC:</b> ' + timeDisplay((Date.now()- lastHCTime)/1000)));
-        if (lastHCAmount - 1 >= currHC) {
-          subsection.append($('<div />').addClass('listing').html('<b>Time to get last HC:</b> ' + timeDisplay((lastHCTime - prevLastHCTime)/1000)));
+        if (FrozenCookies.lastHCAmount - 1 >= currHC) {
+          subsection.append($('<div />').addClass('listing').html('<b>Time to get last HC:</b> ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000)));
         }
-        subsection.append($('<div />').addClass('listing').html('<b>Average HC Gain/hr:</b> ' + Beautify(60 * 60 * (lastHCAmount - currHC)/((lastHCTime - Game.startDate)/1000))));
-        if (lastHCAmount - 1 >= currHC) {
-          subsection.append($('<div />').addClass('listing').html('<b>Previous Average HC Gain/hr:</b> ' + Beautify(60 * 60 *(lastHCAmount - 1 - currHC)/((prevLastHCTime - Game.startDate)/1000))));
+        if (FrozenCookies.maxHCPercent > 0) {
+          subsection.append($('<div />').addClass('listing').html('<b>Average HC Gain/hr:</b> ' + Beautify(FrozenCookies.maxHCPercent)));
+        }
+        subsection.append($('<div />').addClass('listing').html('<b>Average HC Gain/hr:</b> ' + Beautify(60 * 60 * (FrozenCookies.lastHCAmount - currHC)/((FrozenCookies.lastHCTime - Game.startDate)/1000))));
+        if (FrozenCookies.lastHCAmount - 1 >= currHC) {
+          subsection.append($('<div />').addClass('listing').html('<b>Previous Average HC Gain/hr:</b> ' + Beautify(60 * 60 *(FrozenCookies.lastHCAmount - 1 - currHC)/((FrozenCookies.prevLastHCTime - Game.startDate)/1000))));
         }
       }
       menu.append(subsection);
