@@ -43,7 +43,7 @@ function fcInit() {
     {'simulategc' : ["GC for Calculations: 0%","GC for Calculations: Actual Ratio","GC for Calculations: 100%"]},
     {'numberdisplay' : ["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"]}
   ];
-  FrozenCookies.numberDisplay = preferenceParse('numberdisplay', 0);
+  FrozenCookies.numberDisplay = preferenceParse('numberdisplay', 1);
   FrozenCookies.autoBuy = preferenceParse('autobuy', 0);
   FrozenCookies.autoGC = preferenceParse('autogc', 0);
   FrozenCookies.simulatedGCPercent = preferenceParse('simulategc', 1);
