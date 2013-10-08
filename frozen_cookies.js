@@ -3,7 +3,7 @@ var FrozenCookies = {};
 
 // Load external libraries
 FrozenCookies.loadInterval = setInterval(function() {
-  if (Game in window && Game.ready) {
+  if (typeof(Game) != 'undefined' && Game.ready) {
     clearInterval(FrozenCookies.loadInterval);
     FrozenCookies.loadInterval = 0;
     fcInit();
