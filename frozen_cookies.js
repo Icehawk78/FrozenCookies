@@ -51,8 +51,8 @@ function fcInit() {
   FrozenCookies.gc_time = Number(localStorage.getItem('frenzyTime'));
   FrozenCookies.last_gc_state = (Game.frenzy > 0);
   FrozenCookies.last_gc_time = Date.now();
-  FrozenCookies.cookie_click_speed = 0;
-  FrozenCookies.clickFrenzySpeed = 0;
+  FrozenCookies.cookieClickSpeed = Number(localStorage.getItem('autoclick'),0);
+  FrozenCookies.clickFrenzySpeed = Number(localStorage.getItem('autofrenzy'),0);
   FrozenCookies.initial_clicks = 0;
   FrozenCookies.lastHCAmount = Number(localStorage.getItem('lastHCAmount'));
   FrozenCookies.lastHCTime = Number(localStorage.getItem('lastHCTime'));
@@ -76,7 +76,7 @@ function fcInit() {
 
 function preferenceParse(setting, defaultVal) {
   var value = localStorage.getItem(setting);
-  if (typof(value) == 'undefined' || value == null || isNaN(Number(value))) {
+  if (typeof(value) == 'undefined' || value == null || isNaN(Number(value))) {
     value = defaultVal;
     localStorage.setItem(setting, value);
   }
@@ -572,8 +572,8 @@ function autoclickFrenzy() {
 }
 
 function autoCookie() {
-  if (!processing) {
-    processing = true;
+  if (!FrozenCookies.processing) {
+    FrozenCookies.processing = true;
     if (Game.cookieClicks < initial_clicks) {
       for (var i=0; i<initial_clicks; i++) {
         Game.ClickCookie();
@@ -617,7 +617,7 @@ function autoCookie() {
       FrozenCookies.last_gc_state = (Game.frenzy > 0);
       FrozenCookies.last_gc_time = Date.now();
     }
-    processing = false;
+    FrozenCookies.processing = false;
   }
 }
 
@@ -639,9 +639,9 @@ function FCStart() {
     FrozenCookies.cookieBot = setInterval(function() {autoCookie();}, FrozenCookies.frequency);
   }
   
-  if (cookie_click_speed) {
-    FrozenCookies.autoclickBot = setInterval(function() {Game.ClickCookie();}, FrozenCookies.cookie_click_speed);
-  } else if (clickFrenzySpeed > 0) {
+  if (FrozenCookies.cookieClickSpeed) {
+    FrozenCookies.autoclickBot = setInterval(function() {Game.ClickCookie();}, FrozenCookies.cookieClickSpeed);
+  } else if (FrozenCookies.clickFrenzySpeed > 0) {
     FrozenCookies.autoclickBot = setInterval(function() {autoclickFrenzy();}, FrozenCookies.frequency);
   }
   
