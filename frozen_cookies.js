@@ -3,7 +3,7 @@ var FrozenCookies = {};
 
 // Load external libraries
 FrozenCookies.loadInterval = setInterval(function() {
-  if (Game && Game.ready) {
+  if (Game in window && Game.ready) {
     clearInterval(FrozenCookies.loadInterval);
     FrozenCookies.loadInterval = 0;
     fcInit();
@@ -72,6 +72,7 @@ function fcInit() {
   Game.RebuildUpgrades();
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
   Game.oldReset = Game.Reset;
+  Game.Win = function(what) {return fcWin(what);}
 }
 
 function preferenceParse(setting, defaultVal) {
@@ -543,7 +544,7 @@ function buyFunctionToggle(upgrade) {
   return null;
 }
 
-Game.Win = function (what) {
+function fcWin(what) {
   if (typeof what==='string') {
     if (Game.Achievements[what]) {
       if (Game.Achievements[what].won==0) {
