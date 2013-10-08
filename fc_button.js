@@ -141,10 +141,13 @@ function drawCircles(t_d, canvas) {
     x: 50, y:50,
     radius: 40
   });*/
-  var c = canvas;
+  var c = canvas.jCanvas({
+    fontSize: "10px",
+    fontFamily: "Arial"
+  });
   var i_c = 0;
   var t_b = ['#AAA','#BBB','#CCC','#DDD','#EEE','#FFF'];
-  var maxWidth = Math.max.apply(null,t_d.map(function(o){return (o.name && o.display) ? (o.name + ': ' + o.display).length : 250;}));
+  var maxWidth = Math.max.apply(null,t_d.map(function(o){return (o.name && o.display) ? c.measureText(o.name + ': ' + o.display).length : 250;}));
   c.drawRect({
     fillStyle: '#999',
     x: 225, y: 12.5+t_d.length/2*15,
