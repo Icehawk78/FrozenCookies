@@ -50,9 +50,8 @@ function getUpgradeTooltip(upgrade) {
   return parent[0].outerHTML;
 }
 
-function efficiencyScore(purchase, type) {
+function efficiencyScore(recommendations, purchase, type) {
   var result = 0;
-  var recommendations = recommendationList().filter(function(a){return a.efficiency < Number.POSITIVE_INFINITY && a.efficiency > Number.NEGATIVE_INFINITY;});
   var purchaseRec = recommendations.filter(function(a){return a.id == purchase.id && a.type == type;})[0];
   if (purchaseRec) {
     var minValue = Math.log(recommendations[0].efficiency);
@@ -89,10 +88,11 @@ eval("Game.Draw = " + Game.Draw.toString()
 function rebuildStore() {
   var store = $('#products');
   store[0].innerHTML = '';
+  var recommendations = recommendationList().filter(function(a){return a.efficiency < Number.POSITIVE_INFINITY && a.efficiency > Number.NEGATIVE_INFINITY;});
   Game.ObjectsById.forEach(function(me) {
     var button = $('<div />')
       .addClass('product')
-      .addClass(colorizeScore(efficiencyScore(me, 'building')))
+      .addClass(colorizeScore(efficiencyScore(recommendations, me, 'building')))
       .mouseenter(function() {Game.tooltip.draw(this, escape(getBuildingTooltip(me)), 0, 0, 'left')})
       .mouseleave(function() {Game.tooltip.hide()})
       .click(function() {Game.ObjectsById[me.id].buy()})
@@ -113,12 +113,13 @@ function rebuildStore() {
 function rebuildUpgrades() {
   var store = $('#upgrades');
   store[0].innerHTML = '';
+  var recommendations = recommendationList().filter(function(a){return a.efficiency < Number.POSITIVE_INFINITY && a.efficiency > Number.NEGATIVE_INFINITY;});
   Game.UpgradesInStore = Game.UpgradesById.filter(function(a){return !a.bought && a.unlocked;}).sort(function(a,b){return a.basePrice - b.basePrice;});
   Game.UpgradesInStore.forEach(function(me) {
     store.append($('<div />')
       .addClass('crate')
       .addClass('upgrade')
-      .addClass(colorizeScore(efficiencyScore(me, 'upgrade')))
+      .addClass(colorizeScore(efficiencyScore(recommendations, me, 'upgrade')))
       .mouseenter(function() {Game.tooltip.draw(this, escape(getUpgradeTooltip(me)), 0, 16, 'bottom-right')})
       .mouseleave(function() {Game.tooltip.hide()})
       .click(function() {Game.ObjectsById[me.id].buy()})
