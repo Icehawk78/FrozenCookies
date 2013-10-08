@@ -346,7 +346,7 @@ function buildingStats() {
     buildingToggle(current, existing_achievements);
     var deltaCps = cpsNew - cpsOrig;
     var baseDeltaCps = baseCpsNew - baseCpsOrig;
-    var efficiency = efficiencyWeight * divCps(current.price, cpsOrig) + divCps(current.price, deltaCps);
+    var efficiency = FrozenCookies.efficiencyWeight * divCps(current.price, cpsOrig) + divCps(current.price, deltaCps);
     return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.price, 'type' : 'building'};
   });
 //  }
@@ -375,7 +375,7 @@ function upgradeStats() {
       var deltaCps = cpsNew - cpsOrig;
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
       var cost = upgradePrereqCost(current);
-      var efficiency = efficiencyWeight * divCps(cost, cpsOrig) + divCps(cost, deltaCps);
+      var efficiency = FrozenCookies.efficiencyWeight * divCps(cost, cpsOrig) + divCps(cost, deltaCps);
       if (deltaCps < 0) {
         efficiency = Number.POSITIVE_INFINITY;
       }
