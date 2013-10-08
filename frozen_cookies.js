@@ -322,9 +322,9 @@ function delayAmount() {
 
 function recommendationList(recalculate) {
   if (recalculate) {
-    FrozenCookie.caches.recommendationList = addScores(upgradeStats().concat(buildingStats()).sort(function(a,b){return (a.efficiency - b.efficiency)}));
+    FrozenCookies.caches.recommendationList = addScores(upgradeStats().concat(buildingStats()).sort(function(a,b){return (a.efficiency - b.efficiency)}));
   }
-  return FrozenCookie.caches.recommendationList;
+  return FrozenCookies.caches.recommendationList;
   return upgradeStats(recalculate).concat(buildingStats(recalculate)).sort(function(a,b){return (a.efficiency - b.efficiency)});
 }
 
