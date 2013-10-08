@@ -147,6 +147,7 @@ function fcReset(bypass) {
   FrozenCookies.last_gc_time = Date.now();
   FrozenCookies.lastHCAmount = Game.prestige['Heavenly chips'];
   FrozenCookies.lastHCTime = Date.now();
+  FrozenCookies.maxHCPercent = 0;
   FrozenCookies.prevLastHCTime = Date.now();
   FrozenCookies.lastCps = 0;
   FrozenCookies.recalculateCaches = true;
@@ -158,6 +159,7 @@ function updateLocalStorage() {
   localStorage.setItem('nonFrenzyTime', FrozenCookies.non_gc_time);
   localStorage.setItem('frenzyTime', FrozenCookies.gc_time);
   localStorage.setItem('lastHCAmount', FrozenCookies.lastHCAmount);
+  localStorage.setItem('maxHCPercent', FrozenCookies.maxHCPercent);
   localStorage.setItem('lastHCTime', FrozenCookies.lastHCTime);
   localStorage.setItem('prevLastHCTime', FrozenCookies.prevLastHCTime);
 }
@@ -213,15 +215,17 @@ document.addEventListener('keydown', function(event) {
 });
 
 function writeFCButton(setting) {
-  var current = preferenceParse(setting);
+  var current = FrozenCookies[setting];
 }
 
 function toggleFrozen(setting) {
   if (!Number(localStorage.getItem(setting))) {
     localStorage.setItem(setting,1);
+    FrozenCookies[setting] = 1;
 //    Game.prefs[setting] = 1;
   } else {
     localStorage.setItem(setting,0);
+    FrozenCookies.[setting] = 0;
 //    Game.prefs[setting] = 0;
   }
   FCStart();
