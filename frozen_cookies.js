@@ -3,7 +3,7 @@ var FrozenCookies = {};
 
 // Load external libraries
 FrozenCookies.loadInterval = setInterval(function() {
-  if (typeof(Game) != 'undefined' && Game.ready) {
+  if (Game && Game.ready) {
     clearInterval(FrozenCookies.loadInterval);
     FrozenCookies.loadInterval = 0;
     fcInit();
@@ -65,6 +65,13 @@ function fcInit() {
   
   FrozenCookies.cookieBot = 0;
   FrozenCookies.autoclickBot = 0;
+  
+  // Caching
+  
+  FrozenCookies.caches = {};
+  FrozenCookies.caches.nextPurchase = {};
+  FrozenCookies.caches.upgrades = [];
+  FrozenCookies.caches.buildings = [];
   
   Game.prefs.autoBuy = FrozenCookies.autoBuy;
   Game.prefs.autoGC = FrozenCookies.autoGC;
@@ -316,30 +323,28 @@ function recommendationList() {
   return upgradeStats().concat(buildingStats()).sort(function(a,b){return (a.efficiency - b.efficiency)});
 }
 
-//var cachedNextPurchase = null;
 function nextPurchase() {
-//  if (recalculateCaches) {
+  if (FrozenCookies.recalculateCaches) {
     var recList = recommendationList();
     var purchase = recList[0];
     if (purchase.type == 'upgrade' && unfinishedUpgradePrereqs(Game.UpgradesById[purchase.id])) {
       var prereqList = unfinishedUpgradePrereqs(Game.UpgradesById[purchase.id]);
       purchase = recList.filter(function(a){return prereqList.some(function(b){return b.id == a.id && b.type == a.type})})[0];
     }
-//    cachedNextPurchase = purchase;
-//  }
-//  return cachedNextPurchase;
-  return purchase;
+    FrozenCookies.caches.nextPurchase = purchase;
+  }
+  return FrozenCookies.caches.nextPurchase;
+//  return purchase;
 }
 
 function nextChainedPurchase() {
   return recommendationList()[0];
 }
 
-//var cachedBuildings = null;
 function buildingStats() {
-//  if (recalculateCaches) {
-//    cachedBuildings = Game.ObjectsById.map(function (current, index) {
-  return Game.ObjectsById.map(function (current, index) {
+  if (FrozenCookies.recalculateCaches) {
+    FrozenCookies.caches.buildings = Game.ObjectsById.map(function (current, index) {
+//  return Game.ObjectsById.map(function (current, index) {
     var baseCpsOrig = baseCps();
     var cpsOrig = baseCpsOrig + gcPs(weightedCookieValue(true));
     var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
@@ -351,16 +356,15 @@ function buildingStats() {
     var baseDeltaCps = baseCpsNew - baseCpsOrig;
     var efficiency = FrozenCookies.efficiencyWeight * divCps(current.price, cpsOrig) + divCps(current.price, deltaCps);
     return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.price, 'type' : 'building'};
-  });
-//  }
-//  return cachedBuildings;
+//  });
+  }
+  return FrozenCookies.caches.buildings;
 }
 
-//var cachedUpgrades = null;
 function upgradeStats() {
-//  if (recalculateCaches) {
-//    cachedUpgrades = Game.UpgradesById.map(function (current) {
-  return Game.UpgradesById.map(function (current) {
+  if (FrozenCookies.recalculateCaches) {
+    FrozenCookies.caches.upgrades = Game.UpgradesById.map(function (current) {
+//  return Game.UpgradesById.map(function (current) {
     if (!current.bought) {
       var needed = unfinishedUpgradePrereqs(current);
       if (!current.unlocked && !needed) {
@@ -384,9 +388,9 @@ function upgradeStats() {
       }
       return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : cost, 'type' : 'upgrade'};
     }
-  }).filter(function(a){return a;});
-//  }
-//  return cachedUpgrades;
+//  }).filter(function(a){return a;});
+  }
+  return FrozenCookies.caches.upgrades;
 }
 
 function upgradePrereqCost(upgrade) {
@@ -586,9 +590,9 @@ function autoCookie() {
       }
     }
 //     Handle possible lag issues? Only recalculate when CPS changes.
-//    if (lastCPS != Game.cookiesPs) {
-//      recalculateCaches = true;
-//    }
+    if (FrozenCookies.lastCPS != Game.cookiesPs) {
+      FrozenCookies.recalculateCaches = true;
+    }
     if (FrozenCookies.lastHCAmount < Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)) {
       FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset);
       FrozenCookies.prevLastHCTime = FrozenCookies.lastHCTime;
