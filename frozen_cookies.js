@@ -132,7 +132,11 @@ function Beautify (value) {
 }
 
 function timeDisplay(seconds) {
-  if (seconds === '---' || seconds === 0) { return 'Done!'; }
+  if (seconds === '---' || seconds === 0) {
+    return 'Done!';
+  } else if (seconds == Number.POSITIVE_INFINITY) {
+    return 'Never!'
+  }
   seconds = Math.floor(seconds);
   var days, hours, minutes;
   days = Math.floor(seconds / (24 * 60 * 60));
