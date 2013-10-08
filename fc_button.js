@@ -69,10 +69,10 @@ eval("Game.Draw = " + Game.Draw.toString()
   .replace(/if \(Game.cookies>=me.price\) l\('product'\+me.id\).className='product enabled'; else l\('product'\+me.id\).className='product disabled';/, '(Game.cookies >= me.price) ? $("#product"+me.id).addClass("enabled").removeClass("disabled") : $("#product"+me.id).addClass("disabled").removeClass("enabled");')
   .replace(/if \(Game.cookies>=me.basePrice\) l\('upgrade'\+i\).className='crate upgrade enabled'; else l\('upgrade'\+i\).className='crate upgrade disabled';/, '(Game.cookies >= me.basePrice) ? $("#upgrade"+me.id).addClass("enabled").removeClass("disabled") : $("#upgrade"+me.id).addClass("disabled").removeClass("enabled");'));
 
-function rebuildStore() {
+function rebuildStore(recalculate) {
   var store = $('#products');
   store[0].innerHTML = '';
-  var recommendations = recommendationList();
+  var recommendations = recommendationList(recalculate);
   Game.ObjectsById.forEach(function(me) {
     var purchaseRec = recommendations.filter(function(a) {return a.id == me.id && a.type == 'building';})[0];
     var button = $('<div />')
@@ -95,10 +95,10 @@ function rebuildStore() {
   Game.Draw();
 }
 
-function rebuildUpgrades() {
+function rebuildUpgrades(recalculate) {
   var store = $('#upgrades');
   store[0].innerHTML = '';
-  var recommendations = recommendationList();
+  var recommendations = recommendationList(recalculate);
   Game.UpgradesInStore = Game.UpgradesById.filter(function(a){return !a.bought && a.unlocked;}).sort(function(a,b){return a.basePrice - b.basePrice;});
   Game.UpgradesInStore.forEach(function(me) {
     var purchaseRec = recommendations.filter(function(a) {return a.id == me.id && a.type == 'upgrade';})[0];
@@ -118,8 +118,8 @@ function rebuildUpgrades() {
 Game.RebuildStore=function() {rebuildStore();}
 Game.RebuildUpgrades=function() {rebuildUpgrades();}
 
-Game.RebuildStore();
-Game.RebuildUpgrades();
+Game.RebuildStore(true);
+Game.RebuildUpgrades(true);
 
 Game.oldUpdateMenu = Game.UpdateMenu;
 
