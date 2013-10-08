@@ -225,7 +225,7 @@ function toggleFrozen(setting) {
 //    Game.prefs[setting] = 1;
   } else {
     localStorage.setItem(setting,0);
-    FrozenCookies.[setting] = 0;
+    FrozenCookies[setting] = 0;
 //    Game.prefs[setting] = 0;
   }
   FCStart();
