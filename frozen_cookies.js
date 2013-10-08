@@ -70,8 +70,9 @@ function fcInit() {
   
   FrozenCookies.caches = {};
   FrozenCookies.caches.nextPurchase = {};
-  FrozenCookies.caches.upgrades = [];
+  FrozenCookies.caches.recommendationList = [];
   FrozenCookies.caches.buildings = [];
+  FrozenCookies.caches.upgrades = [];
   
   Game.prefs.autoBuy = FrozenCookies.autoBuy;
   Game.prefs.autoGC = FrozenCookies.autoGC;
@@ -320,7 +321,32 @@ function delayAmount() {
 }
 
 function recommendationList(recalculate) {
+  if (recalculate) {
+    FrozenCookie.caches.recommendationList = addScores(upgradeStats().concat(buildingStats()).sort(function(a,b){return (a.efficiency - b.efficiency)}));
+  }
+  return FrozenCookie.caches.recommendationList;
   return upgradeStats(recalculate).concat(buildingStats(recalculate)).sort(function(a,b){return (a.efficiency - b.efficiency)});
+}
+
+function addScores(recommendations) {
+  var filteredList = recommendations.filter(function(a){return a.efficiency < Number.POSITIVE_INFINITY && a.efficiency > Number.NEGATIVE_INFINITY;})
+  if (filteredList.length > 0) {
+    var minValue = Math.log(recommendations[0].efficiency);
+    var maxValue = Math.log(recommendations[filteredList.length - 1].efficiency);
+    var spread = maxValue - minValue;
+    recommendations.forEach(function(purchaseRec, index){
+      if (purchaseRec.efficiency < Number.POSITIVE_INFINITY && purchaseRec.efficiency > Number.NEGATIVE_INFINITY) {
+        var purchaseValue = Math.log(purchaseRec.efficiency);
+        var purchaseSpread = purchaseValue - minValue;
+        recommendations[index].efficiencyScore = 1 - (purchaseSpread / spread);
+      } else {
+        recommendations[index].efficiencyScore = 0;
+      }
+    });
+  } else {
+    recommendations.forEach(function(purchaseRec,index){recommendations[index].efficiencyScore = 0;});
+  }
+  return recommendations;
 }
 
 function nextPurchase(recalculate) {
@@ -343,8 +369,8 @@ function nextChainedPurchase() {
 
 function buildingStats(recalculate) {
   if (recalculate) {
-      FrozenCookies.caches.buildings = Game.ObjectsById.map(function (current, index) {
-  //  return Game.ObjectsById.map(function (current, index) {
+    FrozenCookies.caches.buildings = Game.ObjectsById.map(function (current, index) {
+//    return Game.ObjectsById.map(function (current, index) {
       var baseCpsOrig = baseCps();
       var cpsOrig = baseCpsOrig + gcPs(weightedCookieValue(true));
       var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
@@ -355,7 +381,7 @@ function buildingStats(recalculate) {
       var deltaCps = cpsNew - cpsOrig;
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
       var efficiency = FrozenCookies.efficiencyWeight * divCps(current.price, cpsOrig) + divCps(current.price, deltaCps);
-      return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.price, 'type' : 'building'};
+      return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.price, 'purchase' : current, 'type' : 'building'};
     });
   }
   return FrozenCookies.caches.buildings;
@@ -386,7 +412,7 @@ function upgradeStats(recalculate) {
         if (deltaCps < 0) {
           efficiency = Number.POSITIVE_INFINITY;
         }
-        return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : cost, 'type' : 'upgrade'};
+        return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : cost, 'purchase' : current, 'type' : 'upgrade'};
       }
     }).filter(function(a){return a;});
   }
@@ -608,15 +634,15 @@ function autoCookie() {
     if (FrozenCookies.recalculateCaches) {
       FrozenCookies.recalculateCaches = false;
     }
-    var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
-    var purchase = store[recommendation.id];
+//    var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
+//    var purchase = store[recommendation.id];
     if (FrozenCookies.autoBuy && Game.cookies >= delayAmount() + recommendation.cost) {
       recommendation.time = Date.now() - Game.startDate;
 //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
-      purchase.clickFunction = null;
+      recommendation.purchase.clickFunction = null;
       disabledPopups = false;
 //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
-      purchase.buy();
+      recommendation.purchase.buy();
       disabledPopups = true;
       autoCookie();
     }
