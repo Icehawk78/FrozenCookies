@@ -144,7 +144,7 @@ function drawCircles(t_d, canvas) {
   var c = canvas;
   var i_c = 0;
   var t_b = ['#AAA','#BBB','#CCC','#DDD','#EEE','#FFF'];
-  var maxWidth = Math.max(t_d.map(function(o){return (o.name && o.display) ? (o.name + ': ' + o.display).length : 250;}));
+  var maxWidth = Math.max.apply(null,t_d.map(function(o){return (o.name && o.display) ? (o.name + ': ' + o.display).length : 250;}));
   c.drawRect({
     fillStyle: '#999',
     x: 225, y: 12.5+t_d.length/2*15,
