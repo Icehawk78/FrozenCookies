@@ -74,10 +74,10 @@ function fcInit() {
   Game.oldReset = Game.Reset;
 }
 
-function preferenceParse(setting, default) {
+function preferenceParse(setting, defaultVal) {
   var value = localStorage.getItem(setting);
   if (typof(value) == 'undefined' || value == null || isNaN(Number(value))) {
-    value = default;
+    value = defaultVal;
     localStorage.setItem(setting, value);
   }
   return value;
