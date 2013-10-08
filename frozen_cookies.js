@@ -283,7 +283,7 @@ function maxCookieTime() {
 function gcPs(gcValue) {
   var averageGCTime = maxCookieTime() * 19 / 900
   gcValue /= averageGCTime;
-  gcValue *= simulatedGCPercent;
+  gcValue *= FrozenCookies.simulatedGCPercent;
   return gcValue;
 }
 
@@ -574,8 +574,8 @@ function autoclickFrenzy() {
 function autoCookie() {
   if (!FrozenCookies.processing) {
     FrozenCookies.processing = true;
-    if (Game.cookieClicks < initial_clicks) {
-      for (var i=0; i<initial_clicks; i++) {
+    if (Game.cookieClicks < FrozenCookies.initial_clicks) {
+      for (var i=0; i<FrozenCookies.initial_clicks; i++) {
         Game.ClickCookie();
       }
     }
