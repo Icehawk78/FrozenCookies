@@ -28,8 +28,8 @@ function getBuildingTooltip(building) {
   if (recommendation) {
     parent.append($('<div />').addClass('fc_cps').html('&#916; CPS: ' + Beautify(recommendation.delta_cps)));
     parent.append($('<div />').addClass('fc_efficiency').text('Efficiency: ' + (Math.floor(efficiencyScore(building, 'building') * 10000) / 100).toString() + '%'));
-    parent.append($('<div />').addClass('fc_build_time').text('Build time: ' + timeDisplay((recommendation.cost + delayAmount()) / Game.cookiesPs)));
-    parent.append($('<div />').addClass('fc_effective_build_time').text('Estimated GC Build time: ' + timeDisplay((recommendation.cost + delayAmount()) / (baseCps() + gcPs(weightedCookieValue(true))))));
+    parent.append($('<div />').addClass('fc_build_time').text('Build time: ' + timeDisplay(divCps((recommendation.cost + delayAmount()), Game.cookiesPs))));
+    parent.append($('<div />').addClass('fc_effective_build_time').text('Estimated GC Build time: ' + timeDisplay(divCps((recommendation.cost + delayAmount()), (baseCps() + gcPs(weightedCookieValue(true)))))));
   }
   return parent[0].outerHTML;
 }
@@ -44,8 +44,8 @@ function getUpgradeTooltip(upgrade) {
   if (recommendation) {
     parent.append($('<div />').addClass('fc_cps').html('&#916; CPS: ' + Beautify(recommendation.delta_cps)));
     parent.append($('<div />').addClass('fc_efficiency').text('Efficiency: ' + (Math.floor(efficiencyScore(upgrade, 'upgrade') * 10000) / 100).toString() + '%'));
-    parent.append($('<div />').addClass('fc_build_time').text('Build time: ' + timeDisplay((recommendation.cost + delayAmount()) / Game.cookiesPs)));
-    parent.append($('<div />').addClass('fc_effective_build_time').text('Estimated GC Build time: ' + timeDisplay((recommendation.cost + delayAmount()) / (baseCps() + gcPs(weightedCookieValue(true))))));
+    parent.append($('<div />').addClass('fc_build_time').text('Build time: ' + timeDisplay(divCps((recommendation.cost + delayAmount()), Game.cookiesPs))));
+    parent.append($('<div />').addClass('fc_effective_build_time').text('Estimated GC Build time: ' + timeDisplay(divCps((recommendation.cost + delayAmount()), (baseCps() + gcPs(weightedCookieValue(true)))))));
   }
   return parent[0].outerHTML;
 }
@@ -82,7 +82,8 @@ function colorizeScore(score) {
   return result;
 }
 
-eval("Game.Draw = " + Game.Draw.toString().replace(/if \(Game.cookies>=me.price\) l\('product'\+me.id\).className='product enabled'; else l\('product'\+me.id\).className='product disabled';/, '(Game.cookies >= me.price) ? $("#product"+me.id).addClass("enabled").removeClass("disabled") : $("#product"+me.id).addClass("disabled").removeClass("enabled");')
+eval("Game.Draw = " + Game.Draw.toString()
+  .replace(/if \(Game.cookies>=me.price\) l\('product'\+me.id\).className='product enabled'; else l\('product'\+me.id\).className='product disabled';/, '(Game.cookies >= me.price) ? $("#product"+me.id).addClass("enabled").removeClass("disabled") : $("#product"+me.id).addClass("disabled").removeClass("enabled");')
   .replace(/if \(Game.cookies>=me.basePrice\) l\('upgrade'\+i\).className='crate upgrade enabled'; else l\('upgrade'\+i\).className='crate upgrade disabled';/, '(Game.cookies >= me.basePrice) ? $("#upgrade"+me.id).addClass("enabled").removeClass("disabled") : $("#upgrade"+me.id).addClass("disabled").removeClass("enabled");'));
 
 function rebuildStore() {
