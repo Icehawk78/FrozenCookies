@@ -24,7 +24,7 @@ function getBuildingTooltip(purchaseRec) {
   parent.append($('<div />').addClass('name').text(purchaseRec.purchase.name));
   parent.append($('<div />').attr('style', 'font-size:80%;').text('[owned: ' + purchaseRec.purchase.amount + ']'));
   parent.append($('<div />').addClass('description').html(purchaseRec.purchase.desc));
-  if (purchaseRec.efficiencyScore) {
+  if (purchaseRec.delta_cps) {
     parent.append($('<div />').addClass('fc_cps').html('&#916; CPS: ' + Beautify(purchaseRec.delta_cps)));
     parent.append($('<div />').addClass('fc_efficiency').text('Efficiency: ' + (Math.floor(purchaseRec.efficiencyScore * 10000) / 100).toString() + '%'));
     parent.append($('<div />').addClass('fc_build_time').text('Build time: ' + timeDisplay(divCps((purchaseRec.cost + delayAmount()), Game.cookiesPs))));
@@ -39,7 +39,7 @@ function getUpgradeTooltip(purchaseRec) {
   parent.append($('<div />').addClass('name').text(purchaseRec.purchase.name));
   parent.append($('<div />').attr('style', 'font-size:80%;').text('[Upgrade]'));
   parent.append($('<div />').addClass('description').html(purchaseRec.purchase.desc));
-  if (purchaseRec.efficiencyScore) {
+  if (purchaseRec.delta_cps) {
     parent.append($('<div />').addClass('fc_cps').html('&#916; CPS: ' + Beautify(purchaseRec.delta_cps)));
     parent.append($('<div />').addClass('fc_efficiency').text('Efficiency: ' + (Math.floor(purchaseRec.efficiencyScore * 10000) / 100).toString() + '%'));
     parent.append($('<div />').addClass('fc_build_time').text('Build time: ' + timeDisplay(divCps((purchaseRec.cost + delayAmount()), Game.cookiesPs))));
