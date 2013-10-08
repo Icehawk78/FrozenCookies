@@ -66,8 +66,8 @@ function fcInit() {
   FrozenCookies.cookieBot = 0;
   FrozenCookies.autoclickBot = 0;
   
-  Game.prefs['autobuy'] = FrozenCookies.autoBuy;
-  Game.prefs['autogc'] = FrozenCookies.autoGC;
+  Game.prefs.autobuy = FrozenCookies.autoBuy;
+  Game.prefs.autogc = FrozenCookies.autoGC;
   Game.RebuildStore();
   Game.RebuildUpgrades();
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
@@ -80,7 +80,7 @@ function preferenceParse(setting, defaultVal) {
     value = defaultVal;
     localStorage.setItem(setting, value);
   }
-  return value;
+  return Number(value);
 }
 
 // var full_history = [];  // This may be a super leaky thing
@@ -155,13 +155,16 @@ function fcReset(bypass) {
 }
 
 function updateLocalStorage() {
-  localStorage.setItem('simulategc', FrozenCookies.simulatedGCPercent);
-  localStorage.setItem('nonFrenzyTime', FrozenCookies.non_gc_time);
-  localStorage.setItem('frenzyTime', FrozenCookies.gc_time);
-  localStorage.setItem('lastHCAmount', FrozenCookies.lastHCAmount);
-  localStorage.setItem('maxHCPercent', FrozenCookies.maxHCPercent);
-  localStorage.setItem('lastHCTime', FrozenCookies.lastHCTime);
-  localStorage.setItem('prevLastHCTime', FrozenCookies.prevLastHCTime);
+  localStorage.numberdisplay = FrozenCookies.numberDisplay;
+  localStorage.autobuy = FrozenCookies.autoBuy;
+  localStorage.autogc = FrozenCookies.autoGc;
+  localStorage.simulategc = FrozenCookies.simulatedGCPercent;
+  localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
+  localStorage.frenzyTime = FrozenCookies.gc_time;
+  localStorage.lastHCAmount = FrozenCookies.lastHCAmount;
+  localStorage.maxHCPercent = FrozenCookies.maxHCPercent;
+  localStorage.lastHCTime = FrozenCookies.lastHCTime;
+  localStorage.prevLastHCTime = FrozenCookies.prevLastHCTime;
 }
 
 function divCps(value, cps) {
