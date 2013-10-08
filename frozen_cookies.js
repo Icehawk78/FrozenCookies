@@ -590,9 +590,6 @@ function autoCookie() {
       }
     }
 //     Handle possible lag issues? Only recalculate when CPS changes.
-    if (FrozenCookies.lastCPS != Game.cookiesPs) {
-      FrozenCookies.recalculateCaches = true;
-    }
     if (FrozenCookies.lastHCAmount < Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)) {
       FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset);
       FrozenCookies.prevLastHCTime = FrozenCookies.lastHCTime;
@@ -603,7 +600,13 @@ function autoCookie() {
       FrozenCookies.lastHCTime = Date.now();
       updateLocalStorage();
     }
+    if (FrozenCookies.lastCPS != Game.cookiesPs) {
+      FrozenCookies.recalculateCaches = true;
+    }
     var recommendation = nextPurchase();
+    if (FrozenCookies.recalculateCaches) {
+      FrozenCookies.recalculateCaches = false;
+    }
     var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
     var purchase = store[recommendation.id];
     if (FrozenCookies.autoBuy && Game.cookies >= delayAmount() + recommendation.cost) {
