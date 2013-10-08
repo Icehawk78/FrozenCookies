@@ -18,47 +18,34 @@ $('<style type="text/css">')
   )
   .appendTo('head');
 
-function getBuildingTooltip(building, recommendations, purchaseRec) {
+function getBuildingTooltip(purchaseRec) {
   var parent = $('<div />').attr('style','min-width:300px;');
-  parent.append($('<div />').addClass('price').attr('style', 'float:right;').text(Beautify(building.price)));
-  parent.append($('<div />').addClass('name').text(building.name));
-  parent.append($('<div />').attr('style', 'font-size:80%;').text('[owned: ' + building.amount + ']'));
-  parent.append($('<div />').addClass('description').html(building.desc));
-  if (purchaseRec) {
+  parent.append($('<div />').addClass('price').attr('style', 'float:right;').text(Beautify(purchaseRec.purchase.price)));
+  parent.append($('<div />').addClass('name').text(purchaseRec.purchase.name));
+  parent.append($('<div />').attr('style', 'font-size:80%;').text('[owned: ' + purchaseRec.purchase.amount + ']'));
+  parent.append($('<div />').addClass('description').html(purchaseRec.purchase.desc));
+  if (purchaseRec.efficiencyScore) {
     parent.append($('<div />').addClass('fc_cps').html('&#916; CPS: ' + Beautify(purchaseRec.delta_cps)));
-    parent.append($('<div />').addClass('fc_efficiency').text('Efficiency: ' + (Math.floor(efficiencyScore(recommendations, purchaseRec) * 10000) / 100).toString() + '%'));
+    parent.append($('<div />').addClass('fc_efficiency').text('Efficiency: ' + (Math.floor(purchaseRec.efficiencyScore * 10000) / 100).toString() + '%'));
     parent.append($('<div />').addClass('fc_build_time').text('Build time: ' + timeDisplay(divCps((purchaseRec.cost + delayAmount()), Game.cookiesPs))));
     parent.append($('<div />').addClass('fc_effective_build_time').text('Estimated GC Build time: ' + timeDisplay(divCps((purchaseRec.cost + delayAmount()), (baseCps() + gcPs(weightedCookieValue(true)))))));
   }
   return parent[0].outerHTML;
 }
 
-function getUpgradeTooltip(upgrade, recommendations, purchaseRec) {
+function getUpgradeTooltip(purchaseRec) {
   var parent = $('<div />').attr('style','min-width:300px;');
-  parent.append($('<div />').addClass('price').attr('style', 'float:right;').text(Beautify(upgrade.basePrice)));
-  parent.append($('<div />').addClass('name').text(upgrade.name));
+  parent.append($('<div />').addClass('price').attr('style', 'float:right;').text(Beautify(purchaseRec.purchase.basePrice)));
+  parent.append($('<div />').addClass('name').text(purchaseRec.purchase.name));
   parent.append($('<div />').attr('style', 'font-size:80%;').text('[Upgrade]'));
-  parent.append($('<div />').addClass('description').html(upgrade.desc));
-  if (purchaseRec) {
+  parent.append($('<div />').addClass('description').html(purchaseRec.purchase.desc));
+  if (purchaseRec.efficiencyScore) {
     parent.append($('<div />').addClass('fc_cps').html('&#916; CPS: ' + Beautify(purchaseRec.delta_cps)));
-    parent.append($('<div />').addClass('fc_efficiency').text('Efficiency: ' + (Math.floor(efficiencyScore(recommendation, purchaseRec) * 10000) / 100).toString() + '%'));
+    parent.append($('<div />').addClass('fc_efficiency').text('Efficiency: ' + (Math.floor(purchaseRec.efficiencyScore * 10000) / 100).toString() + '%'));
     parent.append($('<div />').addClass('fc_build_time').text('Build time: ' + timeDisplay(divCps((purchaseRec.cost + delayAmount()), Game.cookiesPs))));
     parent.append($('<div />').addClass('fc_effective_build_time').text('Estimated GC Build time: ' + timeDisplay(divCps((purchaseRec.cost + delayAmount()), (baseCps() + gcPs(weightedCookieValue(true)))))));
   }
   return parent[0].outerHTML;
-}
-
-function efficiencyScore(recommendations, purchaseRec) {
-  var result = 0;
-  if (purchaseRec) {
-    var minValue = Math.log(recommendations[0].efficiency);
-    var maxValue = Math.log(recommendations[recommendations.length - 1].efficiency);
-    var purchaseValue = Math.log(purchaseRec.efficiency);
-    var spread = maxValue - minValue;
-    var purchaseSpread = purchaseValue - minValue;
-    result = 1 - (purchaseSpread / spread);
-  }
-  return result;
 }
 
 function colorizeScore(score) {
@@ -85,13 +72,13 @@ eval("Game.Draw = " + Game.Draw.toString()
 function rebuildStore() {
   var store = $('#products');
   store[0].innerHTML = '';
-  var recommendations = recommendationList().filter(function(a){return a.efficiency < Number.POSITIVE_INFINITY && a.efficiency > Number.NEGATIVE_INFINITY;});
+  var recommendations = recommendationList();
   Game.ObjectsById.forEach(function(me) {
     var purchaseRec = recommendations.filter(function(a) {return a.id == me.id && a.type == 'building';})[0];
     var button = $('<div />')
       .addClass('product')
-      .addClass(colorizeScore(efficiencyScore(recommendations, purchaseRec)))
-      .mouseenter(function() {Game.tooltip.draw(this, escape(getBuildingTooltip(me, recommendations, purchaseRec)), 0, 0, 'left')})
+      .addClass(colorizeScore(purchaseRec.efficiencyScore))
+      .mouseenter(function() {Game.tooltip.draw(this, escape(getBuildingTooltip(purchaseRec)), 0, 0, 'left')})
       .mouseleave(function() {Game.tooltip.hide()})
       .click(function() {Game.ObjectsById[me.id].buy()})
       .attr('id', 'product' + me.id);
@@ -111,15 +98,15 @@ function rebuildStore() {
 function rebuildUpgrades() {
   var store = $('#upgrades');
   store[0].innerHTML = '';
-  var recommendations = recommendationList().filter(function(a){return a.efficiency < Number.POSITIVE_INFINITY && a.efficiency > Number.NEGATIVE_INFINITY;});
+  var recommendations = recommendationList();
   Game.UpgradesInStore = Game.UpgradesById.filter(function(a){return !a.bought && a.unlocked;}).sort(function(a,b){return a.basePrice - b.basePrice;});
   Game.UpgradesInStore.forEach(function(me) {
     var purchaseRec = recommendations.filter(function(a) {return a.id == me.id && a.type == 'upgrade';})[0];
     store.append($('<div />')
       .addClass('crate')
       .addClass('upgrade')
-      .addClass(colorizeScore(efficiencyScore(recommendations, purchaseRec)))
-      .mouseenter(function() {Game.tooltip.draw(this, escape(getUpgradeTooltip(me, recommendations, purchaseRec)), 0, 16, 'bottom-right')})
+      .addClass(colorizeScore(purchaseRec.efficiencyScore))
+      .mouseenter(function() {Game.tooltip.draw(this, escape(getUpgradeTooltip(purchaseRec)), 0, 16, 'bottom-right')})
       .mouseleave(function() {Game.tooltip.hide()})
       .click(function() {Game.ObjectsById[me.id].buy()})
       .attr('id', 'upgrade' + me.id)
