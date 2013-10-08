@@ -147,7 +147,7 @@ function drawCircles(t_d, canvas) {
   });
   var i_c = 0;
   var t_b = ['#AAA','#BBB','#CCC','#DDD','#EEE','#FFF'];
-  var maxWidth = Math.max.apply(null,t_d.map(function(o){return (o.name && o.display) ? c.measureText(o.name + ': ' + o.display).length : 250;}));
+  var maxWidth = Math.max.apply(null,t_d.map(function(o){return (o.name && o.display) ? c.measureText({text:o.name + ': ' + o.display}).width : 250;}));
   c.drawRect({
     fillStyle: '#999',
     x: 225, y: 12.5+t_d.length/2*15,
@@ -375,8 +375,8 @@ function FCMenu() {
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Frozen Cookie Controls'));
       var listing = $('<div />').addClass('listing');
-      listing.append($(Game.WriteButton('autobuy','autobuyButton','Autobuy ON','Autobuy OFF',"toggleFrozen('autobuy');")));
-      listing.append($(Game.WriteButton('autogc','autogcButton','Autoclick GC ON','Autoclick GC OFF',"toggleFrozen('autogc');")));
+      listing.append($(Game.WriteButton('autoBuy','autobuyButton','Autobuy ON','Autobuy OFF',"toggleFrozen('autoBuy');")));
+      listing.append($(Game.WriteButton('autoGC','autogcButton','Autoclick GC ON','Autoclick GC OFF',"toggleFrozen('autoGC');")));
       subsection.append(listing);
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
