@@ -111,7 +111,7 @@ function rebuildUpgrades(recalculate) {
         .addClass(colorizeScore(purchaseRec.efficiencyScore))
         .mouseenter(function() {Game.tooltip.draw(this, escape(getUpgradeTooltip(purchaseRec)), 0, 16, 'bottom-right')})
         .mouseleave(function() {Game.tooltip.hide()})
-        .click(function() {Game.ObjectsById[me.id].buy()})
+        .click(function() {Game.UpgradesById[me.id].buy()})
         .attr('id', 'upgrade' + me.id)
         .attr('style', 'background-position:' + (-me.icon[0] * 48 + 6) + 'px ' + (-me.icon[1] * 48 + 6) + 'px;'));
     }
