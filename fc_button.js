@@ -179,7 +179,7 @@ function drawCircles(t_d, canvas) {
       c.drawText({
         font: "10px Arial",
         fillStyle: o_draw.c1,
-        x: c.measureText({font: "10px Arial", maxWidth:c.width, text: o.name + ': ' + o.display}).width, y: 20+15*i_c,
+        x: c.measureText({font: "10px Arial", maxWidth:c.width, text: s_t}).width, y: 20+15*i_c,
         text: s_t
       });   
     }
