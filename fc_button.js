@@ -142,6 +142,7 @@ function drawCircles(t_d, canvas) {
     radius: 40
   });*/
   var c = canvas;
+  var heightOffset = 45 - (15 * (t_d.length - 1) / 2)
   var i_c = 0;
   var t_b = ['#AAA','#BBB','#CCC','#DDD','#EEE','#FFF'];
   var maxWidth = Math.max.apply(null,t_d.map(function(o){return (o.name && o.display) ? c.measureText({fontSize: "12px", fontFamily: "Arial", maxWidth:c.width, text: o.name + ': ' + o.display}).width : 250;}));
@@ -149,8 +150,8 @@ function drawCircles(t_d, canvas) {
                      .reduce(function(sum,item){return sum+item;},0);
   c.drawRect({
     fillStyle: '#999',
-    x: 225, y: 12.5+t_d.length/2*15,
-    width: maxWidth + 50, height: maxHeight + 20
+    x: 225, y: 45,
+    width: maxWidth + 20, height: maxHeight + 20
   });
   t_d.forEach( function(o_draw) {
     c.drawArc({
@@ -180,7 +181,7 @@ function drawCircles(t_d, canvas) {
         fontSize: "12px",
         fontFamily: "Arial",
         fillStyle: o_draw.c1,
-        x: 225, y: 20+15*i_c,
+        x: 225, y: heightOffset+15*i_c,
         text: s_t
       });   
     }
