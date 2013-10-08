@@ -159,7 +159,7 @@ function fcReset(bypass) {
   FrozenCookies.maxHCPercent = 0;
   FrozenCookies.prevLastHCTime = Date.now();
   FrozenCookies.lastCps = 0;
-  FrozenCookies.recalculateCaches = true;
+  FrozenCookies.recommendationList(true);
   updateLocalStorage();
 }
 
