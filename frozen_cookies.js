@@ -81,6 +81,7 @@ function fcInit() {
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
   Game.oldReset = Game.Reset;
   Game.Win = function(what) {return fcWin(what);}
+  Beautify = funtion(value) {return fcBeautify(value);}
 }
 
 function preferenceParse(setting, defaultVal) {
@@ -94,7 +95,7 @@ function preferenceParse(setting, defaultVal) {
 
 // var full_history = [];  // This may be a super leaky thing
 
-function Beautify (value) {
+function fcBeautify (value) {
   var notationValue = '';
   var negative = false;
   if (value < 0) {
