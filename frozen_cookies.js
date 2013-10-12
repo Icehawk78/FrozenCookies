@@ -81,7 +81,7 @@ function fcInit() {
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
   Game.oldReset = Game.Reset;
   Game.Win = function(what) {return fcWin(what);}
-  Beautify = funtion(value) {return fcBeautify(value);}
+  Beautify = function(value) {return fcBeautify(value);}
 }
 
 function preferenceParse(setting, defaultVal) {
