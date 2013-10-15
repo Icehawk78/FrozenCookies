@@ -95,17 +95,18 @@ var upgradeJson = [
 ]
 
 var cookieInfo = [
-  {'type':'chain', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
-  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
-  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
-  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
-  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
-  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
-  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
-  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
-  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
-  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
-  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
-  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
-  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}}
+  {'type':'clot',        'odds':[[0,1,1,1],[0,1,1,1],[0,1,1,1]},
+  {'type':'frenzy',      'odds':[[1,1,1,1],[1,1,1,1],[1,1,1,1]},
+  {'type':'blood',       'odds':[[0,1,1,1],[0,1,1,1],[0,1,1,1]},
+  {'type':'chain',       'odds':[[1,1,1,1],[1,1,1,1],[1,1,1,1]},
+  {'type':'ruin',        'odds':[[0,1,1,1],[0,1,1,1],[0,1,1,1]},
+  {'type':'frenzyRuin',  'odds':[[0,0,0,0],[0,1,1,1],[0,1,1,1]},
+  {'type':'clotRuin',    'odds':[[0,0,0,0],[0,1,1,1],[0,1,1,1]},
+  {'type':'lucky',       'odds':[[1,1,1,1],[1,1,1,1],[1,1,1,1]},
+  {'type':'frenzyLucky', 'odds':[[0,0,0,0],[1,1,1,1],[1,1,1,1]},
+  {'type':'clotLucky',   'odds':[[0,0,0,0],[0,1,1,1],[0,1,1,1]},
+  {'type':'click',       'odds':[[1,1,1,1],[1,1,1,1],[1,1,1,1]},
+  {'type':'frenzyClick', 'odds':[[0,0,0,0],[1,1,1,1],[1,1,1,1]},
+  {'type':'clotClick',   'odds':[[0,0,0,0],[0,1,1,1],[0,1,1,1]},
+  {'type':'blah',        'odds':[[1,1,1,1],[1,1,1,1],[1,1,1,1]}
 ]
