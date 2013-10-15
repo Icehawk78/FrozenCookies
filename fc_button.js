@@ -14,57 +14,60 @@ $('<style type="text/css">')
 
 Game.oldUpdateMenu = Game.UpdateMenu;
 
-function drawCircles(t_d, canvas) {
-  /*c = canvas.jCanvas({
-    x: 50, y:50,
-    radius: 40
-  });*/
-  var c = canvas;
+function drawCircles(t_d, x, y) {
+  var c = $('#backgroundLeftCanvas');
+  var heightOffset = 45 - (15 * (t_d.length - 1) / 2)
   var i_c = 0;
-  var t_b = ['#AAA','#BBB','#CCC','#DDD','#EEE','#FFF'];
+  var i_tc = 0;
+  var t_b = ['rgba(170, 170, 170, 1)','rgba(187, 187, 187, 1)','rgba(204, 204, 204, 1)','rgba(221, 221, 221, 1)','rgba(238, 238, 238, 1)','rgba(255, 255, 255, 1)'];
+  var maxWidth = Math.max.apply(null,t_d.map(function(o){return (o.name) ? c.measureText({fontSize: "12px", fontFamily: "Arial", maxWidth:c.width, text: (o.name + (o.display ? ": "+o.display : ""))}).width : 250;}));
+  var maxHeight = t_d.map(function(o){return (o.name) ? c.measureText({fontSize: "12px", fontFamily: "Arial", maxWidth:c.width, text: (o.name + (o.display ? ": "+o.display : ""))}).height : 250;})
+                     .reduce(function(sum,item){return sum+item;},0);	
   c.drawRect({
-    fillStyle: '#999',
-    x: 225, y: 12.5+t_d.length/2*15,
-    width: 250, height: 5+t_d.length*15
+    fillStyle: 'rgba(153, 153, 153, 0.6)',
+    x: x+225, y: y+45,
+    width: maxWidth + 20, height: maxHeight + 20,
   });
+  
   t_d.forEach( function(o_draw) {
-    c.drawArc({
-      strokeStyle: t_b[i_c],
-      strokeWidth: 10,
-      x: 45, y:45,
-      radius: 40-i_c*10,
-    });
-    c.drawArc({
-      strokeStyle: t_b[i_c+2],
-      strokeWidth: 1,
-      x: 45, y:45,
-      radius: 35-i_c*10
-    });
+    if (o_draw.overlay)
+    {
+      i_c--;
+    }
+    else
+    {
+      c.drawArc({
+        strokeStyle: t_b[i_c],
+        strokeWidth: 10,
+        x: x+45, y:y+45,
+        radius: 40-i_c*10,
+      });
+      c.drawArc({
+        strokeStyle: t_b[i_c+2],
+        strokeWidth: 1,
+        x: x+45, y:y+45,
+        radius: 35-i_c*10
+      });
+    }
     c.drawArc({
       strokeStyle: o_draw.c1,
-/*      function(layer) {
-        return $(this).createGradient({
-          x1: layer.x, y1: layer.y,
-          x2: layer.x, y2: layer.y,
-          r1: layer.radius-layer.strokeWidth, r2: layer.radius+layer.strokeWidth*(1+i_c*0.25),
-          c1: o_draw.c1, c2: o_draw.c2
-        });
-      },*/
-      x: 45, y:45,
+      x: x+45, y:y+45,
       strokeWidth: 7,
       start: 0,
       radius: 40-i_c*10,
       end: (360 * o_draw.f_percent)
     });
-    if (o_draw.name && o_draw.display)
+    if (o_draw.name)
     {
-      var s_t = o_draw.name+": "+o_draw.display;
+      var s_t = o_draw.name + (o_draw.display ? ": "+o_draw.display : "");
       c.drawText({
-        font: "10px Arial",
+        fontSize: "12px",
+        fontFamily: "Arial",
         fillStyle: o_draw.c1,
-        x: 200+s_t.length, y: 20+15*i_c,
+        x: x+225, y: y+heightOffset+15*i_tc,
         text: s_t
       });   
+      i_tc++;
     }
     i_c++;
   });
@@ -79,8 +82,7 @@ function updateTimers() {
   if (gc_delay>0) {
     t_draw.push({
       f_percent: gc_delay,
-      c1: "gold",
-      c2: "white",
+      c1: "rgba(255, 215, 0, 1)",
       name: "Golden Cookie Time",
       display: timeDisplay(Game.goldenCookie.delay/Game.fps)
     });
@@ -88,8 +90,7 @@ function updateTimers() {
   if (frenzy_delay>0) {
     t_draw.push({
       f_percent: frenzy_delay,
-      c1: "red",
-      c2: "white",
+      c1: "rgba(255, 0, 0, 1)",
       name: "Frenzy Time",
       display: timeDisplay(Game.frenzy/Game.fps)
     });
@@ -97,8 +98,7 @@ function updateTimers() {
   if (click_frenzy_delay>0) {
     t_draw.push({
       f_percent: click_frenzy_delay,
-      c1: "#00C4FF",
-      c2: "white",
+      c1: "rgba(0, 196, 255, 1)",
       name: "Click Frenzy Time",
       display: timeDisplay(Game.clickFrenzy/Game.fps)
     });
@@ -106,13 +106,12 @@ function updateTimers() {
   if (decimal_HC_complete>0) {
     t_draw.push({
       f_percent: decimal_HC_complete,
-      c1: "#000",
-      c2: "white",
+      c1: "rgba(0, 0, 0, 1)",
       name: "HC Completion",
       display: (Math.round(decimal_HC_complete*10000)/100)+"%"
     });
   }
-  drawCircles(t_draw, $('#fcTimer'));
+  drawCircles(t_draw, 50, 350);
 }
 
 function updateBuyTimers() {
@@ -120,26 +119,18 @@ function updateBuyTimers() {
   var purchaseTotal = nextPurchase().cost;
   var chainTotal = nextChainedPurchase().cost;
   var bankCompletion = bankTotal ? (Math.min(Game.cookies, bankTotal)) / bankTotal : 0;
-  var purchaseCompletion = Math.max(Game.cookies - bankTotal, 0) / (bankTotal + purchaseTotal);
+  var purchaseCompletion = Game.cookies/(bankTotal + purchaseTotal);
+  var bankPurchaseCompletion = bankTotal/(bankTotal + purchaseTotal);
   var chainCompletion = Math.max(Game.cookies - bankTotal, 0) / (bankTotal + chainTotal);
-  var bankPercent = bankTotal / (purchaseTotal + bankTotal);
+  var bankPercent = Math.min(Game.cookies, bankTotal) / (bankTotal + purchaseTotal);
   var purchasePercent = purchaseTotal / (purchaseTotal + bankTotal);
+  var bankMax = bankTotal / (purchaseTotal + bankTotal);
   
   var t_draw = [];
-  if (bankTotal > 0) {
-    t_draw.push({
-      f_percent: bankCompletion,
-      c1: '#666',
-      c2: '#666',
-      name: "Golden Cookie Bank",
-      display: timeDisplay(divCps(Math.max(bankTotal - Game.cookies,0), Game.cookiesPs))
-    });
-  }
   if (chainTotal - purchaseTotal > 0) {
     t_draw.push({
       f_percent: chainCompletion,
-      c1: '#333',
-      c2: '#333',
+      c1: 'rgba(51, 51, 51, 1)',
       name: "Chain Completion Time",
       display: timeDisplay(divCps(Math.max(chainTotal + bankTotal - Game.cookies,0), Game.cookiesPs))
     });
@@ -147,13 +138,30 @@ function updateBuyTimers() {
   if (purchaseTotal > 0) {
     t_draw.push({
       f_percent: purchaseCompletion,
-      c1: '#111',
-      c2: '#111',
+      c1: 'rgba(17, 17, 17, 1)',
       name: "Purchase Completion Time",
       display: timeDisplay(divCps(Math.max(purchaseTotal + bankTotal - Game.cookies,0), Game.cookiesPs))
     });
   }
-  drawCircles(t_draw, $('#fcBuyTimer'));
+  if (bankMax > 0) {
+    t_draw.push({
+      f_percent: bankMax,
+      name: "Max Bank",
+      display: Beautify(bankTotal),
+      c1: 'rgba(238, 238, 238, 1)',
+      overlay: true
+    });
+  }
+  if (bankPercent > 0) {
+    t_draw.push({
+      f_percent: bankPercent,
+      c1: 'rgba(85, 85, 85, 1)',
+      name: "Bank Completion",
+      display: timeDisplay(divCps(Math.max(bankTotal - Game.cookies,0), Game.cookiesPs)),
+      overlay: true
+    });
+  }
+  drawCircles(t_draw, 50, 500);
 }
 
 function FCMenu() {
@@ -163,18 +171,17 @@ function FCMenu() {
     } else {
       var menu = $('#menu').html('');
       menu.append($('<div />').addClass('section').html('Frozen Cookie'));
-      var subsection = $('<div />').addClass('subsection');
+/*      var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Game Timers'));
       var timers = $('<canvas id="fcTimer" width="400px" height="100px"/>').html('Your browser does not support the HTML5 canvas tag.');
       subsection.append($('<div />').addClass('listing').append(timers));
       menu.append(subsection);
-      updateTimers();
       if (Game.cookiesPs > 0) {
         var timers = $('<canvas id="fcBuyTimer" width="400px" height="100px"/>').html('Your browser does not support the HTML5 canvas tag.');
         subsection.append($('<div />').addClass('listing').append(timers));
         menu.append(subsection);
-        updateBuyTimers();
       }
+*/
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Autobuy Information'));
       var recommendation = nextPurchase();
@@ -271,4 +278,6 @@ function FCMenu() {
       menu.append(subsection);
     }
   }
+  oldBackground = Game.DrawBackground;
+  Game.DrawBackground = function () { oldBackground(); updateTimers(); updateBuyTimers(); }
 }
