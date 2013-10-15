@@ -78,7 +78,53 @@ function updateTimers() {
   var frenzy_delay = Game.frenzy / maxCookieTime();
   var click_frenzy_delay = Game.clickFrenzy / maxCookieTime();
   var decimal_HC_complete = ((Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5)%1);
+  var bankTotal = delayAmount();
+  var purchaseTotal = nextPurchase().cost;
+  var chainTotal = nextChainedPurchase().cost;
+  var bankCompletion = bankTotal ? (Math.min(Game.cookies, bankTotal)) / bankTotal : 0;
+  var purchaseCompletion = Game.cookies/(bankTotal + purchaseTotal);
+  var bankPurchaseCompletion = bankTotal/(bankTotal + purchaseTotal);
+  var chainCompletion = Math.max(Game.cookies - bankTotal, 0) / (bankTotal + chainTotal);
+  var bankPercent = Math.min(Game.cookies, bankTotal) / (bankTotal + purchaseTotal);
+  var purchasePercent = purchaseTotal / (purchaseTotal + bankTotal);
+  var bankMax = bankTotal / (purchaseTotal + bankTotal);
+  
   var t_draw = [];
+  
+  if (chainTotal - purchaseTotal > 0) {
+    t_draw.push({
+      f_percent: chainCompletion,
+      c1: 'rgba(51, 51, 51, 1)',
+      name: "Chain Completion Time",
+      display: timeDisplay(divCps(Math.max(chainTotal + bankTotal - Game.cookies,0), Game.cookiesPs))
+    });
+  }
+  if (purchaseTotal > 0) {
+    t_draw.push({
+      f_percent: purchaseCompletion,
+      c1: 'rgba(17, 17, 17, 1)',
+      name: "Purchase Completion Time",
+      display: timeDisplay(divCps(Math.max(purchaseTotal + bankTotal - Game.cookies,0), Game.cookiesPs))
+    });
+  }
+  if (bankMax > 0) {
+    t_draw.push({
+      f_percent: bankMax,
+      name: "Max Bank",
+      display: Beautify(bankTotal),
+      c1: 'rgba(238, 238, 238, 1)',
+      overlay: true
+    });
+  }
+  if (bankPercent > 0) {
+    t_draw.push({
+      f_percent: bankPercent,
+      c1: 'rgba(85, 85, 85, 1)',
+      name: "Bank Completion",
+      display: timeDisplay(divCps(Math.max(bankTotal - Game.cookies,0), Game.cookiesPs)),
+      overlay: true
+    });
+  }
   if (gc_delay>0) {
     t_draw.push({
       f_percent: gc_delay,
@@ -111,10 +157,10 @@ function updateTimers() {
       display: (Math.round(decimal_HC_complete*10000)/100)+"%"
     });
   }
-  drawCircles(t_draw, 50, 350);
+  drawCircles(t_draw, 50, 500);
 }
 
-function updateBuyTimers() {
+/*function updateBuyTimers() {
   var bankTotal = delayAmount();
   var purchaseTotal = nextPurchase().cost;
   var chainTotal = nextChainedPurchase().cost;
@@ -162,7 +208,7 @@ function updateBuyTimers() {
     });
   }
   drawCircles(t_draw, 50, 500);
-}
+}*/
 
 function FCMenu() {
   Game.UpdateMenu = function() {
@@ -279,5 +325,5 @@ function FCMenu() {
     }
   }
   oldBackground = Game.DrawBackground;
-  Game.DrawBackground = function () { oldBackground(); updateTimers(); updateBuyTimers(); }
+  Game.DrawBackground = function () { oldBackground(); updateTimers(); }// updateBuyTimers(); }
 }
