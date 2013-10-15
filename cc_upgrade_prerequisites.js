@@ -93,3 +93,13 @@ var upgradeJson = [
   {'id':132,'buildings':[0,0,0,0,0,0,0,0,0,0],'upgrades':[131]},
   {'id':133,'buildings':[0,0,0,0,0,0,0,0,0,0],'upgrades':[132]}
 ]
+
+var cookieInfo = [
+  {'type':'chain', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
+  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
+  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
+  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
+  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
+  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
+  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
+]
