@@ -102,4 +102,10 @@ var cookieInfo = [
   {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
   {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
   {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
+  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
+  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
+  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
+  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
+  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}},
+  {'type':'clot', 'odds':{'luckyDay':1,'serendipity':1,'getLucky':1}}
 ]
