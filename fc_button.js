@@ -158,7 +158,7 @@ function updateTimers() {
     });
   }
   var height = $('#backgroundLeftCanvas').height() - 140;
-  drawCircles(t_draw, 50, height);
+  drawCircles(t_draw, 20, height);
 }
 
 /*function updateBuyTimers() {
