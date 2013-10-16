@@ -78,7 +78,7 @@ function drawCircles(t_d, x, y) {
 }
 
 function updateTimers() {
-  var gc_delay = ((probabilitySpan(Game.goldenCookie.time, 0.5) - Game.goldenCookie.time) / Game.fps) / maxCookieTime();
+  var gc_delay = (probabilitySpan(Game.goldenCookie.time, 0.5) - Game.goldenCookie.time) / maxCookieTime();
   var frenzy_delay = Game.frenzy / maxCookieTime();
   var click_frenzy_delay = Game.clickFrenzy / maxCookieTime();
   var decimal_HC_complete = ((Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5)%1);
