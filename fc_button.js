@@ -16,6 +16,9 @@ Game.oldUpdateMenu = Game.UpdateMenu;
 
 function drawCircles(t_d, x, y) {
   var c = $('#backgroundLeftCanvas');
+  if (typeof(c.measureText) != "function") {
+    return;
+  }
   var maxRadius = 10 + 10*t_d.reduce(function(sum,item){return (item.overlay) ? sum : sum + 1;},0);
   var heightOffset = maxRadius + 5 - (15 * (t_d.length - 1) / 2)
   var i_c = 0;
