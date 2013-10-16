@@ -61,7 +61,6 @@ function fcInit() {
   FrozenCookies.prevLastHCTime = Number(localStorage.getItem('prevLastHCTime'));
   FrozenCookies.maxHCPercent = Number(localStorage.getItem('maxHCPercent'));
   FrozenCookies.lastCPS = Game.cookiesPs;
-  FrozenCookies.recalculateCaches = true;
   FrozenCookies.disabledPopups = true;
   FrozenCookies.processing = false;
   
@@ -81,6 +80,7 @@ function fcInit() {
 }
 
 function setOverrides() {
+  nextPurchase(true);
   Beautify = function(value) {return fcBeautify(value);}
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
   Game.oldReset = Game.Reset;
@@ -339,7 +339,7 @@ function gcEfficiency() {
 }
 
 function delayAmount() {
-  if ((nextChainedPurchase() && nextChainedPurchase().efficiency > gcEfficiency()) || (Game.frenzy && Game.Has('Get lucky'))) {
+  if (nextChainedPurchase().efficiency > gcEfficiency() || (Game.frenzy && Game.Has('Get lucky'))) {
     return maxLuckyValue() * 10;
   } else if (weightedCookieValue() > weightedCookieValue(true)) {
     return Math.min(maxLuckyValue() * 10, Math.max(0,(nextChainedPurchase().efficiency - (gcEfficiency() * baseCps())) / gcEfficiency()));
