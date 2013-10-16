@@ -13,6 +13,7 @@ FrozenCookies.loadInterval = setInterval(function() {
 function fcInit() {
     var script_list = [
     'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
+    'http://underscorejs.org/underscore-min.js',
     'https://raw.github.com/Icehawk78/FrozenCookies/master/cc_upgrade_prerequisites.js',
     'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js',
     'https://raw.github.com/Icehawk78/FrozenCookies/development/fc_button.js'
@@ -27,6 +28,7 @@ function fcInit() {
         done++;
         if (done>=script_list.length)
         {
+          setOverrides();
           FCStart();
         }
       });
@@ -76,12 +78,22 @@ function fcInit() {
   
   Game.prefs.autoBuy = FrozenCookies.autoBuy;
   Game.prefs.autoGC = FrozenCookies.autoGC;
-  Game.RebuildStore();
-  Game.RebuildUpgrades();
+}
+
+function setOverrides() {
+  Beautify = function(value) {return fcBeautify(value);}
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
   Game.oldReset = Game.Reset;
   Game.Win = function(what) {return fcWin(what);}
-  Beautify = function(value) {return fcBeautify(value);}
+  Game.oldBackground = Game.DrawBackground;
+  Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
+  eval("Game.Draw = " + Game.Draw.toString()
+    .replace(/if \(Game.cookies>=me.price\) l\('product'\+me.id\).className='product enabled'; else l\('product'\+me.id\).className='product disabled';/, '(Game.cookies >= me.price) ? $("#product"+me.id).addClass("enabled").removeClass("disabled") : $("#product"+me.id).addClass("disabled").removeClass("enabled");')
+    .replace(/if \(Game.cookies>=me.basePrice\) l\('upgrade'\+i\).className='crate upgrade enabled'; else l\('upgrade'\+i\).className='crate upgrade disabled';/, '(Game.cookies >= me.basePrice) ? $("#upgrade"+me.id).addClass("enabled").removeClass("disabled") : $("#upgrade"+me.id).addClass("disabled").removeClass("enabled");'));
+  Game.RebuildStore=function(recalculate) {rebuildStore(recalculate);}
+  Game.RebuildUpgrades=function(recalculate) {rebuildUpgrades(recalculate);}
+  Game.RebuildStore(true);
+  Game.RebuildUpgrades(true);
 }
 
 function preferenceParse(setting, defaultVal) {
@@ -248,6 +260,15 @@ function toggleFrozen(setting) {
     Game.prefs[setting] = 0;
   }
   FCStart();
+}
+
+function cumulativeProbability(start, stop) {
+  return 1 - ((1 - cumulativeProbabilityList[stop]) / (1 - cumulativeProbabilityList[start]));
+}
+
+function probabilitySpan(start, endProbability) {
+  var startProbability = cumulativeProbabilityList[start];
+  return _.sortedIndex(cumulativeProbabilityList, (startProbability + endProbability - startProbability * endProbability));
 }
 
 function baseCps() {
