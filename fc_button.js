@@ -16,7 +16,7 @@ Game.oldUpdateMenu = Game.UpdateMenu;
 
 function drawCircles(t_d, x, y) {
   var c = $('#backgroundLeftCanvas');
-  var maxRadius = 10 + 10*t_d.length;
+  var maxRadius = 10 + 10*t_d.reduce(function(sum,item){return (item.overlay) ? sum : sum + 1;},0);
   var heightOffset = maxRadius + 5 - (15 * (t_d.length - 1) / 2)
   var i_c = 0;
   var i_tc = 0;
@@ -26,7 +26,7 @@ function drawCircles(t_d, x, y) {
                      .reduce(function(sum,item){return sum+item;},0);	
   c.drawRect({
     fillStyle: 'rgba(153, 153, 153, 0.6)',
-    x: x + (maxRadius + 5) * 5, y: y + maxRadius + 5,
+    x: x + maxRadius * 2 + 135, y: y + maxRadius + 5,
     width: maxWidth + 20, height: maxHeight + 20,
   });
   
