@@ -135,7 +135,7 @@ function updateTimers() {
       f_percent: gc_delay,
       c1: "rgba(255, 215, 0, 1)",
       name: "Golden Cookie Estimate (50%)",
-      display: timeDisplay(probabilitySpan(Game.goldenCookie.time, 0.5) - Game.goldenCookie.time) / Game.fps)
+      display: timeDisplay((probabilitySpan(Game.goldenCookie.time, 0.5) - Game.goldenCookie.time) / Game.fps)
     });
   }
   if (frenzy_delay>0) {
