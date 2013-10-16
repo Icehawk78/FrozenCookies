@@ -29,7 +29,7 @@ function drawCircles(t_d, x, y) {
                      .reduce(function(sum,item){return sum+item;},0);	
   c.drawRect({
     fillStyle: 'rgba(153, 153, 153, 0.6)',
-    x: x + maxRadius * 2 + maxWidth / 2 + 15, y: y + maxRadius + 5,
+    x: x + maxRadius * 2 + maxWidth / 2 + 35, y: y + maxRadius + 5,
     width: maxWidth + 20, height: maxHeight + 20,
   });
   
