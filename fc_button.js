@@ -119,7 +119,7 @@ function updateTimers() {
   if (bankPercent > 0) {
     t_draw.push({
       f_percent: bankPercent,
-      c1: 'rgba(85, 85, 85, 1)',
+      c1: 'rgba(255, 255, 255, 1)',
       name: "Bank Completion",
       display: timeDisplay(divCps(Math.max(bankTotal - Game.cookies,0), Game.cookiesPs)),
       overlay: true
