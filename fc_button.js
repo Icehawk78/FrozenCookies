@@ -41,13 +41,13 @@ function drawCircles(t_d, x, y) {
     else
     {
       c.drawArc({
-        strokeStyle: t_b[i_c],
+        strokeStyle: t_b[i_c%t_b.length],
         strokeWidth: 10,
         x: x + (maxRadius + 5), y:y + maxRadius + 5,
         radius: maxRadius - i_c*10,
       });
       c.drawArc({
-        strokeStyle: t_b[i_c+2],
+        strokeStyle: t_b[(i_c+2)%t_b.length],
         strokeWidth: 1,
         x: x + (maxRadius + 5), y:y + maxRadius + 5,
         radius: maxRadius - 5 - (i_c)*10,
