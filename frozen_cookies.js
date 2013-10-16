@@ -2,8 +2,9 @@
 
 if (true) {
   var script_list = [
-    'https://raw.github.com/Icehawk78/FrozenCookies/master/cc_upgrade_prerequisites.js',
     'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js',
+    'http://underscorejs.org/underscore-min.js',
+    'https://raw.github.com/Icehawk78/FrozenCookies/master/cc_upgrade_prerequisites.js',
     'https://raw.github.com/Icehawk78/FrozenCookies/master/fc_button.js'
   ]
   var done = 0;
