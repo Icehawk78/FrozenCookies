@@ -47,7 +47,7 @@ function drawCircles(t_d, x, y) {
         strokeStyle: t_b[i_c+2],
         strokeWidth: 1,
         x: x + (maxRadius + 5), y:y + maxRadius + 5,
-        radius: maxRadius - (i_c)*10,
+        radius: maxRadius - 5 - (i_c)*10,
       });
     }
     c.drawArc({
