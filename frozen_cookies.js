@@ -1,9 +1,20 @@
-// Load external libraries
+// Global Variables
+var FrozenCookies = {};
 
-if (true) {
-  var script_list = [
-    'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js',
+// Load external libraries
+FrozenCookies.loadInterval = setInterval(function() {
+  if (Game && Game.ready) {
+    clearInterval(FrozenCookies.loadInterval);
+    FrozenCookies.loadInterval = 0;
+    fcInit();
+  }
+}, 1000);
+
+function fcInit() {
+    var script_list = [
+    'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
     'http://underscorejs.org/underscore-min.js',
+    'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js',
     'https://raw.github.com/Icehawk78/FrozenCookies/master/cc_upgrade_prerequisites.js',
     'https://raw.github.com/Icehawk78/FrozenCookies/master/fc_button.js'
   ]
@@ -17,87 +28,130 @@ if (true) {
         done++;
         if (done>=script_list.length)
         {
+          setOverrides();
           FCStart();
         }
       });
     });
   };
   document.head.appendChild(jquery);
+  FrozenCookies.frequency = 100;
+  FrozenCookies.efficiencyWeight = 1.15;
+  FrozenCookies.preferenceValues = [
+    {'autoBuy' : ["Autobuy OFF","Autobuy ON"]},
+    {'autoGC' : ["Autoclick GC OFF", "Autoclick GC ON"]},
+    {'clickFrenzySpeed' : ["Autoclick Frenzy OFF","Autoclick Frenzy 1cps","Autoclick Frenzy 10cps","Autoclick Frenzy 25cps","Autoclick Frenzy 50cps","Autoclick Frenzy 100cps","Autoclick Frenzy 250cps"]},
+    {'cookieClickSpeed' : ["Autoclick Cookie OFF","Autoclick Cookie 1cps","Autoclick Cookie 10cps","Autoclick Cookie 25cps","Autoclick Cookie 50cps","Autoclick Cookie 100cps","Autoclick Cookie 250cps"]},
+    {'simulatedGCPercent' : ["GC for Calculations: 0%","GC for Calculations: Actual Ratio","GC for Calculations: 100%"]},
+    {'numberDisplay' : ["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"]}
+  ];
+  FrozenCookies.numberDisplay = preferenceParse('numberDisplay', 1);
+  FrozenCookies.autoBuy = preferenceParse('autoBuy', 0);
+  FrozenCookies.autoGC = preferenceParse('autoGC', 0);
+  FrozenCookies.simulatedGCPercent = preferenceParse('simulatedGCPercent', 1);
+  FrozenCookies.non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
+  FrozenCookies.gc_time = Number(localStorage.getItem('frenzyTime'));
+  FrozenCookies.last_gc_state = (Game.frenzy > 0);
+  FrozenCookies.last_gc_time = Date.now();
+  FrozenCookies.cookieClickSpeed = Number(localStorage.getItem('cookieClickSpeed'),0);
+  FrozenCookies.clickFrenzySpeed = Number(localStorage.getItem('clickFrenzySpeed'),0);
+  FrozenCookies.initial_clicks = 0;
+  FrozenCookies.lastHCAmount = Number(localStorage.getItem('lastHCAmount'));
+  FrozenCookies.lastHCTime = Number(localStorage.getItem('lastHCTime'));
+  FrozenCookies.prevLastHCTime = Number(localStorage.getItem('prevLastHCTime'));
+  FrozenCookies.maxHCPercent = Number(localStorage.getItem('maxHCPercent'));
+  FrozenCookies.lastCPS = Game.cookiesPs;
+  FrozenCookies.disabledPopups = true;
+  FrozenCookies.processing = false;
+  
+  FrozenCookies.cookieBot = 0;
+  FrozenCookies.autoclickBot = 0;
+  
+  // Caching
+  
+  FrozenCookies.caches = {};
+  FrozenCookies.caches.nextPurchase = {};
+  FrozenCookies.caches.recommendationList = [];
+  FrozenCookies.caches.buildings = [];
+  FrozenCookies.caches.upgrades = [];
+  
+  Game.prefs.autoBuy = FrozenCookies.autoBuy;
+  Game.prefs.autoGC = FrozenCookies.autoGC;
 }
 
-// Global Variables
-
-//var autoBuy = localStorage.getItem('autobuy');
-var frequency = 100;  // Too fast and we bump into ourselves, and that's BAD.
-var efficiencyWeight = 1.15;
-var preferenceValues = [
-  {'autobuy' : [0,1]},
-  {'autogc' : [0,1]},
-  {'autofrenzy' : [0,1,10,25,50,100,250]},
-  {'autoclick' : [0,1,10,25,50,100,250]},
-  {'simulategc' : [0,1,2]},
-  {'numberdisplay' : [0,1,2,3]}
-];
-Game.prefs['autobuy'] = Number(localStorage.getItem('autobuy'));
-Game.prefs['autogc'] = Number(localStorage.getItem('autogc'));
-if (!localStorage.getItem('simulategc')) {
-  localStorage.setItem('simulategc', 1);
+function setOverrides() {
+  nextPurchase(true);
+  Beautify = function(value) {return fcBeautify(value);}
+  Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
+  Game.oldReset = Game.Reset;
+  Game.Win = function(what) {return fcWin(what);}
+  Game.oldBackground = Game.DrawBackground;
+  Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
+  eval("Game.Draw = " + Game.Draw.toString()
+    .replace(/if \(Game.cookies>=me.price\) l\('product'\+me.id\).className='product enabled'; else l\('product'\+me.id\).className='product disabled';/, '(Game.cookies >= me.price) ? $("#product"+me.id).addClass("enabled").removeClass("disabled") : $("#product"+me.id).addClass("disabled").removeClass("enabled");')
+    .replace(/if \(Game.cookies>=me.basePrice\) l\('upgrade'\+i\).className='crate upgrade enabled'; else l\('upgrade'\+i\).className='crate upgrade disabled';/, '(Game.cookies >= me.basePrice) ? $("#upgrade"+me.id).addClass("enabled").removeClass("disabled") : $("#upgrade"+me.id).addClass("disabled").removeClass("enabled");'));
+/*
+  Game.RebuildStore=function(recalculate) {rebuildStore(recalculate);}
+  Game.RebuildUpgrades=function(recalculate) {rebuildUpgrades(recalculate);}
+  Game.RebuildStore(true);
+  Game.RebuildUpgrades(true);
+*/
 }
-var simulatedGCPercent = Number(localStorage.getItem('simulategc'));
-var non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
-var gc_time = Number(localStorage.getItem('frenzyTime'));
-var last_gc_state = (Game.frenzy > 0);
-var last_gc_time = Date.now();
-var cookie_click_speed = 0;
-var clickFrenzySpeed = 0;
-var initial_clicks = 0;
+
+function preferenceParse(setting, defaultVal) {
+  var value = localStorage.getItem(setting);
+  if (typeof(value) == 'undefined' || value == null || isNaN(Number(value))) {
+    value = defaultVal;
+    localStorage.setItem(setting, value);
+  }
+  return Number(value);
+}
+
 // var full_history = [];  // This may be a super leaky thing
 
-var lastHCAmount = Number(localStorage.getItem('lastHCAmount'));
-var lastHCTime = Number(localStorage.getItem('lastHCTime'));
-var prevLastHCTime = Number(localStorage.getItem('prevLastHCTime'));
-
-var lastCPS = Game.cookiesPs;
-var recalculateCaches = true;
-var disabledPopups = true;
-
-// Store the setInterval ids here for the various processes.
-var cookieBot = 0;
-var autoclickBot = 0;
-
-function Beautify (value) {
-  var notation = ['', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion'];
-  var base = 0;
+function fcBeautify (value) {
+  var notationValue = '';
   var negative = false;
   if (value < 0) {
     negative = true;
     value *= -1;
   }
-  if (value >= 1000000 && Number.isFinite(value)) {
-    value /= 1000;
-    while(value >= 1000){
+  if (FrozenCookies.numberDisplay) {
+    var notationList = [['', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion'],
+                        ['', ' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp'],
+                        ['', ' M', ' G', ' T', ' P', ' E', ' Z', ' Y'],
+                        ['', '*10⁶', '*10⁹', '*10¹²', '*10¹⁵', '*10¹⁸', '*10²¹', '*10²⁴']
+                        ];
+    var notation = notationList[FrozenCookies.numberDisplay-1];
+    var base = 0;
+    if (value >= 1000000 && Number.isFinite(value)) {
       value /= 1000;
-      base++;
+      while(value >= 1000){
+        value /= 1000;
+        base++;
+      }
+      if (base > notation.length) {
+        value = Math.POSITIVE_INFINITY;
+      } else {
+        notationValue = notation[base];
+      }
     }
+    value = Math.round(value * 1000) / 1000.0;
   }
-  value = Math.round(value * 1000) / 1000.0;
-  if (!Number.isFinite(value) || base > notation.length) {
+  if (!Number.isFinite(value)) {
     return 'Infinity';
   } else {
-    var output = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + notation[base];
+    var output = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + notationValue;
     return negative ? '-' + output : output;
   }
 }
 
-Game.RebuildStore();
-Game.RebuildUpgrades();
-
-function showGCTimes() {
-  return "\nNormal CPS: " + timeDisplay(non_gc_time / 1000) + "\nGC CPS:     " + timeDisplay(gc_time / 1000) + "\nPercentage GC: " + (gc_time * 1.0) / (non_gc_time + gc_time);
-}
-
 function timeDisplay(seconds) {
-  if (seconds === '---' || seconds === 0) { return 'Done!'; }
+  if (seconds === '---' || seconds === 0) {
+    return 'Done!';
+  } else if (seconds == Number.POSITIVE_INFINITY) {
+    return 'Never!'
+  }
   seconds = Math.floor(seconds);
   var days, hours, minutes;
   days = Math.floor(seconds / (24 * 60 * 60));
@@ -113,18 +167,35 @@ function timeDisplay(seconds) {
   return (days + hours + minutes + seconds).trim();
 }
 
-Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
-
-function updateLocalStorage() {
-  localStorage.setItem('simulategc', simulatedGCPercent);
-  localStorage.setItem('nonFrenzyTime', non_gc_time);
-  localStorage.setItem('frenzyTime', gc_time);
-  localStorage.setItem('lastHCAmount', lastHCAmount);
-  localStorage.setItem('lastHCTime', lastHCTime);
-  localStorage.setItem('prevLastHCTime', prevLastHCTime);
+function fcReset(bypass) {
+  Game.oldReset();
+  FrozenCookies.nonFrenzyTime = 0;
+  FrozenCookies.frenzyTime = 0;
+  FrozenCookies.last_gc_state = (Game.frenzy > 0);
+  FrozenCookies.last_gc_time = Date.now();
+  FrozenCookies.lastHCAmount = Game.prestige['Heavenly chips'];
+  FrozenCookies.lastHCTime = Date.now();
+  FrozenCookies.maxHCPercent = 0;
+  FrozenCookies.prevLastHCTime = Date.now();
+  FrozenCookies.lastCps = 0;
+  FrozenCookies.recommendationList(true);
+  updateLocalStorage();
 }
 
-Game.oldReset = Game.Reset;
+function updateLocalStorage() {
+  localStorage.numberDisplay = FrozenCookies.numberDisplay;
+  localStorage.autoBuy = FrozenCookies.autoBuy;
+  localStorage.autoGC = FrozenCookies.autoGC;
+  localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
+  localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
+  localStorage.simulatedGCPercent = FrozenCookies.simulatedGCPercent;
+  localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
+  localStorage.frenzyTime = FrozenCookies.gc_time;
+  localStorage.lastHCAmount = FrozenCookies.lastHCAmount;
+  localStorage.maxHCPercent = FrozenCookies.maxHCPercent;
+  localStorage.lastHCTime = FrozenCookies.lastHCTime;
+  localStorage.prevLastHCTime = FrozenCookies.prevLastHCTime;
+}
 
 function divCps(value, cps) {
   var result = 0;
@@ -163,41 +234,47 @@ document.addEventListener('keydown', function(event) {
 // Press 'a' to toggle autobuy.
 document.addEventListener('keydown', function(event) {
   if(event.keyCode == 65) {
-    Game.Toggle('autobuy','autobuyButton','Autobuy OFF','Autobuy ON');
-    toggleFrozen('autobuy');
+    Game.Toggle('autoBuy','autobuyButton','Autobuy OFF','Autobuy ON');
+    toggleFrozen('autoBuy');
   }
 });
 
 // Press 'c' to toggle auto-GC
 document.addEventListener('keydown', function(event) {
   if(event.keyCode == 67) {
-    Game.Toggle('autogc','autogcButton','Autoclick GC OFF','Autoclick GC ON');
-    toggleFrozen('autogc');
+    Game.Toggle('autoGC','autogcButton','Autoclick GC OFF','Autoclick GC ON');
+    toggleFrozen('autoGC');
   }
 });
 
 function writeFCButton(setting) {
-  
+  var current = FrozenCookies[setting];
 }
 
 function toggleFrozen(setting) {
   if (!Number(localStorage.getItem(setting))) {
     localStorage.setItem(setting,1);
-//    Game.prefs[setting] = 1;
+    FrozenCookies[setting] = 1;
+    Game.prefs[setting] = 1;
   } else {
     localStorage.setItem(setting,0);
-//    Game.prefs[setting] = 0;
+    FrozenCookies[setting] = 0;
+    Game.prefs[setting] = 0;
   }
   FCStart();
 }
 
+function getProbabilityList() {
+  return cumulativeProbabilityList[Game.Has('Lucky day') + Game.Has('Serendipity')];
+}
+
 function cumulativeProbability(start, stop) {
-  return 1 - ((1 - cumulativeProbabilityList[stop]) / (1 - cumulativeProbabilityList[start]));
+  return 1 - ((1 - getProbabilityList()[stop]) / (1 - getProbabilityList()[start]));
 }
 
 function probabilitySpan(start, endProbability) {
-  var startProbability = cumulativeProbabilityList[start];
-  return _.sortedIndex(cumulativeProbabilityList, (startProbability + endProbability - startProbability * endProbability));
+  var startProbability = getProbabilityList()[start];
+  return _.sortedIndex(getProbabilityList(), (startProbability + endProbability - startProbability * endProbability));
 }
 
 function baseCps() {
@@ -242,17 +319,13 @@ function maxLuckyValue() {
 }
 
 function maxCookieTime() {
-  var baseCookieTime = Game.fps * 60 * 15;
-  if (Game.Has('Lucky day')) baseCookieTime/=2;
-  if (Game.Has('Serendipity')) baseCookieTime/=2;
-  if (Game.Has('Gold hoard')) baseCookieTime=0.01;
-  return baseCookieTime;
+  return Game.goldenCookie.maxTime
 }
 
 function gcPs(gcValue) {
-  var averageGCTime = maxCookieTime() * 19 / 900
+  var averageGCTime = probabilitySpan(0, 0.5) / Game.fps;
   gcValue /= averageGCTime;
-  gcValue *= simulatedGCPercent;
+  gcValue *= FrozenCookies.simulatedGCPercent;
   return gcValue;
 }
 
@@ -262,13 +335,11 @@ function gcEfficiency() {
   }
   var cost = Math.max(0,(maxLuckyValue() * 10 - Game.cookies));
   var deltaCps = gcPs(weightedCookieValue() - weightedCookieValue(true));
-// removed, pending verification of efficacy
-//  return  efficiencyWeight * divCps(cost, Game.cookiesPs) + divCps(cost, deltaCps);
   return divCps(cost, deltaCps);
 }
 
 function delayAmount() {
-  if (nextChainedPurchase().efficiency > gcEfficiency() || Game.goldenCookie.delay < Game.frenzy) {
+  if (nextChainedPurchase().efficiency > gcEfficiency() || (Game.frenzy && Game.Has('Get lucky'))) {
     return maxLuckyValue() * 10;
   } else if (weightedCookieValue() > weightedCookieValue(true)) {
     return Math.min(maxLuckyValue() * 10, Math.max(0,(nextChainedPurchase().efficiency - (gcEfficiency() * baseCps())) / gcEfficiency()));
@@ -277,81 +348,103 @@ function delayAmount() {
   }
 }
 
-function recommendationList() {
-  return upgradeStats().concat(buildingStats()).sort(function(a,b){return (a.efficiency - b.efficiency)});
+function recommendationList(recalculate) {
+  if (recalculate) {
+    FrozenCookies.caches.recommendationList = addScores(upgradeStats(recalculate).concat(buildingStats(recalculate)).sort(function(a,b){return (a.efficiency - b.efficiency)}));
+  }
+  return FrozenCookies.caches.recommendationList;
+//  return upgradeStats(recalculate).concat(buildingStats(recalculate)).sort(function(a,b){return (a.efficiency - b.efficiency)});
 }
 
-//var cachedNextPurchase = null;
-function nextPurchase() {
-//  if (recalculateCaches) {
-    var recList = recommendationList();
+function addScores(recommendations) {
+  var filteredList = recommendations.filter(function(a){return a.efficiency < Number.POSITIVE_INFINITY && a.efficiency > Number.NEGATIVE_INFINITY;})
+  if (filteredList.length > 0) {
+    var minValue = Math.log(recommendations[0].efficiency);
+    var maxValue = Math.log(recommendations[filteredList.length - 1].efficiency);
+    var spread = maxValue - minValue;
+    recommendations.forEach(function(purchaseRec, index){
+      if (purchaseRec.efficiency < Number.POSITIVE_INFINITY && purchaseRec.efficiency > Number.NEGATIVE_INFINITY) {
+        var purchaseValue = Math.log(purchaseRec.efficiency);
+        var purchaseSpread = purchaseValue - minValue;
+        recommendations[index].efficiencyScore = 1 - (purchaseSpread / spread);
+      } else {
+        recommendations[index].efficiencyScore = 0;
+      }
+    });
+  } else {
+    recommendations.forEach(function(purchaseRec,index){recommendations[index].efficiencyScore = 0;});
+  }
+  return recommendations;
+}
+
+function nextPurchase(recalculate) {
+  if (recalculate) {
+    var recList = recommendationList(recalculate);
     var purchase = recList[0];
     if (purchase.type == 'upgrade' && unfinishedUpgradePrereqs(Game.UpgradesById[purchase.id])) {
       var prereqList = unfinishedUpgradePrereqs(Game.UpgradesById[purchase.id]);
       purchase = recList.filter(function(a){return prereqList.some(function(b){return b.id == a.id && b.type == a.type})})[0];
     }
-//    cachedNextPurchase = purchase;
-//  }
-//  return cachedNextPurchase;
-  return purchase;
+    FrozenCookies.caches.nextPurchase = purchase;
+  }
+  return FrozenCookies.caches.nextPurchase;
+//  return purchase;
 }
 
 function nextChainedPurchase() {
   return recommendationList()[0];
 }
 
-//var cachedBuildings = null;
-function buildingStats() {
-//  if (recalculateCaches) {
-//    cachedBuildings = Game.ObjectsById.map(function (current, index) {
-  return Game.ObjectsById.map(function (current, index) {
-    var baseCpsOrig = baseCps();
-    var cpsOrig = baseCpsOrig + gcPs(weightedCookieValue(true));
-    var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
-    buildingToggle(current);
-    var baseCpsNew = baseCps();
-    var cpsNew = baseCpsNew + gcPs(weightedCookieValue(true));
-    buildingToggle(current, existing_achievements);
-    var deltaCps = cpsNew - cpsOrig;
-    var baseDeltaCps = baseCpsNew - baseCpsOrig;
-    var efficiency = efficiencyWeight * divCps(current.price, cpsOrig) + divCps(current.price, deltaCps);
-    return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.price, 'type' : 'building'};
-  });
-//  }
-//  return cachedBuildings;
-}
-
-//var cachedUpgrades = null;
-function upgradeStats() {
-//  if (recalculateCaches) {
-//    cachedUpgrades = Game.UpgradesById.map(function (current) {
-  return Game.UpgradesById.map(function (current) {
-    if (!current.bought) {
-      var needed = unfinishedUpgradePrereqs(current);
-      if (!current.unlocked && !needed) {
-        return null;
-      }
+function buildingStats(recalculate) {
+  if (recalculate) {
+    FrozenCookies.caches.buildings = Game.ObjectsById.map(function (current, index) {
+//    return Game.ObjectsById.map(function (current, index) {
       var baseCpsOrig = baseCps();
       var cpsOrig = baseCpsOrig + gcPs(weightedCookieValue(true));
       var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
-      var existing_wrath = Game.elderWrath;
-      var reverseFunctions = upgradeToggle(current);
+      buildingToggle(current);
       var baseCpsNew = baseCps();
       var cpsNew = baseCpsNew + gcPs(weightedCookieValue(true));
-      upgradeToggle(current, existing_achievements, reverseFunctions);
-      Game.elderWrath = existing_wrath;
+      buildingToggle(current, existing_achievements);
       var deltaCps = cpsNew - cpsOrig;
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
-      var cost = upgradePrereqCost(current);
-      var efficiency = efficiencyWeight * divCps(cost, cpsOrig) + divCps(cost, deltaCps);
-      if (deltaCps < 0) {
-        efficiency = Number.POSITIVE_INFINITY;
+      var efficiency = FrozenCookies.efficiencyWeight * divCps(current.price, cpsOrig) + divCps(current.price, deltaCps);
+      return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.price, 'purchase' : current, 'type' : 'building'};
+    });
+  }
+  return FrozenCookies.caches.buildings;
+}
+
+function upgradeStats(recalculate) {
+  if (recalculate) {
+    FrozenCookies.caches.upgrades = Game.UpgradesById.map(function (current) {
+  //  return Game.UpgradesById.map(function (current) {
+      if (!current.bought) {
+        var needed = unfinishedUpgradePrereqs(current);
+        if (!current.unlocked && !needed) {
+          return null;
+        }
+        var baseCpsOrig = baseCps();
+        var cpsOrig = baseCpsOrig + gcPs(weightedCookieValue(true));
+        var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
+        var existing_wrath = Game.elderWrath;
+        var reverseFunctions = upgradeToggle(current);
+        var baseCpsNew = baseCps();
+        var cpsNew = baseCpsNew + gcPs(weightedCookieValue(true));
+        upgradeToggle(current, existing_achievements, reverseFunctions);
+        Game.elderWrath = existing_wrath;
+        var deltaCps = cpsNew - cpsOrig;
+        var baseDeltaCps = baseCpsNew - baseCpsOrig;
+        var cost = upgradePrereqCost(current);
+        var efficiency = FrozenCookies.efficiencyWeight * divCps(cost, cpsOrig) + divCps(cost, deltaCps);
+        if (deltaCps < 0) {
+          efficiency = Number.POSITIVE_INFINITY;
+        }
+        return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : cost, 'purchase' : current, 'type' : 'upgrade'};
       }
-      return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : cost, 'type' : 'upgrade'};
-    }
-  }).filter(function(a){return a;});
-//  }
-//  return cachedUpgrades;
+    }).filter(function(a){return a;});
+  }
+  return FrozenCookies.caches.upgrades;
 }
 
 function upgradePrereqCost(upgrade) {
@@ -509,12 +602,12 @@ function buyFunctionToggle(upgrade) {
   return null;
 }
 
-Game.Win = function (what) {
+function fcWin(what) {
   if (typeof what==='string') {
     if (Game.Achievements[what]) {
       if (Game.Achievements[what].won==0) {
         Game.Achievements[what].won=1;
-        if (!disabledPopups) {
+        if (!FrozenCookies.disabledPopups) {
           Game.Popup('Achievement unlocked :<br>'+Game.Achievements[what].name+'<br> ');
         }
         if (Game.Achievements[what].hide!=3) {
@@ -530,81 +623,98 @@ Game.Win = function (what) {
 
 function shouldClickGC() {
 //  return Game.goldenCookie.life > 0 && gc_click_percent > 0 && Game.missedGoldenClicks + Game.goldenClicks >= 0 && ((Game.goldenClicks / (Game.missedGoldenClicks + Game.goldenClicks) <= gc_click_percent) || (Game.missedGoldenClicks + Game.goldenClicks == 0));
-  return Game.goldenCookie.life > 0 && Game.prefs.autogc;
+  return Game.goldenCookie.life > 0 && FrozenCookies.autoGC;
 }
 
 function autoclickFrenzy() {
-  if (Game.clickFrenzy > 0) {
-    Game.ClickCookie();
+  if (Game.clickFrenzy > 0 && !autoclickBot) {
+    FrozenCookies.autoclickBot = setInterval(function(){Game.ClickCookie();},FrozenCookies.clickFrenzySpeed);
+  } else if (Game.clickFrenzy == 0 && FrozenCookies.autoclickBot) {
+    clearInterval(FrozenCookies.autoclickBot);
+    FrozenCookies.autoclickBot = 0;
   }
 }
 
 function autoCookie() {
-  if (Game.cookieClicks < initial_clicks) {
-    for (var i=0; i<initial_clicks; i++) {
-      Game.ClickCookie();
+  if (!FrozenCookies.processing) {
+    FrozenCookies.processing = true;
+    if (Game.cookieClicks < FrozenCookies.initial_clicks) {
+      for (var i=0; i<FrozenCookies.initial_clicks; i++) {
+        Game.ClickCookie();
+      }
     }
-  }
-  // Handle possible lag issues? Only recalculate when CPS changes.
-//  if (lastCPS != Game.cookiesPs) {
-//    recalculateCaches = true;
-//  }
-  if (lastHCAmount < Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)) {
-    lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset);
-    prevLastHCTime = lastHCTime;
-    lastHCTime = Date.now();
-    updateLocalStorage();
-  }
-  var recommendation = nextPurchase();
-  var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
-  var purchase = store[recommendation.id];
-  if (Game.prefs.autobuy && Game.cookies >= delayAmount() + recommendation.cost) {
-    recommendation.time = Date.now() - Game.startDate;
-//    full_history.push(recommendation);  // Probably leaky, maybe laggy?
-    purchase.clickFunction = null;
-    disabledPopups = false;
-//    console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
-    purchase.buy();
-    disabledPopups = true;
-    autoCookie();
-  }
-  if (shouldClickGC()) {
-    Game.goldenCookie.click();
-    Game.goldenCookie.life = 0;
-//    full_history.push({'type' : 'golden_cookie', 'time' : Date.now() - initial_load_time});  // Probably leaky, maybe laggy?
-  }
-  if ((Game.frenzy > 0) != last_gc_state) {
-    if (last_gc_state) {
-      gc_time += Date.now() - last_gc_time;
-    } else {
-      non_gc_time += Date.now() - last_gc_time;
+//     Handle possible lag issues? Only recalculate when CPS changes.
+    if (FrozenCookies.lastHCAmount < Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)) {
+      FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset);
+      FrozenCookies.prevLastHCTime = FrozenCookies.lastHCTime;
+      var currHCPercent = (60 * 60 * (FrozenCookies.lastHCAmount - Game.prestige['Heavenly chips'])/((FrozenCookies.lastHCTime - Game.startDate)/1000));
+      if (currHCPercent > FrozenCookies.maxHCPercent) {
+        FrozenCookies.maxHCPercent = currHCPercent;
+      }
+      FrozenCookies.lastHCTime = Date.now();
+      updateLocalStorage();
     }
-    updateLocalStorage();
-    last_gc_state = (Game.frenzy > 0);
-    last_gc_time = Date.now();
+    if (FrozenCookies.lastCPS != Game.cookiesPs) {
+      FrozenCookies.recalculateCaches = true;
+      FrozenCookies.lastCPS = Game.cookiesPs;
+    }
+    var recommendation = nextPurchase(FrozenCookies.recalculateCaches);
+    if (FrozenCookies.recalculateCaches) {
+      FrozenCookies.recalculateCaches = false;
+    }
+//    var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
+//    var purchase = store[recommendation.id];
+    if (FrozenCookies.autoBuy && Game.cookies >= delayAmount() + recommendation.cost) {
+      recommendation.time = Date.now() - Game.startDate;
+//      full_history.push(recommendation);  // Probably leaky, maybe laggy?
+      recommendation.purchase.clickFunction = null;
+      disabledPopups = false;
+//      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
+      recommendation.purchase.buy();
+      disabledPopups = true;
+      autoCookie();
+    }
+    if (shouldClickGC()) {
+      Game.goldenCookie.click();
+      Game.goldenCookie.life = 0;
+//      full_history.push({'type' : 'golden_cookie', 'time' : Date.now() - initial_load_time});  // Probably leaky, maybe laggy?
+    }
+    if ((Game.frenzy > 0) != FrozenCookies.last_gc_state) {
+      if (FrozenCookies.last_gc_state) {
+        FrozenCookies.gc_time += Date.now() - FrozenCookies.last_gc_time;
+      } else {
+        FrozenCookies.non_gc_time += Date.now() - FrozenCookies.last_gc_time;
+      }
+      updateLocalStorage();
+      FrozenCookies.last_gc_state = (Game.frenzy > 0);
+      FrozenCookies.last_gc_time = Date.now();
+    }
+    FrozenCookies.processing = false;
   }
 }
 
 function FCStart() {
   //  To allow polling frequency to change, clear intervals before setting new ones.
   
-  if (cookieBot) {
-    clearInterval(cookieBot);
+  if (FrozenCookies.cookieBot) {
+    clearInterval(FrozenCookies.cookieBot);
+    FrozenCookies.cookieBot = 0;
   }
-  if (autoclickBot) {
-    clearInterval(autoclickBot);
+  if (FrozenCookies.autoclickBot) {
+    clearInterval(FrozenCookies.autoclickBot);
+    FrozenCookies.autoclickBot = 0;
   }
   
   // Now create new intervals with their specified frequencies.
   
-  if (frequency) {
-    cookieBot = setInterval(function() {autoCookie();}, frequency);
+  if (FrozenCookies.frequency) {
+    FrozenCookies.cookieBot = setInterval(function() {autoCookie();}, FrozenCookies.frequency);
   }
   
-  if (cookie_click_speed) {
-    autoclickBot = setInterval(function() {Game.ClickCookie();}, cookie_click_speed);
-  } else if (clickFrenzySpeed > 0) {
-    autoclickBot = setInterval(function() {autoclickFrenzy();}, clickFrenzySpeed);
+  if (FrozenCookies.cookieClickSpeed) {
+    FrozenCookies.autoclickBot = setInterval(function() {Game.ClickCookie();}, FrozenCookies.cookieClickSpeed);
+  } else if (FrozenCookies.clickFrenzySpeed > 0) {
+    FrozenCookies.autoclickBot = setInterval(function() {autoclickFrenzy();}, FrozenCookies.frequency);
   }
   
   FCMenu();
