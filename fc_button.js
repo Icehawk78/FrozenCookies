@@ -152,7 +152,7 @@ function updateTimers() {
   if (decimal_HC_complete>0) {
     t_draw.push({
       f_percent: decimal_HC_complete,
-      c1: "rgba(0, 0, 0, 1)",
+      c1: "rgba(239, 247, 255, 1)",
       name: "HC Completion",
       display: (Math.round(decimal_HC_complete*10000)/100)+"%"
     });
