@@ -605,7 +605,7 @@ function fcWin(what) {
     if (Game.Achievements[what]) {
       if (Game.Achievements[what].won==0) {
         Game.Achievements[what].won=1;
-        if (!disabledPopups) {
+        if (!FrozenCookies.disabledPopups) {
           Game.Popup('Achievement unlocked :<br>'+Game.Achievements[what].name+'<br> ');
         }
         if (Game.Achievements[what].hide!=3) {
