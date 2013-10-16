@@ -319,7 +319,7 @@ function maxLuckyValue() {
 }
 
 function maxCookieTime() {
-  return Game.goldenCookie.maxTime();
+  return Game.goldenCookie.maxTime
 }
 
 function gcPs(gcValue) {
