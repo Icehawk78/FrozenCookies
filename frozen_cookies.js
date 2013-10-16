@@ -191,6 +191,15 @@ function toggleFrozen(setting) {
   FCStart();
 }
 
+function cumulativeProbability(start, stop) {
+  return 1 - ((1 - cumulativeProbabilityList[stop]) / (1 - cumulativeProbabilityList[start]));
+}
+
+function probabilitySpan(start, endProbability) {
+  var startProbability = cumulativeProbabilityList[start];
+  return _.sortedIndex(cumulativeProbabilityList, (startProbability + endProbability - startProbability * endProbability));
+}
+
 function baseCps() {
   var frenzy_mod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
   return Game.cookiesPs / frenzy_mod;
