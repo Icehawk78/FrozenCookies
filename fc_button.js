@@ -157,7 +157,8 @@ function updateTimers() {
       display: (Math.round(decimal_HC_complete*10000)/100)+"%"
     });
   }
-  drawCircles(t_draw, 50, 500);
+  var height = $('#backgroundLeftCanvas').height() - 65;
+  drawCircles(t_draw, 50, height);
 }
 
 /*function updateBuyTimers() {
