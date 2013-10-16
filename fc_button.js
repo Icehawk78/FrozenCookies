@@ -108,22 +108,23 @@ function updateTimers() {
     });
   }
   if (bankMax > 0) {
+    var maxColor = (Game.cookies < bankTotal) ? 'rgba(252, 212, 0, 1)' : 'rgba(201, 169, 0, 1)'
     t_draw.push({
       f_percent: bankMax,
       name: "Max Bank",
       display: Beautify(bankTotal),
-      c1: 'rgba(252, 212, 0, 1)',
+      c1: maxColor,
       overlay: true
     });
-  }
-  if (bankPercent > 0 && Game.cookies < bankTotal) {
-    t_draw.push({
-      f_percent: bankPercent,
-      c1: 'rgba(201, 169, 0, 1)',
-      name: "Bank Completion",
-      display: timeDisplay(divCps(Math.max(bankTotal - Game.cookies,0), Game.cookiesPs)),
-      overlay: true
-    });
+    if (bankPercent > 0 && Game.cookies < bankTotal) {
+      t_draw.push({
+        f_percent: bankPercent,
+        c1: 'rgba(201, 169, 0, 1)',
+        name: "Bank Completion",
+        display: timeDisplay(divCps(Math.max(bankTotal - Game.cookies,0), Game.cookiesPs)),
+        overlay: true
+      });
+    }
   }
   if (gc_delay>0) {
     t_draw.push({
