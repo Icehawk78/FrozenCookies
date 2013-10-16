@@ -16,7 +16,8 @@ Game.oldUpdateMenu = Game.UpdateMenu;
 
 function drawCircles(t_d, x, y) {
   var c = $('#backgroundLeftCanvas');
-  var heightOffset = 45 - (15 * (t_d.length - 1) / 2)
+  var maxRadius = 10 + 10*t_d.length;
+  var heightOffset = maxRadius + 5 - (15 * (t_d.length - 1) / 2)
   var i_c = 0;
   var i_tc = 0;
   var t_b = ['rgba(170, 170, 170, 1)','rgba(187, 187, 187, 1)','rgba(204, 204, 204, 1)','rgba(221, 221, 221, 1)','rgba(238, 238, 238, 1)','rgba(255, 255, 255, 1)'];
@@ -25,7 +26,7 @@ function drawCircles(t_d, x, y) {
                      .reduce(function(sum,item){return sum+item;},0);	
   c.drawRect({
     fillStyle: 'rgba(153, 153, 153, 0.6)',
-    x: x+225, y: y+45,
+    x: x + (maxRadius + 5) * 5, y: y + maxRadius + 5,
     width: maxWidth + 20, height: maxHeight + 20,
   });
   
@@ -39,22 +40,22 @@ function drawCircles(t_d, x, y) {
       c.drawArc({
         strokeStyle: t_b[i_c],
         strokeWidth: 10,
-        x: x+45, y:y+45,
-        radius: 40-i_c*10,
+        x: x + (maxRadius + 5), y:y + maxRadius + 5,
+        radius: maxRadius - i_c*10,
       });
       c.drawArc({
         strokeStyle: t_b[i_c+2],
         strokeWidth: 1,
-        x: x+45, y:y+45,
-        radius: 35-i_c*10
+        x: x + (maxRadius + 5), y:y + maxRadius + 5,
+        radius: maxRadius - (i_c + 1)*10,
       });
     }
     c.drawArc({
       strokeStyle: o_draw.c1,
-      x: x+45, y:y+45,
+      x: x + (maxRadius + 5), y:y + maxRadius + 5,
+      radius: maxRadius - i_c*10,
       strokeWidth: 7,
       start: 0,
-      radius: 40-i_c*10,
       end: (360 * o_draw.f_percent)
     });
     if (o_draw.name)
@@ -64,7 +65,7 @@ function drawCircles(t_d, x, y) {
         fontSize: "12px",
         fontFamily: "Arial",
         fillStyle: o_draw.c1,
-        x: x+225, y: y+heightOffset+15*i_tc,
+        x: x + (maxRadius + 5) * 5, y: y + heightOffset+15*i_tc,
         text: s_t
       });   
       i_tc++;
