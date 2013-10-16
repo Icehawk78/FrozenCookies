@@ -112,7 +112,7 @@ function updateTimers() {
       f_percent: bankMax,
       name: "Max Bank",
       display: Beautify(bankTotal),
-      c1: 'rgba(238, 238, 238, 1)',
+      c1: 'rgba(252, 212, 0, 1)',
       overlay: true
     });
   }
