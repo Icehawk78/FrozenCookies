@@ -14,7 +14,7 @@ function fcInit() {
     var script_list = [
     'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
     'http://underscorejs.org/underscore-min.js',
-    'https://raw.github.com/Icehawk78/FrozenCookies/master/cc_upgrade_prerequisites.js',
+    'https://raw.github.com/Icehawk78/FrozenCookies/development/cc_upgrade_prerequisites.js',
     'https://raw.github.com/caleb531/jcanvas/master/jcanvas.js',
     'https://raw.github.com/Icehawk78/FrozenCookies/development/fc_button.js'
   ]
