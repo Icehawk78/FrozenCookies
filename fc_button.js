@@ -65,7 +65,7 @@ function drawCircles(t_d, x, y) {
         fontSize: "12px",
         fontFamily: "Arial",
         fillStyle: o_draw.c1,
-        x: x + (maxRadius + 5) * 5, y: y + heightOffset+15*i_tc,
+        x: x + maxRadius + 185, y: y + heightOffset+15*i_tc,
         text: s_t
       });   
       i_tc++;
