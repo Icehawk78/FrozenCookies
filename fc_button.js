@@ -213,7 +213,8 @@ function updateTimers() {
   drawCircles(t_draw, 50, 500);
 }*/
 
-// updateBuyTimers(); }
+oldBackground = Game.DrawBackground;
+Game.DrawBackground = function () { oldBackground(); updateTimers(); }// updateBuyTimers(); }
 
 function FCMenu() {
   Game.UpdateMenu = function() {
@@ -329,6 +330,4 @@ function FCMenu() {
       menu.append(subsection);
     }
   }
-  oldBackground = Game.DrawBackground;
-  Game.DrawBackground = function () { oldBackground(); updateTimers(); }
 }
