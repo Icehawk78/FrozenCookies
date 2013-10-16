@@ -119,7 +119,7 @@ function updateTimers() {
   if (bankPercent > 0 && Game.cookies < bankTotal) {
     t_draw.push({
       f_percent: bankPercent,
-      c1: 'rgba(255, 255, 255, 1)',
+      c1: 'rgba(152, 112, 0, 1)',
       name: "Bank Completion",
       display: timeDisplay(divCps(Math.max(bankTotal - Game.cookies,0), Game.cookiesPs)),
       overlay: true
@@ -152,7 +152,7 @@ function updateTimers() {
   if (decimal_HC_complete>0) {
     t_draw.push({
       f_percent: decimal_HC_complete,
-      c1: "rgba(239, 247, 255, 1)",
+      c1: "rgba(55, 198, 230, 1)",
       name: "HC Completion",
       display: (Math.round(decimal_HC_complete*10000)/100)+"%"
     });
