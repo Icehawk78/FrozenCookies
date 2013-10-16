@@ -116,7 +116,7 @@ function updateTimers() {
       overlay: true
     });
   }
-  if (bankPercent > 0 && Game.cookies < bankMax) {
+  if (bankPercent > 0 && Game.cookies < bankTotal) {
     t_draw.push({
       f_percent: bankPercent,
       c1: 'rgba(255, 255, 255, 1)',
