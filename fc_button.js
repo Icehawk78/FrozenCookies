@@ -332,6 +332,6 @@ function FCMenu() {
       subsection.append($('<div />').addClass('listing').append(buildTable));
       menu.append(subsection);
     }
-    if (Game.DrawBackgroundSet === 0) { Game.DrawBackground = function () { Game.oldDrawBackground(); updateTimers(); }; Game.DrawBackgroundSet = 1; }
   }
+  if (Game.DrawBackgroundSet === 0) { Game.DrawBackground = function () { Game.oldDrawBackground(); updateTimers(); }; Game.DrawBackgroundSet = 1; }
 }
