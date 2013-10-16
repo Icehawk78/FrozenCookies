@@ -90,10 +90,12 @@ function setOverrides() {
   eval("Game.Draw = " + Game.Draw.toString()
     .replace(/if \(Game.cookies>=me.price\) l\('product'\+me.id\).className='product enabled'; else l\('product'\+me.id\).className='product disabled';/, '(Game.cookies >= me.price) ? $("#product"+me.id).addClass("enabled").removeClass("disabled") : $("#product"+me.id).addClass("disabled").removeClass("enabled");')
     .replace(/if \(Game.cookies>=me.basePrice\) l\('upgrade'\+i\).className='crate upgrade enabled'; else l\('upgrade'\+i\).className='crate upgrade disabled';/, '(Game.cookies >= me.basePrice) ? $("#upgrade"+me.id).addClass("enabled").removeClass("disabled") : $("#upgrade"+me.id).addClass("disabled").removeClass("enabled");'));
+/*
   Game.RebuildStore=function(recalculate) {rebuildStore(recalculate);}
   Game.RebuildUpgrades=function(recalculate) {rebuildUpgrades(recalculate);}
   Game.RebuildStore(true);
   Game.RebuildUpgrades(true);
+*/
 }
 
 function preferenceParse(setting, defaultVal) {
