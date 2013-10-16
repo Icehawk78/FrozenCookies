@@ -264,13 +264,17 @@ function toggleFrozen(setting) {
   FCStart();
 }
 
+function getProbabilityList() {
+  return cumulativeProbabilityList[Game.Has('Lucky day') + Game.Has('Serendipity')];
+}
+
 function cumulativeProbability(start, stop) {
-  return 1 - ((1 - cumulativeProbabilityList[stop]) / (1 - cumulativeProbabilityList[start]));
+  return 1 - ((1 - getProbabilityList()[stop]) / (1 - getProbabilityList()[start]));
 }
 
 function probabilitySpan(start, endProbability) {
-  var startProbability = cumulativeProbabilityList[start];
-  return _.sortedIndex(cumulativeProbabilityList, (startProbability + endProbability - startProbability * endProbability));
+  var startProbability = getProbabilityList()[start];
+  return _.sortedIndex(getProbabilityList(), (startProbability + endProbability - startProbability * endProbability));
 }
 
 function baseCps() {
@@ -315,15 +319,11 @@ function maxLuckyValue() {
 }
 
 function maxCookieTime() {
-  var baseCookieTime = Game.fps * 60 * 15;
-  if (Game.Has('Lucky day')) baseCookieTime/=2;
-  if (Game.Has('Serendipity')) baseCookieTime/=2;
-  if (Game.Has('Gold hoard')) baseCookieTime=0.01;
-  return baseCookieTime;
+  return Game.goldenCookie.maxTime();
 }
 
 function gcPs(gcValue) {
-  var averageGCTime = maxCookieTime() * 19 / 900
+  var averageGCTime = probabilitySpan(0, 0.5) / Game.fps;
   gcValue /= averageGCTime;
   gcValue *= FrozenCookies.simulatedGCPercent;
   return gcValue;
