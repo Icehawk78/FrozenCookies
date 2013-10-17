@@ -6,7 +6,7 @@ An automated Cookie Clicker tool.
 How to use
 ----------
 
-1. Paste the *contents* (not the url) of https://raw.github.com/Icehawk78/FrozenCookies/master/fc_bookmarklet_loader.js into a bookmark.
+1. Paste the *contents* (not the url) of http://icehawk78.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark.
 2. Load up Cookie Clicker.
 3. Load the recently created bookmark.
 
@@ -30,6 +30,7 @@ What can Frozen Cookies do?
 What's new?
 -----------
 
+ - 2013-10-17: Timers are much smoother and not on the FC page, many stability improvements, newer GC valuation code, and moved the hosting URL to one that won't cause script-type warnings when you load it.
  - 2013-10-03: Finally getting around to updating this file. Lots of other changes have been added in the meantime.
  - 2013-09-23: Added Chained Upgrade purchases
 
