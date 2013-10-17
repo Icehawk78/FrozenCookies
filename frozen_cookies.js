@@ -285,6 +285,104 @@ function baseCps() {
   return Game.cookiesPs / frenzy_mod;
 }
 
+function cookieValue(bankAmount) {
+  var cps = baseCps();
+  var luckyMod = Game.Has('Get lucky') * 2;
+  var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1
+  var wrathValue = Game.elderWrath;
+  var value = 0;
+  // Clot
+  value -= cookieInfo.clot.odds[wrathValue] * cps * luckyMod * 66 * 0.5;
+  // Frenzy
+  value += cookieInfo.frenzy.odds[wrathValue] * cps * luckyMod * 77 * 7;
+  // Blood
+  value += cookieInfo.blood.odds[wrathValue] * cps * luckyMod * 666 * 6;
+  // Chain
+  value += cookieInfo.chain.odds[wrathValue] * calculateChainValue(bankAmount, cps);
+  // Ruin
+  value -= cookieInfo.ruin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10) + 13);
+  // Frenzy + Ruin
+  value -= cookieInfo.frenzyRuin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 7) + 13);
+  // Clot + Ruin
+  value -= cookieInfo.clotRuin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 0.5) + 13);
+  // Lucky
+  value += cookieInfo.lucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20) + 13);
+  // Frenzy + Lucky
+  value += cookieInfo.frenzyLucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20 * 7) + 13);
+  // Clot + Lucky
+  value += cookieInfo.clotLucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20 * 0.5) + 13);
+  // Click
+  value += (FrozenCookies.frenzyClickSpeed + FrozenCookies.cookieClickSpeed > 0) ? cookieInfo.click.odds[wrathValue] * (Game.mouseCps() / clickFrenzyMod) * (1000 / (FrozenCookies.frenzyClickSpeed + FrozenCookies.cookieClickSpeed)) : 0;
+  // Frenzy + Click
+  value += (FrozenCookies.frenzyClickSpeed + FrozenCookies.cookieClickSpeed > 0) ? cookieInfo.click.odds[wrathValue] * (Game.mouseCps() / clickFrenzyMod) * 7 * (1000 / (FrozenCookies.frenzyClickSpeed + FrozenCookies.cookieClickSpeed)) : 0;
+  // Clot + Click
+  value += (FrozenCookies.frenzyClickSpeed + FrozenCookies.cookieClickSpeed > 0) ? cookieInfo.click.odds[wrathValue] * (Game.mouseCps() / clickFrenzyMod) * 0.5 * (1000 / (FrozenCookies.frenzyClickSpeed + FrozenCookies.cookieClickSpeed)) : 0;
+  // Blah
+  value += 0;
+  return value;
+}
+
+function calculateChainValue(bankAmount, cps) {
+  var payoutTotal = 0;
+  var payoutNext = '6';
+  var step = 1;
+  var remainingProbability = 1;
+  while (payoutNext < bankAmount * 0.25 || payoutNext <= cps * 60 * 60 * 6) {
+    step += 1;
+    payoutTotal += remainingProbability * 0.1 * payoutNext;
+    remainingProbability -= remainingProbability * 0.1
+    payoutNext += '6';
+  }
+  payoutTotal += remainingProbability * payoutNext.substr(0,payoutNext.length-1);
+  return payoutTotal;
+}
+
+function luckyBank() {
+  return baseCps() * 60 * 20 * 10;
+}
+
+function luckyFrenzyBank() {
+  return baseCps() * 60 * 20 * 7 * 10;
+}
+
+function chainBank() {
+  return baseCps() * 60 * 60 * 6 * 4;
+}
+
+function cookieEfficiency(startingPoint, bankAmount) {
+  var results = Number.MAX_VALUE;
+  var currentValue = cookieValue(startingPoint);
+  var bankValue = cookieValue(bankAmount);
+  var bankCps = gcPs(bankValue);
+  if (bankCps > 0) {
+    if (bankAmount <= startingPoint) {
+      results = 0;
+    } else {
+      var cost = Math.max(0,(bankAmount - startingPoint));
+      var deltaCps = gcPs(bankValue - currentValue);
+      results = divCps(cost, deltaCps);
+    }
+  }
+  return results;
+}
+
+function bestBank(minEfficiency) {
+  var results = {};
+  var luckyBankEff = cookieEfficiency(0, luckyBank());
+  var luckyFrenzyBankEff = cookieEfficiency(Math.min(Game.cookies, luckyBank()), luckyFrenzyBank());
+  var chainBankEff = cookieEfficiency(Math.min(Game.cookies, luckyFrenzyBank()), chainBank());
+  if (chainBankEff < minEfficiency) {
+    results = {'amount' : chainBank(), 'efficiency' : chainBankEff};
+  } else if (luckyFrenzyBankEff < minEfficiency) {
+    results = {'amount' : luckyFrenzyBank(), 'efficiency' : luckyFrenzyBankEff};
+  } else if (luckyBankEff < minEfficiency) {
+    results = {'amount' : luckyBank(), 'efficiency' : luckyBankEff};
+  } else {
+    results = {'amount' : 0, 'efficiency' : 0};
+  }
+  return results;
+}
+
 function weightedCookieValue(useCurrent) {
   var cps = baseCps();
   var lucky_mod = Game.Has('Get lucky');
@@ -342,6 +440,8 @@ function gcEfficiency() {
 }
 
 function delayAmount() {
+  return bestBank(nextChainedPurchase().efficiency).amount;
+/*
   if (nextChainedPurchase().efficiency > gcEfficiency() || (Game.frenzy && Game.Has('Get lucky'))) {
     return maxLuckyValue() * 10;
   } else if (weightedCookieValue() > weightedCookieValue(true)) {
@@ -349,6 +449,7 @@ function delayAmount() {
   } else {
    return 0;
   }
+*/
 }
 
 function recommendationList(recalculate) {
