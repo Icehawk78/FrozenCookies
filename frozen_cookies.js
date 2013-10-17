@@ -776,6 +776,7 @@ function autoCookie() {
 //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
       recommendation.purchase.buy();
       disabledPopups = true;
+      FrozenCookies.recalculateCaches = true;
       autoCookie();
     }
     if (shouldClickGC()) {
