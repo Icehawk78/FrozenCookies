@@ -1,6 +1,6 @@
 // Global Variables
 var FrozenCookies = {};
-
+ 
 // Load external libraries
 FrozenCookies.loadInterval = setInterval(function() {
   if (Game && Game.ready) {
