@@ -60,6 +60,10 @@ function fcInit() {
   FrozenCookies.lastHCTime = Number(localStorage.getItem('lastHCTime'));
   FrozenCookies.prevLastHCTime = Number(localStorage.getItem('prevLastHCTime'));
   FrozenCookies.maxHCPercent = Number(localStorage.getItem('maxHCPercent'));
+  FrozenCookies.blacklist = localStorage.getItem('blacklist');
+  if (!blacklist[FrozenCookies.blacklist]) {
+    FrozenCookies.blacklist = 'none';
+  }
   FrozenCookies.lastCPS = Game.cookiesPs;
   FrozenCookies.disabledPopups = true;
   FrozenCookies.processing = false;
@@ -193,6 +197,7 @@ function updateLocalStorage() {
   localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
   localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
   localStorage.simulatedGCPercent = FrozenCookies.simulatedGCPercent;
+  localStorage.blacklist = FrozenCookies.blacklist;
   localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
   localStorage.frenzyTime = FrozenCookies.gc_time;
   localStorage.lastHCAmount = FrozenCookies.lastHCAmount;
@@ -372,14 +377,14 @@ function bestBank(minEfficiency) {
   var luckyBankEff = cookieEfficiency(0, luckyBank());
   var luckyFrenzyBankEff = cookieEfficiency(Math.min(Game.cookies, luckyBank()), luckyFrenzyBank());
   var chainBankEff = cookieEfficiency(Math.min(Game.cookies, luckyFrenzyBank()), chainBank());
-  if (chainBankEff < minEfficiency) {
-    results = {'amount' : chainBank(), 'efficiency' : chainBankEff};
-  } else if (luckyFrenzyBankEff < minEfficiency) {
-    results = {'amount' : luckyFrenzyBank(), 'efficiency' : luckyFrenzyBankEff};
-  } else if (luckyBankEff < minEfficiency) {
-    results = {'amount' : luckyBank(), 'efficiency' : luckyBankEff};
+  if (chainBankEff <= minEfficiency) {
+    results = {'cost': chainBank(), 'efficiency': chainBankEff};
+  } else if (luckyFrenzyBankEff <= minEfficiency) {
+    results = {'cost': luckyFrenzyBank(), 'efficiency': luckyFrenzyBankEff};
+  } else if (luckyBankEff <= minEfficiency) {
+    results = {'cost': luckyBank(), 'efficiency': luckyBankEff};
   } else {
-    results = {'amount' : 0, 'efficiency' : 0};
+    results = {'cost': 0, 'efficiency' : 0};
   }
   return results;
 }
@@ -441,7 +446,7 @@ function gcEfficiency() {
 }
 
 function delayAmount() {
-  return bestBank(nextChainedPurchase().efficiency).amount;
+  return bestBank(nextChainedPurchase().efficiency).cost;
 /*
   if (nextChainedPurchase().efficiency > gcEfficiency() || (Game.frenzy && Game.Has('Get lucky'))) {
     return maxLuckyValue() * 10;
@@ -451,6 +456,15 @@ function delayAmount() {
    return 0;
   }
 */
+}
+
+// Use this for changes to future efficiency calcs
+function purchaseEfficiency(price, deltaCps, baseDeltaCps, currentCps) {
+  var efficiency = Number.POSITIVE_INFINITY;
+  if (deltaCps > 0) {
+    efficiency = FrozenCookies.efficiencyWeight * divCps(price, currentCps) + divCps(price, deltaCps);
+  }
+  return efficiency;
 }
 
 function recommendationList(recalculate) {
@@ -502,8 +516,11 @@ function nextChainedPurchase() {
 
 function buildingStats(recalculate) {
   if (recalculate) {
+    var buildingBlacklist = blacklist[FrozenCookies.blacklist].buildings;
     FrozenCookies.caches.buildings = Game.ObjectsById.map(function (current, index) {
-//    return Game.ObjectsById.map(function (current, index) {
+      if (buildingBlacklist === true || _.contains(buildingBlacklist, current.id) || (!current.unlocked && !needed)) {
+        return null;
+      }
       var baseCpsOrig = baseCps();
       var cpsOrig = baseCpsOrig + gcPs(weightedCookieValue(true));
       var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
@@ -513,7 +530,7 @@ function buildingStats(recalculate) {
       buildingToggle(current, existing_achievements);
       var deltaCps = cpsNew - cpsOrig;
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
-      var efficiency = FrozenCookies.efficiencyWeight * divCps(current.price, cpsOrig) + divCps(current.price, deltaCps);
+      var efficiency = purchaseEfficiency(current.price, deltaCps, baseDeltaCps, cpsOrig)
       return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.price, 'purchase' : current, 'type' : 'building'};
     });
   }
@@ -522,11 +539,11 @@ function buildingStats(recalculate) {
 
 function upgradeStats(recalculate) {
   if (recalculate) {
+    var upgradeBlacklist = blacklist[FrozenCookies.blacklist].upgrades;
     FrozenCookies.caches.upgrades = Game.UpgradesById.map(function (current) {
-  //  return Game.UpgradesById.map(function (current) {
       if (!current.bought) {
         var needed = unfinishedUpgradePrereqs(current);
-        if (!current.unlocked && !needed) {
+        if (upgradeBlacklist === true || _.contains(upgradeBlacklist, current.id) || (!current.unlocked && !needed)) {
           return null;
         }
         var baseCpsOrig = baseCps();
@@ -541,10 +558,7 @@ function upgradeStats(recalculate) {
         var deltaCps = cpsNew - cpsOrig;
         var baseDeltaCps = baseCpsNew - baseCpsOrig;
         var cost = upgradePrereqCost(current);
-        var efficiency = FrozenCookies.efficiencyWeight * divCps(cost, cpsOrig) + divCps(cost, deltaCps);
-        if (deltaCps < 0) {
-          efficiency = Number.POSITIVE_INFINITY;
-        }
+        var efficiency = purchaseEfficiency(cost, deltaCps, baseDeltaCps, cpsOrig)
         return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : cost, 'purchase' : current, 'type' : 'upgrade'};
       }
     }).filter(function(a){return a;});
