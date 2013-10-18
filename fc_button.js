@@ -377,7 +377,7 @@ function FCMenu() {
       recommendationList().forEach(function(rec) {
         var store = (rec.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
         var item  = store[rec.id];
-        buildTable.append($('<tr><td><b>' + item.name + '</b></td><td>' + (Math.floor(purchaseRec.efficiencyScore * 10000) / 100).toString() + '%</td><td>' + Beautify(rec.efficiency) + '</td><td>' + Beautify(rec.cost) + '</td><td>' + Beautify(rec.delta_cps) + '</td></tr>'));
+        buildTable.append($('<tr><td><b>' + item.name + '</b></td><td>' + (Math.floor(rec.efficiencyScore * 10000) / 100).toString() + '%</td><td>' + Beautify(rec.efficiency) + '</td><td>' + Beautify(rec.cost) + '</td><td>' + Beautify(rec.delta_cps) + '</td></tr>'));
       });
       buildTable.append($('<tr><td><b>Golden Bank</b></td><td>n/a</td><td>' + Beautify(bankLevel.efficiency) + '</td><td>' + Beautify(bankLevel.cost) + '</td><td>' + Beautify(gcPs(cookieValue(Game.cookies) - cookieValue(bankLevel.cost))) + '</td></tr>'));
       subsection.append($('<div />').addClass('listing').append(buildTable));
