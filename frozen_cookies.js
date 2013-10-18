@@ -84,6 +84,7 @@ function setOverrides() {
   Beautify = function(value) {return fcBeautify(value);}
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
   Game.oldReset = Game.Reset;
+  Game.Reset = function(override) {fcReset(override);}
   Game.Win = function(what) {return fcWin(what);}
   Game.oldBackground = Game.DrawBackground;
   Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
@@ -171,7 +172,7 @@ function timeDisplay(seconds) {
 }
 
 function fcReset(bypass) {
-  Game.oldReset();
+  Game.oldReset(bypass);
   FrozenCookies.nonFrenzyTime = 0;
   FrozenCookies.frenzyTime = 0;
   FrozenCookies.last_gc_state = (Game.frenzy > 0);
