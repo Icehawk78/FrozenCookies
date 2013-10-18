@@ -98,7 +98,7 @@ var blacklist = {
   'speedrun': {
     'upgrades': [129,130,131,132,133],
     'buildings': []
-  }
+  },
   'hardcore': {
     'upgrades': true,
     'buildings': []
