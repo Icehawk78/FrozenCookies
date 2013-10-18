@@ -95,6 +95,10 @@ var upgradeJson = [
 ];
 
 var blacklist = {
+  'none': {
+    'upgrades': [],
+    'buildings': []
+  },
   'speedrun': {
     'upgrades': [129,130,131,132,133],
     'buildings': []
