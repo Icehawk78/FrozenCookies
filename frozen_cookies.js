@@ -375,8 +375,8 @@ function cookieEfficiency(startingPoint, bankAmount) {
 function bestBank(minEfficiency) {
   var results = {};
   var luckyBankEff = cookieEfficiency(0, luckyBank());
-  var luckyFrenzyBankEff = cookieEfficiency(Math.min(Game.cookies, luckyBank()), luckyFrenzyBank());
-  var chainBankEff = cookieEfficiency(Math.min(Game.cookies, luckyFrenzyBank()), chainBank());
+  var luckyFrenzyBankEff = cookieEfficiency(Game.cookies, luckyFrenzyBank());
+  var chainBankEff = cookieEfficiency(Game.cookies, chainBank());
   if (chainBankEff <= minEfficiency) {
     results = {'cost': chainBank(), 'efficiency': chainBankEff};
   } else if (luckyFrenzyBankEff <= minEfficiency) {
