@@ -61,9 +61,6 @@ function fcInit() {
   FrozenCookies.prevLastHCTime = Number(localStorage.getItem('prevLastHCTime'));
   FrozenCookies.maxHCPercent = Number(localStorage.getItem('maxHCPercent'));
   FrozenCookies.blacklist = localStorage.getItem('blacklist');
-  if (!blacklist[FrozenCookies.blacklist]) {
-    FrozenCookies.blacklist = 'none';
-  }
   FrozenCookies.lastCPS = Game.cookiesPs;
   FrozenCookies.disabledPopups = true;
   FrozenCookies.processing = false;
@@ -85,6 +82,9 @@ function fcInit() {
 
 function setOverrides() {
   nextPurchase(true);
+  if (!blacklist[FrozenCookies.blacklist]) {
+    FrozenCookies.blacklist = 'none';
+  }
   Beautify = function(value) {return fcBeautify(value);}
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
   Game.oldReset = Game.Reset;
