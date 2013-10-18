@@ -518,7 +518,7 @@ function buildingStats(recalculate) {
   if (recalculate) {
     var buildingBlacklist = blacklist[FrozenCookies.blacklist].buildings;
     FrozenCookies.caches.buildings = Game.ObjectsById.map(function (current, index) {
-      if (buildingBlacklist === true || _.contains(buildingBlacklist, current.id) || (!current.unlocked && !needed)) {
+      if (buildingBlacklist === true || _.contains(buildingBlacklist, current.id)) {
         return null;
       }
       var baseCpsOrig = baseCps();
