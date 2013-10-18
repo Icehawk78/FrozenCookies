@@ -81,10 +81,10 @@ function fcInit() {
 }
 
 function setOverrides() {
-  nextPurchase(true);
   if (!blacklist[FrozenCookies.blacklist]) {
     FrozenCookies.blacklist = 'none';
   }
+  nextPurchase(true);
   Beautify = function(value) {return fcBeautify(value);}
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
   Game.oldReset = Game.Reset;
