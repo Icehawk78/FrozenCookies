@@ -306,7 +306,7 @@ function cookieValue(bankAmount) {
   // Blood
   value += cookieInfo.blood.odds[wrathValue] * cps * luckyMod * 666 * 6;
   // Chain
-  value += cookieInfo.chain.odds[wrathValue] * calculateChainValue(bankAmount, cps);
+  value += cookieInfo.chain.odds[wrathValue] * calculateChainValue(bankAmount, cps, (7 - (wrathValue / 3)));
   // Ruin
   value -= cookieInfo.ruin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10) + 13);
   // Frenzy + Ruin
@@ -330,6 +330,13 @@ function cookieValue(bankAmount) {
   return value;
 }
 
+function calculateChainValue(bankAmount, cps, digit) { 
+  x = Math.min(bankAmount, (cps * 60 * 60 * 6 * 4));
+  n = Math.floor(Math.log((9*x)/(4*digit))/Math.LN10);
+  return 125 * Math.pow(9,(n-3)) * digit;
+}
+
+/* Old way, less efficient
 function calculateChainValue(bankAmount, cps) {
   var payoutTotal = 0;
   var payoutNext = '6';
@@ -344,6 +351,7 @@ function calculateChainValue(bankAmount, cps) {
   payoutTotal += remainingProbability * payoutNext.substr(0,payoutNext.length-1);
   return payoutTotal;
 }
+*/
 
 function luckyBank() {
   return baseCps() * 60 * 20 * 10;
