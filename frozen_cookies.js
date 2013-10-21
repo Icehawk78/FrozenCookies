@@ -63,7 +63,7 @@ function fcInit() {
   FrozenCookies.blacklist = localStorage.getItem('blacklist');
   FrozenCookies.lastCPS = Game.cookiesPs;
   FrozenCookies.lastCookieCPS = 0;
-  FrozenCookies.lastBank = 0;
+  FrozenCookies.lastBank = {'cost': 0, 'efficiency' : 0};
   FrozenCookies.disabledPopups = true;
   FrozenCookies.processing = false;
   
@@ -792,11 +792,11 @@ function autoCookie() {
     }
     var recommendation = nextPurchase(FrozenCookies.recalculateCaches);
     var currentBank = bestBank(recommendation.efficiency);
-    if (FrozenCookies.lastBank != currentBank) {
+    if (FrozenCookies.lastBank.cost != currentBank.cost) {
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.lastBank = currentBank;
     }
-    var currentCookieCPS = gcPs(cookieValue(currentBank));
+    var currentCookieCPS = gcPs(cookieValue(currentBank.cost));
     if (FrozenCookies.lastCookieCPS != currentCookieCPS) {
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.lastCookieCPS = currentCookieCPS;
