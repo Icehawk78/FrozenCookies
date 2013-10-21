@@ -780,7 +780,7 @@ function autoCookie() {
       FrozenCookies.lastCPS = Game.cookiesPs;
     }
     var recommendation = nextPurchase(FrozenCookies.recalculateCaches);
-    var currentBank = bestBank(recommendations.efficiency);
+    var currentBank = bestBank(recommendation.efficiency);
     if (FrozenCookies.lastBank != currentBank) {
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.lastBank = currentBank;
