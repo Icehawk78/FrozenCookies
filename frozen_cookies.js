@@ -62,6 +62,8 @@ function fcInit() {
   FrozenCookies.maxHCPercent = Number(localStorage.getItem('maxHCPercent'));
   FrozenCookies.blacklist = localStorage.getItem('blacklist');
   FrozenCookies.lastCPS = Game.cookiesPs;
+  FrozenCookies.lastCookieCPS = 0;
+  FrozenCookies.lastBank = 0;
   FrozenCookies.disabledPopups = true;
   FrozenCookies.processing = false;
   
@@ -778,7 +780,18 @@ function autoCookie() {
       FrozenCookies.lastCPS = Game.cookiesPs;
     }
     var recommendation = nextPurchase(FrozenCookies.recalculateCaches);
+    var currentBank = bestBank(recommendations.efficiency);
+    if (FrozenCookies.lastBank != currentBank) {
+      FrozenCookies.recalculateCaches = true;
+      FrozenCookies.lastBank = currentBank;
+    }
+    var currentCookieCPS = gcPs(cookieValue(currentBank));
+    if (FrozenCookies.lastCookieCPS != currentCookieCPS) {
+      FrozenCookies.recalculateCaches = true;
+      FrozenCookies.lastCookieCPS = currentCookieCPS;
+    }
     if (FrozenCookies.recalculateCaches) {
+      recommendation = nextPurchase(FrozenCookies.recalculateCaches);
       FrozenCookies.recalculateCaches = false;
     }
 //    var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
