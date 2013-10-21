@@ -565,7 +565,7 @@ function upgradeStats(recalculate) {
         var existing_wrath = Game.elderWrath;
         var reverseFunctions = upgradeToggle(current);
         var baseCpsNew = baseCps();
-        var cpsNew = baseCpsNew + gcPs(vookieValue(Math.max(Game.cookies,FrozenCookies.lastBank.cost)));
+        var cpsNew = baseCpsNew + gcPs(cookieValue(Math.max(Game.cookies,FrozenCookies.lastBank.cost)));
         upgradeToggle(current, existing_achievements, reverseFunctions);
         Game.elderWrath = existing_wrath;
         var deltaCps = cpsNew - cpsOrig;
