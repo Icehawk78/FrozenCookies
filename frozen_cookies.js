@@ -535,11 +535,11 @@ function buildingStats(recalculate) {
         return null;
       }
       var baseCpsOrig = baseCps();
-      var cpsOrig = baseCpsOrig + gcPs(cookieValue(Game.cookies));
+      var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, FrozenCookies.lastBank.cost)));
       var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
       buildingToggle(current);
       var baseCpsNew = baseCps();
-      var cpsNew = baseCpsNew + gcPs(cookieValue(Math.max(Game.cookies,FrozenCookies.lastBank.cost)));
+      var cpsNew = baseCpsNew + gcPs(cookieValue(FrozenCookies.lastBank.cost));
       buildingToggle(current, existing_achievements);
       var deltaCps = cpsNew - cpsOrig;
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
@@ -560,12 +560,12 @@ function upgradeStats(recalculate) {
           return null;
         }
         var baseCpsOrig = baseCps();
-        var cpsOrig = baseCpsOrig + gcPs(cookieValue(Game.cookies));
+        var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, FrozenCookies.lastBank.cost)));
         var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
         var existing_wrath = Game.elderWrath;
         var reverseFunctions = upgradeToggle(current);
         var baseCpsNew = baseCps();
-        var cpsNew = baseCpsNew + gcPs(cookieValue(Math.max(Game.cookies,FrozenCookies.lastBank.cost)));
+        var cpsNew = baseCpsNew + gcPs(cookieValue(FrozenCookies.lastBank.cost));
         upgradeToggle(current, existing_achievements, reverseFunctions);
         Game.elderWrath = existing_wrath;
         var deltaCps = cpsNew - cpsOrig;
