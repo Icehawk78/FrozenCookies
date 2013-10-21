@@ -539,7 +539,7 @@ function buildingStats(recalculate) {
       var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
       buildingToggle(current);
       var baseCpsNew = baseCps();
-      var cpsNew = baseCpsNew + gcPs(cookieValue(FrozenCookies.lastBank));
+      var cpsNew = baseCpsNew + gcPs(cookieValue(FrozenCookies.lastBank.cost));
       buildingToggle(current, existing_achievements);
       var deltaCps = cpsNew - cpsOrig;
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
@@ -565,7 +565,7 @@ function upgradeStats(recalculate) {
         var existing_wrath = Game.elderWrath;
         var reverseFunctions = upgradeToggle(current);
         var baseCpsNew = baseCps();
-        var cpsNew = baseCpsNew + gcPs(cookieValue(FrozenCookies.lastBank));
+        var cpsNew = baseCpsNew + gcPs(cookieValue(FrozenCookies.lastBank.cost));
         upgradeToggle(current, existing_achievements, reverseFunctions);
         Game.elderWrath = existing_wrath;
         var deltaCps = cpsNew - cpsOrig;
