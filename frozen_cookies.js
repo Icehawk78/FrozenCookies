@@ -362,7 +362,10 @@ function luckyFrenzyBank() {
 }
 
 function chainBank() {
-  return baseCps() * 60 * 60 * 6 * 4;
+//  More exact
+  var digit = 7 - Math.floor(Game.elderWrath / 3);
+  return 4 * Math.floor(digit / 9 * Math.pow(10, Math.floor(Math.log(194400*baseCps()/digit)/Math.LN10 )));
+//  return baseCps() * 60 * 60 * 6 * 4;
 }
 
 function cookieEfficiency(startingPoint, bankAmount) {
