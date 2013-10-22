@@ -287,45 +287,47 @@ function FCMenu() {
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Autobuy Information'));
       var recommendation = nextPurchase();
-      var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
-      var purchase = store[recommendation.id];
-      var chain_recommend = recommendationList()[0];
-      var chain_store = null;
-      var bankLevel = bestBank(nextChainedPurchase().efficiency);
-      subsection.append($('<div />').addClass('listing').html('<b>Next Purchase:</b> ' + purchase.name));
-      if (!(recommendation.id == chain_recommend.id && recommendation.type == chain_recommend.type)) {
-        chain_store = (chain_recommend.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
-        subsection.append($('<div />').addClass('listing').html('<b>Building Chain to:</b> ' + chain_store[chain_recommend.id].name));
+      var chainRecommendation = nextChainedPurchase();
+      var isChained = !(recommendation.id == chainRecommendation.id && recommendation.type == chainRecommendation.type);
+      var bankLevel = bestBank(chainRecommendation.efficiency);
+      subsection.append($('<div />').addClass('listing').html('<b>Next Purchase:</b> ' + recommendation.purchase.name));
+      if (isChained) {
+        subsection.append($('<div />').addClass('listing').html('<b>Building Chain to:</b> ' + chainRecommendation.purchase.name));
       }
-      subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay(divCps((recommendation.cost + delayAmount() - Game.cookies), Game.cookiesPs))));
-      if (!(recommendation.id == chain_recommend.id && recommendation.type == chain_recommend.type)) {
-        subsection.append($('<div />').addClass('listing').html('<b>Time til Chain completion:</b> ' + timeDisplay(chain_recommend.cost)));
+      subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay(divCps((recommendation.cost + bankLevel.cost - Game.cookies), Game.cookiesPs))));
+      if (isChained) {
+        subsection.append($('<div />').addClass('listing').html('<b>Time til Chain completion:</b> ' + timeDisplay(divCps(Math.max(0,(chainRecommendation.cost + bankLevel.cost - Game.cookies)), Game.cookiesPs))));
       }
       subsection.append($('<div />').addClass('listing').html('<b>Cost:</b> ' + Beautify(recommendation.cost)));
       subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Bank:</b> ' + Beautify(bankLevel.cost)));
       subsection.append($('<div />').addClass('listing').html('<b>Base &#916; CPS:</b> ' + Beautify(recommendation.base_delta_cps)));
       subsection.append($('<div />').addClass('listing').html('<b>Full &#916; CPS:</b> ' + Beautify(recommendation.delta_cps)));
       subsection.append($('<div />').addClass('listing').html('<b>Purchase Efficiency:</b> ' + Beautify(recommendation.efficiency)));
-      if (!(recommendation.id == chain_recommend.id && recommendation.type == chain_recommend.type)) {
-        subsection.append($('<div />').addClass('listing').html('<b>Chain Efficiency:</b> ' + Beautify(chain_recommend.efficiency)));
+      if (isChained) {
+        subsection.append($('<div />').addClass('listing').html('<b>Chain Efficiency:</b> ' + Beautify(chainRecommendation.efficiency)));
       }
-      if (Game.cookiesPs > 0) {
+      if (bankLevel.efficiency > 0) {
         subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Efficiency:</b> ' + Beautify(bankLevel.efficiency)));
       }
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Golden Cookie Information'));
-      var isMaxed = Game.cookies >= FrozenCookies.lastBank.cost;
+      var currentCookies = Math.min(Game.cookies, FrozenCookies.targetBank.cost);
+      var maxCookies = bestBank(Number.POSITIVE_INFINITY).cost;
+      var isTarget = FrozenCookies.targetBank.cost == FrozenCookies.currentBank.cost;
+      var isMax = currentCookies == maxCookies;
+      var targetTxt = isTarget ? '' : ' (Building Bank)';
       var maxTxt = isMaxed ? ' (Max)' : '';
-      subsection.append($('<div />').addClass('listing').html('<b>Current Average Cookie Value' + maxTxt + ':</b> ' + Beautify(cookieValue(Math.min(Game.cookies, FrozenCookies.lastBank.cost)))));
-      if (!isMaxed) {
-        subsection.append($('<div />').addClass('listing').html('<b>Max Average Cookie Value:</b> ' + Beautify(cookieValue(maxLuckyValue() * 10))));
+      subsection.append($('<div />').addClass('listing').html('<b>Current Average Cookie Value' + targetTxt + maxTxt + ':</b> ' + Beautify(cookieValue(currentCookies))));
+      if (!isTarget) {
+        subsection.append($('<div />').addClass('listing').html('<b>Target Average Cookie Value:</b> ' + Beautify(cookieValue(FrozenCookies.targetBank.cost))));
+      }
+      if (!isMax) {
+        subsection.append($('<div />').addClass('listing').html('<b>Max Average Cookie Value:</b> ' + Beautify(cookieValue(maxCookies))));
       }
       subsection.append($('<div />').addClass('listing').html('<b>Max Lucky Cookie Value:</b> ' + Beautify(maxLuckyValue())));
       subsection.append($('<div />').addClass('listing').html('<b>Cookie Bank Required for Max Lucky:</b> ' + Beautify(maxLuckyValue() * 10)));
-      if (Game.cookiesPs > 0) {
-        subsection.append($('<div />').addClass('listing').html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(cookieValue(Math.min(Game.cookies, FrozenCookies.lastBank.cost))))));
-      }
+      subsection.append($('<div />').addClass('listing').html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(cookieValue(currentCookies)))));
       subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Clicks:</b> ' + Beautify(Game.goldenClicks)));
       subsection.append($('<div />').addClass('listing').html('<b>Missed Golden Cookie Clicks:</b> ' + Beautify(Game.missedGoldenClicks)));
       subsection.append($('<div />').addClass('listing').html('<b>Last Golden Cookie Effect:</b> ' + Game.goldenCookie.last));
