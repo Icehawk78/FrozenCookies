@@ -387,19 +387,12 @@ function cookieEfficiency(startingPoint, bankAmount) {
 
 function bestBank(minEfficiency) {
   var results = {};
-  var luckyBankEff = cookieEfficiency(0, luckyBank());
-  var luckyFrenzyBankEff = cookieEfficiency(Game.cookies, luckyFrenzyBank());
-  var chainBankEff = cookieEfficiency(Game.cookies, chainBank());
-  if (chainBankEff <= minEfficiency) {
-    results = {'cost': chainBank(), 'efficiency': chainBankEff};
-  } else if (luckyFrenzyBankEff <= minEfficiency) {
-    results = {'cost': luckyFrenzyBank(), 'efficiency': luckyFrenzyBankEff};
-  } else if (luckyBankEff <= minEfficiency) {
-    results = {'cost': luckyBank(), 'efficiency': luckyBankEff};
-  } else {
-    results = {'cost': 0, 'efficiency' : 0};
-  }
-  return results;
+  var bankLevels = [0, luckyBank(), luckyFrenzyBank(), chainBank()].sort(function(a,b){return b-a;}).map(function(bank){
+    return {'cost': bank, 'efficiency': cookieEfficiency(Game.cookies, bank)};
+  }).filter(function(bank){
+    return (bank.efficiency <= minEfficiency) ? bank : null;
+  });
+  return bankLevels[0];
 }
 
 function weightedCookieValue(useCurrent) {
@@ -530,16 +523,17 @@ function nextChainedPurchase() {
 function buildingStats(recalculate) {
   if (recalculate) {
     var buildingBlacklist = blacklist[FrozenCookies.blacklist].buildings;
+    var currentBank = bestBank(0).cost;
     FrozenCookies.caches.buildings = Game.ObjectsById.map(function (current, index) {
       if (buildingBlacklist === true || _.contains(buildingBlacklist, current.id)) {
         return null;
       }
       var baseCpsOrig = baseCps();
-      var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, FrozenCookies.lastBank.cost)));
+      var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank)));
       var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
       buildingToggle(current);
       var baseCpsNew = baseCps();
-      var cpsNew = baseCpsNew + gcPs(cookieValue(FrozenCookies.lastBank.cost));
+      var cpsNew = baseCpsNew + gcPs(cookieValue(currentBank));
       buildingToggle(current, existing_achievements);
       var deltaCps = cpsNew - cpsOrig;
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
@@ -553,6 +547,7 @@ function buildingStats(recalculate) {
 function upgradeStats(recalculate) {
   if (recalculate) {
     var upgradeBlacklist = blacklist[FrozenCookies.blacklist].upgrades;
+    var currentBank = bestBank(0).cost;
     FrozenCookies.caches.upgrades = Game.UpgradesById.map(function (current) {
       if (!current.bought) {
         var needed = unfinishedUpgradePrereqs(current);
@@ -560,12 +555,12 @@ function upgradeStats(recalculate) {
           return null;
         }
         var baseCpsOrig = baseCps();
-        var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, FrozenCookies.lastBank.cost)));
+        var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank)));
         var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
         var existing_wrath = Game.elderWrath;
         var reverseFunctions = upgradeToggle(current);
         var baseCpsNew = baseCps();
-        var cpsNew = baseCpsNew + gcPs(cookieValue(FrozenCookies.lastBank.cost));
+        var cpsNew = baseCpsNew + gcPs(cookieValue(currentBank));
         upgradeToggle(current, existing_achievements, reverseFunctions);
         Game.elderWrath = existing_wrath;
         var deltaCps = cpsNew - cpsOrig;
