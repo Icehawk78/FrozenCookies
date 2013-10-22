@@ -291,7 +291,7 @@ function baseCps() {
 
 function cookieValue(bankAmount) {
   var cps = baseCps();
-  var luckyMod = Game.Has('Get lucky') * 2;
+  var luckyMod = Game.Has('Get lucky') ? 2 : 1;
   var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1
   var wrathValue = Game.elderWrath;
   var value = 0;
