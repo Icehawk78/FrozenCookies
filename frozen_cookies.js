@@ -62,6 +62,8 @@ function fcInit() {
   FrozenCookies.maxHCPercent = Number(localStorage.getItem('maxHCPercent'));
   FrozenCookies.blacklist = localStorage.getItem('blacklist');
   FrozenCookies.lastCPS = Game.cookiesPs;
+  FrozenCookies.lastCookieCPS = 0;
+  FrozenCookies.lastBank = {'cost': 0, 'efficiency' : 0};
   FrozenCookies.disabledPopups = true;
   FrozenCookies.processing = false;
   
@@ -181,7 +183,7 @@ function fcReset(bypass) {
   FrozenCookies.frenzyTime = 0;
   FrozenCookies.last_gc_state = (Game.frenzy > 0);
   FrozenCookies.last_gc_time = Date.now();
-  FrozenCookies.lastHCAmount = Game.prestige['Heavenly chips'];
+  FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset);
   FrozenCookies.lastHCTime = Date.now();
   FrozenCookies.maxHCPercent = 0;
   FrozenCookies.prevLastHCTime = Date.now();
@@ -304,7 +306,7 @@ function cookieValue(bankAmount) {
   // Blood
   value += cookieInfo.blood.odds[wrathValue] * cps * luckyMod * 666 * 6;
   // Chain
-  value += cookieInfo.chain.odds[wrathValue] * calculateChainValue(bankAmount, cps);
+  value += cookieInfo.chain.odds[wrathValue] * calculateChainValue(bankAmount, cps, (7 - (wrathValue / 3)));
   // Ruin
   value -= cookieInfo.ruin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10) + 13);
   // Frenzy + Ruin
@@ -328,6 +330,13 @@ function cookieValue(bankAmount) {
   return value;
 }
 
+function calculateChainValue(bankAmount, cps, digit) { 
+  x = Math.min(bankAmount, (cps * 60 * 60 * 6 * 4));
+  n = Math.floor(Math.log((9*x)/(4*digit))/Math.LN10);
+  return 125 * Math.pow(9,(n-3)) * digit;
+}
+
+/* Old way, less efficient
 function calculateChainValue(bankAmount, cps) {
   var payoutTotal = 0;
   var payoutNext = '6';
@@ -342,6 +351,7 @@ function calculateChainValue(bankAmount, cps) {
   payoutTotal += remainingProbability * payoutNext.substr(0,payoutNext.length-1);
   return payoutTotal;
 }
+*/
 
 function luckyBank() {
   return baseCps() * 60 * 20 * 10;
@@ -352,7 +362,10 @@ function luckyFrenzyBank() {
 }
 
 function chainBank() {
-  return baseCps() * 60 * 60 * 6 * 4;
+//  More exact
+  var digit = 7 - Math.floor(Game.elderWrath / 3);
+  return 4 * Math.floor(digit / 9 * Math.pow(10, Math.floor(Math.log(194400*baseCps()/digit)/Math.LN10 )));
+//  return baseCps() * 60 * 60 * 6 * 4;
 }
 
 function cookieEfficiency(startingPoint, bankAmount) {
@@ -522,11 +535,11 @@ function buildingStats(recalculate) {
         return null;
       }
       var baseCpsOrig = baseCps();
-      var cpsOrig = baseCpsOrig + gcPs(weightedCookieValue(true));
+      var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, FrozenCookies.lastBank.cost)));
       var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
       buildingToggle(current);
       var baseCpsNew = baseCps();
-      var cpsNew = baseCpsNew + gcPs(weightedCookieValue(true));
+      var cpsNew = baseCpsNew + gcPs(cookieValue(FrozenCookies.lastBank.cost));
       buildingToggle(current, existing_achievements);
       var deltaCps = cpsNew - cpsOrig;
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
@@ -547,12 +560,12 @@ function upgradeStats(recalculate) {
           return null;
         }
         var baseCpsOrig = baseCps();
-        var cpsOrig = baseCpsOrig + gcPs(weightedCookieValue(true));
+        var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, FrozenCookies.lastBank.cost)));
         var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
         var existing_wrath = Game.elderWrath;
         var reverseFunctions = upgradeToggle(current);
         var baseCpsNew = baseCps();
-        var cpsNew = baseCpsNew + gcPs(weightedCookieValue(true));
+        var cpsNew = baseCpsNew + gcPs(cookieValue(FrozenCookies.lastBank.cost));
         upgradeToggle(current, existing_achievements, reverseFunctions);
         Game.elderWrath = existing_wrath;
         var deltaCps = cpsNew - cpsOrig;
@@ -778,7 +791,18 @@ function autoCookie() {
       FrozenCookies.lastCPS = Game.cookiesPs;
     }
     var recommendation = nextPurchase(FrozenCookies.recalculateCaches);
+    var currentBank = bestBank(recommendation.efficiency);
+    if (FrozenCookies.lastBank.cost != currentBank.cost) {
+      FrozenCookies.recalculateCaches = true;
+      FrozenCookies.lastBank = currentBank;
+    }
+    var currentCookieCPS = gcPs(cookieValue(currentBank.cost));
+    if (FrozenCookies.lastCookieCPS != currentCookieCPS) {
+      FrozenCookies.recalculateCaches = true;
+      FrozenCookies.lastCookieCPS = currentCookieCPS;
+    }
     if (FrozenCookies.recalculateCaches) {
+      recommendation = nextPurchase(FrozenCookies.recalculateCaches);
       FrozenCookies.recalculateCaches = false;
     }
 //    var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;

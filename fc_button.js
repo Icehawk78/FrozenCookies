@@ -315,16 +315,16 @@ function FCMenu() {
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Golden Cookie Information'));
-      var isMaxed = weightedCookieValue(true) == weightedCookieValue();
+      var isMaxed = Game.cookies >= FrozenCookies.lastBank.cost;
       var maxTxt = isMaxed ? ' (Max)' : '';
-      subsection.append($('<div />').addClass('listing').html('<b>Current Average Cookie Value' + maxTxt + ':</b> ' + Beautify(weightedCookieValue(true))));
+      subsection.append($('<div />').addClass('listing').html('<b>Current Average Cookie Value' + maxTxt + ':</b> ' + Beautify(cookieValue(Math.min(Game.cookies, FrozenCookies.lastBank.cost)))));
       if (!isMaxed) {
-        subsection.append($('<div />').addClass('listing').html('<b>Max Average Cookie Value:</b> ' + Beautify(weightedCookieValue())));
+        subsection.append($('<div />').addClass('listing').html('<b>Max Average Cookie Value:</b> ' + Beautify(cookieValue(maxLuckyValue() * 10))));
       }
       subsection.append($('<div />').addClass('listing').html('<b>Max Lucky Cookie Value:</b> ' + Beautify(maxLuckyValue())));
       subsection.append($('<div />').addClass('listing').html('<b>Cookie Bank Required for Max Lucky:</b> ' + Beautify(maxLuckyValue() * 10)));
       if (Game.cookiesPs > 0) {
-        subsection.append($('<div />').addClass('listing').html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(weightedCookieValue(true)))));
+        subsection.append($('<div />').addClass('listing').html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(cookieValue(Math.min(Game.cookies, FrozenCookies.lastBank.cost))))));
       }
       subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Clicks:</b> ' + Beautify(Game.goldenClicks)));
       subsection.append($('<div />').addClass('listing').html('<b>Missed Golden Cookie Clicks:</b> ' + Beautify(Game.missedGoldenClicks)));
@@ -361,7 +361,7 @@ function FCMenu() {
       var frenzyChosen = (Game.frenzy > 0) ? ' (*)' : '';
       subsection.append($('<div />').addClass('listing').html('<b>Base CPS' + baseChosen + ':</b> ' + Beautify(cps)));
       subsection.append($('<div />').addClass('listing').html('<b>Frenzy CPS' + frenzyChosen + ':</b> ' + Beautify(cps * 7)));
-      subsection.append($('<div />').addClass('listing').html('<b>Estimated Effective CPS:</b> ' + Beautify(cps + gcPs(weightedCookieValue(true)))));
+      subsection.append($('<div />').addClass('listing').html('<b>Estimated Effective CPS:</b> ' + Beautify(cps + gcPs(cookieValue(Game.cookies)))));
       subsection.append($('<div />').addClass('listing').html('<b>Game Started:</b> ' + Game.sayTime((Date.now()-Game.startDate)/1000*Game.fps)));
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
@@ -379,7 +379,7 @@ function FCMenu() {
         var item  = store[rec.id];
         buildTable.append($('<tr><td><b>' + item.name + '</b></td><td>' + (Math.floor(rec.efficiencyScore * 10000) / 100).toString() + '%</td><td>' + Beautify(rec.efficiency) + '</td><td>' + Beautify(rec.cost) + '</td><td>' + Beautify(rec.delta_cps) + '</td></tr>'));
       });
-      buildTable.append($('<tr><td><b>Golden Bank</b></td><td>n/a</td><td>' + Beautify(bankLevel.efficiency) + '</td><td>' + Beautify(bankLevel.cost) + '</td><td>' + Beautify(gcPs(cookieValue(Game.cookies) - cookieValue(bankLevel.cost))) + '</td></tr>'));
+      buildTable.append($('<tr><td><b>Golden Bank</b></td><td>n/a</td><td>' + Beautify(bankLevel.efficiency) + '</td><td>' + Beautify(bankLevel.cost) + '</td><td>' + Beautify(gcPs(cookieValue(bankLevel.cost) - cookieValue(Game.cookies))) + '</td></tr>'));
       subsection.append($('<div />').addClass('listing').append(buildTable));
       menu.append(subsection);
     }
