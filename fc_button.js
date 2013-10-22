@@ -379,7 +379,12 @@ function FCMenu() {
         var item  = store[rec.id];
         buildTable.append($('<tr><td><b>' + item.name + '</b></td><td>' + (Math.floor(rec.efficiencyScore * 10000) / 100).toString() + '%</td><td>' + Beautify(rec.efficiency) + '</td><td>' + Beautify(rec.cost) + '</td><td>' + Beautify(rec.delta_cps) + '</td></tr>'));
       });
-      buildTable.append($('<tr><td><b>Golden Bank</b></td><td>n/a</td><td>' + Beautify(bankLevel.efficiency) + '</td><td>' + Beautify(bankLevel.cost) + '</td><td>' + Beautify(gcPs(cookieValue(bankLevel.cost) - cookieValue(Game.cookies))) + '</td></tr>'));
+      var bankLucky = {'cost': luckyBank(), 'efficiency': cookieEfficiency(Game.cookies, luckyBank())};
+      var bankLuckyFrenzy = {'cost': luckyFrenzyBank(), 'efficiency': cookieEfficiency(Game.cookies, luckyFrenzyBank())};
+      var bankChain = {'cost': chainBank(), 'efficiency': cookieEfficiency(Game.cookies, chainBank())};
+      buildTable.append($('<tr><td><b>Lucky Bank</b></td><td>n/a</td><td>' + Beautify(bankLucky.efficiency) + '</td><td>' + Beautify(Math.max(0,bankLucky.cost - Game.cookies)) + '</td><td>' + Beautify(gcPs(cookieValue(bankLucky.cost) - cookieValue(Game.cookies))) + '</td></tr>'));
+      buildTable.append($('<tr><td><b>Lucky Frenzy Bank</b></td><td>n/a</td><td>' + Beautify(bankLuckyFrenzy.efficiency) + '</td><td>' + Beautify(Math.max(0,bankLuckyFrenzy.cost - Game.cookies)) + '</td><td>' + Beautify(gcPs(cookieValue(bankLuckyFrenzy.cost) - cookieValue(Game.cookies))) + '</td></tr>'));
+      buildTable.append($('<tr><td><b>Chain Bank</b></td><td>n/a</td><td>' + Beautify(bankChain.efficiency) + '</td><td>' + Beautify(Math.max(0,bankChain.cost - Game.cookies)) + '</td><td>' + Beautify(gcPs(cookieValue(bankChain.cost) - cookieValue(Game.cookies))) + '</td></tr>'));
       subsection.append($('<div />').addClass('listing').append(buildTable));
       menu.append(subsection);
     }
