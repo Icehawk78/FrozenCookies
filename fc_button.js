@@ -317,7 +317,7 @@ function FCMenu() {
       var isTarget = FrozenCookies.targetBank.cost == FrozenCookies.currentBank.cost;
       var isMax = currentCookies == maxCookies;
       var targetTxt = isTarget ? '' : ' (Building Bank)';
-      var maxTxt = isMaxed ? ' (Max)' : '';
+      var maxTxt = isMax ? ' (Max)' : '';
       subsection.append($('<div />').addClass('listing').html('<b>Current Average Cookie Value' + targetTxt + maxTxt + ':</b> ' + Beautify(cookieValue(currentCookies))));
       if (!isTarget) {
         subsection.append($('<div />').addClass('listing').html('<b>Target Average Cookie Value:</b> ' + Beautify(cookieValue(FrozenCookies.targetBank.cost))));
