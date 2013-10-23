@@ -335,7 +335,7 @@ function baseClickingCps(clickSpeed) {
 
 function cookieValue(bankAmount) {
   var cps = baseCps() + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
-  var frenzyCps = baseClickingCps(FrozenCookies.autoFrenzy * FrozenCookies.frenzyClickSpeed);
+  var frenzyCps = FrozenCookies.autoFrenzy ? baseClickingCps(FrozenCookies.autoFrenzy * FrozenCookies.frenzyClickSpeed) : baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
   var luckyMod = Game.Has('Get lucky') ? 2 : 1;
   var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1
   var wrathValue = Game.elderWrath;
