@@ -63,6 +63,7 @@ function fcInit() {
   FrozenCookies.blacklist = localStorage.getItem('blacklist');
   FrozenCookies.lastCPS = Game.cookiesPs;
   FrozenCookies.lastCookieCPS = 0;
+  FrozenCookies.lastUpgradeCount = 0;
   FrozenCookies.currentBank = {'cost': 0, 'efficiency' : 0};
   FrozenCookies.targetBank = {'cost': 0, 'efficiency' : 0};
   FrozenCookies.disabledPopups = true;
@@ -82,6 +83,8 @@ function fcInit() {
   
   Game.prefs.autoBuy = FrozenCookies.autoBuy;
   Game.prefs.autoGC = FrozenCookies.autoGC;
+  Game.prefs.autoClick = FrozenCookies.autoClick;
+  Game.prefs.autoFrenzy = FrozenCookies.autoFrenzy;
 }
 
 function setOverrides() {
@@ -842,6 +845,11 @@ function autoCookie() {
     if (FrozenCookies.lastCookieCPS != currentCookieCPS) {
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.lastCookieCPS = currentCookieCPS;
+    }
+    var currentUpgradeCount = Game.UpgradesInStore.length;
+    if (FrozenCookies.lastUpgradeCount != currentUpgradeCount) {
+      FrozenCookies.recalculateCaches = true;
+      FrozenCookies.lastUpgradeCount = currentUpgradeCount;
     }
     if (FrozenCookies.recalculateCaches) {
       recommendation = nextPurchase(FrozenCookies.recalculateCaches);
