@@ -310,6 +310,7 @@ function toggleBlacklist() {
       FrozenCookies.blacklist = 'none';
   }
   updateLocalStorage();
+  nextPurchase(true);
 }
 
 function toggleFrozen(setting) {
