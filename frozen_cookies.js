@@ -40,8 +40,6 @@ function fcInit() {
   FrozenCookies.preferenceValues = [
     {'autoBuy' : ["Autobuy OFF","Autobuy ON"]},
     {'autoGC' : ["Autoclick GC OFF", "Autoclick GC ON"]},
-    {'frenzyClickSpeed' : ["Autoclick Frenzy OFF","Autoclick Frenzy 1cps","Autoclick Frenzy 10cps","Autoclick Frenzy 25cps","Autoclick Frenzy 50cps","Autoclick Frenzy 100cps","Autoclick Frenzy 250cps"]},
-    {'cookieClickSpeed' : ["Autoclick Cookie OFF","Autoclick Cookie 1cps","Autoclick Cookie 10cps","Autoclick Cookie 25cps","Autoclick Cookie 50cps","Autoclick Cookie 100cps","Autoclick Cookie 250cps"]},
     {'simulatedGCPercent' : ["GC for Calculations: 0%","GC for Calculations: Actual Ratio","GC for Calculations: 100%"]},
     {'numberDisplay' : ["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"]}
   ];
@@ -55,8 +53,8 @@ function fcInit() {
   FrozenCookies.gc_time = Number(localStorage.getItem('frenzyTime'));
   FrozenCookies.last_gc_state = (Game.frenzy > 0);
   FrozenCookies.last_gc_time = Date.now();
-  FrozenCookies.cookieClickSpeed = Number(localStorage.getItem('cookieClickSpeed'),0);
-  FrozenCookies.frenzyClickSpeed = Number(localStorage.getItem('frenzyClickSpeed'),0);
+  FrozenCookies.cookieClickSpeed = preferenceParse('cookieClickSpeed',0);
+  FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed',0);
   FrozenCookies.initial_clicks = 0;
   FrozenCookies.lastHCAmount = Number(localStorage.getItem('lastHCAmount'));
   FrozenCookies.lastHCTime = Number(localStorage.getItem('lastHCTime'));
