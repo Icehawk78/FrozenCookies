@@ -327,7 +327,7 @@ function baseClickingCps() {
   var clicksPs = (FrozenCookies.frenzyClickSpeed + FrozenCookies.cookieClickSpeed);
   var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1
   var cpc = Game.mouseCps() / clickFrenzyMod;
-  return clickPs * cpc;
+  return clicksPs * cpc;
 }
 
 function cookieValue(bankAmount) {
