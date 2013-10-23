@@ -75,6 +75,7 @@ function fcInit() {
   
   // Caching
   
+  FrozenCookies.recalculateCaches = true;
   FrozenCookies.caches = {};
   FrozenCookies.caches.nextPurchase = {};
   FrozenCookies.caches.recommendationList = [];
@@ -310,7 +311,8 @@ function toggleBlacklist() {
       FrozenCookies.blacklist = 'none';
   }
   updateLocalStorage();
-  nextPurchase(true);
+  $("#blacklistButton")[0].innerText = "Blacklist: " + FrozenCookies.blacklist;
+  FrozenCookies.recalculateCaches = true;
 }
 
 function toggleFrozen(setting) {
