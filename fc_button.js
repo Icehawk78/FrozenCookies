@@ -382,6 +382,7 @@ function FCMenu() {
       listing.append($('<label>Click the large cookie during Clicking Frenzies ' + FrozenCookies.frenzyClickSpeed + ' times per second.</label>'));
       listing.append($('<a class="option" id="frenzyClickSpeed" onclick="updateFrenzyClickSpeed();">Change Speed</a>'));
       subsection.append(listing);
+      subsection.append($('<div />').addClass('listing').html($('<a class="option" id="blacklistButton" onclick="toggleBlacklist();">Blacklist: ' + FrozenCookies.blacklist + '</a>')));
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Internal Information'));

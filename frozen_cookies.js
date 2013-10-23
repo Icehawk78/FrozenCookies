@@ -295,6 +295,23 @@ function updateFrenzyClickSpeed() {
   }
 }
 
+function toggleBlacklist() {
+  switch (FrozenCookies.blacklist) {
+    case 'none':
+      FrozenCookies.blacklist = 'speedrun';
+      break;
+    case 'speedrun':
+      FrozenCookies.blacklist = 'hardcore';
+      break;
+    case 'hardcore':
+      FrozenCookies.blacklist = 'none';
+      break;
+    default:
+      FrozenCookies.blacklist = 'none';
+  }
+  updateLocalStorage();
+}
+
 function toggleFrozen(setting) {
   if (!Number(localStorage.getItem(setting))) {
     localStorage.setItem(setting,1);
@@ -796,7 +813,7 @@ function shouldClickGC() {
 }
 
 function autoFrenzyClick() {
-  if (Game.clickFrenzy > 0 && !autoclickBot) {
+  if (Game.clickFrenzy > 0 && !FrozenCookies.autoclickBot) {
     FrozenCookies.autoclickBot = setInterval(function(){Game.ClickCookie();}, 1000 / FrozenCookies.frenzyClickSpeed);
   } else if (Game.clickFrenzy == 0 && FrozenCookies.autoclickBot) {
     clearInterval(FrozenCookies.autoclickBot);
