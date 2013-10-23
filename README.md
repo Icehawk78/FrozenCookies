@@ -30,6 +30,9 @@ What can Frozen Cookies do?
 What's new?
 -----------
 
+ - 2013-10-23: Improved code stability, added large cookie autoclicker, clicking frenzy autoclicker, and blacklists for Speedrun/Hardcore achievements
+ - 2013-10-22: Fixed multiple problems with the previous changes
+ - 2013-10-21: Updated GC valuation code
  - 2013-10-17: Timers are much smoother and not on the FC page, many stability improvements, newer GC valuation code, and moved the hosting URL to one that won't cause script-type warnings when you load it.
  - 2013-10-03: Finally getting around to updating this file. Lots of other changes have been added in the meantime.
  - 2013-09-23: Added Chained Upgrade purchases
@@ -39,10 +42,7 @@ Upcoming features!
 
  - The ability to switch between multiple different number-shortening styles.
  - Add less terrible UI, including more detailed tooltips, and possible color/icon markers indicating relative efficiency of purchases.
- - Add three different auto-click features; one for only clicking during Click Frenzies, one for clicking during *any* Frenzy, and one for auto-clicking at all times.
- - Implement more accurate Golden/Wrath Cookie calculations, using Markov Chain based data, rather than naïve base probabilities.
  - Add the ability to set custom Golden Click ratio and Cookie Click ratio for more accurate valuation of Golden Cookie upgrades and Mouse upgrades.
- - Move timers to the left-hand panel to be visible at all times, rather than just when on the FC page.
  - Add a toggle to make timers utilise Effective CPS rather than Current CPS for "Time to Completion"
  - Other stuff? (If you're a visitor and have other ideas to be added, go here to let me know: https://github.com/Icehawk78/FrozenCookies/issues/new )
 

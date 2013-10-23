@@ -372,6 +372,17 @@ function FCMenu() {
       listing.append($(Game.WriteButton('autoBuy','autobuyButton','Autobuy ON','Autobuy OFF',"toggleFrozen('autoBuy');")));
       listing.append($(Game.WriteButton('autoGC','autogcButton','Autoclick GC ON','Autoclick GC OFF',"toggleFrozen('autoGC');")));
       subsection.append(listing);
+      var listing = $('<div />').addClass('listing');
+      listing.append($(Game.WriteButton('autoClick', 'autoclickButton', 'Autoclick Cookie ON', 'Autoclick Cookie OFF', "toggleFrozen('autoClick');")));
+      listing.append($('<label>Click the large cookie ' + FrozenCookies.cookieClickSpeed + ' times per second.</label>'));
+      listing.append($('<a class="option" id="cookieClickSpeed" onclick="updateCookieClickSpeed();">Change Speed</a>'));
+      subsection.append(listing);
+      var listing = $('<div />').addClass('listing');
+      listing.append($(Game.WriteButton('autoFrenzy', 'autofrenzyButton', 'Autoclick Frenzy ON', 'Autoclick Frenzy OFF', "toggleFrozen('autoFrenzy');")));
+      listing.append($('<label>Click the large cookie during Clicking Frenzies ' + FrozenCookies.frenzyClickSpeed + ' times per second.</label>'));
+      listing.append($('<a class="option" id="frenzyClickSpeed" onclick="updateFrenzyClickSpeed();">Change Speed</a>'));
+      subsection.append(listing);
+      subsection.append($('<div />').addClass('listing').html($('<a class="option" id="blacklistButton" onclick="toggleBlacklist();">Blacklist: ' + FrozenCookies.blacklist + '</a>')));
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Internal Information'));
