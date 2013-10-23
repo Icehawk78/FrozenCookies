@@ -198,6 +198,8 @@ function updateLocalStorage() {
   localStorage.numberDisplay = FrozenCookies.numberDisplay;
   localStorage.autoBuy = FrozenCookies.autoBuy;
   localStorage.autoGC = FrozenCookies.autoGC;
+  localStorage.autoClick = FrozenCookies.autoClick;
+  localStorage.autoFrenzy = FrozenCookies.autoFrenzy;
   localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
   localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
   localStorage.simulatedGCPercent = FrozenCookies.simulatedGCPercent;
@@ -269,7 +271,7 @@ function getSpeed(current) {
   if (typeof(newSpeed) == 'undefined' || newSpeed == null || isNaN(Number(newSpeed)) || Number(newSpeed) < 0 || Number(newSpeed) > 250) {
     newSpeed = current;
   }
-  return newSpeed;
+  return Number(newSpeed);
 }
 
 function updateCookieClickSpeed() {
@@ -317,14 +319,15 @@ function probabilitySpan(start, endProbability) {
 }
 
 function baseCps() {
-  var frenzy_mod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
-  return Game.cookiesPs / frenzy_mod;
+  var frenzyMod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
+  return Game.cookiesPs / frenzyMod;
 }
 
 function baseClickingCps() {
   var clicksPs = (FrozenCookies.frenzyClickSpeed + FrozenCookies.cookieClickSpeed);
-  var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1
-  var cpc = Game.mouseCps() / clickFrenzyMod;
+  var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1;
+  var frenzyMod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
+  var cpc = Game.mouseCps() / (clickFrenzyMod * frenzyMod);
   return clicksPs * cpc;
 }
 
@@ -355,11 +358,11 @@ function cookieValue(bankAmount) {
   // Clot + Lucky
   value += cookieInfo.clotLucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20 * 0.5) + 13);
   // Click
-  value += cookieInfo.click.odds[wrathValue] * baseClickingCps() * 777;
+  value += cookieInfo.click.odds[wrathValue] * baseClickingCps() * luckyMod * 13 * 777;
   // Frenzy + Click
-  value += cookieInfo.click.odds[wrathValue] * baseClickingCps() * 777 * 7;
+  value += cookieInfo.click.odds[wrathValue] * baseClickingCps() * luckyMod * 13 * 777 * 7;
   // Clot + Click
-  value += cookieInfo.click.odds[wrathValue] * baseClickingCps() * 777 * 0.5;
+  value += cookieInfo.click.odds[wrathValue] * baseClickingCps() * luckyMod * 13 * 777 * 0.5;
   // Blah
   value += 0;
   return value;
