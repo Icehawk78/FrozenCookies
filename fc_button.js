@@ -377,7 +377,7 @@ function FCMenu() {
       listing.append($('<label>Click the large cookie ' + FrozenCookies.cookieClickSpeed + ' times per second.</label>'));
       listing.append($('<a class="option" id="cookieClickSpeed" onclick="updateCookieClickSpeed();">Change Speed</a>'));
       subsection.append(listing);
-      var listing = subsection.append($('<div />').addClass('listing');
+      var listing = $('<div />').addClass('listing');
       listing.append($(Game.WriteButton('autoFrenzy', 'autofrenzyButton', 'Autoclick Frenzy ON', 'Autoclick Frenzy OFF', "toggleFrozen('autoFrenzy');")));
       listing.append($('<label>Click the large cookie during Clicking Frenzies ' + FrozenCookies.frenzyClickSpeed + ' times per second.</label>'));
       listing.append($('<a class="option" id="frenzyClickSpeed" onclick="updateFrenzyClickSpeed();">Change Speed</a>'));
