@@ -323,16 +323,16 @@ function baseCps() {
   return Game.cookiesPs / frenzyMod;
 }
 
-function baseClickingCps() {
-  var clicksPs = (FrozenCookies.frenzyClickSpeed + FrozenCookies.cookieClickSpeed);
+function baseClickingCps(clickSpeed) {
   var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1;
   var frenzyMod = (Game.frenzy > 0) ? Game.frenzyPower : 1;
   var cpc = Game.mouseCps() / (clickFrenzyMod * frenzyMod);
-  return clicksPs * cpc;
+  return clickSpeed * cpc;
 }
 
 function cookieValue(bankAmount) {
-  var cps = baseCps();
+  var cps = baseCps() + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
+  var frenzyCps = baseClickingCps(FrozenCookies.autoFrenzy * FrozenCookies.frenzyClickSpeed);
   var luckyMod = Game.Has('Get lucky') ? 2 : 1;
   var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1
   var wrathValue = Game.elderWrath;
@@ -358,11 +358,11 @@ function cookieValue(bankAmount) {
   // Clot + Lucky
   value += cookieInfo.clotLucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20 * 0.5) + 13);
   // Click
-  value += cookieInfo.click.odds[wrathValue] * baseClickingCps() * luckyMod * 13 * 777;
+  value += cookieInfo.click.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777;
   // Frenzy + Click
-  value += cookieInfo.click.odds[wrathValue] * baseClickingCps() * luckyMod * 13 * 777 * 7;
+  value += cookieInfo.click.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 7;
   // Clot + Click
-  value += cookieInfo.click.odds[wrathValue] * baseClickingCps() * luckyMod * 13 * 777 * 0.5;
+  value += cookieInfo.click.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 0.5;
   // Blah
   value += 0;
   return value;
@@ -567,11 +567,11 @@ function buildingStats(recalculate) {
         return null;
       }
       var baseCpsOrig = baseCps();
-      var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps();
+      var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
       var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
       buildingToggle(current);
       var baseCpsNew = baseCps();
-      var cpsNew = baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps();
+      var cpsNew = baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
       buildingToggle(current, existing_achievements);
       var deltaCps = cpsNew - cpsOrig;
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
@@ -593,12 +593,12 @@ function upgradeStats(recalculate) {
           return null;
         }
         var baseCpsOrig = baseCps();
-        var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps();
+        var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
         var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
         var existing_wrath = Game.elderWrath;
         var reverseFunctions = upgradeToggle(current);
         var baseCpsNew = baseCps();
-        var cpsNew = baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps();
+        var cpsNew = baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
         upgradeToggle(current, existing_achievements, reverseFunctions);
         Game.elderWrath = existing_wrath;
         var deltaCps = cpsNew - cpsOrig;
