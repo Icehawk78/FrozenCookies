@@ -374,7 +374,7 @@ function FCMenu() {
           var display = FrozenCookies.preferenceValues[preference].display;
           var current = FrozenCookies[preference];
           var preferenceButtonId = preference + 'Button';
-          if (display && display.length > 0 && current && display.length > current) {
+          if (display && display.length > 0 && display.length > current) {
             var listing = $('<div />').addClass('listing')
             listing.append($('<a class="option" id="' + preferenceButtonId + '" onclick="cyclePreference(\'' + preference + '\');">' + display[current] + '</a>'));
             listing.append($('<label>' + hint + '</label>'));
