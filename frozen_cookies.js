@@ -35,14 +35,17 @@ function fcInit() {
     });
   };
   document.head.appendChild(jquery);
+
+  FrozenCookies.preferenceValues = {
+    'autoBuy' : {'hint': 'Automatically buy the most efficient building when you\'ve met its cost', 'display':["Autobuy OFF","Autobuy ON"]},
+    'autoGC' : {'hint': 'Automatically click Golden Cookies when they appear', 'display':["Autoclick GC OFF", "Autoclick GC ON"]},
+    'simulatedGCPercent' : {'hint':'What percentage of Golden Cookies should be assumed as "clicked" for GC efficiency calculations (100% recommended)', 'values':["0%","Actual Ratio","100%"]},
+    'numberDisplay' : {'hint':'Change how numbers are shortened', 'display':["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"]},
+    'blacklist' : {'hint':'Blacklist purchases from the efficiency calculations', 'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist']}
+  };
+  
   FrozenCookies.frequency = 100;
-  FrozenCookies.efficiencyWeight = 1.15;
-  FrozenCookies.preferenceValues = [
-    {'autoBuy' : ["Autobuy OFF","Autobuy ON"]},
-    {'autoGC' : ["Autoclick GC OFF", "Autoclick GC ON"]},
-    {'simulatedGCPercent' : ["GC for Calculations: 0%","GC for Calculations: Actual Ratio","GC for Calculations: 100%"]},
-    {'numberDisplay' : ["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"]}
-  ];
+  FrozenCookies.efficiencyWeight = 1.0;
   FrozenCookies.numberDisplay = preferenceParse('numberDisplay', 1);
   FrozenCookies.autoBuy = preferenceParse('autoBuy', 0);
   FrozenCookies.autoGC = preferenceParse('autoGC', 0);
@@ -60,7 +63,7 @@ function fcInit() {
   FrozenCookies.lastHCTime = Number(localStorage.getItem('lastHCTime'));
   FrozenCookies.prevLastHCTime = Number(localStorage.getItem('prevLastHCTime'));
   FrozenCookies.maxHCPercent = Number(localStorage.getItem('maxHCPercent'));
-  FrozenCookies.blacklist = localStorage.getItem('blacklist');
+  FrozenCookies.blacklist = preferenceParse('blacklist',0);
   FrozenCookies.lastCPS = Game.cookiesPs;
   FrozenCookies.lastCookieCPS = 0;
   FrozenCookies.lastUpgradeCount = 0;
@@ -81,11 +84,6 @@ function fcInit() {
   FrozenCookies.caches.recommendationList = [];
   FrozenCookies.caches.buildings = [];
   FrozenCookies.caches.upgrades = [];
-  
-  Game.prefs.autoBuy = FrozenCookies.autoBuy;
-  Game.prefs.autoGC = FrozenCookies.autoGC;
-  Game.prefs.autoClick = FrozenCookies.autoClick;
-  Game.prefs.autoFrenzy = FrozenCookies.autoFrenzy;
 }
 
 function setOverrides() {
@@ -296,34 +294,26 @@ function updateFrenzyClickSpeed() {
   }
 }
 
-function toggleBlacklist() {
-  switch (FrozenCookies.blacklist) {
-    case 'none':
-      FrozenCookies.blacklist = 'speedrun';
-      break;
-    case 'speedrun':
-      FrozenCookies.blacklist = 'hardcore';
-      break;
-    case 'hardcore':
-      FrozenCookies.blacklist = 'none';
-      break;
-    default:
-      FrozenCookies.blacklist = 'none';
+function cyclePreferences(preferenceName) {
+  var values = FrozenCookies.preferenceValues[preferenceName];
+  var current = FrozenCookies[preferenceName];
+  var preferenceButton = $('#' + preferenceName + 'Button');
+  if (values && values.length > 0 && current && preferenceButton && preferenceButton.length > 0) {
+    var newValue = current + 1 % values.length;
+    preferenceButton[0].innerText = values[newValue];
+    updateLocalStorage();
+    FrozenCookies.recalculateCaches = true;
+    FCStart();
   }
-  updateLocalStorage();
-  $("#blacklistButton")[0].innerText = "Blacklist: " + FrozenCookies.blacklist;
-  FrozenCookies.recalculateCaches = true;
 }
 
 function toggleFrozen(setting) {
   if (!Number(localStorage.getItem(setting))) {
     localStorage.setItem(setting,1);
     FrozenCookies[setting] = 1;
-    Game.prefs[setting] = 1;
   } else {
     localStorage.setItem(setting,0);
     FrozenCookies[setting] = 0;
-    Game.prefs[setting] = 0;
   }
   FCStart();
 }
@@ -851,7 +841,11 @@ function autoCookie() {
       FrozenCookies.lastCPS = Game.cookiesPs;
     }
     var recommendation = nextPurchase(FrozenCookies.recalculateCaches);
-    FrozenCookies.recalculateCaches = false;
+    if (FrozenCookies.recalculateCaches) {
+      FrozenCookies.recalculateCaches = false;
+      Game.RebuildStore();
+      Game.RebuildUpgrades();
+    }
     var currentBank = bestBank(0);
     if (FrozenCookies.currentBank.cost != currentBank.cost) {
       FrozenCookies.recalculateCaches = true;

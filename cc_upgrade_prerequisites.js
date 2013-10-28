@@ -94,20 +94,20 @@ var upgradeJson = [
   {'id':133,'buildings':[0,0,0,0,0,0,0,0,0,0],'upgrades':[132]}
 ];
 
-var blacklist = {
-  'none': {
+var blacklist = [
+  {
     'upgrades': [],
     'buildings': []
   },
-  'speedrun': {
+  {
     'upgrades': [129,130,131,132,133],
     'buildings': []
   },
-  'hardcore': {
+  {
     'upgrades': true,
     'buildings': []
   }
-};
+];
 
 var cookieInfo = {
   'clot':        {'odds':[0,0.10386789477947,0.19565417350258,0.279830557040944],                   isOverlap:false},
