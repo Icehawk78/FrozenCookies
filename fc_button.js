@@ -199,6 +199,7 @@ function updateTimers() {
   var purchaseCompletion = Game.cookies/(bankTotal + purchaseTotal);
   var bankPurchaseCompletion = bankTotal/(bankTotal + purchaseTotal);
   var chainTotal = 0;
+  var chainFinished
   var chainCompletion = 0;
   if (nextChainedPurchase().cost > nextPurchase().cost) {
     var chainPurchase = nextChainedPurchase().purchase;
@@ -218,7 +219,7 @@ function updateTimers() {
       f_percent: chainCompletion,
       c1: 'rgba(51, 51, 51, 1)',
       name: "Chain Completion Time",
-      display: timeDisplay(divCps(Math.max(chainTotal + bankTotal - Game.cookies,0), actualCps))
+      display: timeDisplay(divCps(Math.max(chainTotal + bankTotal - Game.cookies - chainFinished,0), actualCps))
     });
   }
   if (purchaseTotal > 0) {
