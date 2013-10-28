@@ -884,7 +884,7 @@ function autoCookie() {
 //    var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
 //    var purchase = store[recommendation.id];
     if (FrozenCookies.timeTravelPurchases) {
-      var fullCps = baseCps() + gcPs(cookieValue(delayAmount())) + baseClickingCps();
+      var fullCps = baseCps() + gcPs(cookieValue(delayAmount())) + baseClickingCps(FrozenCookies.cookieClickSpeed);
       if (fullCps > 0) {
         var neededCookies = Math.max(0, recommendation.cost + delayAmount() - Game.cookies);
         var time = neededCookies / fullCps;
