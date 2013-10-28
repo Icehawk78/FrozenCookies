@@ -630,27 +630,31 @@ function upgradeStats(recalculate) {
   return FrozenCookies.caches.upgrades;
 }
 
-function upgradePrereqCost(upgrade) {
+function cumulativeBuildingCost(basePrice, startingNumber, endingNumber) {
+  return basePrice * (Math.pow(Game.priceIncrease, endingNumber) - Math.pow(priceIncrease, startingNumber)) / (Game.priceIncrease - 1);
+}
+
+function upgradePrereqCost(upgrade, full) {
   var cost = upgrade.basePrice;
   if (upgrade.unlocked) {
     return cost;
   }
-  var prereqs = upgradeJson.filter(function(a){return a.id == upgrade.id;});
+  var prereqs = _.find(upgradeJson, function(a) {return a.id == upgrade.id;});
   if (prereqs.length) {
     prereqs = prereqs[0];
     cost += prereqs.buildings.reduce(function(sum,item,index) {
       var building = Game.ObjectsById[index];
-      if (item && building.amount < item) {
-        for (var i = building.amount; i < item; i++) {
-          sum += building.basePrice * Math.pow(Game.priceIncrease, i);
-        }
+      if (item && full) {
+        sum += cumulativeBuildingCost(item.basePrice, 0, item);
+      } else if (item && building.amount < item) {
+        sum += cumulativeBuildingCost(item.basePrice, building.amount, item);
       }
       return sum;
     },0);
     cost += prereqs.upgrades.reduce(function(sum,item) {
       var reqUpgrade = Game.UpgradesById[item];
-      if (!upgrade.bought) {
-        sum += upgradePrereqCost(reqUpgrade);
+      if (!upgrade.bought || full) {
+        sum += upgradePrereqCost(reqUpgrade, full);
       }
       return sum;
     }, 0);
@@ -663,7 +667,7 @@ function unfinishedUpgradePrereqs(upgrade) {
     return null;
   }
   var needed = [];
-  var prereqs = upgradeJson.filter(function(a){return a.id == upgrade.id;});
+  var prereqs = _.find(upgradeJson, function(a) {return a.id == upgrade.id;});
   if (prereqs.length) {
     prereqs = prereqs[0];
     prereqs.buildings.forEach(function(a, b) {

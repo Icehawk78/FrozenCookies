@@ -195,11 +195,17 @@ function updateTimers() {
   var decimal_HC_complete = ((Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5)%1);
   var bankTotal = delayAmount();
   var purchaseTotal = nextPurchase().cost;
-  var chainTotal = nextChainedPurchase().cost;
   var bankCompletion = bankTotal ? (Math.min(Game.cookies, bankTotal)) / bankTotal : 0;
   var purchaseCompletion = Game.cookies/(bankTotal + purchaseTotal);
   var bankPurchaseCompletion = bankTotal/(bankTotal + purchaseTotal);
-  var chainCompletion = Math.max(Game.cookies - bankTotal, 0) / (bankTotal + chainTotal);
+  var chainTotal = 0;
+  var chainCompletion = 0;
+  if (nextChainedPurchase().cost > nextPurchase().cost) {
+    var chainPurchase = nextChainedPurchase().purchase;
+    chainTotal = upgradePrereqCost(chainPurchase, true) - chainPurchase.basePrice;
+    chainFinished = chainTotal - (upgradePrereqCost(chainPurchase) - chainPurchase.basePrice);
+    chainCompletion = chainFinished + Math.max(Game.cookies - bankTotal, 0) / (bankTotal + chainTotal);
+  }
   var bankPercent = Math.min(Game.cookies, bankTotal) / (bankTotal + purchaseTotal);
   var purchasePercent = purchaseTotal / (purchaseTotal + bankTotal);
   var bankMax = bankTotal / (purchaseTotal + bankTotal);
@@ -207,7 +213,7 @@ function updateTimers() {
   
   var t_draw = [];
   
-  if (chainTotal - purchaseTotal > 0) {
+  if (chainTotal) {
     t_draw.push({
       f_percent: chainCompletion,
       c1: 'rgba(51, 51, 51, 1)',
