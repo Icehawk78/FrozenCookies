@@ -644,9 +644,9 @@ function upgradePrereqCost(upgrade, full) {
     cost += prereqs.buildings.reduce(function(sum,item,index) {
       var building = Game.ObjectsById[index];
       if (item && full) {
-        sum += cumulativeBuildingCost(item.basePrice, 0, item);
+        sum += cumulativeBuildingCost(building.basePrice, 0, item);
       } else if (item && building.amount < item) {
-        sum += cumulativeBuildingCost(item.basePrice, building.amount, item);
+        sum += cumulativeBuildingCost(building.basePrice, building.amount, item);
       }
       return sum;
     },0);
