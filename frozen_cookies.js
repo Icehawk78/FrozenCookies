@@ -15,8 +15,8 @@ function fcInit() {
     'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
     'http://underscorejs.org/underscore-min.js',
     'http://calebevans.me/projects/jcanvas/resources/jcanvas/jcanvas.min.js',
-    'https://icehawk78.github.io/FrozenCookies/cc_upgrade_prerequisites.js',
-    'https://icehawk78.github.io/FrozenCookies/fc_button.js'
+    'http://icehawk78.github.io/FrozenCookies/cc_upgrade_prerequisites.js',
+    'http://icehawk78.github.io/FrozenCookies/fc_button.js'
   ]
   var done = 0;
   var jquery = document.createElement('script');
