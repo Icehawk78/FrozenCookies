@@ -294,7 +294,7 @@ function updateFrenzyClickSpeed() {
   }
 }
 
-function cyclePreferences(preferenceName) {
+function cyclePreference(preferenceName) {
   var values = FrozenCookies.preferenceValues[preferenceName];
   var current = FrozenCookies[preferenceName];
   var preferenceButton = $('#' + preferenceName + 'Button');
