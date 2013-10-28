@@ -306,6 +306,8 @@ function cyclePreference(preferenceName) {
       FrozenCookies[preferenceName] = newValue;
       updateLocalStorage();
       FrozenCookies.recalculateCaches = true;
+      Game.RebuildStore();
+      Game.RebuildUpgrades();
       FCStart();
     }  
   }
@@ -847,11 +849,7 @@ function autoCookie() {
       FrozenCookies.lastCPS = Game.cookiesPs;
     }
     var recommendation = nextPurchase(FrozenCookies.recalculateCaches);
-    if (FrozenCookies.recalculateCaches) {
-      FrozenCookies.recalculateCaches = false;
-      Game.RebuildStore();
-      Game.RebuildUpgrades();
-    }
+    FrozenCookies.recalculateCaches = false;
     var currentBank = bestBank(0);
     if (FrozenCookies.currentBank.cost != currentBank.cost) {
       FrozenCookies.recalculateCaches = true;
