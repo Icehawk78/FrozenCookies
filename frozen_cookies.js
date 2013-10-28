@@ -74,6 +74,7 @@ function fcInit() {
   
   FrozenCookies.cookieBot = 0;
   FrozenCookies.autoclickBot = 0;
+  FrozenCookies.autoFrenzyBot = 0;
   FrozenCookies.frenzyClickBot = 0;
   
   // Caching
@@ -814,11 +815,15 @@ function shouldClickGC() {
 }
 
 function autoFrenzyClick() {
-  if (Game.clickFrenzy > 0 && !FrozenCookies.autoclickBot) {
-    FrozenCookies.autoclickBot = setInterval(function(){Game.ClickCookie();}, 1000 / FrozenCookies.frenzyClickSpeed);
-  } else if (Game.clickFrenzy == 0 && FrozenCookies.autoclickBot) {
-    clearInterval(FrozenCookies.autoclickBot);
-    FrozenCookies.autoclickBot = 0;
+  if (Game.clickFrenzy > 0 && !FrozenCookies.autoFrenzyBot) {
+    if (FrozenCookies.autoclickBot) {
+      clearInterval(FrozenCookies.autoclickBot);
+      FrozenCookies.autoclickBot = 0;
+    }
+    FrozenCookies.autoFrenzyBot = setInterval(function(){Game.ClickCookie();}, 1000 / FrozenCookies.frenzyClickSpeed);
+  } else if (Game.clickFrenzy == 0 && FrozenCookies.autoFrenzyBot) {
+    clearInterval(FrozenCookies.autoFrenzyBot);
+    FrozenCookies.autoFrenzyBot = 0;
     if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
       FrozenCookies.autoclickBot = setInterval(function(){Game.ClickCookie();}, 1000 / FrozenCookies.cookieClickSpeed);
     }
