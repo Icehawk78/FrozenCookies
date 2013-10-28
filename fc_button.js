@@ -407,9 +407,9 @@ function FCMenu() {
       subsection.append($('<div />').addClass('title').html('Internal Information'));
       var buildTable = $('<table />').html('<tr><th>Building</th><th>Eff%</th><th>Efficiency</th><th>Cost</th><th>&#916; CPS</th></tr>');
       recommendationList().forEach(function(rec) {
-        var store = (rec.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
-        var item  = store[rec.id];
-        buildTable.append($('<tr><td><b>' + item.name + '</b></td><td>' + (Math.floor(rec.efficiencyScore * 10000) / 100).toString() + '%</td><td>' + Beautify(rec.efficiency) + '</td><td>' + Beautify(rec.cost) + '</td><td>' + Beautify(rec.delta_cps) + '</td></tr>'));
+        var item  = rec.purchase;
+        var chainStr = (item.unlocked === 0) ? ' (C)' : '';
+        buildTable.append($('<tr><td><b>' + item.name + chainStr + '</b></td><td>' + (Math.floor(rec.efficiencyScore * 10000) / 100).toString() + '%</td><td>' + Beautify(rec.efficiency) + '</td><td>' + Beautify(rec.cost) + '</td><td>' + Beautify(rec.delta_cps) + '</td></tr>'));
       });
       var bankLucky = {'cost': luckyBank(), 'efficiency': cookieEfficiency(Game.cookies, luckyBank())};
       var bankLuckyFrenzy = {'cost': luckyFrenzyBank(), 'efficiency': cookieEfficiency(Game.cookies, luckyFrenzyBank())};
