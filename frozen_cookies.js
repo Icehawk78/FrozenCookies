@@ -295,15 +295,19 @@ function updateFrenzyClickSpeed() {
 }
 
 function cyclePreference(preferenceName) {
-  var values = FrozenCookies.preferenceValues[preferenceName];
-  var current = FrozenCookies[preferenceName];
-  var preferenceButton = $('#' + preferenceName + 'Button');
-  if (values && values.length > 0 && current && preferenceButton && preferenceButton.length > 0) {
-    var newValue = current + 1 % values.length;
-    preferenceButton[0].innerText = values[newValue];
-    updateLocalStorage();
-    FrozenCookies.recalculateCaches = true;
-    FCStart();
+  var preference = FrozenCookies.preferenceValues[preferenceName];
+  if (preference) {
+    var display = preference.display;
+    var current = FrozenCookies[preferenceName];
+    var preferenceButton = $('#' + preferenceName + 'Button');
+    if (display && display.length > 0 && current && preferenceButton && preferenceButton.length > 0) {
+      var newValue = current + 1 % display.length;
+      preferenceButton[0].innerText = display[newValue];
+      FrozenCookies[preferenceName] = newValue;
+      updateLocalStorage();
+      FrozenCookies.recalculateCaches = true;
+      FCStart();
+    }  
   }
 }
 
