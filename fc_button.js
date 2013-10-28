@@ -204,7 +204,7 @@ function updateTimers() {
     var chainPurchase = nextChainedPurchase().purchase;
     chainTotal = upgradePrereqCost(chainPurchase, true) - chainPurchase.basePrice;
     chainFinished = chainTotal - (upgradePrereqCost(chainPurchase) - chainPurchase.basePrice);
-    chainCompletion = chainFinished + Math.max(Game.cookies - bankTotal, 0) / (bankTotal + chainTotal);
+    chainCompletion = (chainFinished + Math.max(Game.cookies - bankTotal, 0)) / (bankTotal + chainTotal);
   }
   var bankPercent = Math.min(Game.cookies, bankTotal) / (bankTotal + purchaseTotal);
   var purchasePercent = purchaseTotal / (purchaseTotal + bankTotal);
