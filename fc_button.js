@@ -203,6 +203,7 @@ function updateTimers() {
   var bankPercent = Math.min(Game.cookies, bankTotal) / (bankTotal + purchaseTotal);
   var purchasePercent = purchaseTotal / (purchaseTotal + bankTotal);
   var bankMax = bankTotal / (purchaseTotal + bankTotal);
+  var actualCps = Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed;
   
   var t_draw = [];
   
@@ -211,7 +212,7 @@ function updateTimers() {
       f_percent: chainCompletion,
       c1: 'rgba(51, 51, 51, 1)',
       name: "Chain Completion Time",
-      display: timeDisplay(divCps(Math.max(chainTotal + bankTotal - Game.cookies,0), Game.cookiesPs))
+      display: timeDisplay(divCps(Math.max(chainTotal + bankTotal - Game.cookies,0), actualCps))
     });
   }
   if (purchaseTotal > 0) {
@@ -219,7 +220,7 @@ function updateTimers() {
       f_percent: purchaseCompletion,
       c1: 'rgba(17, 17, 17, 1)',
       name: "Purchase Completion Time",
-      display: timeDisplay(divCps(Math.max(purchaseTotal + bankTotal - Game.cookies,0), Game.cookiesPs))
+      display: timeDisplay(divCps(Math.max(purchaseTotal + bankTotal - Game.cookies,0), actualCps))
     });
   }
   if (bankMax > 0) {
@@ -236,7 +237,7 @@ function updateTimers() {
         f_percent: bankPercent,
         c1: 'rgba(252, 212, 0, 1)',
         name: "Bank Completion",
-        display: timeDisplay(divCps(Math.max(bankTotal - Game.cookies,0), Game.cookiesPs)),
+        display: timeDisplay(divCps(Math.max(bankTotal - Game.cookies,0), actualCps)),
         overlay: true
       });
     }

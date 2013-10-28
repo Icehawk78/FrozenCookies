@@ -926,7 +926,8 @@ function FCStart() {
   
   if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
     FrozenCookies.autoclickBot = setInterval(function() {Game.ClickCookie();}, 1000 / FrozenCookies.cookieClickSpeed);
-  } else if (FrozenCookies.autoFrenzy && FrozenCookies.frenzyClickSpeed > 0) {
+  }
+  if (FrozenCookies.autoFrenzy && FrozenCookies.frenzyClickSpeed) {
     FrozenCookies.frenzyClickBot = setInterval(function() {autoFrenzyClick();}, FrozenCookies.frequency);
   }
   
