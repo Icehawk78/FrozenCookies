@@ -631,7 +631,7 @@ function upgradeStats(recalculate) {
 }
 
 function cumulativeBuildingCost(basePrice, startingNumber, endingNumber) {
-  return basePrice * (Math.pow(Game.priceIncrease, endingNumber) - Math.pow(priceIncrease, startingNumber)) / (Game.priceIncrease - 1);
+  return basePrice * (Math.pow(Game.priceIncrease, endingNumber) - Math.pow(Game.priceIncrease, startingNumber)) / (Game.priceIncrease - 1);
 }
 
 function upgradePrereqCost(upgrade, full) {
