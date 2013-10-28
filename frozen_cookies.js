@@ -300,7 +300,7 @@ function cyclePreference(preferenceName) {
     var display = preference.display;
     var current = FrozenCookies[preferenceName];
     var preferenceButton = $('#' + preferenceName + 'Button');
-    if (display && display.length > 0 && current && preferenceButton && preferenceButton.length > 0) {
+    if (display && display.length > 0 && preferenceButton && preferenceButton.length > 0) {
       var newValue = (current + 1) % display.length;
       preferenceButton[0].innerText = display[newValue];
       FrozenCookies[preferenceName] = newValue;
