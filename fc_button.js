@@ -195,23 +195,31 @@ function updateTimers() {
   var decimal_HC_complete = ((Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5)%1);
   var bankTotal = delayAmount();
   var purchaseTotal = nextPurchase().cost;
-  var chainTotal = nextChainedPurchase().cost;
   var bankCompletion = bankTotal ? (Math.min(Game.cookies, bankTotal)) / bankTotal : 0;
   var purchaseCompletion = Game.cookies/(bankTotal + purchaseTotal);
   var bankPurchaseCompletion = bankTotal/(bankTotal + purchaseTotal);
-  var chainCompletion = Math.max(Game.cookies - bankTotal, 0) / (bankTotal + chainTotal);
+  var chainTotal = 0;
+  var chainFinished
+  var chainCompletion = 0;
+  if (nextChainedPurchase().cost > nextPurchase().cost) {
+    var chainPurchase = nextChainedPurchase().purchase;
+    chainTotal = upgradePrereqCost(chainPurchase, true) - chainPurchase.basePrice;
+    chainFinished = chainTotal - (upgradePrereqCost(chainPurchase) - chainPurchase.basePrice);
+    chainCompletion = (chainFinished + Math.max(Game.cookies - bankTotal, 0)) / (bankTotal + chainTotal);
+  }
   var bankPercent = Math.min(Game.cookies, bankTotal) / (bankTotal + purchaseTotal);
   var purchasePercent = purchaseTotal / (purchaseTotal + bankTotal);
   var bankMax = bankTotal / (purchaseTotal + bankTotal);
+  var actualCps = Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed;
   
   var t_draw = [];
   
-  if (chainTotal - purchaseTotal > 0) {
+  if (chainTotal) {
     t_draw.push({
       f_percent: chainCompletion,
       c1: 'rgba(51, 51, 51, 1)',
       name: "Chain Completion Time",
-      display: timeDisplay(divCps(Math.max(chainTotal + bankTotal - Game.cookies,0), Game.cookiesPs))
+      display: timeDisplay(divCps(Math.max(chainTotal + bankTotal - Game.cookies - chainFinished,0), actualCps))
     });
   }
   if (purchaseTotal > 0) {
@@ -219,7 +227,7 @@ function updateTimers() {
       f_percent: purchaseCompletion,
       c1: 'rgba(17, 17, 17, 1)',
       name: "Purchase Completion Time",
-      display: timeDisplay(divCps(Math.max(purchaseTotal + bankTotal - Game.cookies,0), Game.cookiesPs))
+      display: timeDisplay(divCps(Math.max(purchaseTotal + bankTotal - Game.cookies,0), actualCps))
     });
   }
   if (bankMax > 0) {
@@ -236,7 +244,7 @@ function updateTimers() {
         f_percent: bankPercent,
         c1: 'rgba(252, 212, 0, 1)',
         name: "Bank Completion",
-        display: timeDisplay(divCps(Math.max(bankTotal - Game.cookies,0), Game.cookiesPs)),
+        display: timeDisplay(divCps(Math.max(bankTotal - Game.cookies,0), actualCps)),
         overlay: true
       });
     }
@@ -290,13 +298,14 @@ function FCMenu() {
       var chainRecommendation = nextChainedPurchase();
       var isChained = !(recommendation.id == chainRecommendation.id && recommendation.type == chainRecommendation.type);
       var bankLevel = bestBank(chainRecommendation.efficiency);
+      var actualCps = Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed;
       subsection.append($('<div />').addClass('listing').html('<b>Next Purchase:</b> ' + recommendation.purchase.name));
       if (isChained) {
         subsection.append($('<div />').addClass('listing').html('<b>Building Chain to:</b> ' + chainRecommendation.purchase.name));
       }
-      subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay(divCps((recommendation.cost + bankLevel.cost - Game.cookies), Game.cookiesPs))));
+      subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay(divCps((recommendation.cost + bankLevel.cost - Game.cookies), actualCps))));
       if (isChained) {
-        subsection.append($('<div />').addClass('listing').html('<b>Time til Chain completion:</b> ' + timeDisplay(divCps(Math.max(0,(chainRecommendation.cost + bankLevel.cost - Game.cookies)), Game.cookiesPs))));
+        subsection.append($('<div />').addClass('listing').html('<b>Time til Chain completion:</b> ' + timeDisplay(divCps(Math.max(0,(chainRecommendation.cost + bankLevel.cost - Game.cookies)), actualCps))));
       }
       subsection.append($('<div />').addClass('listing').html('<b>Cost:</b> ' + Beautify(recommendation.cost)));
       subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Bank:</b> ' + Beautify(bankLevel.cost)));
@@ -358,7 +367,7 @@ function FCMenu() {
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Other Information'));
-      var cps = baseCps();
+      var cps = baseCps() + baseClickingCps(FrozenCookies.cookieClickSpeed);
       var baseChosen = (Game.frenzy > 0) ? '' : ' (*)';
       var frenzyChosen = (Game.frenzy > 0) ? ' (*)' : '';
       subsection.append($('<div />').addClass('listing').html('<b>Base CPS' + baseChosen + ':</b> ' + Beautify(cps)));
@@ -366,31 +375,42 @@ function FCMenu() {
       subsection.append($('<div />').addClass('listing').html('<b>Estimated Effective CPS:</b> ' + Beautify(cps + gcPs(cookieValue(Game.cookies)))));
       subsection.append($('<div />').addClass('listing').html('<b>Game Started:</b> ' + Game.sayTime((Date.now()-Game.startDate)/1000*Game.fps)));
       menu.append(subsection);
-      var subsection = $('<div />').addClass('subsection');
-      subsection.append($('<div />').addClass('title').html('Frozen Cookie Controls'));
-      var listing = $('<div />').addClass('listing');
-      listing.append($(Game.WriteButton('autoBuy','autobuyButton','Autobuy ON','Autobuy OFF',"toggleFrozen('autoBuy');")));
-      listing.append($(Game.WriteButton('autoGC','autogcButton','Autoclick GC ON','Autoclick GC OFF',"toggleFrozen('autoGC');")));
-      subsection.append(listing);
-      var listing = $('<div />').addClass('listing');
-      listing.append($(Game.WriteButton('autoClick', 'autoclickButton', 'Autoclick Cookie ON', 'Autoclick Cookie OFF', "toggleFrozen('autoClick');")));
-      listing.append($('<label>Click the large cookie ' + FrozenCookies.cookieClickSpeed + ' times per second.</label>'));
-      listing.append($('<a class="option" id="cookieClickSpeed" onclick="updateCookieClickSpeed();">Change Speed</a>'));
-      subsection.append(listing);
-      var listing = $('<div />').addClass('listing');
-      listing.append($(Game.WriteButton('autoFrenzy', 'autofrenzyButton', 'Autoclick Frenzy ON', 'Autoclick Frenzy OFF', "toggleFrozen('autoFrenzy');")));
-      listing.append($('<label>Click the large cookie during Clicking Frenzies ' + FrozenCookies.frenzyClickSpeed + ' times per second.</label>'));
-      listing.append($('<a class="option" id="frenzyClickSpeed" onclick="updateFrenzyClickSpeed();">Change Speed</a>'));
-      subsection.append(listing);
-      subsection.append($('<div />').addClass('listing').html($('<a class="option" id="blacklistButton" onclick="toggleBlacklist();">Blacklist: ' + FrozenCookies.blacklist + '</a>')));
-      menu.append(subsection);
+      if (FrozenCookies.preferenceValues) {
+        var subsection = $('<div />').addClass('subsection');
+        subsection.append($('<div />').addClass('title').html('Frozen Cookie Controls'));
+        _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
+          var hint = FrozenCookies.preferenceValues[preference].hint;
+          var display = FrozenCookies.preferenceValues[preference].display;
+          var current = FrozenCookies[preference];
+          var preferenceButtonId = preference + 'Button';
+          if (display && display.length > 0 && display.length > current) {
+            var listing = $('<div />').addClass('listing')
+            listing.append($('<a class="option" id="' + preferenceButtonId + '" onclick="cyclePreference(\'' + preference + '\');">' + display[current] + '</a>'));
+            listing.append($('<label>' + hint + '</label>'));
+            subsection.append(listing);
+          }
+        });
+        var listing = $('<div />').addClass('listing');
+        var cookieClickDisplay = FrozenCookies.autoClick  ? 'ON' : 'OFF';
+        listing.append($('<a class="option" id="autoClickButton" onclick="toggleFrozen(\'autoClick\');">Autoclick Cookie ' + cookieClickDisplay + '</a>'));
+        listing.append($('<label>Click the large cookie ' + FrozenCookies.cookieClickSpeed + ' times per second.</label>'));
+        listing.append($('<a class="option" id="cookieClickSpeed" onclick="updateCookieClickSpeed();">Change Speed</a>'));
+        subsection.append(listing);
+        var listing = $('<div />').addClass('listing');
+        var frenzyClickDisplay = FrozenCookies.autoFrenzy ? 'ON' : 'OFF';
+        listing.append($('<a class="option" id="autoFrenzyButton" onclick="toggleFrozen(\'autoFrenzy\');">Autoclick Frenzy ' + frenzyClickDisplay + '</a>'));
+        listing.append($('<label>Click the large cookie during Clicking Frenzies ' + FrozenCookies.frenzyClickSpeed + ' times per second.</label>'));
+        listing.append($('<a class="option" id="frenzyClickSpeed" onclick="updateFrenzyClickSpeed();">Change Speed</a>'));
+        subsection.append(listing);
+        menu.append(subsection);
+      }
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Internal Information'));
       var buildTable = $('<table />').html('<tr><th>Building</th><th>Eff%</th><th>Efficiency</th><th>Cost</th><th>&#916; CPS</th></tr>');
       recommendationList().forEach(function(rec) {
-        var store = (rec.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
-        var item  = store[rec.id];
-        buildTable.append($('<tr><td><b>' + item.name + '</b></td><td>' + (Math.floor(rec.efficiencyScore * 10000) / 100).toString() + '%</td><td>' + Beautify(rec.efficiency) + '</td><td>' + Beautify(rec.cost) + '</td><td>' + Beautify(rec.delta_cps) + '</td></tr>'));
+        var item  = rec.purchase;
+        var chainStr = (item.unlocked === 0) ? ' (C)' : '';
+        buildTable.append($('<tr><td><b>' + item.name + chainStr + '</b></td><td>' + (Math.floor(rec.efficiencyScore * 10000) / 100).toString() + '%</td><td>' + Beautify(rec.efficiency) + '</td><td>' + Beautify(rec.cost) + '</td><td>' + Beautify(rec.delta_cps) + '</td></tr>'));
       });
       var bankLucky = {'cost': luckyBank(), 'efficiency': cookieEfficiency(Game.cookies, luckyBank())};
       var bankLuckyFrenzy = {'cost': luckyFrenzyBank(), 'efficiency': cookieEfficiency(Game.cookies, luckyFrenzyBank())};
