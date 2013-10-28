@@ -890,6 +890,7 @@ function autoCookie() {
         var time = neededCookies / fullCps;
         Game.Earn(neededCookies);
         Game.startDate -= time * 1000;
+        Game.fullDate -= time * 1000;
         FrozenCookies.timeTravelPurchases -= 1;
         autoCookie();
       }
