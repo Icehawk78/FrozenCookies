@@ -640,8 +640,7 @@ function upgradePrereqCost(upgrade, full) {
     return cost;
   }
   var prereqs = _.find(upgradeJson, function(a) {return a.id == upgrade.id;});
-  if (prereqs.length) {
-    prereqs = prereqs[0];
+  if (prereqs) {
     cost += prereqs.buildings.reduce(function(sum,item,index) {
       var building = Game.ObjectsById[index];
       if (item && full) {
@@ -668,8 +667,7 @@ function unfinishedUpgradePrereqs(upgrade) {
   }
   var needed = [];
   var prereqs = _.find(upgradeJson, function(a) {return a.id == upgrade.id;});
-  if (prereqs.length) {
-    prereqs = prereqs[0];
+  if (prereqs) {
     prereqs.buildings.forEach(function(a, b) {
       if (a && Game.ObjectsById[b].amount < a) {
         needed.push({'type' : 'building', 'id' : b});
