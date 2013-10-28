@@ -72,6 +72,8 @@ function fcInit() {
   FrozenCookies.disabledPopups = true;
   FrozenCookies.processing = false;
   
+  FrozenCookies.timeTravelPurchases = 0;
+  
   FrozenCookies.cookieBot = 0;
   FrozenCookies.autoclickBot = 0;
   FrozenCookies.autoFrenzyBot = 0;
@@ -881,7 +883,17 @@ function autoCookie() {
     }
 //    var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
 //    var purchase = store[recommendation.id];
-    if (FrozenCookies.autoBuy && Game.cookies >= delayAmount() + recommendation.cost) {
+    if (FrozenCookies.timeTravelPurchases) {
+      var fullCps = baseCps() + gcPs(cookieValue(delayAmount())) + baseClickingCps();
+      if (fullCps > 0) {
+        var neededCookies = recommendation.cost + delayAmount() - Game.cookies;
+        var time = neededCookies / fullCps;
+        Game.Earn(neededCookies);
+        Game.startDate -= time * 1000;
+        FrozenCookies.timeTravelPurchases -= 1;
+        autoCookie();
+      }
+    } else if (FrozenCookies.autoBuy && Game.cookies >= delayAmount() + recommendation.cost) {
       recommendation.time = Date.now() - Game.startDate;
 //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
       recommendation.purchase.clickFunction = null;
