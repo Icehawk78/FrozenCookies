@@ -8,6 +8,7 @@ $('#logButton').before(
 
 $('<style type="text/css">')
   .html(
+  '#fcEfficiencyTable {width: 100%;}' +
   '#fcButton {font-size: 60%; top: 0px; right: -16px; padding: 14px 16px 10px 0px;}' +
   '#fcButton:hover {right: -8px;}' +
   '.worst {border-width:1px; border-style:solid; border-color:#330000;}' +
@@ -261,7 +262,7 @@ function updateTimers() {
     t_draw.push({
       f_percent: frenzy_delay,
       c1: "rgba(255, 0, 0, 1)",
-      name: "Frenzy Time",
+      name: "Frenzy (x" + Game.frenzyPower + ") Time",
       display: timeDisplay(Game.frenzy/Game.fps)
     });
   }
@@ -406,7 +407,7 @@ function FCMenu() {
       }
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Internal Information'));
-      var buildTable = $('<table />').html('<tr><th>Building</th><th>Eff%</th><th>Efficiency</th><th>Cost</th><th>&#916; CPS</th></tr>');
+      var buildTable = $('<table id="fcEfficiencyTable"/>').html('<tr><th>Building</th><th>Eff%</th><th>Efficiency</th><th>Cost</th><th>&#916; CPS</th></tr>');
       recommendationList().forEach(function(rec) {
         var item  = rec.purchase;
         var chainStr = (item.unlocked === 0) ? ' (C)' : '';
