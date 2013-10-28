@@ -903,6 +903,7 @@ function autoCookie() {
       recommendation.purchase.buy();
       disabledPopups = true;
       FrozenCookies.recalculateCaches = true;
+      FrozenCookies.processing = false;
       autoCookie();
     }
     if (shouldClickGC()) {
