@@ -886,15 +886,15 @@ function autoCookie() {
     if (FrozenCookies.timeTravelPurchases) {
       var fullCps = baseCps() + gcPs(cookieValue(delayAmount())) + baseClickingCps();
       if (fullCps > 0) {
-        var neededCookies = recommendation.cost + delayAmount() - Game.cookies;
+        var neededCookies = Math.max(0, recommendation.cost + delayAmount() - Game.cookies);
         var time = neededCookies / fullCps;
         Game.Earn(neededCookies);
         Game.startDate -= time * 1000;
         Game.fullDate -= time * 1000;
         FrozenCookies.timeTravelPurchases -= 1;
-        autoCookie();
       }
-    } else if (FrozenCookies.autoBuy && Game.cookies >= delayAmount() + recommendation.cost) {
+    }
+    if (FrozenCookies.autoBuy && Game.cookies >= delayAmount() + recommendation.cost) {
       recommendation.time = Date.now() - Game.startDate;
 //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
       recommendation.purchase.clickFunction = null;
