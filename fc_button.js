@@ -377,7 +377,7 @@ function FCMenu() {
           if (display && display.length > 0 && current && display.length > current) {
             var listing = $('<div />').addClass('listing')
             listing.append($('<a class="option" id="' + preferenceButtonId + '" onclick="cyclePreference(' + preference + ');">' + display[current] + '</a>'));
-            listing.append($('<label>' + display + '</label'>));
+            listing.append($('<label>' + display + '</label>'));
           }
         });
         var listing = $('<div />').addClass('listing');
