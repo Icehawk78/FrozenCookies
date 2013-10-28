@@ -370,10 +370,10 @@ function FCMenu() {
         var subsection = $('<div />').addClass('subsection');
         subsection.append($('<div />').addClass('title').html('Frozen Cookie Controls'));
         _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
-          var hint = FrozenCookies.preferenceValues[preferenceName].hint;
-          var display = FrozenCookies.preferenceValues[preferenceName].display;
-          var current = FrozenCookies[preferenceName];
-          var preferenceButtonId = preferenceName + 'Button';
+          var hint = FrozenCookies.preferenceValues[preference].hint;
+          var display = FrozenCookies.preferenceValues[preference].display;
+          var current = FrozenCookies[preference];
+          var preferenceButtonId = preference + 'Button';
           if (display && display.length > 0 && current && display.length > current) {
             var listing = $('<div />').addClass('listing')
             listing.append($('<a class="option" id="' + preferenceButtonId + '" onclick="cyclePreference(' + preference + ');">' + display[current] + '</a>'));
