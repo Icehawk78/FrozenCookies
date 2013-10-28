@@ -297,13 +297,14 @@ function FCMenu() {
       var chainRecommendation = nextChainedPurchase();
       var isChained = !(recommendation.id == chainRecommendation.id && recommendation.type == chainRecommendation.type);
       var bankLevel = bestBank(chainRecommendation.efficiency);
+      var actualCps = Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed;
       subsection.append($('<div />').addClass('listing').html('<b>Next Purchase:</b> ' + recommendation.purchase.name));
       if (isChained) {
         subsection.append($('<div />').addClass('listing').html('<b>Building Chain to:</b> ' + chainRecommendation.purchase.name));
       }
-      subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay(divCps((recommendation.cost + bankLevel.cost - Game.cookies), Game.cookiesPs))));
+      subsection.append($('<div />').addClass('listing').html('<b>Time til completion:</b> ' + timeDisplay(divCps((recommendation.cost + bankLevel.cost - Game.cookies), actualCps))));
       if (isChained) {
-        subsection.append($('<div />').addClass('listing').html('<b>Time til Chain completion:</b> ' + timeDisplay(divCps(Math.max(0,(chainRecommendation.cost + bankLevel.cost - Game.cookies)), Game.cookiesPs))));
+        subsection.append($('<div />').addClass('listing').html('<b>Time til Chain completion:</b> ' + timeDisplay(divCps(Math.max(0,(chainRecommendation.cost + bankLevel.cost - Game.cookies)), actualCps))));
       }
       subsection.append($('<div />').addClass('listing').html('<b>Cost:</b> ' + Beautify(recommendation.cost)));
       subsection.append($('<div />').addClass('listing').html('<b>Golden Cookie Bank:</b> ' + Beautify(bankLevel.cost)));
@@ -365,7 +366,7 @@ function FCMenu() {
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Other Information'));
-      var cps = baseCps();
+      var cps = baseCps() + baseClickingCps(FrozenCookies.cookieClickSpeed);
       var baseChosen = (Game.frenzy > 0) ? '' : ' (*)';
       var frenzyChosen = (Game.frenzy > 0) ? ' (*)' : '';
       subsection.append($('<div />').addClass('listing').html('<b>Base CPS' + baseChosen + ':</b> ' + Beautify(cps)));
