@@ -35,14 +35,17 @@ function fcInit() {
     });
   };
   document.head.appendChild(jquery);
+
+  FrozenCookies.preferenceValues = {
+    'autoBuy' : {'hint': 'Automatically buy the most efficient building when you\'ve met its cost', 'display':["Autobuy OFF","Autobuy ON"]},
+    'autoGC' : {'hint': 'Automatically click Golden Cookies when they appear', 'display':["Autoclick GC OFF", "Autoclick GC ON"]},
+    'simulatedGCPercent' : {'hint':'What percentage of Golden Cookies should be assumed as "clicked" for GC efficiency calculations (100% recommended)', 'values':["0%","Actual Ratio","100%"]},
+    'numberDisplay' : {'hint':'Change how numbers are shortened', 'display':["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"]},
+    'blacklist' : {'hint':'Blacklist purchases from the efficiency calculations', 'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist']}
+  };
+  
   FrozenCookies.frequency = 100;
-  FrozenCookies.efficiencyWeight = 1.15;
-  FrozenCookies.preferenceValues = [
-    {'autoBuy' : ["Autobuy OFF","Autobuy ON"]},
-    {'autoGC' : ["Autoclick GC OFF", "Autoclick GC ON"]},
-    {'simulatedGCPercent' : ["GC for Calculations: 0%","GC for Calculations: Actual Ratio","GC for Calculations: 100%"]},
-    {'numberDisplay' : ["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"]}
-  ];
+  FrozenCookies.efficiencyWeight = 1.0;
   FrozenCookies.numberDisplay = preferenceParse('numberDisplay', 1);
   FrozenCookies.autoBuy = preferenceParse('autoBuy', 0);
   FrozenCookies.autoGC = preferenceParse('autoGC', 0);
@@ -60,7 +63,7 @@ function fcInit() {
   FrozenCookies.lastHCTime = Number(localStorage.getItem('lastHCTime'));
   FrozenCookies.prevLastHCTime = Number(localStorage.getItem('prevLastHCTime'));
   FrozenCookies.maxHCPercent = Number(localStorage.getItem('maxHCPercent'));
-  FrozenCookies.blacklist = localStorage.getItem('blacklist');
+  FrozenCookies.blacklist = preferenceParse('blacklist',0);
   FrozenCookies.lastCPS = Game.cookiesPs;
   FrozenCookies.lastCookieCPS = 0;
   FrozenCookies.lastUpgradeCount = 0;
@@ -81,11 +84,6 @@ function fcInit() {
   FrozenCookies.caches.recommendationList = [];
   FrozenCookies.caches.buildings = [];
   FrozenCookies.caches.upgrades = [];
-  
-  Game.prefs.autoBuy = FrozenCookies.autoBuy;
-  Game.prefs.autoGC = FrozenCookies.autoGC;
-  Game.prefs.autoClick = FrozenCookies.autoClick;
-  Game.prefs.autoFrenzy = FrozenCookies.autoFrenzy;
 }
 
 function setOverrides() {
@@ -296,34 +294,32 @@ function updateFrenzyClickSpeed() {
   }
 }
 
-function toggleBlacklist() {
-  switch (FrozenCookies.blacklist) {
-    case 'none':
-      FrozenCookies.blacklist = 'speedrun';
-      break;
-    case 'speedrun':
-      FrozenCookies.blacklist = 'hardcore';
-      break;
-    case 'hardcore':
-      FrozenCookies.blacklist = 'none';
-      break;
-    default:
-      FrozenCookies.blacklist = 'none';
+function cyclePreference(preferenceName) {
+  var preference = FrozenCookies.preferenceValues[preferenceName];
+  if (preference) {
+    var display = preference.display;
+    var current = FrozenCookies[preferenceName];
+    var preferenceButton = $('#' + preferenceName + 'Button');
+    if (display && display.length > 0 && preferenceButton && preferenceButton.length > 0) {
+      var newValue = (current + 1) % display.length;
+      preferenceButton[0].innerText = display[newValue];
+      FrozenCookies[preferenceName] = newValue;
+      updateLocalStorage();
+      FrozenCookies.recalculateCaches = true;
+      Game.RebuildStore();
+      Game.RebuildUpgrades();
+      FCStart();
+    }  
   }
-  updateLocalStorage();
-  $("#blacklistButton")[0].innerText = "Blacklist: " + FrozenCookies.blacklist;
-  FrozenCookies.recalculateCaches = true;
 }
 
 function toggleFrozen(setting) {
   if (!Number(localStorage.getItem(setting))) {
     localStorage.setItem(setting,1);
     FrozenCookies[setting] = 1;
-    Game.prefs[setting] = 1;
   } else {
     localStorage.setItem(setting,0);
     FrozenCookies[setting] = 0;
-    Game.prefs[setting] = 0;
   }
   FCStart();
 }
@@ -636,27 +632,30 @@ function upgradeStats(recalculate) {
   return FrozenCookies.caches.upgrades;
 }
 
-function upgradePrereqCost(upgrade) {
+function cumulativeBuildingCost(basePrice, startingNumber, endingNumber) {
+  return basePrice * (Math.pow(Game.priceIncrease, endingNumber) - Math.pow(Game.priceIncrease, startingNumber)) / (Game.priceIncrease - 1);
+}
+
+function upgradePrereqCost(upgrade, full) {
   var cost = upgrade.basePrice;
   if (upgrade.unlocked) {
     return cost;
   }
-  var prereqs = upgradeJson.filter(function(a){return a.id == upgrade.id;});
-  if (prereqs.length) {
-    prereqs = prereqs[0];
+  var prereqs = _.find(upgradeJson, function(a) {return a.id == upgrade.id;});
+  if (prereqs) {
     cost += prereqs.buildings.reduce(function(sum,item,index) {
       var building = Game.ObjectsById[index];
-      if (item && building.amount < item) {
-        for (var i = building.amount; i < item; i++) {
-          sum += building.basePrice * Math.pow(Game.priceIncrease, i);
-        }
+      if (item && full) {
+        sum += cumulativeBuildingCost(building.basePrice, 0, item);
+      } else if (item && building.amount < item) {
+        sum += cumulativeBuildingCost(building.basePrice, building.amount, item);
       }
       return sum;
     },0);
     cost += prereqs.upgrades.reduce(function(sum,item) {
       var reqUpgrade = Game.UpgradesById[item];
-      if (!upgrade.bought) {
-        sum += upgradePrereqCost(reqUpgrade);
+      if (!upgrade.bought || full) {
+        sum += upgradePrereqCost(reqUpgrade, full);
       }
       return sum;
     }, 0);
@@ -669,9 +668,8 @@ function unfinishedUpgradePrereqs(upgrade) {
     return null;
   }
   var needed = [];
-  var prereqs = upgradeJson.filter(function(a){return a.id == upgrade.id;});
-  if (prereqs.length) {
-    prereqs = prereqs[0];
+  var prereqs = _.find(upgradeJson, function(a) {return a.id == upgrade.id;});
+  if (prereqs) {
     prereqs.buildings.forEach(function(a, b) {
       if (a && Game.ObjectsById[b].amount < a) {
         needed.push({'type' : 'building', 'id' : b});
@@ -928,7 +926,8 @@ function FCStart() {
   
   if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
     FrozenCookies.autoclickBot = setInterval(function() {Game.ClickCookie();}, 1000 / FrozenCookies.cookieClickSpeed);
-  } else if (FrozenCookies.autoFrenzy && FrozenCookies.frenzyClickSpeed > 0) {
+  }
+  if (FrozenCookies.autoFrenzy && FrozenCookies.frenzyClickSpeed) {
     FrozenCookies.frenzyClickBot = setInterval(function() {autoFrenzyClick();}, FrozenCookies.frequency);
   }
   
