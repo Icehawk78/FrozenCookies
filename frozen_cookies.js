@@ -70,7 +70,9 @@ function fcInit() {
   FrozenCookies.currentBank = {'cost': 0, 'efficiency' : 0};
   FrozenCookies.targetBank = {'cost': 0, 'efficiency' : 0};
   FrozenCookies.disabledPopups = true;
+  
   FrozenCookies.processing = false;
+  FrozenCookies.gcProcessing = false;
   
   FrozenCookies.timeTravelPurchases = 0;
   
@@ -816,6 +818,14 @@ function shouldClickGC() {
   return Game.goldenCookie.life > 0 && FrozenCookies.autoGC;
 }
 
+function autoGoldenCookie() {
+  if (!FrozenCookies.gcProcessing && Game.goldenCookie.life) {
+    FrozenCookies.gcProcessing = true;
+    Game.goldenCookie.click();
+    FrozenCookies.gcProcessing = false;
+  }
+}
+
 function autoFrenzyClick() {
   if (Game.clickFrenzy > 0 && !FrozenCookies.autoFrenzyBot) {
     if (FrozenCookies.autoclickBot) {
@@ -906,11 +916,6 @@ function autoCookie() {
       FrozenCookies.processing = false;
       autoCookie();
     }
-    if (shouldClickGC()) {
-      Game.goldenCookie.click();
-      Game.goldenCookie.life = 0;
-//      full_history.push({'type' : 'golden_cookie', 'time' : Date.now() - initial_load_time});  // Probably leaky, maybe laggy?
-    }
     if ((Game.frenzy > 0) != FrozenCookies.last_gc_state) {
       if (FrozenCookies.last_gc_state) {
         FrozenCookies.gc_time += Date.now() - FrozenCookies.last_gc_time;
@@ -936,18 +941,27 @@ function FCStart() {
     clearInterval(FrozenCookies.autoclickBot);
     FrozenCookies.autoclickBot = 0;
   }
+  if (FrozenCookies.goldenCookieBot) {
+    clearInterval(FrozenCookies.goldenCookieBot);
+    FrozenCookies.goldenCookieBot = 0;
+  }
   
   // Now create new intervals with their specified frequencies.
   
   if (FrozenCookies.frequency) {
-    FrozenCookies.cookieBot = setInterval(function() {autoCookie();}, FrozenCookies.frequency);
+    FrozenCookies.cookieBot = setInterval(autoCookie, FrozenCookies.frequency);
+  }
+  
+  if (FrozenCookies.autoGC) {
+    FrozenCookies.goldenCookieBot = setInterval(autoGoldenCookie, FrozenCookies.frequency);
   }
   
   if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
-    FrozenCookies.autoclickBot = setInterval(function() {Game.ClickCookie();}, 1000 / FrozenCookies.cookieClickSpeed);
+    FrozenCookies.autoclickBot = setInterval(Game.ClickCookie, 1000 / FrozenCookies.cookieClickSpeed);
   }
+  
   if (FrozenCookies.autoFrenzy && FrozenCookies.frenzyClickSpeed) {
-    FrozenCookies.frenzyClickBot = setInterval(function() {autoFrenzyClick();}, FrozenCookies.frequency);
+    FrozenCookies.frenzyClickBot = setInterval(autoFrenzyClick, FrozenCookies.frequency);
   }
   
   FCMenu();
