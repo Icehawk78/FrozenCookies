@@ -255,13 +255,13 @@ function updateTimers() {
   if (gc_delay>0) {
     t_draw.push({
       f_percent: gc_max_delay,
-      c1: "rgba(255, 195, 0, 1)",
+      c1: "rgba(255, 155, 0, 1)",
       name: "Golden Cookie Maximum (99%)",
       display: timeDisplay((gc_max_delay * maxCookieTime()) / Game.fps)
     });
     t_draw.push({
       f_percent: gc_delay,
-      c1: "rgba(255, 215, 0, 1)",
+      c1: "rgba(255, 195, 0, 1)",
       name: "Golden Cookie Estimate (50%)",
       display: timeDisplay((gc_delay * maxCookieTime()) / Game.fps),
       overlay: true
