@@ -70,10 +70,15 @@ function fcInit() {
   FrozenCookies.currentBank = {'cost': 0, 'efficiency' : 0};
   FrozenCookies.targetBank = {'cost': 0, 'efficiency' : 0};
   FrozenCookies.disabledPopups = true;
+  
   FrozenCookies.processing = false;
+  FrozenCookies.gcProcessing = false;
+  
+  FrozenCookies.timeTravelPurchases = 0;
   
   FrozenCookies.cookieBot = 0;
   FrozenCookies.autoclickBot = 0;
+  FrozenCookies.autoFrenzyBot = 0;
   FrozenCookies.frenzyClickBot = 0;
   
   // Caching
@@ -813,12 +818,24 @@ function shouldClickGC() {
   return Game.goldenCookie.life > 0 && FrozenCookies.autoGC;
 }
 
+function autoGoldenCookie() {
+  if (!FrozenCookies.gcProcessing && Game.goldenCookie.life) {
+    FrozenCookies.gcProcessing = true;
+    Game.goldenCookie.click();
+    FrozenCookies.gcProcessing = false;
+  }
+}
+
 function autoFrenzyClick() {
-  if (Game.clickFrenzy > 0 && !FrozenCookies.autoclickBot) {
-    FrozenCookies.autoclickBot = setInterval(function(){Game.ClickCookie();}, 1000 / FrozenCookies.frenzyClickSpeed);
-  } else if (Game.clickFrenzy == 0 && FrozenCookies.autoclickBot) {
-    clearInterval(FrozenCookies.autoclickBot);
-    FrozenCookies.autoclickBot = 0;
+  if (Game.clickFrenzy > 0 && !FrozenCookies.autoFrenzyBot) {
+    if (FrozenCookies.autoclickBot) {
+      clearInterval(FrozenCookies.autoclickBot);
+      FrozenCookies.autoclickBot = 0;
+    }
+    FrozenCookies.autoFrenzyBot = setInterval(function(){Game.ClickCookie();}, 1000 / FrozenCookies.frenzyClickSpeed);
+  } else if (Game.clickFrenzy == 0 && FrozenCookies.autoFrenzyBot) {
+    clearInterval(FrozenCookies.autoFrenzyBot);
+    FrozenCookies.autoFrenzyBot = 0;
     if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
       FrozenCookies.autoclickBot = setInterval(function(){Game.ClickCookie();}, 1000 / FrozenCookies.cookieClickSpeed);
     }
@@ -876,6 +893,17 @@ function autoCookie() {
     }
 //    var store = (recommendation.type == 'building') ? Game.ObjectsById : Game.UpgradesById;
 //    var purchase = store[recommendation.id];
+    if (FrozenCookies.timeTravelPurchases) {
+      var fullCps = baseCps() + gcPs(cookieValue(delayAmount())) + baseClickingCps(FrozenCookies.cookieClickSpeed);
+      if (fullCps > 0) {
+        var neededCookies = Math.max(0, recommendation.cost + delayAmount() - Game.cookies);
+        var time = neededCookies / fullCps;
+        Game.Earn(neededCookies);
+        Game.startDate -= time * 1000;
+        Game.fullDate -= time * 1000;
+        FrozenCookies.timeTravelPurchases -= 1;
+      }
+    }
     if (FrozenCookies.autoBuy && Game.cookies >= delayAmount() + recommendation.cost) {
       recommendation.time = Date.now() - Game.startDate;
 //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
@@ -885,12 +913,8 @@ function autoCookie() {
       recommendation.purchase.buy();
       disabledPopups = true;
       FrozenCookies.recalculateCaches = true;
+      FrozenCookies.processing = false;
       autoCookie();
-    }
-    if (shouldClickGC()) {
-      Game.goldenCookie.click();
-      Game.goldenCookie.life = 0;
-//      full_history.push({'type' : 'golden_cookie', 'time' : Date.now() - initial_load_time});  // Probably leaky, maybe laggy?
     }
     if ((Game.frenzy > 0) != FrozenCookies.last_gc_state) {
       if (FrozenCookies.last_gc_state) {
@@ -917,18 +941,27 @@ function FCStart() {
     clearInterval(FrozenCookies.autoclickBot);
     FrozenCookies.autoclickBot = 0;
   }
+  if (FrozenCookies.goldenCookieBot) {
+    clearInterval(FrozenCookies.goldenCookieBot);
+    FrozenCookies.goldenCookieBot = 0;
+  }
   
   // Now create new intervals with their specified frequencies.
   
   if (FrozenCookies.frequency) {
-    FrozenCookies.cookieBot = setInterval(function() {autoCookie();}, FrozenCookies.frequency);
+    FrozenCookies.cookieBot = setInterval(autoCookie, FrozenCookies.frequency);
+  }
+  
+  if (FrozenCookies.autoGC) {
+    FrozenCookies.goldenCookieBot = setInterval(autoGoldenCookie, FrozenCookies.frequency);
   }
   
   if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
-    FrozenCookies.autoclickBot = setInterval(function() {Game.ClickCookie();}, 1000 / FrozenCookies.cookieClickSpeed);
+    FrozenCookies.autoclickBot = setInterval(Game.ClickCookie, 1000 / FrozenCookies.cookieClickSpeed);
   }
+  
   if (FrozenCookies.autoFrenzy && FrozenCookies.frenzyClickSpeed) {
-    FrozenCookies.frenzyClickBot = setInterval(function() {autoFrenzyClick();}, FrozenCookies.frequency);
+    FrozenCookies.frenzyClickBot = setInterval(autoFrenzyClick, FrozenCookies.frequency);
   }
   
   FCMenu();

@@ -191,6 +191,8 @@ function drawCircles(t_d, x, y) {
 
 function updateTimers() {
   var gc_delay = (probabilitySpan(Game.goldenCookie.time, 0.5) - Game.goldenCookie.time) / maxCookieTime();
+  var gc_max_delay = (probabilitySpan(Game.goldenCookie.time, 0.99) - Game.goldenCookie.time) / maxCookieTime();
+  var gc_min_delay = (probabilitySpan(Game.goldenCookie.time, 0.01) - Game.goldenCookie.time) / maxCookieTime();
   var frenzy_delay = Game.frenzy / maxCookieTime();
   var click_frenzy_delay = Game.clickFrenzy / maxCookieTime();
   var decimal_HC_complete = ((Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5)%1);
@@ -252,10 +254,25 @@ function updateTimers() {
   }
   if (gc_delay>0) {
     t_draw.push({
+      f_percent: gc_max_delay,
+      c1: "rgba(255, 155, 0, 1)",
+      name: "Golden Cookie Maximum (99%)",
+      display: timeDisplay((gc_max_delay * maxCookieTime()) / Game.fps)
+    });
+    t_draw.push({
       f_percent: gc_delay,
-      c1: "rgba(255, 215, 0, 1)",
+      c1: "rgba(255, 195, 0, 1)",
       name: "Golden Cookie Estimate (50%)",
-      display: timeDisplay((probabilitySpan(Game.goldenCookie.time, 0.5) - Game.goldenCookie.time) / Game.fps)
+      display: timeDisplay((gc_delay * maxCookieTime()) / Game.fps),
+      overlay: true
+    });
+    t_draw.push({
+      f_percent: gc_min_delay,
+      c1: "rgba(255, 235, 0, 1)",
+      name: "Golden Cookie Minimum (1%)",
+      display: timeDisplay((gc_min_delay * maxCookieTime()) / Game.fps),
+      overlay: true
+
     });
   }
   if (frenzy_delay>0) {
