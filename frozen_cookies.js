@@ -913,7 +913,7 @@ function autoCookie() {
           if (w.sucked > 0.5 && w.phase > 0) {
             w.hp = 0;
           }
-        }
+        });
       } else if (Game.wrinklers.reduce(function(sum,w) {return sum + w.sucked * 1.1;}) + Game.cookies >= delayAmount + recommendation.cost) {
       Game.wrinklers.forEach(function(w) {
         if (w.phase) {
