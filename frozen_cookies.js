@@ -108,8 +108,8 @@ function setOverrides() {
   Game.RebuildStore();
   Game.RebuildUpgrades();
   // Replace Game.Popup references with event logging
-  Game.goldenCookie.click = eval(Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
-  Game.UpdateWrinklers = eval(Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
+//  Game.goldenCookie.click = eval(Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
+//  Game.UpdateWrinklers = eval(Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
 /*
   eval("Game.Draw = " + Game.Draw.toString()
     .replace(/if \(Game.cookies>=me.price\) l\('product'\+me.id\).className='product enabled'; else l\('product'\+me.id\).className='product disabled';/, '(Game.cookies >= me.price) ? $("#product"+me.id).addClass("enabled").removeClass("disabled") : $("#product"+me.id).addClass("disabled").removeClass("enabled");')
@@ -825,7 +825,7 @@ function fcWin(what) {
 }
 
 function logEvent(event, text, popup) {
-  var time = '[' + timeDisplay(Date.now() - Game.startDate) + ']';
+  var time = '[' + timeDisplay((Date.now() - Game.startDate)/1000) + ']';
   var output = time + ' ' + event + ': ' + text;
   console.log(output);
   if (popup) {
