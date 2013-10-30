@@ -528,6 +528,10 @@ function delayAmount() {
 */
 }
 
+function notAllHalloween() {
+  return _.every(halloweenCookies, function(id) {return Game.UpgradesById[id].unlocked;});
+}
+
 // Use this for changes to future efficiency calcs
 function purchaseEfficiency(price, deltaCps, baseDeltaCps, currentCps) {
   var efficiency = Number.POSITIVE_INFINITY;
