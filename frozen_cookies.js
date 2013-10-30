@@ -915,11 +915,12 @@ function autoCookie() {
           }
         });
       } else if (Game.wrinklers.reduce(function(sum,w) {return sum + w.sucked * 1.1;}) + Game.cookies >= delayAmount + recommendation.cost) {
-      Game.wrinklers.forEach(function(w) {
-        if (w.phase) {
-          w.hp = 0;
-        }
-      });
+        Game.wrinklers.forEach(function(w) {
+          if (w.phase) {
+            w.hp = 0;
+          }
+        });
+      }
     }
     
     if (FrozenCookies.autoBuy && Game.cookies >= delayAmount() + recommendation.cost) {
