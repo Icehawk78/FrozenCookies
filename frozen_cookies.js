@@ -209,6 +209,7 @@ function updateLocalStorage() {
   localStorage.numberDisplay = FrozenCookies.numberDisplay;
   localStorage.autoBuy = FrozenCookies.autoBuy;
   localStorage.autoGC = FrozenCookies.autoGC;
+  localStorage.autoWrinkler = FrozenCookies.autoWrinkler;
   localStorage.autoClick = FrozenCookies.autoClick;
   localStorage.autoFrenzy = FrozenCookies.autoFrenzy;
   localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
