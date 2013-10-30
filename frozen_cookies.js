@@ -39,9 +39,10 @@ function fcInit() {
   FrozenCookies.preferenceValues = {
     'autoBuy' : {'hint': 'Automatically buy the most efficient building when you\'ve met its cost', 'display':["Autobuy OFF","Autobuy ON"]},
     'autoGC' : {'hint': 'Automatically click Golden Cookies when they appear', 'display':["Autoclick GC OFF", "Autoclick GC ON"]},
-    'simulatedGCPercent' : {'hint':'What percentage of Golden Cookies should be assumed as "clicked" for GC efficiency calculations (100% recommended)', 'values':["0%","Actual Ratio","100%"]},
+    'autoWrinkler' : {'hint': 'Automatically pop wrinklers efficiently (as fast as possible before you have all halloween cookies, then wait until a purchase)', 'display':['Autopop Wrinklers OFF', 'Autopop Wrinklers ON']},
+    'simulatedGCPercent' : {'hint':'What percentage of Golden Cookies should be assumed as "clicked" for GC efficiency calculations (100% recommended)', 'display':["0%","100%"]},
     'numberDisplay' : {'hint':'Change how numbers are shortened', 'display':["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"]},
-    'blacklist' : {'hint':'Blacklist purchases from the efficiency calculations', 'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist']}
+    'blacklist' : {'hint':'Blacklist purchases from the efficiency calculations', 'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist', 'Grandmapocalypse Mode']}
   };
   
   FrozenCookies.frequency = 100;
@@ -49,6 +50,7 @@ function fcInit() {
   FrozenCookies.numberDisplay = preferenceParse('numberDisplay', 1);
   FrozenCookies.autoBuy = preferenceParse('autoBuy', 0);
   FrozenCookies.autoGC = preferenceParse('autoGC', 0);
+  FrozenCookies.autoWrinkler = preferenceParse('autoWrinkler', 0);
   FrozenCookies.autoClick = preferenceParse('autoClick', 0);
   FrozenCookies.autoFrenzy = preferenceParse('autoFrenzy', 0);
   FrozenCookies.simulatedGCPercent = preferenceParse('simulatedGCPercent', 1);
@@ -72,7 +74,6 @@ function fcInit() {
   FrozenCookies.disabledPopups = true;
   
   FrozenCookies.processing = false;
-  FrozenCookies.gcProcessing = false;
   
   FrozenCookies.timeTravelPurchases = 0;
   
@@ -593,11 +594,11 @@ function buildingStats(recalculate) {
       }
       var baseCpsOrig = baseCps();
       var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
-      var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
+      var existingAchievements = Game.AchievementsById.map(function(item,i){return item.won});
       buildingToggle(current);
       var baseCpsNew = baseCps();
       var cpsNew = baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
-      buildingToggle(current, existing_achievements);
+      buildingToggle(current, existingAchievements);
       var deltaCps = cpsNew - cpsOrig;
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
       var efficiency = purchaseEfficiency(current.price, deltaCps, baseDeltaCps, cpsOrig)
@@ -619,13 +620,13 @@ function upgradeStats(recalculate) {
         }
         var baseCpsOrig = baseCps();
         var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
-        var existing_achievements = Game.AchievementsById.map(function(item,i){return item.won});
-        var existing_wrath = Game.elderWrath;
+        var existingAchievements = Game.AchievementsById.map(function(item){return item.won});
+        var existingWrath = Game.elderWrath;
         var reverseFunctions = upgradeToggle(current);
         var baseCpsNew = baseCps();
         var cpsNew = baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
-        upgradeToggle(current, existing_achievements, reverseFunctions);
-        Game.elderWrath = existing_wrath;
+        upgradeToggle(current, existingAchievements, reverseFunctions);
+        Game.elderWrath = existingWrath;
         var deltaCps = cpsNew - cpsOrig;
         var baseDeltaCps = baseCpsNew - baseCpsOrig;
         var cost = upgradePrereqCost(current);
@@ -751,12 +752,14 @@ function buyFunctionToggle(upgrade) {
     if (!upgrade.buyFunction) {
       return null;
     }
+    
     var ignoreFunctions = [
       /Game\.Lock\('.*'\)/,
       /Game\.Unlock\('.*'\)/,
       /Game\.Objects\['.*'\]\.drawFunction\(\)/,
       /Game\.SetResearch\('.*'\)/,
-      /Game\.Upgrades\['.*'\]\.basePrice=.*/
+      /Game\.Upgrades\['.*'\]\.basePrice=.*/,
+      /Game\.CollectWrinklers\(\)/
     ];
     var buyFunctions = upgrade.buyFunction.toString()
       .replace(/\n/g, '')
@@ -819,10 +822,10 @@ function shouldClickGC() {
 }
 
 function autoGoldenCookie() {
-  if (!FrozenCookies.gcProcessing && Game.goldenCookie.life) {
-    FrozenCookies.gcProcessing = true;
+  if (!FrozenCookies.processing && Game.goldenCookie.life) {
+    FrozenCookies.processing = true;
     Game.goldenCookie.click();
-    FrozenCookies.gcProcessing = false;
+    FrozenCookies.processing = false;
   }
 }
 
@@ -904,6 +907,21 @@ function autoCookie() {
         FrozenCookies.timeTravelPurchases -= 1;
       }
     }
+    if (FrozenCookies.autoWrinkler) {
+      if (!haveAllHalloween()) {
+        Game.wrinklers.forEach(function(w) {
+          if (w.sucked > 0.5 && w.phase > 0) {
+            w.hp = 0;
+          }
+        }
+      } else if (Game.wrinklers.reduce(function(sum,w) {return sum + w.sucked * 1.1;}) + Game.cookies >= delayAmount + recommendation.cost) {
+      Game.wrinklers.forEach(function(w) {
+        if (w.phase) {
+          w.hp = 0;
+        }
+      });
+    }
+    
     if (FrozenCookies.autoBuy && Game.cookies >= delayAmount() + recommendation.cost) {
       recommendation.time = Date.now() - Game.startDate;
 //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
@@ -963,6 +981,7 @@ function FCStart() {
   if (FrozenCookies.autoFrenzy && FrozenCookies.frenzyClickSpeed) {
     FrozenCookies.frenzyClickBot = setInterval(autoFrenzyClick, FrozenCookies.frequency);
   }
+  
   
   FCMenu();
 }
