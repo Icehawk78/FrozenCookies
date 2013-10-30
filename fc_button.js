@@ -385,7 +385,7 @@ function FCMenu() {
       menu.append(subsection);
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Other Information'));
-      var cps = baseCps() + baseClickingCps(FrozenCookies.cookieClickSpeed);
+      var cps = baseCps() + baseClickingCps(FrozenCookies.cookieClickSpeed * FrozenCookies.autoClick);
       var baseChosen = (Game.frenzy > 0) ? '' : ' (*)';
       var frenzyChosen = (Game.frenzy > 0) ? ' (*)' : '';
       subsection.append($('<div />').addClass('listing').html('<b>Base CPS' + baseChosen + ':</b> ' + Beautify(cps)));

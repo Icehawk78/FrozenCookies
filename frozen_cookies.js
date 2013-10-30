@@ -880,12 +880,6 @@ function autoFrenzyClick() {
 function autoCookie() {
   if (!FrozenCookies.processing) {
     FrozenCookies.processing = true;
-    if (Game.cookieClicks < FrozenCookies.initial_clicks) {
-      for (var i=0; i<FrozenCookies.initial_clicks; i++) {
-        Game.ClickCookie();
-      }
-    }
-//     Handle possible lag issues? Only recalculate when CPS changes.
     var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset);
     if (FrozenCookies.lastHCAmount < currentHCAmount) {
       var changeAmount = currentHCAmount - FrozenCookies.lastHCAmount;
