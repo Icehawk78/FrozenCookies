@@ -943,7 +943,9 @@ function autoCookie() {
             popCount += 1;
           }
         });
-        logEvent('Wrinkler', 'Popped ' + popCount + ' wrinklers in attempt to gain cookies.');
+        if (popCount) {
+          logEvent('Wrinkler', 'Popped ' + popCount + ' wrinklers in attempt to gain cookies.');
+        }
       } else if (Game.wrinklers.reduce(function(sum,w) {return sum + w.sucked * 1.1;}) + Game.cookies >= delayAmount + recommendation.cost) {
         Game.wrinklers.forEach(function(w) {
           if (w.phase) {
@@ -951,7 +953,9 @@ function autoCookie() {
             popCount += 1;
           }
         });
-        logEvent('Wrinkler', 'Popped ' + popCount + ' wrinklers to make a purchase.');
+        if (popCount) {
+          logEvent('Wrinkler', 'Popped ' + popCount + ' wrinklers to make a purchase.');
+        }
       }
     }
     
