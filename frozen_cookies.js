@@ -899,7 +899,7 @@ function autoCookie() {
     var targetBank = bestBank(recommendation.efficiency);
     if (FrozenCookies.targetBank.cost != targetBank.cost) {
       FrozenCookies.recalculateCaches = true;
-      logEvent('Bank', 'Target Bank level changed to ' + Beatuify(targetBank.cost) + ' cookies.');
+      logEvent('Bank', 'Target Bank level changed to ' + Beautify(targetBank.cost) + ' cookies.');
       FrozenCookies.targetBank = targetBank;
     }
     var currentCookieCPS = gcPs(cookieValue(currentBank.cost));
