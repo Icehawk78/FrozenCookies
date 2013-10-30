@@ -1,5 +1,7 @@
 // Global Variables
-var FrozenCookies = {};
+var FrozenCookies = {
+  'version': 1.0393
+};
 
 // Load external libraries
 FrozenCookies.loadInterval = setInterval(function() {
@@ -93,6 +95,7 @@ function fcInit() {
 }
 
 function setOverrides() {
+  logEvent("Load", "Initial Load of Frozen Cookies v." + FrozenCookies.version + ". (You should only ever see this once.)
   if (!blacklist[FrozenCookies.blacklist]) {
     FrozenCookies.blacklist = 'none';
   }
@@ -873,7 +876,7 @@ function autoCookie() {
 //     Handle possible lag issues? Only recalculate when CPS changes.
     var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset);
     if (FrozenCookies.lastHCAmount < currentHCAmount) {
-      var changeAmount = currentHCAmount - FrozenCookie.lastHCAmount;
+      var changeAmount = currentHCAmount - FrozenCookies.lastHCAmount;
       FrozenCookies.lastHCAmount = currentHCAmount;
       FrozenCookies.prevLastHCTime = FrozenCookies.lastHCTime;
       FrozenCookies.lastHCTime = Date.now();
