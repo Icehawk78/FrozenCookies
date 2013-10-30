@@ -528,7 +528,7 @@ function delayAmount() {
 */
 }
 
-function notAllHalloween() {
+function haveAllHalloween() {
   return _.every(halloweenCookies, function(id) {return Game.UpgradesById[id].unlocked;});
 }
 
