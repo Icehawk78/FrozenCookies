@@ -836,6 +836,18 @@ function logEvent(event, text, popup) {
   }
 }
 
+function inRect(x,y,rect) {
+	// Duplicate of internally defined method, 
+	// only needed because I'm modifying the scope of Game.UpdateWrinklers and it can't see this anymore.
+	var dx = x+Math.sin(-rect.r)*(-(rect.h/2-rect.o)),dy=y+Math.cos(-rect.r)*(-(rect.h/2-rect.o));
+	var h1 = Math.sqrt(dx*dx + dy*dy);
+	var currA = Math.atan2(dy,dx);
+	var newA = currA - rect.r;
+	var x2 = Math.cos(newA) * h1;
+	var y2 = Math.sin(newA) * h1;
+	return (x2 > -0.5 * rect.w && x2 < 0.5 * rect.w && y2 > -0.5 * rect.h && y2 < 0.5 * rect.h);
+}
+
 function shouldClickGC() {
 //  return Game.goldenCookie.life > 0 && gc_click_percent > 0 && Game.missedGoldenClicks + Game.goldenClicks >= 0 && ((Game.goldenClicks / (Game.missedGoldenClicks + Game.goldenClicks) <= gc_click_percent) || (Game.missedGoldenClicks + Game.goldenClicks == 0));
   return Game.goldenCookie.life > 0 && FrozenCookies.autoGC;
