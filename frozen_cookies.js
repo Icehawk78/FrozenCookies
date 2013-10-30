@@ -95,7 +95,7 @@ function fcInit() {
 }
 
 function setOverrides() {
-  logEvent("Load", "Initial Load of Frozen Cookies v." + FrozenCookies.version + ". (You should only ever see this once.)
+  logEvent("Load", "Initial Load of Frozen Cookies v." + FrozenCookies.version + ". (You should only ever see this once.)");
   if (!blacklist[FrozenCookies.blacklist]) {
     FrozenCookies.blacklist = 'none';
   }
