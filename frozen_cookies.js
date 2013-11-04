@@ -1,6 +1,6 @@
 // Global Variables
 var FrozenCookies = {
-  'version': 1.0393 
+  'version': 1.03931
 };
 
 // Load external libraries
