@@ -37,7 +37,10 @@ function fcInit() {
     });
   };
   document.head.appendChild(jquery);
+}
 
+function setOverrides() {
+  logEvent("Load", "Initial Load of Frozen Cookies v G." + FrozenCookies.version + ". (You should only ever see this once.)");
   FrozenCookies.preferenceValues = {
     'autoBuy':{
       'hint':'Automatically buy the most efficient building when you\'ve met its cost',
@@ -144,10 +147,7 @@ function fcInit() {
   FrozenCookies.caches.recommendationList = [];
   FrozenCookies.caches.buildings = [];
   FrozenCookies.caches.upgrades = [];
-}
-
-function setOverrides() {
-  logEvent("Load", "Initial Load of Frozen Cookies v G." + FrozenCookies.version + ". (You should only ever see this once.)");
+  
   if (!blacklist[FrozenCookies.blacklist]) {
     FrozenCookies.blacklist = 'none';
   }
