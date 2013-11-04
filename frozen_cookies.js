@@ -66,7 +66,7 @@ function fcInit() {
       'display':['Autopop Wrinklers OFF', 'Autopop Wrinklers ON'],
       'default':0
     },
-    'timeTravelMethod'{
+    'timeTravelMethod':{
       'hint':'Time travel is unstable. This determines how time travel works. If you\'re unsure, don\'t touch this.',
       'display':['Time Travel DISABLED'],//,'Purchases by Estimated Effective CPS','Purchases by Simulated Real Time','Heavenly Chips by Estimated Effective CPS','Heavenly Chips by Simulated Real Time'],
       'default':0,
