@@ -60,7 +60,7 @@ function setOverrides() {
     },
     'autoFrenzy':{
       'hint':'Click the large cookie during Clicking Frenzies ${frenzyClickSpeed} times per second.',
-      'display':['Autoclick OFF', 'Autoclick ON'],
+      'display':['Autofrenzy OFF', 'Autofrenzy ON'],
       'default':0,
       'extras':'<a class="option" id="frenzyClickSpeed" onclick="updateSpeed(\'frenzyClickSpeed\');">Change Speed</a>'
     },
@@ -913,9 +913,11 @@ function fcWin(what) {
 function logEvent(event, text, popup) {
   var time = '[' + timeDisplay((Date.now() - Game.startDate)/1000) + ']';
   var output = time + ' ' + event + ': ' + text;
-  console.log(output);
+  if (FrozenCookies.logging) {
+    console.log(output);
+  }
   if (popup) {
-    Game.Popup(output);
+    Game.Popup(text);
   }
 }
 
