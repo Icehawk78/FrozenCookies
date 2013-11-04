@@ -309,7 +309,7 @@ function FCMenu() {
       return Game.oldUpdateMenu();
     } else {
       var menu = $('#menu').html('');
-      menu.append($('<div />').addClass('section').html('Frozen Cookie'));
+      menu.append($('<div />').addClass('section').html('Frozen Cookies v G.' + FrozenCookies.version + '.'));
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Autobuy Information'));
       var recommendation = nextPurchase();
