@@ -53,16 +53,16 @@ function setOverrides() {
       'default':0
     },
     'autoClick':{
-      'hint':'Automatically click the large cookie ${cookieClickSpeed} times per second.',
+      'hint':'Click the large cookie ${cookieClickSpeed} times per second.',
       'display':['Autoclick OFF', 'Autoclick ON'],
       'default':0,
-      'extras':'<a class="option" id="cookieClickSpeed" onclick="updateCookieClickSpeed();">Change Speed</a>'
+      'extras':'<a class="option" id="cookieClickSpeed" onclick="updateSpeed(\'cookieClickSpeed\');">Change Speed</a>'
     },
     'autoFrenzy':{
-      'hint':'Automatically click the large cookie during Clicking Frenzies ${frenzyClickSpeed} times per second.',
+      'hint':'Click the large cookie during Clicking Frenzies ${frenzyClickSpeed} times per second.',
       'display':['Autoclick OFF', 'Autoclick ON'],
       'default':0,
-      'extras':'<a class="option" id="frenzyClickSpeed" onclick="updateFrenzyClickSpeed();">Change Speed</a>'
+      'extras':'<a class="option" id="frenzyClickSpeed" onclick="updateSpeed(\'frenzyClickSpeed\');">Change Speed</a>'
     },
     'autoWrinkler':{
       'hint':'Automatically pop wrinklers efficiently (as fast as possible before you have all halloween cookies, then wait until a purchase)',
@@ -348,7 +348,7 @@ function updateSpeed(base) {
 
 function updateTimeTravelAmount() {
   var newAmount = prompt("Warning: Time travel is highly unstable, and large values are highly likely to either cause long delays or crash the game. Be careful!\nHow much do you want to time travel by? This will happen instantly.");
-  if (typof(newAmount) === 'undefined' || newAmount === null || isNaN(Number(newAmount)) || Number(newAmount) < 0) {
+  if (typeof(newAmount) === 'undefined' || newAmount === null || isNaN(Number(newAmount)) || Number(newAmount) < 0) {
     newAmount = 0;
   }
   FrozenCookies.timeTravelAmount = newAmount;
