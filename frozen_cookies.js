@@ -86,7 +86,7 @@ function setOverrides() {
     },
     'logging':{
       'hint':'Display detailed logs in the javascript console.',
-      'display':['Logging ON', 'Logging OFF'],
+      'display':['Logging OFF', 'Logging ON'],
       'default':1
     },
     'numberDisplay':{
