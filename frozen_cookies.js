@@ -17,8 +17,8 @@ function fcInit() {
     'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
     'http://underscorejs.org/underscore-min.js',
     'http://calebevans.me/projects/jcanvas/resources/jcanvas/jcanvas.min.js',
-    'http://icehawk78.github.io/FrozenCookies/cc_upgrade_prerequisites.js',
-    'http://icehawk78.github.io/FrozenCookies/fc_button.js'
+    'https://raw.github.com/Icehawk78/master/FrozenCookies/cc_upgrade_prerequisites.js',
+    'https://raw.github.com/Icehawk78/master/FrozenCookies/fc_button.js'
   ]
   var done = 0;
   var jquery = document.createElement('script');
@@ -102,7 +102,7 @@ function setOverrides() {
     FrozenCookies[preference] = preferenceParse(preference, FrozenCookies.preferenceValues[preference].default);
   });
   
-  logEvent("Load", "Initial Load of Frozen Cookies v G." + FrozenCookies.version + ". (You should only ever see this once.)");
+  logEvent("Load", "Initial Load of Frozen Cookies v M." + FrozenCookies.version + ". (You should only ever see this once.)");
 
   FrozenCookies.frequency = 100;
   FrozenCookies.efficiencyWeight = 1.0;
