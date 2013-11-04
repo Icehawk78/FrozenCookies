@@ -411,7 +411,7 @@ function FCMenu() {
               listing.append($('<label>' + hint.replace(/\$\{(.+)\}/g, function(s,id){return FrozenCookies[id];}) + '</label>'));
             }
             if (extras) {
-              listing.append($(extras));
+              listing.append($(extras.replace(/\$\{(.+)\}/g, function(s,id){return FrozenCookies[id];})));
             }
             subsection.append(listing);
           }
