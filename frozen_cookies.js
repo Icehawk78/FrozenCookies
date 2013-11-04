@@ -50,13 +50,13 @@ function fcInit() {
       'default':0
     },
     'autoClick':{
-      'hint':'Automatically click the large cookie ${cookieClickSpeed} times per second.'
+      'hint':'Automatically click the large cookie ${cookieClickSpeed} times per second.',
       'display':['Autoclick OFF', 'Autoclick ON'],
       'default':0,
       'extras':'<a class="option" id="cookieClickSpeed" onclick="updateCookieClickSpeed();">Change Speed</a>'
     },
     'autoFrenzy':{
-      'hint':'Automatically click the large cookie during Clicking Frenzies ${frenzyClickSpeed} times per second.'
+      'hint':'Automatically click the large cookie during Clicking Frenzies ${frenzyClickSpeed} times per second.',
       'display':['Autoclick OFF', 'Autoclick ON'],
       'default':0,
       'extras':'<a class="option" id="frenzyClickSpeed" onclick="updateFrenzyClickSpeed();">Change Speed</a>'
