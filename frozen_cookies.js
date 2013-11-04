@@ -52,6 +52,11 @@ function setOverrides() {
       'display':["Autoclick GC OFF", "Autoclick GC ON"],
       'default':0
     },
+    'autoWrinkler':{
+      'hint':'Automatically pop wrinklers efficiently (as fast as possible before you have all halloween cookies, then wait until a purchase)',
+      'display':['Autopop Wrinklers OFF', 'Autopop Wrinklers ON'],
+      'default':0
+    },
     'autoClick':{
       'hint':'Click the large cookie.',
       'display':['Autoclick OFF', 'Autoclick ON'],
@@ -64,9 +69,9 @@ function setOverrides() {
       'default':0,
       'extras':'<a class="option" id="frenzyClickSpeed" onclick="updateSpeed(\'frenzyClickSpeed\');">${frenzyClickSpeed} clicks/sec</a>'
     },
-    'autoWrinkler':{
-      'hint':'Automatically pop wrinklers efficiently (as fast as possible before you have all halloween cookies, then wait until a purchase)',
-      'display':['Autopop Wrinklers OFF', 'Autopop Wrinklers ON'],
+    'blacklist':{
+      'hint':'Blacklist purchases from the efficiency calculations',
+      'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist', 'Grandmapocalypse Mode'],
       'default':0
     },
     'timeTravelMethod':{
@@ -89,11 +94,6 @@ function setOverrides() {
       'hint':'Change how numbers are shortened',
       'display':["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"],
       'default':1
-    },
-    'blacklist':{
-      'hint':'Blacklist purchases from the efficiency calculations',
-      'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist', 'Grandmapocalypse Mode'],
-      'default':0
     }
   };
   
