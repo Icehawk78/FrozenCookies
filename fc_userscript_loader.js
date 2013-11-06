@@ -9,6 +9,10 @@
 // @downloadURL    http://icehawk78.github.io/FrozenCookies/fc_userscript_loader.js
 // ==/UserScript==
 
+// Dev:       https://raw.github.com/Icehawk78/FrozenCookies/development/
+// Master:    https://raw.github.com/Icehawk78/FrozenCookies/master/
+// Github.io: http://icehawk78.github.com/FrozenCookies/
+
 function LoadFrozenCookies() {
   var js = document.createElement('script');
   js.setAttribute('type', 'text/javascript');

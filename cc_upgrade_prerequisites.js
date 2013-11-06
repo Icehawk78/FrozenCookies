@@ -1,3 +1,59 @@
+FrozenCookies.preferenceValues = {
+  'autoBuy':{
+    'hint':'Automatically buy the most efficient building when you\'ve met its cost',
+    'display':["Autobuy OFF","Autobuy ON"],
+    'default':0
+  },
+  'autoGC':{
+    'hint':'Automatically click Golden Cookies when they appear',
+    'display':["Autoclick GC OFF", "Autoclick GC ON"],
+    'default':0
+  },
+  'autoWrinkler':{
+    'hint':'Automatically pop wrinklers efficiently (as fast as possible before you have all halloween cookies, then wait until a purchase)',
+    'display':['Autopop Wrinklers OFF', 'Autopop Wrinklers ON'],
+    'default':0
+  },
+  'autoClick':{
+    'hint':'Click the large cookie.',
+    'display':['Autoclick OFF', 'Autoclick ON'],
+    'default':0,
+    'extras':'<a class="option" id="cookieClickSpeed" onclick="updateSpeed(\'cookieClickSpeed\');">${cookieClickSpeed} clicks/sec</a>'
+  },
+  'autoFrenzy':{
+    'hint':'Click the large cookie during Clicking Frenzies.',
+    'display':['Autofrenzy OFF', 'Autofrenzy ON'],
+    'default':0,
+    'extras':'<a class="option" id="frenzyClickSpeed" onclick="updateSpeed(\'frenzyClickSpeed\');">${frenzyClickSpeed} clicks/sec</a>'
+  },
+  'blacklist':{
+    'hint':'Blacklist purchases from the efficiency calculations',
+    'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist', 'Grandmapocalypse Mode'],
+    'default':0
+  },
+  'timeTravelMethod':{
+    'hint':'Time travel is unstable. This determines how time travel works. If you\'re unsure, don\'t touch this.',
+    'display':['Time Travel DISABLED'],//,'Purchases by Estimated Effective CPS','Purchases by Simulated Real Time','Heavenly Chips by Estimated Effective CPS','Heavenly Chips by Simulated Real Time'],
+    'default':0,
+    'extras':'<a class="option" id="timeTravelPurchases" onclick="updateTimeTravelAmount();">Set Time Travel Amount</a>'
+  },
+  'simulatedGCPercent':{
+    'hint':'What percentage of Golden Cookies should be assumed as "clicked" for GC efficiency calculations (100% recommended)',
+    'display':["0%","100%"],
+    'default':1
+  },
+  'logging':{
+    'hint':'Display detailed logs in the javascript console.',
+    'display':['Logging OFF', 'Logging ON'],
+    'default':1
+  },
+  'numberDisplay':{
+    'hint':'Change how numbers are shortened',
+    'display':["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"],
+    'default':1
+  }
+};
+
 var upgradeJson = [
   {'id':0,'buildings':[1,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':1,'buildings':[1,0,0,0,0,0,0,0,0,0],'upgrades':[]},
