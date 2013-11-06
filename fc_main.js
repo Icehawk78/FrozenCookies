@@ -4,7 +4,7 @@ function setOverrides() {
     FrozenCookies[preference] = preferenceParse(preference, FrozenCookies.preferenceValues[preference].default);
   });
   
-  logEvent("Load", "Initial Load of Frozen Cookies v " FrozenCookies.branch + "." + FrozenCookies.version + ". (You should only ever see this once.)");
+  logEvent("Load", "Initial Load of Frozen Cookies v " + FrozenCookies.branch + "." + FrozenCookies.version + ". (You should only ever see this once.)");
 
   FrozenCookies.frequency = 100;
   FrozenCookies.efficiencyWeight = 1.0;
