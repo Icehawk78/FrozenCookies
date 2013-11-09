@@ -928,7 +928,7 @@ function autoCookie() {
       if (currentHCAmount >= Game.prestige['Heavenly chips']+ FrozenCookies.HCResetValue) {
         //do the appropriate checks
         if (!(Game.clickFrenzy > 0) && !(Game.frenzy > 0)) {
-          logEvent('HC', 'HC Reset values reached. Resetting at ' + currentHCAmount + ' Heavenly Chips in ' + Game.sayTime((Date.now()-Game.startDate)/1000*Game.fps));
+          logEvent('HC', 'HC Reset values reached. Resetting at ' + currentHCAmount + ' Heavenly Chips in ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000));
           resetBypass();
         } else {
           //HC is there, but not efficient to reset yet
