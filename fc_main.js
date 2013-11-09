@@ -939,7 +939,7 @@ function autoCookie() {
         } else {
           //HC is there, but not efficient to reset yet
           if (!FrozenCookies.HCResetReady) {
-            logEvent('HC', 'Ready to reset at ' + currentHCAmount + ' Heavenly Chips in ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000));
+            logEvent('HC', 'Ready to reset at ' + currentHCAmount + ' Heavenly Chips. Reached in ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000));
             FrozenCookies.HCResetReady = true;
           }
         }
