@@ -239,16 +239,17 @@ function writeFCButton(setting) {
   var current = FrozenCookies[setting];
 }
 
-function getSpeed(current) {
+//-1 to override the limit
+function getSpeed(current, limit) {
   var newSpeed = prompt('How many times per second do you want to click? (Current maximum is 250 clicks per second)',current);
-  if (typeof(newSpeed) == 'undefined' || newSpeed == null || isNaN(Number(newSpeed)) || Number(newSpeed) < 0 || Number(newSpeed) > 250) {
+  if (typeof(newSpeed) == 'undefined' || newSpeed == null || isNaN(Number(newSpeed)) || Number(newSpeed) < 0 || (Number(newSpeed) > limit) && limit >= 0) {
     newSpeed = current;
   }
   return Number(newSpeed);
 }
 
-function updateSpeed(base) {
-  var newSpeed = getSpeed(FrozenCookies[base]);
+function updateSpeed(base, limit) {
+  var newSpeed = getSpeed(FrozenCookies[base], limit);
   if (newSpeed != FrozenCookies[base]) {
     FrozenCookies[base] = newSpeed;
     updateLocalStorage();
