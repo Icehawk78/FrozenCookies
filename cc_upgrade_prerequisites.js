@@ -29,7 +29,7 @@ FrozenCookies.preferenceValues = {
   'HCReset':{
     'hint':'Reset after an amount of Heavenly Chips have been gained since reset.',
     'display':['HCReset OFF', 'HCReset ON'],
-    'default':1000,
+    'default':0,
     'extras':'<a class="option" id="HCResetValue" onclick="updateSpeed(\'HCResetValue\');">${HCResetValue} HC/reset</a>'
   },
   'blacklist':{
