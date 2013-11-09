@@ -892,23 +892,17 @@ function autoFrenzyClick() {
 
 //come on Orteil
 function resetBypass(){
-  if (!bypass)
-  {
-    if (Game.cookiesEarned>=1000000) Game.Win('Sacrifice');
-    if (Game.cookiesEarned>=1000000000) Game.Win('Oblivion');
-    if (Game.cookiesEarned>=1000000000000) Game.Win('From scratch');
-    if (Game.cookiesEarned>=1000000000000000) Game.Win('Nihilism');
-  }
+  if (Game.cookiesEarned>=1000000) Game.Win('Sacrifice');
+  if (Game.cookiesEarned>=1000000000) Game.Win('Oblivion');
+  if (Game.cookiesEarned>=1000000000000) Game.Win('From scratch');
+  if (Game.cookiesEarned>=1000000000000000) Game.Win('Nihilism');
   fcReset(true);
-  if (!bypass)
-  {
-    var prestige=0;
-    if (Game.prestige.ready) prestige=Game.prestige['Heavenly chips'];
-    Game.prestige=[];
-    Game.CalculatePrestige();
-    prestige=Game.prestige['Heavenly chips']-prestige;
-    if (prestige!=0) Game.Popup('You earn '+prestige+' heavenly chip'+(prestige==1?'':'s')+'!');
-  }        
+  var prestige=0;
+  if (Game.prestige.ready) prestige=Game.prestige['Heavenly chips'];
+  Game.prestige=[];
+  Game.CalculatePrestige();
+  prestige=Game.prestige['Heavenly chips']-prestige;
+  if (prestige!=0) Game.Popup('You earn '+prestige+' heavenly chip'+(prestige==1?'':'s')+'!');
 }
 
 function autoCookie() {
