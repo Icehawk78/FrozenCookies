@@ -420,7 +420,7 @@ function FCMenu() {
       }
       var subsection = $('<div />').addClass('subsection');
       subsection.append($('<div />').addClass('title').html('Internal Information'));
-      var buildTable = $('<table id="fcEfficiencyTable"/>').html('<tr><th>Building</th><th>Eff%</th><th>Efficiency</th><th>Cost</th><th>&#916; CPS</th></tr>');
+      var buildTable = $('<table id="fcEfficiencyTable"/>').html('<tr><th align = "left">Building</th><th align = "left">Eff%</th><th align = "left">Efficiency</th><th align = "left">Cost</th><th align = "left">&#916; CPS</th></tr>');
       recommendationList().forEach(function(rec) {
         var item  = rec.purchase;
         var chainStr = (item.unlocked === 0) ? ' (C)' : '';
