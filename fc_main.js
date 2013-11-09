@@ -12,8 +12,7 @@ function setOverrides() {
   // Separate because these are user-input values
   FrozenCookies.cookieClickSpeed = preferenceParse('cookieClickSpeed',0);
   FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed',0);
-  //TODO fix trigger the preferenceParse once the button is in.
-  FrozenCookies.HCResetValue = 1000;//preferenceParse('HCResetValue',0);
+  FrozenCookies.HCResetValue = preferenceParse('HCResetValue',1000);
   
   // Becomes 0 almost immediately after user input, so default to 0
   FrozenCookies.timeTravelAmount = 0;
