@@ -258,7 +258,7 @@ function updateSpeed(base) {
 
 //to store without limit.
 function getLimit(current) {
-  var newLimit = promt('New limit :',current);
+  var newLimit = prompt('New limit :',current);
   if (typeof(newSpeed) == 'undefined' || newSpeed == null || isNaN(Number(newSpeed)) || Number(newSpeed) < 0) {
     newLimit = current;
   }
