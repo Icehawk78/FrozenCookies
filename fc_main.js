@@ -176,6 +176,7 @@ function updateLocalStorage() {
   
   localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
   localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
+  localStorage.HCResetValue = FrozenCookies.HCResetValue;
   localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
   localStorage.frenzyTime = FrozenCookies.gc_time;
   localStorage.lastHCAmount = FrozenCookies.lastHCAmount;
