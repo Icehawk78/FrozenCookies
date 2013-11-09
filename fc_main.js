@@ -12,7 +12,8 @@ function setOverrides() {
   // Separate because these are user-input values
   FrozenCookies.cookieClickSpeed = preferenceParse('cookieClickSpeed',0);
   FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed',0);
-  FrozenCookies.HCResetValue = preferenceParse('HCResetValue',0);
+  //TODO fix trigger the preferenceParse once the button is in.
+  FrozenCookies.HCResetValue = 1000;//preferenceParse('HCResetValue',0);
   
   // Becomes 0 almost immediately after user input, so default to 0
   FrozenCookies.timeTravelAmount = 0;
@@ -895,6 +896,7 @@ function autoCookie() {
       if (currentHCAmount >= Game.prestige['Heavenly chips']+ FrozenCookies.HCResetValue) {
         //do the appropriate checks
         if (!(Game.clickFrenzy > 0) && !(Game.frenzy > 0)) {
+          logEvent('HC', 'HC Reset values reached. Resetting at ' + currentHCAmount + ' Heavenly Chips in ' + Game.sayTime((Date.now()-Game.startDate)/1000*Game.fps));
           fcReset();
         } else {
           //HC is there, but not efficient to reset yet
