@@ -18,19 +18,19 @@ FrozenCookies.preferenceValues = {
     'hint':'Click the large cookie.',
     'display':['Autoclick OFF', 'Autoclick ON'],
     'default':0,
-    'extras':'<a class="option" id="cookieClickSpeed" onclick="updateSpeed(\'cookieClickSpeed\');">${cookieClickSpeed} clicks/sec</a>'
+    'extras':'<a class="option" id="cookieClickSpeed" onclick="updateSpeed(\'cookieClickSpeed\', 250);">${cookieClickSpeed} clicks/sec</a>'
   },
   'autoFrenzy':{
     'hint':'Click the large cookie during Clicking Frenzies.',
     'display':['Autofrenzy OFF', 'Autofrenzy ON'],
     'default':0,
-    'extras':'<a class="option" id="frenzyClickSpeed" onclick="updateSpeed(\'frenzyClickSpeed\');">${frenzyClickSpeed} clicks/sec</a>'
+    'extras':'<a class="option" id="frenzyClickSpeed" onclick="updateSpeed(\'frenzyClickSpeed\', 250);">${frenzyClickSpeed} clicks/sec</a>'
   },
   'HCReset':{
     'hint':'Reset after an amount of Heavenly Chips have been gained since reset.',
     'display':['HCReset OFF', 'HCReset ON'],
     'default':0,
-    'extras':'<a class="option" id="HCResetValue" onclick="updateSpeed(\'HCResetValue\');">${HCResetValue} HC/reset</a>'
+    'extras':'<a class="option" id="HCResetValue" onclick="updateSpeed(\'HCResetValue\', -1);">${HCResetValue} HC/reset</a>'
   },
   'blacklist':{
     'hint':'Blacklist purchases from the efficiency calculations',
