@@ -239,19 +239,36 @@ function writeFCButton(setting) {
   var current = FrozenCookies[setting];
 }
 
-//-1 to override the limit
-function getSpeed(current, limit) {
+function getSpeed(current) {
   var newSpeed = prompt('How many times per second do you want to click? (Current maximum is 250 clicks per second)',current);
-  if (typeof(newSpeed) == 'undefined' || newSpeed == null || isNaN(Number(newSpeed)) || Number(newSpeed) < 0 || (Number(newSpeed) > limit) && limit >= 0) {
+  if (typeof(newSpeed) == 'undefined' || newSpeed == null || isNaN(Number(newSpeed)) || Number(newSpeed) < 0 || Number(newSpeed) > limit) {
     newSpeed = current;
   }
   return Number(newSpeed);
 }
 
-function updateSpeed(base, limit) {
-  var newSpeed = getSpeed(FrozenCookies[base], limit);
+function updateSpeed(base) {
+  var newSpeed = getSpeed(FrozenCookies[base]);
   if (newSpeed != FrozenCookies[base]) {
     FrozenCookies[base] = newSpeed;
+    updateLocalStorage();
+    FCStart();
+  }
+}
+
+//to store without limit.
+function getLimit(current) {
+  var newLimit = promt('New limit :',current);
+  if (typeof(newSpeed) == 'undefined' || newSpeed == null || isNaN(Number(newSpeed)) || Number(newSpeed) < 0) {
+    newLimit = current;
+  }
+  return Number(newLimit);
+}
+
+function updateLimit(base) {
+  var newLimit = getLimit(FrozenCookies[base]);
+  if (newLimit != FrozenCookies[base]) {
+    FrozenCookkies[base] = newLimit;
     updateLocalStorage();
     FCStart();
   }
