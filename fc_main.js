@@ -241,7 +241,7 @@ function writeFCButton(setting) {
 
 function getSpeed(current) {
   var newSpeed = prompt('How many times per second do you want to click? (Current maximum is 250 clicks per second)',current);
-  if (typeof(newSpeed) == 'undefined' || newSpeed == null || isNaN(Number(newSpeed)) || Number(newSpeed) < 0 || Number(newSpeed) > limit) {
+  if (typeof(newSpeed) == 'undefined' || newSpeed == null || isNaN(Number(newSpeed)) || Number(newSpeed) < 0 || Number(newSpeed) > 250) {
     newSpeed = current;
   }
   return Number(newSpeed);
@@ -268,7 +268,7 @@ function getLimit(current) {
 function updateLimit(base) {
   var newLimit = getLimit(FrozenCookies[base]);
   if (newLimit != FrozenCookies[base]) {
-    FrozenCookkies[base] = newLimit;
+    FrozenCookies[base] = newLimit;
     updateLocalStorage();
     FCStart();
   }
