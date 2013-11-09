@@ -44,7 +44,6 @@ function setOverrides() {
   FrozenCookies.autoFrenzyBot = 0;
   FrozenCookies.frenzyClickBot = 0;
   //TODO find the appropriate places for these
-  FrozenCookies.HCReset = false;
   FrozenCookies.HCResetReady = false;
   
   // Caching
