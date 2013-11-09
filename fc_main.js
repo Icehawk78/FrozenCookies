@@ -43,7 +43,9 @@ function setOverrides() {
   FrozenCookies.autoclickBot = 0;
   FrozenCookies.autoFrenzyBot = 0;
   FrozenCookies.frenzyClickBot = 0;
-  //TODO find the appropriate places for these
+  
+  //TODO find the appropriate place for this, or change how it works.
+  //used against log spamming and unneeded checks.
   FrozenCookies.HCResetReady = false;
   
   // Caching
@@ -890,13 +892,18 @@ function autoFrenzyClick() {
   }
 }
 
-//come on Orteil
+//adjusted reset when using the bypass
 function resetBypass(){
+  //CC checks that are excluded by use of the dialog bypass
   if (Game.cookiesEarned>=1000000) Game.Win('Sacrifice');
   if (Game.cookiesEarned>=1000000000) Game.Win('Oblivion');
   if (Game.cookiesEarned>=1000000000000) Game.Win('From scratch');
   if (Game.cookiesEarned>=1000000000000000) Game.Win('Nihilism');
+  
+  //actual reset
   fcReset(true);
+
+  //more code that's ignored by the bypass..  
   var prestige=0;
   if (Game.prestige.ready) prestige=Game.prestige['Heavenly chips'];
   Game.prestige=[];
