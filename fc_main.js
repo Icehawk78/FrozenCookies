@@ -961,7 +961,7 @@ function autoCookie() {
       disabledPopups = true;
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.processing = false;
-      autoCookie();
+      return autoCookie();
     }
     
     // This apparently *has* to stay here, or else fast purchases will multi-click it.
