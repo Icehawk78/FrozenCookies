@@ -118,6 +118,12 @@ function fcBeautify (value) {
         notationValue = notation[base];
       }
     }
+    if (Math.round(value * 1000) >= 1000000) {
+      notationValue = notation[base + 1];
+      value = Math.round(value * 1000) / 1000000.0;
+    } else {
+      value = Math.round(value * 1000) / 1000.0;
+    }
     value = Math.round(value * 1000) / 1000.0;
   }
   if (!Number.isFinite(value)) {
