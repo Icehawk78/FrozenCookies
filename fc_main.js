@@ -12,6 +12,7 @@ function setOverrides() {
   // Separate because these are user-input values
   FrozenCookies.cookieClickSpeed = preferenceParse('cookieClickSpeed',0);
   FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed',0);
+  FrozenCookies.HCResetValue = preferenceParse('HCResetValue',0);
   
   // Becomes 0 almost immediately after user input, so default to 0
   FrozenCookies.timeTravelAmount = 0;
@@ -42,6 +43,10 @@ function setOverrides() {
   FrozenCookies.autoclickBot = 0;
   FrozenCookies.autoFrenzyBot = 0;
   FrozenCookies.frenzyClickBot = 0;
+  
+  //TODO find the appropriate place for this, or change how it works.
+  //used against log spamming and unneeded checks.
+  FrozenCookies.HCResetReady = false;
   
   // Caching
   
@@ -166,6 +171,7 @@ function fcReset(bypass) {
   FrozenCookies.maxHCPercent = 0;
   FrozenCookies.prevLastHCTime = Date.now();
   FrozenCookies.lastCps = 0;
+  FrozenCookies.HCResetReady = false;
   updateLocalStorage();
   recommendationList(true);
 }
@@ -177,6 +183,7 @@ function updateLocalStorage() {
   
   localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
   localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
+  localStorage.HCResetValue = FrozenCookies.HCResetValue;
   localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
   localStorage.frenzyTime = FrozenCookies.gc_time;
   localStorage.lastHCAmount = FrozenCookies.lastHCAmount;
@@ -251,6 +258,24 @@ function updateSpeed(base) {
   var newSpeed = getSpeed(FrozenCookies[base]);
   if (newSpeed != FrozenCookies[base]) {
     FrozenCookies[base] = newSpeed;
+    updateLocalStorage();
+    FCStart();
+  }
+}
+
+//to store without limit.
+function getLimit(current) {
+  var newLimit = prompt('New limit :',current);
+  if (typeof(newLimit) == 'undefined' || newLimit == null || isNaN(Number(newLimit)) || Number(newLimit) < 0) {
+    newLimit = current;
+  }
+  return Number(newLimit);
+}
+
+function updateLimit(base) {
+  var newLimit = getLimit(FrozenCookies[base]);
+  if (newLimit != FrozenCookies[base]) {
+    FrozenCookies[base] = newLimit;
     updateLocalStorage();
     FCStart();
   }
@@ -873,10 +898,31 @@ function autoFrenzyClick() {
   }
 }
 
+//adjusted reset when using the bypass
+function resetBypass(){
+  //CC checks that are excluded by use of the dialog bypass
+  if (Game.cookiesEarned>=1000000) Game.Win('Sacrifice');
+  if (Game.cookiesEarned>=1000000000) Game.Win('Oblivion');
+  if (Game.cookiesEarned>=1000000000000) Game.Win('From scratch');
+  if (Game.cookiesEarned>=1000000000000000) Game.Win('Nihilism');
+  
+  //actual reset
+  fcReset(true);
+
+  //more code that's ignored by the bypass..  
+  var prestige=0;
+  if (Game.prestige.ready) prestige=Game.prestige['Heavenly chips'];
+  Game.prestige=[];
+  Game.CalculatePrestige();
+  prestige=Game.prestige['Heavenly chips']-prestige;
+  if (prestige!=0) Game.Popup('You earn '+prestige+' heavenly chip'+(prestige==1?'':'s')+'!');
+}
+
 function autoCookie() {
   if (!FrozenCookies.processing) {
     FrozenCookies.processing = true;
     var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset);
+
     if (FrozenCookies.lastHCAmount < currentHCAmount) {
       var changeAmount = currentHCAmount - FrozenCookies.lastHCAmount;
       FrozenCookies.lastHCAmount = currentHCAmount;
@@ -889,6 +935,22 @@ function autoCookie() {
       var maxStr = (FrozenCookies.maxHCPercent === currHCPercent) ? ' (!)' : '';
       logEvent('HC', 'Gained ' + changeAmount + ' Heavenly Chips in ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000) + '.' + maxStr + ' Overall average: ' + currHCPercent + ' HC/hr.');
       updateLocalStorage();
+    }
+    // prestiege reset    
+    if (FrozenCookies.HCReset) {
+      if (currentHCAmount >= Game.prestige['Heavenly chips']+ FrozenCookies.HCResetValue) {
+        //do the appropriate checks
+        if (!(Game.clickFrenzy > 0) && !(Game.frenzy > 0)) {
+          logEvent('HC', 'HC Reset values reached. Resetting at ' + currentHCAmount + ' Heavenly Chips in ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000));
+          resetBypass();
+        } else {
+          //HC is there, but not efficient to reset yet
+          if (!FrozenCookies.HCResetReady) {
+            logEvent('HC', 'Ready to reset at ' + currentHCAmount + ' Heavenly Chips. Reached in ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000));
+            FrozenCookies.HCResetReady = true;
+          }
+        }
+      }
     }
     if (FrozenCookies.lastCPS != Game.cookiesPs) {
       FrozenCookies.recalculateCaches = true;
