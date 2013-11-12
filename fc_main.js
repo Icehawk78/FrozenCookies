@@ -108,7 +108,7 @@ function fcBeautify (value) {
     var base = 0;
     if (value >= 1000000 && Number.isFinite(value)) {
       value /= 1000;
-      while(value >= 1000){
+      while(Math.round(value) >= 1000){
         value /= 1000;
         base++;
       }
@@ -117,12 +117,6 @@ function fcBeautify (value) {
       } else {
         notationValue = notation[base];
       }
-    }
-    if (Math.round(value * 1000) >= 1000000) {
-      notationValue = notation[base + 1];
-      value = Math.round(value * 1000) / 1000000.0;
-    } else {
-      value = Math.round(value * 1000) / 1000.0;
     }
     value = Math.round(value * 1000) / 1000.0;
   }
