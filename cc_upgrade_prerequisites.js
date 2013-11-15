@@ -30,7 +30,7 @@ FrozenCookies.preferenceValues = {
     'hint':'Automatically turns off a blacklist once the goal for that blacklist is achieved',
     'display':['Auto Blacklist OFF', 'Auto Blacklist ON'],
     'default':0
-  }
+  },
   'blacklist':{
     'hint':'Blacklist purchases from the efficiency calculations',
     'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist', 'Grandmapocalypse Mode'],
