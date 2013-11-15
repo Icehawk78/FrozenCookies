@@ -26,6 +26,11 @@ FrozenCookies.preferenceValues = {
     'default':0,
     'extras':'<a class="option" id="frenzyClickSpeed" onclick="updateSpeed(\'frenzyClickSpeed\');">${frenzyClickSpeed} clicks/sec</a>'
   },
+  'autoBlacklistOff':{
+    'hint':'Automatically turns off a blacklist once the goal for that blacklist is achieved',
+    'display':['Auto Blacklist OFF', 'Auto Blacklist ON'],
+    'default':0
+  },
   'blacklist':{
     'hint':'Blacklist purchases from the efficiency calculations',
     'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist', 'Grandmapocalypse Mode'],
@@ -164,7 +169,7 @@ var blacklist = [
     'buildings': []
   },
   {
-    'upgrades': [74, 84, 85],
+    'upgrades': [71, 72, 73, 74, 84, 85],
     'buildings': []
   }
 ];
