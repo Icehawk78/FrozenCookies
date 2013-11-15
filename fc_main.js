@@ -291,10 +291,10 @@ function toggleFrozen(setting) {
 function autoBlacklistOff() {
   switch (FrozenCookies.blacklist) {
     case 1:
-      FrozenCookies.blacklist = (Game.CookiesEarned >= 1000000) ? 0 : 1;
+      FrozenCookies.blacklist = (Game.cookiesEarned >= 1000000) ? 0 : 1;
       break;
     case 2:
-      FrozenCookies.blacklist = (Game.CookiesEarned >= 1000000000) ? 0 : 2;
+      FrozenCookies.blacklist = (Game.cookiesEarned >= 1000000000) ? 0 : 2;
       break;
     case 3:
       FrozenCookies.blacklist = haveAllHalloween() ? 0 : 3;
