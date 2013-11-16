@@ -1021,7 +1021,9 @@ function FCStart() {
 //  }
   
   if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
-    FrozenCookies.autoclickBot = setInterval(Game.ClickCookie, 1000 / FrozenCookies.cookieClickSpeed);
+    FrozenCookies.autoclickBot = setInterval(function () {
+		document.getElementByID('bigCookie').click();
+	}, 1000 / FrozenCookies.cookieClickSpeed);
   }
   
   if (FrozenCookies.autoFrenzy && FrozenCookies.frenzyClickSpeed) {
