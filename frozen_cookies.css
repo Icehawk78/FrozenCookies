@@ -1,0 +1,43 @@
+#fcEfficiencyTable {
+	width: 100%;
+}
+
+#fcButton {
+	font-size: 60%;
+	top: 0px;
+	right: -16px;
+	padding: 14px 16px 10px 0px;
+}
+
+#fcButton:hover {
+	right: -8px;
+}
+
+.worst,
+.bad,
+.average,
+.good,
+.best {
+	border-width: 1px;
+	border-style: solid;
+}
+
+.worst {
+	border-color: #330000;
+}
+
+.bad {
+	border-color: #660033;
+}
+
+.average {
+	border-color: #663399;
+}
+
+.good {
+	border-color: #3399FF;
+}
+
+.best {
+	border-color: #00FFFF;
+}
