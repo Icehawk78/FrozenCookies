@@ -1,6 +1,6 @@
 // Global Variables
 var FrozenCookies = {
-  'baseUrl': 'http://icehawk78.github.com/FrozenCookies',
+  'baseUrl': 'http://icehawk78.github.io/FrozenCookies',
   'branch' : 'G',
   'version': 1.03934
 };
