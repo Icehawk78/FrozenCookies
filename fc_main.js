@@ -113,14 +113,18 @@ function formatEveryThirdPower(notations) {
 }
 
 function scientificNotation(value) {
-  if (value === 0 || (Math.abs(value) > 1 && Math.abs(value) < 100)) {
-    return Math.round(value * 1000) / 1000;
+  if (value === 0 || !Number.isFinite(value) || (Math.abs(value) > 1 && Math.abs(value) < 100)) {
+    rawFormatter(value);
   }
   var sign = value > 0 ? '' : '-';
   value = Math.abs(value);
   var exp = Math.floor(Math.log(value)/Math.LN10);
   var num = Math.round((value/Math.pow(10, exp)) * 1000) / 1000;
   return sign + num + '*10^' + exp;
+}
+
+function rawFormatter(value) {
+  return Math.round(value * 1000) / 1000;
 }
 
 var numberFormatters = [
