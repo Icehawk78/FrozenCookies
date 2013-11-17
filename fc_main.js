@@ -113,12 +113,18 @@ function formatEveryThirdPower(notations) {
 }
 
 function scientificNotation(value) {
+  if (value === 0) {
+    return value;
+  }
+  var sign = value < 0 ? '' : '-';
+  value = Math.abs(value);
   var exp = Math.floor(Math.log(value)/Math.LN10);
   var num = Math.round((value/Math.pow(10, exp)) * 1000) / 1000;
-  return num + '*10<sup>' + exp + '</sup>';
+  return sign + num + '*10^' + exp;
 }
 
 var numberFormatters = [
+  function(value){return value;},
   formatEveryThirdPower([
     '',
     ' million',
@@ -162,7 +168,7 @@ function fcBeautify (value) {
     value *= -1;
   }
   if (FrozenCookies.numberDisplay) {
-    var formatter = numberFormatters[FrozenCookies.numberDisplay-1];
+    var formatter = numberFormatters[FrozenCookies.numberDisplay];
     var output = formatter(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return negative ? '-' + output : output;
   }
