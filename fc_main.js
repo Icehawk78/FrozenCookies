@@ -113,7 +113,7 @@ function formatEveryThirdPower(notations) {
 }
 
 function scientificNotation(value) {
-  if (value === 0) {
+  if (value === 0 || Math.abs(value) < 100) {
     return value;
   }
   var sign = value > 0 ? '' : '-';
