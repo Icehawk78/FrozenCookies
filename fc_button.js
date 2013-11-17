@@ -6,19 +6,6 @@ $('#logButton').before(
     })
 );
 
-$('<style type="text/css">')
-  .html(
-  '#fcEfficiencyTable {width: 100%;}' +
-  '#fcButton {font-size: 60%; top: 0px; right: -16px; padding: 14px 16px 10px 0px;}' +
-  '#fcButton:hover {right: -8px;}' +
-  '.worst {border-width:1px; border-style:solid; border-color:#330000;}' +
-  '.bad {border-width:1px; border-style:solid; border-color:#660033;}' +
-  '.average {border-width:1px; border-style:solid; border-color:#663399;}' +
-  '.good {border-width:1px; border-style:solid; border-color:#3399FF;}' +
-  '.best {border-width:1px; border-style:solid; border-color:#00FFFF;}'
-  )
-  .appendTo('head');
-
 function getBuildingTooltip(purchaseRec) {
   var parent = $('<div />').attr('style','min-width:300px;');
   parent.append($('<div />').addClass('price').attr('style', 'float:right;').text(Beautify(purchaseRec.purchase.price)));
