@@ -940,7 +940,11 @@ function autoCookie() {
         FrozenCookies.maxHCPercent = currHCPercent;
       }
       var maxStr = (FrozenCookies.maxHCPercent === currHCPercent) ? ' (!)' : '';
-      logEvent('HC', 'Gained ' + changeAmount + ' Heavenly Chips in ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000) + '.' + maxStr + ' Overall average: ' + currHCPercent + ' HC/hr.');
+      if (Game.frenzy === 0) {
+        logEvent('HC', 'Gained ' + changeAmount + ' Heavenly Chips in ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000) + '.' + maxStr + ' Overall average: ' + currHCPercent + ' HC/hr.');
+      } else {
+        FrozenCookie.hcs_during_frenzy += changeAmount;
+      }
       updateLocalStorage();
     }
     if (FrozenCookies.lastCPS != Game.cookiesPs) {
@@ -957,7 +961,7 @@ function autoCookie() {
     var targetBank = bestBank(recommendation.efficiency);
     if (FrozenCookies.targetBank.cost != targetBank.cost) {
       FrozenCookies.recalculateCaches = true;
-      logEvent('Bank', 'Target Bank level changed to ' + Beautify(targetBank.cost) + ' cookies.');
+      //logEvent('Bank', 'Target Bank level changed to ' + Beautify(targetBank.cost) + ' cookies.');
       FrozenCookies.targetBank = targetBank;
     }
     var currentCookieCPS = gcPs(cookieValue(currentBank.cost));
@@ -971,7 +975,7 @@ function autoCookie() {
       FrozenCookies.lastUpgradeCount = currentUpgradeCount;
     }
     if (FrozenCookies.recalculateCaches) {
-      logEvent('Cache', 'Recalculating cached values.');
+      //logEvent('Cache', 'Recalculating cached values.');
       recommendation = nextPurchase(FrozenCookies.recalculateCaches);
       FrozenCookies.recalculateCaches = false;
     }
@@ -1010,7 +1014,7 @@ function autoCookie() {
       disabledPopups = false;
 //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
       recommendation.purchase.buy();
-      logEvent('Store', 'Autobought ' + recommendation.purchase.name + ' for ' + Beautify(recommendation.delta_cps) + ' CPS.');
+      logEvent('Store', 'Autobought ' + recommendation.purchase.name + ' for ' + Beautify(recommendation.cost) + ', resulting in ' + Beautify(recommendation.delta_cps) + ' CPS.');
       disabledPopups = true;
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.processing = false;
@@ -1026,6 +1030,9 @@ function autoCookie() {
     }
     if ((Game.frenzy > 0) != FrozenCookies.last_gc_state) {
       if (FrozenCookies.last_gc_state) {
+        logEvent('GC', 'Frenzy ended, cookie production back to normal.');
+        logEvent('HC', 'Frenzy won ' + FrozenCookies.hcs_during_frenzy + ' heavenly chips');
+        FrozenCookies.hcs_during_frenzy = 0;
         FrozenCookies.gc_time += Date.now() - FrozenCookies.last_gc_time;
       } else {
         FrozenCookies.non_gc_time += Date.now() - FrozenCookies.last_gc_time;
