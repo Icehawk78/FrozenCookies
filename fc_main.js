@@ -167,12 +167,8 @@ var numberFormatters = [
 function fcBeautify (value) {
   var negative = (value < 0);
   value = Math.abs(value);
-  var output = value.toString();
-  if (FrozenCookies.numberDisplay) {
-    var formatter = numberFormatters[FrozenCookies.numberDisplay];
-    output = formatter(value).toString();
-  }
-  output = output.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  var formatter = numberFormatters[FrozenCookies.numberDisplay];
+  var output = formatter(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return negative ? '-' + output : output;
 }
 
