@@ -66,6 +66,7 @@ function setOverrides() {
   // Remove the following when turning on tooltop code
   Game.RebuildStore();
   Game.RebuildUpgrades();
+  beautifyUpgradesAndAchievements();
   // Replace Game.Popup references with event logging
   eval("Game.goldenCookie.click = " + Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
   eval("Game.UpdateWrinklers = " + Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
@@ -171,6 +172,23 @@ function fcBeautify (value) {
     var output = formatter(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return negative ? '-' + output : output;
   }
+}
+
+// Runs numbers in upgrades and achievements through our beautify function
+function beautifyUpgradesAndAchievements() {
+  function beautifyFn(str) {
+    return Game.Beautify(parseInt(str.replace(/,/, ''), 10));
+  }
+
+  var numre = /\d\d?\d?(?:,\d\d\d)*/;
+  Game.AchievementsById.forEach(function (ach) {
+    ach.desc = ach.desc.replace(numre, beautifyFn);
+  });
+
+  // These might not have any numbers in them, but just in case...
+  Game.UpgradesById.forEach(function (upg) {
+    upg.desc = upg.desc.replace(numre, beautifyFn);
+  });
 }
 
 function timeDisplay(seconds) {
