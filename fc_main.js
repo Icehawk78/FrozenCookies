@@ -119,8 +119,14 @@ function scientificNotation(value) {
   var sign = value > 0 ? '' : '-';
   value = Math.abs(value);
   var exp = Math.floor(Math.log(value)/Math.LN10);
-  var num = Math.round((value/Math.pow(10, exp)) * 1000) / 1000;
-  return sign + num + '*10^' + exp;
+  var num = Math.round((value/Math.pow(10, exp)) * 100) / 100;
+  var output = num.toString();
+  if (num === Math.round(num)) {
+    output += '.00';
+  } else if (num * 10 === Math.round(num * 10)) {
+    output += '0';
+  }
+  return sign + output + '*10^' + exp;
 }
 
 function rawFormatter(value) {
