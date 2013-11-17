@@ -91,6 +91,74 @@ function preferenceParse(setting, defaultVal) {
 
 // var full_history = [];  // This may be a super leaky thing
 
+function formatEveryThirdPower(notations) {
+  return function (value) {
+    var base = 0,
+      notationValue = '';
+    if (value >= 1000000 && Number.isFinite(value)) {
+      value /= 1000;
+      while(Math.round(value) >= 1000){
+        value /= 1000;
+        base++;
+      }
+      if (base > notation.length) {
+        return 'Infinity';
+      } else {
+        notationValue = notations[base];
+      }
+    }
+    return ( Math.round(value * 1000) / 1000.0 ) + notationValue;
+  };
+}
+
+var numberFormatters = [
+  formatEveryThirdPower([
+    '',
+    ' million',
+    ' billion',
+    ' trillion',
+    ' quadrillion',
+    ' quintillion',
+    ' sextillion',
+    ' septillion'
+  ]),
+
+  formatEveryThirdPower([
+    '',
+    ' M',
+    ' B',
+    ' T',
+    ' Qa',
+    ' Qi',
+    ' Sx',
+    ' Sp'
+  ]),
+
+  formatEveryThirdPower([
+    '',
+    ' M',
+    ' G',
+    ' T',
+    ' P',
+    ' E',
+    ' Z',
+    ' Y'
+  ]),
+
+  (function () {
+    return function (value) {
+      var base = 1.0;
+      if (value < 10) {
+        return value;
+      }
+      while (value / base >= 10) {
+        base++;
+      }
+      return value + '*10<sup>' + base + '</sup>';
+    };
+  }())
+];
+
 function fcBeautify (value) {
   var notationValue = '';
   var negative = false;
@@ -99,31 +167,8 @@ function fcBeautify (value) {
     value *= -1;
   }
   if (FrozenCookies.numberDisplay) {
-    var notationList = [['', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion'],
-                        ['', ' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp'],
-                        ['', ' M', ' G', ' T', ' P', ' E', ' Z', ' Y'],
-                        ['', '*10⁶', '*10⁹', '*10¹²', '*10¹⁵', '*10¹⁸', '*10²¹', '*10²⁴']
-                        ];
-    var notation = notationList[FrozenCookies.numberDisplay-1];
-    var base = 0;
-    if (value >= 1000000 && Number.isFinite(value)) {
-      value /= 1000;
-      while(Math.round(value) >= 1000){
-        value /= 1000;
-        base++;
-      }
-      if (base > notation.length) {
-        value = Math.POSITIVE_INFINITY;
-      } else {
-        notationValue = notation[base];
-      }
-    }
-    value = Math.round(value * 1000) / 1000.0;
-  }
-  if (!Number.isFinite(value)) {
-    return 'Infinity';
-  } else {
-    var output = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + notationValue;
+    var formatter = numberFormatters[FrozenCookies.numberDisplay-1];
+    var output = formatter(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return negative ? '-' + output : output;
   }
 }
