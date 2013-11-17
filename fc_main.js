@@ -112,6 +112,12 @@ function formatEveryThirdPower(notations) {
   };
 }
 
+function scientificNotation(value) {
+  var exp = Math.floor(Math.log(value)/Math.LN10);
+  var num = Math.round((value/Math.pow(10, exp)) * 1000) / 1000;
+  return num + '*10<sup>' + exp + '</sup>';
+}
+
 var numberFormatters = [
   formatEveryThirdPower([
     '',
@@ -145,19 +151,7 @@ var numberFormatters = [
     ' Z',
     ' Y'
   ]),
-
-  (function () {
-    return function (value) {
-      var base = 1.0;
-      if (value < 10) {
-        return value;
-      }
-      while (value / base >= 10) {
-        base++;
-      }
-      return value + '*10<sup>' + base + '</sup>';
-    };
-  }())
+  scientificNotation
 ];
 
 function fcBeautify (value) {
