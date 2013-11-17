@@ -128,7 +128,7 @@ function rawFormatter(value) {
 }
 
 var numberFormatters = [
-  function(value){return value;},
+  rawFormatter,
   formatEveryThirdPower([
     '',
     ' million',
