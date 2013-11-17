@@ -959,7 +959,7 @@ function autoCookie() {
       if (Game.frenzy === 0) {
         logEvent('HC', 'Gained ' + changeAmount + ' Heavenly Chips in ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000) + '.' + maxStr + ' Overall average: ' + currHCPercent + ' HC/hr.');
       } else {
-        FrozenCookie.hcs_during_frenzy += changeAmount;
+        FrozenCookies.hcs_during_frenzy += changeAmount;
       }
       updateLocalStorage();
     }
