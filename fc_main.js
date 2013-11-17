@@ -155,6 +155,7 @@ var numberFormatters = [
 ];
 
 function fcBeautify (value) {
+  var output;
   var notationValue = '';
   var negative = false;
   if (value < 0) {
@@ -163,9 +164,12 @@ function fcBeautify (value) {
   }
   if (FrozenCookies.numberDisplay) {
     var formatter = numberFormatters[FrozenCookies.numberDisplay-1];
-    var output = formatter(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return negative ? '-' + output : output;
+    output = formatter(value);
+  } else {
+    output = value; 
   }
+  output = output.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return negative ? '-' + output : output;
 }
 
 // Runs numbers in upgrades and achievements through our beautify function
