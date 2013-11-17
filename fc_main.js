@@ -177,7 +177,7 @@ function fcBeautify (value) {
 // Runs numbers in upgrades and achievements through our beautify function
 function beautifyUpgradesAndAchievements() {
   function beautifyFn(str) {
-    return Game.Beautify(parseInt(str.replace(/,/, ''), 10));
+    return Beautify(parseInt(str.replace(/,/, ''), 10));
   }
 
   var numre = /\d\d?\d?(?:,\d\d\d)*/;
