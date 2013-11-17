@@ -114,7 +114,7 @@ function formatEveryThirdPower(notations) {
 
 function scientificNotation(value) {
   if (value === 0 || !Number.isFinite(value) || (Math.abs(value) > 1 && Math.abs(value) < 100)) {
-    rawFormatter(value);
+    return rawFormatter(value);
   }
   var sign = value > 0 ? '' : '-';
   value = Math.abs(value);
