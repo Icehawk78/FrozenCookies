@@ -69,15 +69,38 @@ function setOverrides() {
   // Replace Game.Popup references with event logging
   eval("Game.goldenCookie.click = " + Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
   eval("Game.UpdateWrinklers = " + Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
-/*
-  eval("Game.Draw = " + Game.Draw.toString()
-    .replace(/if \(Game.cookies>=me.price\) l\('product'\+me.id\).className='product enabled'; else l\('product'\+me.id\).className='product disabled';/, '(Game.cookies >= me.price) ? $("#product"+me.id).addClass("enabled").removeClass("disabled") : $("#product"+me.id).addClass("disabled").removeClass("enabled");')
-    .replace(/if \(Game.cookies>=me.basePrice\) l\('upgrade'\+i\).className='crate upgrade enabled'; else l\('upgrade'\+i\).className='crate upgrade disabled';/, '(Game.cookies >= me.basePrice) ? $("#upgrade"+me.id).addClass("enabled").removeClass("disabled") : $("#upgrade"+me.id).addClass("disabled").removeClass("enabled");'));
+
+  var oldGameDraw = Game.Draw;
+  Game.Draw = function () {
+    var i, me, $me, oldClasses = {};
+
+    // Save the old class values so we don't lose them
+    for (i in Game.Objects) {
+      me = Game.Objects[i];
+      $me = $('#product' + me.id);
+      if ($me.length === 0) {
+        $me = $('#upgrade' + me.id);
+      }
+      oldClasses[me.id] = $me.prop('class').replace(/(enabled|disabled)/, '');
+    }
+
+    // Use call to make sure this === Game in the function
+    oldGameDraw.call(Game);
+
+    // Replace the class values
+    for (i in Game.Objects) {
+      me = Game.Objects[i];
+      $me = $('#product' + me.id);
+      if ($me.length === 0) {
+        $me = $('#upgrade' + me.id);
+      }
+      $me.addClass(oldClasses[me.id]);
+    }
+  };
   Game.RebuildStore=function(recalculate) {rebuildStore(recalculate);}
   Game.RebuildUpgrades=function(recalculate) {rebuildUpgrades(recalculate);}
   Game.RebuildStore(true);
   Game.RebuildUpgrades(true);
-*/
 }
 
 function preferenceParse(setting, defaultVal) {
