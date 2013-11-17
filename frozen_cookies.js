@@ -45,10 +45,4 @@ function fcInit() {
     });
   };
   document.head.appendChild(jquery);
-
-  var styleLink = document.createElement('link');
-  styleLink.setAttribute('rel', 'stylesheet');
-  styleLink.setAttribute('type', 'text/css');
-  styleLink.setAttribute('href', FrozenCookies.baseUrl + '/frozen_cookies.css');
-  document.head.appendChild(styleLink);
 }
