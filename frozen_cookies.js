@@ -1,9 +1,13 @@
 // Global Variables
-var FrozenCookies = {
-  'baseUrl': 'https://raw.github.com/Icehawk78/FrozenCookies/master',
-  'branch' : 'M',
-  'version': 1.03934
-};
+var scriptElement = document.getElementById( 'frozenCookieScript' ),
+	baseUrl = scriptElement !== null ?
+		scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '') :
+		'https://raw.github.com/Icehawk78/FrozenCookies/master',
+	FrozenCookies = {
+		'baseUrl': baseUrl,
+		'branch' : 'M',
+		'version': 1.03934
+	};
 
 // Load external libraries
 FrozenCookies.loadInterval = setInterval(function() {
