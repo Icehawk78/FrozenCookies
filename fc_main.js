@@ -102,7 +102,7 @@ function formatEveryThirdPower(notations) {
         value /= 1000;
         base++;
       }
-      if (base > notation.length) {
+      if (base > notations.length) {
         return 'Infinity';
       } else {
         notationValue = notations[base];
