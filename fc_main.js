@@ -207,7 +207,7 @@ function timeDisplay(seconds) {
   days = (days > 0) ? Beautify(days) + 'd ' : '';
   seconds %= (24 * 60 * 60);
   hours = Math.floor(seconds / (60 * 60));
-  hours = (hours > 0) ? Beautify(hours) + 'h ' : '';
+  hours = (hours > 0) ? hours + 'h ' : '';
   seconds %= (60 * 60);
   minutes = Math.floor(seconds / 60);
   minutes = (minutes > 0) ? minutes + 'm ' : '';
