@@ -14,6 +14,11 @@ FrozenCookies.preferenceValues = {
     'display':['Autopop Wrinklers OFF', 'Autopop Wrinklers ON'],
     'default':0
   },
+  'autoReindeer':{
+    'hint':'Automatically click reindeer',
+    'display':['Autoclick Reindeer OFF', 'Autoclick Reindeer ON'],
+    'default':0
+  },
   'autoClick':{
     'hint':'Click the large cookie.',
     'display':['Autoclick OFF', 'Autoclick ON'],
