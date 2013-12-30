@@ -66,7 +66,6 @@ function setOverrides() {
   // Remove the following when turning on tooltop code
   Game.RebuildStore();
   Game.RebuildUpgrades();
-  beautifyUpgradesAndAchievements();
   // Replace Game.Popup references with event logging
   eval("Game.goldenCookie.click = " + Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
   eval("Game.UpdateWrinklers = " + Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
@@ -92,107 +91,41 @@ function preferenceParse(setting, defaultVal) {
 
 // var full_history = [];  // This may be a super leaky thing
 
-function formatEveryThirdPower(notations) {
-  return function (value) {
-    var base = 0,
-      notationValue = '';
+function fcBeautify (value) {
+  var notationValue = '';
+  var negative = false;
+  if (value < 0) {
+    negative = true;
+    value *= -1;
+  }
+  if (FrozenCookies.numberDisplay) {
+    var notationList = [['', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion'],
+                        ['', ' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp'],
+                        ['', ' M', ' G', ' T', ' P', ' E', ' Z', ' Y'],
+                        ['', '*10⁶', '*10⁹', '*10¹²', '*10¹⁵', '*10¹⁸', '*10²¹', '*10²⁴']
+                        ];
+    var notation = notationList[FrozenCookies.numberDisplay-1];
+    var base = 0;
     if (value >= 1000000 && Number.isFinite(value)) {
       value /= 1000;
       while(Math.round(value) >= 1000){
         value /= 1000;
         base++;
       }
-      if (base > notations.length) {
-        return 'Infinity';
+      if (base > notation.length) {
+        value = Math.POSITIVE_INFINITY;
       } else {
-        notationValue = notations[base];
+        notationValue = notation[base];
       }
     }
-    return ( Math.round(value * 1000) / 1000.0 ) + notationValue;
-  };
-}
-
-function scientificNotation(value) {
-  if (value === 0 || !Number.isFinite(value) || (Math.abs(value) > 1 && Math.abs(value) < 100)) {
-    return rawFormatter(value);
+    value = Math.round(value * 1000) / 1000.0;
   }
-  var sign = value > 0 ? '' : '-';
-  value = Math.abs(value);
-  var exp = Math.floor(Math.log(value)/Math.LN10);
-  var num = Math.round((value/Math.pow(10, exp)) * 100) / 100;
-  var output = num.toString();
-  if (num === Math.round(num)) {
-    output += '.00';
-  } else if (num * 10 === Math.round(num * 10)) {
-    output += '0';
+  if (!Number.isFinite(value)) {
+    return 'Infinity';
+  } else {
+    var output = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + notationValue;
+    return negative ? '-' + output : output;
   }
-  return sign + output + '*10^' + exp;
-}
-
-function rawFormatter(value) {
-  return Math.round(value * 1000) / 1000;
-}
-
-var numberFormatters = [
-  rawFormatter,
-  formatEveryThirdPower([
-    '',
-    ' million',
-    ' billion',
-    ' trillion',
-    ' quadrillion',
-    ' quintillion',
-    ' sextillion',
-    ' septillion'
-  ]),
-
-  formatEveryThirdPower([
-    '',
-    ' M',
-    ' B',
-    ' T',
-    ' Qa',
-    ' Qi',
-    ' Sx',
-    ' Sp'
-  ]),
-
-  formatEveryThirdPower([
-    '',
-    ' M',
-    ' G',
-    ' T',
-    ' P',
-    ' E',
-    ' Z',
-    ' Y'
-  ]),
-  scientificNotation
-];
-
-function fcBeautify (value) {
-  var negative = (value < 0);
-  value = Math.abs(value);
-  var formatter = numberFormatters[FrozenCookies.numberDisplay];
-  var output = formatter(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return negative ? '-' + output : output;
-}
-
-// Runs numbers in upgrades and achievements through our beautify function
-function beautifyUpgradesAndAchievements() {
-  function beautifyFn(str) {
-    return Beautify(parseInt(str.replace(/,/, ''), 10));
-  }
-
-  var numre = /\d\d?\d?(?:,\d\d\d)*/;
-  Game.AchievementsById.forEach(function (ach) {
-    ach.desc = ach.desc.replace(numre, beautifyFn);
-  });
-
-  // These might not have any numbers in them, but just in case...
-  Game.UpgradesById.forEach(function (upg) {
-    upg.desc = upg.desc.replace(numre, beautifyFn);
-  });
 }
 
 function timeDisplay(seconds) {
@@ -207,7 +140,7 @@ function timeDisplay(seconds) {
   days = (days > 0) ? Beautify(days) + 'd ' : '';
   seconds %= (24 * 60 * 60);
   hours = Math.floor(seconds / (60 * 60));
-  hours = (hours > 0) ? hours + 'h ' : '';
+  hours = (hours > 0) ? Beautify(hours) + 'h ' : '';
   seconds %= (60 * 60);
   minutes = Math.floor(seconds / 60);
   minutes = (minutes > 0) ? minutes + 'm ' : '';
@@ -369,17 +302,27 @@ function autoBlacklistOff() {
   }
 }
 
-function getProbabilityList() {
-  return cumulativeProbabilityList[Game.Has('Lucky day') + Game.Has('Serendipity')];
+function getProbabilityList(listType) {
+  return cumulativeProbabilityList[listType][getProbabilityModifiers(listType)];
 }
 
-function cumulativeProbability(start, stop) {
-  return 1 - ((1 - getProbabilityList()[stop]) / (1 - getProbabilityList()[start]));
+function getProbabilityModifiers(listType) {
+  switch (listType) {
+    case "golden":
+      return Game.Has('Lucky day') + Game.Has('Serendipity');
+    case "reindeer":
+      return Game.Has('Reindeer baking grounds');
+  }
+  return 0;
 }
 
-function probabilitySpan(start, endProbability) {
-  var startProbability = getProbabilityList()[start];
-  return _.sortedIndex(getProbabilityList(), (startProbability + endProbability - startProbability * endProbability));
+function cumulativeProbability(listType, start, stop) {
+  return 1 - ((1 - getProbabilityList(listType)[stop]) / (1 - getProbabilityList(listType)[start]));
+}
+
+function probabilitySpan(listType, start, endProbability) {
+  var startProbability = getProbabilityList(listType)[start];
+  return _.sortedIndex(getProbabilityList(listType), (startProbability + endProbability - startProbability * endProbability));
 }
 
 function baseCps() {
@@ -646,8 +589,8 @@ function buildingStats(recalculate) {
       buildingToggle(current, existingAchievements);
       var deltaCps = cpsNew - cpsOrig;
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
-      var efficiency = purchaseEfficiency(current.getPrice(), deltaCps, baseDeltaCps, cpsOrig)
-      return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.getPrice(), 'purchase' : current, 'type' : 'building'};
+      var efficiency = purchaseEfficiency(current.price, deltaCps, baseDeltaCps, cpsOrig)
+      return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.price, 'purchase' : current, 'type' : 'building'};
     });
   }
   return FrozenCookies.caches.buildings;
@@ -743,6 +686,9 @@ function unfinishedUpgradePrereqs(upgrade) {
         }
       }
     });
+    if (prereqs.santa) {
+      needed.push({type:'santa', 'id': -1});
+    }
   }
   return needed.length ? needed : null;
 }
@@ -804,7 +750,8 @@ function buyFunctionToggle(upgrade) {
       /Game\.Objects\['.*'\]\.drawFunction\(\)/,
       /Game\.SetResearch\('.*'\)/,
       /Game\.Upgrades\['.*'\]\.basePrice=.*/,
-      /Game\.CollectWrinklers\(\)/
+      /Game\.CollectWrinklers\(\)/,
+      /var drop=choose\(Game\.santaDrops\)/
     ];
     var buyFunctions = upgrade.buyFunction.toString()
       .replace(/\n/g, '')
@@ -962,11 +909,7 @@ function autoCookie() {
         FrozenCookies.maxHCPercent = currHCPercent;
       }
       var maxStr = (FrozenCookies.maxHCPercent === currHCPercent) ? ' (!)' : '';
-      if (Game.frenzy === 0) {
-        logEvent('HC', 'Gained ' + changeAmount + ' Heavenly Chips in ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000) + '.' + maxStr + ' Overall average: ' + currHCPercent + ' HC/hr.');
-      } else {
-        FrozenCookies.hcs_during_frenzy += changeAmount;
-      }
+      logEvent('HC', 'Gained ' + changeAmount + ' Heavenly Chips in ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000) + '.' + maxStr + ' Overall average: ' + currHCPercent + ' HC/hr.');
       updateLocalStorage();
     }
     if (FrozenCookies.lastCPS != Game.cookiesPs) {
@@ -983,7 +926,7 @@ function autoCookie() {
     var targetBank = bestBank(recommendation.efficiency);
     if (FrozenCookies.targetBank.cost != targetBank.cost) {
       FrozenCookies.recalculateCaches = true;
-      //logEvent('Bank', 'Target Bank level changed to ' + Beautify(targetBank.cost) + ' cookies.');
+      logEvent('Bank', 'Target Bank level changed to ' + Beautify(targetBank.cost) + ' cookies.');
       FrozenCookies.targetBank = targetBank;
     }
     var currentCookieCPS = gcPs(cookieValue(currentBank.cost));
@@ -997,7 +940,7 @@ function autoCookie() {
       FrozenCookies.lastUpgradeCount = currentUpgradeCount;
     }
     if (FrozenCookies.recalculateCaches) {
-      //logEvent('Cache', 'Recalculating cached values.');
+      logEvent('Cache', 'Recalculating cached values.');
       recommendation = nextPurchase(FrozenCookies.recalculateCaches);
       FrozenCookies.recalculateCaches = false;
     }
@@ -1036,7 +979,7 @@ function autoCookie() {
       disabledPopups = false;
 //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
       recommendation.purchase.buy();
-      logEvent('Store', 'Autobought ' + recommendation.purchase.name + ' for ' + Beautify(recommendation.cost) + ', resulting in ' + Beautify(recommendation.delta_cps) + ' CPS.');
+      logEvent('Store', 'Autobought ' + recommendation.purchase.name + ' for ' + Beautify(recommendation.delta_cps) + ' CPS.');
       disabledPopups = true;
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.processing = false;
@@ -1047,18 +990,11 @@ function autoCookie() {
     if (Game.goldenCookie.life && FrozenCookies.autoGC) {
       Game.goldenCookie.click();
     }
-    if (Game.seasonPopup.life > 0 && FrozenCookies.autoReindeer) {
-      Game.seasonPopup.click();
-    }
-
     if (FrozenCookies.autoBlacklistOff) {
       autoBlacklistOff();
     }
     if ((Game.frenzy > 0) != FrozenCookies.last_gc_state) {
       if (FrozenCookies.last_gc_state) {
-        logEvent('GC', 'Frenzy ended, cookie production back to normal.');
-        logEvent('HC', 'Frenzy won ' + FrozenCookies.hcs_during_frenzy + ' heavenly chips');
-        FrozenCookies.hcs_during_frenzy = 0;
         FrozenCookies.gc_time += Date.now() - FrozenCookies.last_gc_time;
       } else {
         FrozenCookies.non_gc_time += Date.now() - FrozenCookies.last_gc_time;
