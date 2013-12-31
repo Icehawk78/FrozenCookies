@@ -782,11 +782,12 @@ function buyFunctionToggle(upgrade) {
     
     var ignoreFunctions = [
       /Game\.Lock\('.*'\)/,
-      /Game\.Unlock\('.*'\)/,
+      /Game\.Unlock\(.*\)/,
       /Game\.Objects\['.*'\]\.drawFunction\(\)/,
       /Game\.SetResearch\('.*'\)/,
       /Game\.Upgrades\['.*'\]\.basePrice=.*/,
       /Game\.CollectWrinklers\(\)/,
+      /Game\.Popup\(.*\)/,
       /var drop=choose\(Game\.santaDrops\)/
     ];
     var buyFunctions = upgrade.buyFunction.toString()
