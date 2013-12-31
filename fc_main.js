@@ -302,17 +302,27 @@ function autoBlacklistOff() {
   }
 }
 
-function getProbabilityList() {
-  return cumulativeProbabilityList[Game.Has('Lucky day') + Game.Has('Serendipity')];
+function getProbabilityList(listType) {
+  return cumulativeProbabilityList[listType][getProbabilityModifiers(listType)];
 }
 
-function cumulativeProbability(start, stop) {
-  return 1 - ((1 - getProbabilityList()[stop]) / (1 - getProbabilityList()[start]));
+function getProbabilityModifiers(listType) {
+  switch (listType) {
+    case "golden":
+      return Game.Has('Lucky day') + Game.Has('Serendipity');
+    case "reindeer":
+      return Game.Has('Reindeer baking grounds');
+  }
+  return 0;
 }
 
-function probabilitySpan(start, endProbability) {
-  var startProbability = getProbabilityList()[start];
-  return _.sortedIndex(getProbabilityList(), (startProbability + endProbability - startProbability * endProbability));
+function cumulativeProbability(listType, start, stop) {
+  return 1 - ((1 - getProbabilityList(listType)[stop]) / (1 - getProbabilityList(listType)[start]));
+}
+
+function probabilitySpan(listType, start, endProbability) {
+  var startProbability = getProbabilityList(listType)[start];
+  return _.sortedIndex(getProbabilityList(listType), (startProbability + endProbability - startProbability * endProbability));
 }
 
 function baseCps() {
@@ -474,7 +484,7 @@ function maxCookieTime() {
 }
 
 function gcPs(gcValue) {
-  var averageGCTime = probabilitySpan(0, 0.5) / Game.fps;
+  var averageGCTime = probabilitySpan('golden', 0, 0.5) / Game.fps;
   gcValue /= averageGCTime;
   gcValue *= FrozenCookies.simulatedGCPercent;
   return gcValue;
@@ -517,7 +527,7 @@ function purchaseEfficiency(price, deltaCps, baseDeltaCps, currentCps) {
 
 function recommendationList(recalculate) {
   if (recalculate) {
-    FrozenCookies.caches.recommendationList = addScores(upgradeStats(recalculate).concat(buildingStats(recalculate)).sort(function(a,b){return (a.efficiency - b.efficiency)}));
+    FrozenCookies.caches.recommendationList = addScores(upgradeStats(recalculate).concat(buildingStats(recalculate)).concat(santaStats()).sort(function(a,b){return (a.efficiency - b.efficiency)}));
   }
   return FrozenCookies.caches.recommendationList;
 //  return upgradeStats(recalculate).concat(buildingStats(recalculate)).sort(function(a,b){return (a.efficiency - b.efficiency)});
@@ -616,8 +626,43 @@ function upgradeStats(recalculate) {
   return FrozenCookies.caches.upgrades;
 }
 
+function santaStats() {
+  return {
+    id: 0,
+    efficiency: Infinity,
+    base_delta_cps: 0,
+    delta_cps: 0,
+    cost: cumulativeSantaCost(1),
+    type: 'santa',
+    purchase: {
+      id: 0,
+      name: 'Santa Stage Upgrade (' + Game.santaLevels[(Game.santaLevel + 1) % Game.santaLevels.length] + ')',
+      buy: buySanta,
+      getCost: function() {return cumulativeSantaCost(1);}
+    }
+  }
+}
+
 function cumulativeBuildingCost(basePrice, startingNumber, endingNumber) {
   return basePrice * (Math.pow(Game.priceIncrease, endingNumber) - Math.pow(Game.priceIncrease, startingNumber)) / (Game.priceIncrease - 1);
+}
+
+function cumulativeSantaCost(amount) {
+  var total = 0;
+  if (!amount) {
+    
+  } else if (Game.santaLevel + amount < Game.santaLevels.length) {
+    for (var i=Game.santaLevel + 1; i <= Game.santaLevel + amount; i++) {
+      total += Math.pow(i, i);
+    }
+  } else if (amount < Game.santaLevels.length) {
+    for (var i=Game.santaLevel + 1; i <= amount; i++) {
+      total += Math.pow(i, i);
+    }
+  } else {
+    total = Infinity;
+  }
+  return total;
 }
 
 function upgradePrereqCost(upgrade, full) {
@@ -630,9 +675,9 @@ function upgradePrereqCost(upgrade, full) {
     cost += prereqs.buildings.reduce(function(sum,item,index) {
       var building = Game.ObjectsById[index];
       if (item && full) {
-        sum += cumulativeBuildingCost(building.basePrice, 0, item);
+        sum += cumulativeBuildingCost(building.getPrice(), 0, item);
       } else if (item && building.amount < item) {
-        sum += cumulativeBuildingCost(building.basePrice, building.amount, item);
+        sum += cumulativeBuildingCost(building.getPrice(), building.amount, item);
       }
       return sum;
     },0);
@@ -643,6 +688,7 @@ function upgradePrereqCost(upgrade, full) {
       }
       return sum;
     }, 0);
+    cost += cumulativeSantaCost(prereqs.santa);
   }
   return cost;
 }
@@ -676,6 +722,9 @@ function unfinishedUpgradePrereqs(upgrade) {
         }
       }
     });
+    if (prereqs.santa) {
+      needed.push({type:'santa', id: 0});
+    }
   }
   return needed.length ? needed : null;
 }
@@ -737,7 +786,8 @@ function buyFunctionToggle(upgrade) {
       /Game\.Objects\['.*'\]\.drawFunction\(\)/,
       /Game\.SetResearch\('.*'\)/,
       /Game\.Upgrades\['.*'\]\.basePrice=.*/,
-      /Game\.CollectWrinklers\(\)/
+      /Game\.CollectWrinklers\(\)/,
+      /var drop=choose\(Game\.santaDrops\)/
     ];
     var buyFunctions = upgrade.buyFunction.toString()
       .replace(/\n/g, '')
@@ -773,6 +823,16 @@ function buyFunctionToggle(upgrade) {
     upgrade.forEach(function(f) {eval(f);});
   }
   return null;
+}
+
+function buySanta() {
+  if (Game.LeftBackground) {
+    Game.mouseX = 48;
+    Game.mouseY = Game.LeftBackground.canvas.height-48-24;
+    Game.Click = 1;
+    Game.UpdateSanta();
+    Game.Click = 0;
+  }
 }
 
 function doTimeTravel() {
