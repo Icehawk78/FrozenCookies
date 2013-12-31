@@ -36,7 +36,7 @@ function getBuildingTooltip(purchaseRec) {
 
 function getUpgradeTooltip(purchaseRec) {
   var parent = $('<div />').attr('style','min-width:300px;');
-  parent.append($('<div />').addClass('price').attr('style', 'float:right;').text(Beautify(purchaseRec.purchase.basePrice)));
+  parent.append($('<div />').addClass('price').attr('style', 'float:right;').text(Beautify(purchaseRec.purchase.getPrice())));
   parent.append($('<div />').addClass('name').text(purchaseRec.purchase.name));
   parent.append($('<div />').attr('style', 'font-size:80%;').text('[Upgrade]'));
   parent.append($('<div />').addClass('description').html(purchaseRec.purchase.desc));
@@ -106,7 +106,7 @@ function rebuildUpgrades(recalculate) {
   var store = $('#upgrades'),
     recommendations = recommendationList(recalculate);
   store[0].innerHTML = '';
-  Game.UpgradesInStore = Game.UpgradesById.filter(function(a){return !a.bought && a.unlocked;}).sort(function(a,b){return a.basePrice - b.basePrice;});
+  Game.UpgradesInStore = Game.UpgradesById.filter(function(a){return !a.bought && a.unlocked;}).sort(function(a,b){return a.getPrice() - b.getPrice();});
   Game.UpgradesInStore.forEach(function(me) {
     var purchaseRec = recommendations.filter(function(a) {return a.id == me.id && a.type == 'upgrade';})[0];
     if (!purchaseRec) {
@@ -225,8 +225,8 @@ function updateTimers() {
     chainCompletion = 0;
   if (nextChainedPurchase().cost > nextPurchase().cost) {
     chainPurchase = nextChainedPurchase().purchase;
-    chainTotal = upgradePrereqCost(chainPurchase, true) - chainPurchase.basePrice;
-    chainFinished = chainTotal - (upgradePrereqCost(chainPurchase) - chainPurchase.basePrice);
+    chainTotal = upgradePrereqCost(chainPurchase, true) - chainPurchase.getPrice();
+    chainFinished = chainTotal - (upgradePrereqCost(chainPurchase) - chainPurchase.getPrice());
     chainCompletion = (chainFinished + Math.max(Game.cookies - bankTotal, 0)) / (bankTotal + chainTotal);
   }
   bankPercent = Math.min(Game.cookies, bankTotal) / (bankTotal + purchaseTotal);
