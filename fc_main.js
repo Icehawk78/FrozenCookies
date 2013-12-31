@@ -628,7 +628,7 @@ function upgradeStats(recalculate) {
 
 function santaStats() {
   return {
-    id: 0
+    id: 0,
     efficiency: Infinity,
     base_delta_cps: 0,
     delta_cps: 0,
