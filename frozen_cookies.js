@@ -2,7 +2,7 @@
 var FrozenCookies = {
   'baseUrl': 'http://icehawk78.github.io/FrozenCookies',
   'branch' : 'G',
-  'version': 1.03934
+  'version': 1.04
 };
 
 // Load external libraries
