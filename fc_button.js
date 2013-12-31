@@ -209,9 +209,9 @@ function drawCircles(t_d, x, y) {
 function updateTimers() {
   var chainPurchase, bankPercent, purchasePercent, bankMax, actualCps, t_draw,
     maxColor, height,
-    gc_delay = (probabilitySpan(Game.goldenCookie.time, 0.5) - Game.goldenCookie.time) / maxCookieTime(),
-    gc_max_delay = (probabilitySpan(Game.goldenCookie.time, 0.99) - Game.goldenCookie.time) / maxCookieTime(),
-    gc_min_delay = (probabilitySpan(Game.goldenCookie.time, 0.01) - Game.goldenCookie.time) / maxCookieTime(),
+    gc_delay = (probabilitySpan('golden', Game.goldenCookie.time, 0.5) - Game.goldenCookie.time) / maxCookieTime(),
+    gc_max_delay = (probabilitySpan('golden', Game.goldenCookie.time, 0.99) - Game.goldenCookie.time) / maxCookieTime(),
+    gc_min_delay = (probabilitySpan('golden', Game.goldenCookie.time, 0.01) - Game.goldenCookie.time) / maxCookieTime(),
     frenzy_delay = Game.frenzy / maxCookieTime(),
     click_frenzy_delay = Game.clickFrenzy / maxCookieTime(),
     decimal_HC_complete = ((Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5)%1),
