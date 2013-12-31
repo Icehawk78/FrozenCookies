@@ -626,6 +626,23 @@ function upgradeStats(recalculate) {
   return FrozenCookies.caches.upgrades;
 }
 
+function santaStats() {
+  return {
+    id: 0
+    efficiency: Infinity,
+    base_delta_cps: 0,
+    delta_cps: 0,
+    cost: cumulativeSantaCost(1),
+    type: 'santa',
+    purchase: {
+      id: 0,
+      name: 'Santa Stage Upgrade (' + Game.santaLevels[(Game.santaLevel + 1) % Game.santaLevels.length] + ')',
+      buy: buySanta,
+      getCost: function() {return cumulativeSantaCost(1);}
+    }
+  }
+}
+
 function cumulativeBuildingCost(basePrice, startingNumber, endingNumber) {
   return basePrice * (Math.pow(Game.priceIncrease, endingNumber) - Math.pow(Game.priceIncrease, startingNumber)) / (Game.priceIncrease - 1);
 }
@@ -706,7 +723,7 @@ function unfinishedUpgradePrereqs(upgrade) {
       }
     });
     if (prereqs.santa) {
-      needed.push({type:'santa', 'id': -1});
+      needed.push({type:'santa', id: 0});
     }
   }
   return needed.length ? needed : null;
@@ -806,6 +823,14 @@ function buyFunctionToggle(upgrade) {
     upgrade.forEach(function(f) {eval(f);});
   }
   return null;
+}
+
+function buySanta() {
+  if (Game.LeftBackground) {
+    Game.mouseX = 48;
+    Game.mouseY = Game.LeftBackground.canvas.height-48-24;
+    Game.Click = 1;
+  }
 }
 
 function doTimeTravel() {
