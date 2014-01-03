@@ -710,8 +710,15 @@ function santaStats() {
   }
 }
 
+function totalDiscount() {
+  var price = 1;
+  if (Game.Has('Season savings')) price*=0.99;
+  if (Game.Has('Santa\'s dominion')) price*=0.99;
+  return price;
+}
+
 function cumulativeBuildingCost(basePrice, startingNumber, endingNumber) {
-  return basePrice * (Math.pow(Game.priceIncrease, endingNumber) - Math.pow(Game.priceIncrease, startingNumber)) / (Game.priceIncrease - 1);
+  return basePrice * totalDiscount() * (Math.pow(Game.priceIncrease, endingNumber) - Math.pow(Game.priceIncrease, startingNumber)) / (Game.priceIncrease - 1);
 }
 
 function cumulativeSantaCost(amount) {
@@ -742,9 +749,9 @@ function upgradePrereqCost(upgrade, full) {
     cost += prereqs.buildings.reduce(function(sum,item,index) {
       var building = Game.ObjectsById[index];
       if (item && full) {
-        sum += cumulativeBuildingCost(building.getPrice(), 0, item);
+        sum += cumulativeBuildingCost(building.basePrice, 0, item);
       } else if (item && building.amount < item) {
-        sum += cumulativeBuildingCost(building.getPrice(), building.amount, item);
+        sum += cumulativeBuildingCost(building.basePrice, building.amount, item);
       }
       return sum;
     },0);
