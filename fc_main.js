@@ -63,6 +63,9 @@ function setOverrides() {
   Game.Win = fcWin;
   Game.oldBackground = Game.DrawBackground;
   Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
+  Game.oldDraw = Game.Draw;
+  Game.oldDraw = Game.Draw;
+  Game.Draw = function() {if(document.hasFocus()){Game.oldDraw();}}
   // Remove the following when turning on tooltop code
   Game.RebuildStore();
   Game.RebuildUpgrades();
@@ -854,16 +857,21 @@ function buyFunctionToggle(upgrade) {
       return null;
     }
     
-    var ignoreFunctions = [
-      /Game\.Lock\('.*'\)/,
-      /Game\.Unlock\(.*\)/,
+   var ignoreFunctions = [
+      /Game\.Lock\(.*\)/,
+      /.*season.*/, //season related.
+      /for \(var i in Game\.seasonTriggers\)\s*\{.*/, //season related.
+      /.*Game\.Unlock\(.*\).*/,
+      /Game\.computeSeasonPrices\(\)/,
       /Game\.Objects\['.*'\]\.drawFunction\(\)/,
       /Game\.SetResearch\('.*'\)/,
       /Game\.Upgrades\['.*'\]\.basePrice=.*/,
       /Game\.CollectWrinklers\(\)/,
       /Game\.Popup\(.*\)/,
-      /var drop=choose\(Game\.santaDrops\)/
+      /var drop=choose\(Game\.santaDrops\)/,
+      /\S/ //clenaup random character.
     ];
+    
     var buyFunctions = upgrade.buyFunction.toString()
       .replace(/\n/g, '')
       .replace(/function\s*\(\)\s*{(.+)\s*}/, "$1")
