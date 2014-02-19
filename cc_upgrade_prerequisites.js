@@ -181,13 +181,13 @@ var upgradeJson = [
   {'id':184,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[181]},
   
   //halloween cookies
-  {'id':134,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[183]},
-  {'id':135,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[183]},
-  {'id':136,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[183]},
-  {'id':137,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[183]},
-  {'id':138,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[183]},
-  {'id':139,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[183]},
-  {'id':140,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[183]},
+  {'id':134,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183]},
+  {'id':135,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183]},
+  {'id':136,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183]},
+  {'id':137,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183]},
+  {'id':138,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183]},
+  {'id':139,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183]},
+  {'id':140,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183]},
   
   //christmas cookies
   {'id':143,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[182]},
@@ -200,11 +200,11 @@ var upgradeJson = [
   
   //valentine cookies
   {'id':169,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[184]},
-  {'id':170,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[184]},
-  {'id':171,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[184]},
-  {'id':172,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[184]},
-  {'id':173,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[184]},
-  {'id':174,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[184]},
+  {'id':170,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[169,184]},
+  {'id':171,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[170,184]},
+  {'id':172,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[171,184]},
+  {'id':173,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[172,184]},
+  {'id':174,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[173,184]},
 
   
   //santa
