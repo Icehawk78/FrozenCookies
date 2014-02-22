@@ -38,7 +38,7 @@ FrozenCookies.preferenceValues = {
   },
   'blacklist':{
     'hint':'Blacklist purchases from the efficiency calculations',
-    'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist', 'Grandmapocalypse Mode'],
+    'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist', 'Grandmapocalypse Mode', 'Manual Seasons'],
     'default':0
   },
   'timeTravelMethod':{
@@ -238,7 +238,12 @@ var blacklist = [
   {
     'upgrades': [71, 72, 73, 74, 84, 85],
     'buildings': []
-  }
+  },
+  {
+    'upgrades': [182, 183, 184],
+    'buildings': []
+  },
+  
 ];
 
 var halloweenCookies = [134,135,136,137,138,139,140];
