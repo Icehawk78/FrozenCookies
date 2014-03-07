@@ -302,17 +302,27 @@ function autoBlacklistOff() {
   }
 }
 
-function getProbabilityList() {
-  return cumulativeProbabilityList[Game.Has('Lucky day') + Game.Has('Serendipity')];
+function getProbabilityList(listType) {
+  return cumulativeProbabilityList[listType][getProbabilityModifiers(listType)];
 }
 
-function cumulativeProbability(start, stop) {
-  return 1 - ((1 - getProbabilityList()[stop]) / (1 - getProbabilityList()[start]));
+function getProbabilityModifiers(listType) {
+  switch (listType) {
+    case "golden":
+      return Game.Has('Lucky day') + Game.Has('Serendipity');
+    case "reindeer":
+      return Game.Has('Reindeer baking grounds');
+  }
+  return 0;
 }
 
-function probabilitySpan(start, endProbability) {
-  var startProbability = getProbabilityList()[start];
-  return _.sortedIndex(getProbabilityList(), (startProbability + endProbability - startProbability * endProbability));
+function cumulativeProbability(listType, start, stop) {
+  return 1 - ((1 - getProbabilityList(listType)[stop]) / (1 - getProbabilityList(listType)[start]));
+}
+
+function probabilitySpan(listType, start, endProbability) {
+  var startProbability = getProbabilityList(listType)[start];
+  return _.sortedIndex(getProbabilityList(listType), (startProbability + endProbability - startProbability * endProbability));
 }
 
 function baseCps() {
@@ -676,6 +686,9 @@ function unfinishedUpgradePrereqs(upgrade) {
         }
       }
     });
+    if (prereqs.santa) {
+      needed.push({type:'santa', 'id': -1});
+    }
   }
   return needed.length ? needed : null;
 }
@@ -737,7 +750,8 @@ function buyFunctionToggle(upgrade) {
       /Game\.Objects\['.*'\]\.drawFunction\(\)/,
       /Game\.SetResearch\('.*'\)/,
       /Game\.Upgrades\['.*'\]\.basePrice=.*/,
-      /Game\.CollectWrinklers\(\)/
+      /Game\.CollectWrinklers\(\)/,
+      /var drop=choose\(Game\.santaDrops\)/
     ];
     var buyFunctions = upgrade.buyFunction.toString()
       .replace(/\n/g, '')
