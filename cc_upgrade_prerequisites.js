@@ -166,7 +166,7 @@ var upgradeJson = [
   {'id':132,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[131]},
   {'id':133,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[132]},
   
-  {'id':152,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[182],
+  {'id':152,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[182]},
   {'id':153,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[152],'santa':1},
   {'id':154,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[152],'santa':1},
   {'id':155,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[152],'santa':1},
