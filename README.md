@@ -150,6 +150,7 @@ Special Thanks
 ==============
 From the Cookie Clicker IRC, thanks to the following users:
 
+ - Bryanarby, for continuing development and update compatibility
  - Vandalite, for tons of calculations and other general help with the underlying math
  - Code14715, for excessively helpful amounts of testing
  - Eearslya, for constantly nagging me to add more non-cheat-y features

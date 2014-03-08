@@ -63,9 +63,12 @@ function setOverrides() {
   Game.Win = fcWin;
   Game.oldBackground = Game.DrawBackground;
   Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
+  Game.oldDraw = Game.Draw;
+  Game.Draw = function() {document.hasFocus() ? Game.oldDraw() : '';}
   // Remove the following when turning on tooltop code
   Game.RebuildStore();
   Game.RebuildUpgrades();
+  beautifyUpgradesAndAchievements();
   // Replace Game.Popup references with event logging
   eval("Game.goldenCookie.click = " + Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
   eval("Game.UpdateWrinklers = " + Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
@@ -91,41 +94,107 @@ function preferenceParse(setting, defaultVal) {
 
 // var full_history = [];  // This may be a super leaky thing
 
-function fcBeautify (value) {
-  var notationValue = '';
-  var negative = false;
-  if (value < 0) {
-    negative = true;
-    value *= -1;
-  }
-  if (FrozenCookies.numberDisplay) {
-    var notationList = [['', ' million', ' billion', ' trillion', ' quadrillion', ' quintillion', ' sextillion', ' septillion'],
-                        ['', ' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp'],
-                        ['', ' M', ' G', ' T', ' P', ' E', ' Z', ' Y'],
-                        ['', '*10⁶', '*10⁹', '*10¹²', '*10¹⁵', '*10¹⁸', '*10²¹', '*10²⁴']
-                        ];
-    var notation = notationList[FrozenCookies.numberDisplay-1];
-    var base = 0;
+function formatEveryThirdPower(notations) {
+  return function (value) {
+    var base = 0,
+      notationValue = '';
     if (value >= 1000000 && Number.isFinite(value)) {
       value /= 1000;
       while(Math.round(value) >= 1000){
         value /= 1000;
         base++;
       }
-      if (base > notation.length) {
-        value = Math.POSITIVE_INFINITY;
+      if (base > notations.length) {
+        return 'Infinity';
       } else {
-        notationValue = notation[base];
+        notationValue = notations[base];
       }
     }
-    value = Math.round(value * 1000) / 1000.0;
+    return ( Math.round(value * 1000) / 1000.0 ) + notationValue;
+  };
+}
+
+function scientificNotation(value) {
+  if (value === 0 || !Number.isFinite(value) || (Math.abs(value) > 1 && Math.abs(value) < 100)) {
+    return rawFormatter(value);
   }
-  if (!Number.isFinite(value)) {
-    return 'Infinity';
-  } else {
-    var output = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + notationValue;
-    return negative ? '-' + output : output;
+  var sign = value > 0 ? '' : '-';
+  value = Math.abs(value);
+  var exp = Math.floor(Math.log(value)/Math.LN10);
+  var num = Math.round((value/Math.pow(10, exp)) * 100) / 100;
+  var output = num.toString();
+  if (num === Math.round(num)) {
+    output += '.00';
+  } else if (num * 10 === Math.round(num * 10)) {
+    output += '0';
   }
+  return sign + output + '*10^' + exp;
+}
+
+function rawFormatter(value) {
+  return Math.round(value * 1000) / 1000;
+}
+
+var numberFormatters = [
+  rawFormatter,
+  formatEveryThirdPower([
+    '',
+    ' million',
+    ' billion',
+    ' trillion',
+    ' quadrillion',
+    ' quintillion',
+    ' sextillion',
+    ' septillion'
+  ]),
+
+  formatEveryThirdPower([
+    '',
+    ' M',
+    ' B',
+    ' T',
+    ' Qa',
+    ' Qi',
+    ' Sx',
+    ' Sp'
+  ]),
+
+  formatEveryThirdPower([
+    '',
+    ' M',
+    ' G',
+    ' T',
+    ' P',
+    ' E',
+    ' Z',
+    ' Y'
+  ]),
+  scientificNotation
+];
+
+function fcBeautify (value) {
+  var negative = (value < 0);
+  value = Math.abs(value);
+  var formatter = numberFormatters[FrozenCookies.numberDisplay];
+  var output = formatter(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return negative ? '-' + output : output;
+}
+
+// Runs numbers in upgrades and achievements through our beautify function
+function beautifyUpgradesAndAchievements() {
+  function beautifyFn(str) {
+    return Beautify(parseInt(str.replace(/,/, ''), 10));
+  }
+
+  var numre = /\d\d?\d?(?:,\d\d\d)*/;
+  Game.AchievementsById.forEach(function (ach) {
+    ach.desc = ach.desc.replace(numre, beautifyFn);
+  });
+
+  // These might not have any numbers in them, but just in case...
+  Game.UpgradesById.forEach(function (upg) {
+    upg.desc = upg.desc.replace(numre, beautifyFn);
+  });
 }
 
 function timeDisplay(seconds) {
@@ -140,7 +209,7 @@ function timeDisplay(seconds) {
   days = (days > 0) ? Beautify(days) + 'd ' : '';
   seconds %= (24 * 60 * 60);
   hours = Math.floor(seconds / (60 * 60));
-  hours = (hours > 0) ? Beautify(hours) + 'h ' : '';
+  hours = (hours > 0) ? hours + 'h ' : '';
   seconds %= (60 * 60);
   minutes = Math.floor(seconds / 60);
   minutes = (minutes > 0) ? minutes + 'm ' : '';
@@ -484,7 +553,7 @@ function maxCookieTime() {
 }
 
 function gcPs(gcValue) {
-  var averageGCTime = probabilitySpan(0, 0.5) / Game.fps;
+  var averageGCTime = probabilitySpan('golden', 0, 0.5) / Game.fps;
   gcValue /= averageGCTime;
   gcValue *= FrozenCookies.simulatedGCPercent;
   return gcValue;
@@ -527,7 +596,7 @@ function purchaseEfficiency(price, deltaCps, baseDeltaCps, currentCps) {
 
 function recommendationList(recalculate) {
   if (recalculate) {
-    FrozenCookies.caches.recommendationList = addScores(upgradeStats(recalculate).concat(buildingStats(recalculate)).sort(function(a,b){return (a.efficiency - b.efficiency)}));
+    FrozenCookies.caches.recommendationList = addScores(upgradeStats(recalculate).concat(buildingStats(recalculate)).concat(santaStats()).sort(function(a,b){return (a.efficiency - b.efficiency)}));
   }
   return FrozenCookies.caches.recommendationList;
 //  return upgradeStats(recalculate).concat(buildingStats(recalculate)).sort(function(a,b){return (a.efficiency - b.efficiency)});
@@ -589,8 +658,8 @@ function buildingStats(recalculate) {
       buildingToggle(current, existingAchievements);
       var deltaCps = cpsNew - cpsOrig;
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
-      var efficiency = purchaseEfficiency(current.price, deltaCps, baseDeltaCps, cpsOrig)
-      return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.price, 'purchase' : current, 'type' : 'building'};
+      var efficiency = purchaseEfficiency(current.getPrice(), deltaCps, baseDeltaCps, cpsOrig)
+      return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.getPrice(), 'purchase' : current, 'type' : 'building'};
     });
   }
   return FrozenCookies.caches.buildings;
@@ -626,12 +695,54 @@ function upgradeStats(recalculate) {
   return FrozenCookies.caches.upgrades;
 }
 
+function santaStats() {
+  return {
+    id: 0,
+    efficiency: Infinity,
+    base_delta_cps: 0,
+    delta_cps: 0,
+    cost: cumulativeSantaCost(1),
+    type: 'santa',
+    purchase: {
+      id: 0,
+      name: 'Santa Stage Upgrade (' + Game.santaLevels[(Game.santaLevel + 1) % Game.santaLevels.length] + ')',
+      buy: buySanta,
+      getCost: function() {return cumulativeSantaCost(1);}
+    }
+  }
+}
+
+function totalDiscount() {
+  var price = 1;
+  if (Game.Has('Season savings')) price*=0.99;
+  if (Game.Has('Santa\'s dominion')) price*=0.99;
+  return price;
+}
+
 function cumulativeBuildingCost(basePrice, startingNumber, endingNumber) {
-  return basePrice * (Math.pow(Game.priceIncrease, endingNumber) - Math.pow(Game.priceIncrease, startingNumber)) / (Game.priceIncrease - 1);
+  return basePrice * totalDiscount() * (Math.pow(Game.priceIncrease, endingNumber) - Math.pow(Game.priceIncrease, startingNumber)) / (Game.priceIncrease - 1);
+}
+
+function cumulativeSantaCost(amount) {
+  var total = 0;
+  if (!amount) {
+    
+  } else if (Game.santaLevel + amount < Game.santaLevels.length) {
+    for (var i=Game.santaLevel + 1; i <= Game.santaLevel + amount; i++) {
+      total += Math.pow(i, i);
+    }
+  } else if (amount < Game.santaLevels.length) {
+    for (var i=Game.santaLevel + 1; i <= amount; i++) {
+      total += Math.pow(i, i);
+    }
+  } else {
+    total = Infinity;
+  }
+  return total;
 }
 
 function upgradePrereqCost(upgrade, full) {
-  var cost = upgrade.basePrice;
+  var cost = upgrade.getPrice();
   if (upgrade.unlocked) {
     return cost;
   }
@@ -653,6 +764,7 @@ function upgradePrereqCost(upgrade, full) {
       }
       return sum;
     }, 0);
+    cost += cumulativeSantaCost(prereqs.santa);
   }
   return cost;
 }
@@ -687,7 +799,7 @@ function unfinishedUpgradePrereqs(upgrade) {
       }
     });
     if (prereqs.santa) {
-      needed.push({type:'santa', 'id': -1});
+      needed.push({type:'santa', id: 0});
     }
   }
   return needed.length ? needed : null;
@@ -746,18 +858,27 @@ function buyFunctionToggle(upgrade) {
     
     var ignoreFunctions = [
       /Game\.Lock\('.*'\)/,
-      /Game\.Unlock\('.*'\)/,
+      /Game\.Unlock\(.*\)/,
       /Game\.Objects\['.*'\]\.drawFunction\(\)/,
       /Game\.SetResearch\('.*'\)/,
       /Game\.Upgrades\['.*'\]\.basePrice=.*/,
       /Game\.CollectWrinklers\(\)/,
-      /var drop=choose\(Game\.santaDrops\)/
+      /Game\.RefreshBuildings\(\)/,
+      /Game\.Popup\(.*\)/,
+      /var drop=choose\(Game\.santaDrops\)/,
+      /Game\.computeSeasonPrices\(\)/,
+      /\S/
     ];
     var buyFunctions = upgrade.buyFunction.toString()
       .replace(/\n/g, '')
       .replace(/function\s*\(\)\s*{(.+)\s*}/, "$1")
+      .replace(/for\s*\(.+\)\s*\{.+\}/,'')
+      .replace(/if\s*\(.+\)\s*[^{}]*?\;/,'')
+      .replace(/if\s*\(.+\)\s*\{.+\}/,'')
+      .replace(/\+\+/,'+=1')
+      .replace(/\-\-/,'-=1')
       .split(';')
-      .map(function(a){return a.trim().replace(/\+\+/,'+=1').replace(/\-\-/,'-=1');})
+      .map(function(a){return a.trim();})
       .filter(function(a){
         ignoreFunctions.forEach(function(b){a = a.replace(b,'')});
         return a != '';
@@ -787,6 +908,16 @@ function buyFunctionToggle(upgrade) {
     upgrade.forEach(function(f) {eval(f);});
   }
   return null;
+}
+
+function buySanta() {
+  if (Game.LeftBackground) {
+    Game.mouseX = 48;
+    Game.mouseY = Game.LeftBackground.canvas.height-48-24;
+    Game.Click = 1;
+    Game.UpdateSanta();
+    Game.Click = 0;
+  }
 }
 
 function doTimeTravel() {
@@ -909,7 +1040,11 @@ function autoCookie() {
         FrozenCookies.maxHCPercent = currHCPercent;
       }
       var maxStr = (FrozenCookies.maxHCPercent === currHCPercent) ? ' (!)' : '';
-      logEvent('HC', 'Gained ' + changeAmount + ' Heavenly Chips in ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000) + '.' + maxStr + ' Overall average: ' + currHCPercent + ' HC/hr.');
+      if (Game.frenzy === 0) {
+        logEvent('HC', 'Gained ' + changeAmount + ' Heavenly Chips in ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000) + '.' + maxStr + ' Overall average: ' + currHCPercent + ' HC/hr.');
+      } else {
+        FrozenCookies.hcs_during_frenzy += changeAmount;
+      }
       updateLocalStorage();
     }
     if (FrozenCookies.lastCPS != Game.cookiesPs) {
@@ -926,7 +1061,7 @@ function autoCookie() {
     var targetBank = bestBank(recommendation.efficiency);
     if (FrozenCookies.targetBank.cost != targetBank.cost) {
       FrozenCookies.recalculateCaches = true;
-      logEvent('Bank', 'Target Bank level changed to ' + Beautify(targetBank.cost) + ' cookies.');
+      //logEvent('Bank', 'Target Bank level changed to ' + Beautify(targetBank.cost) + ' cookies.');
       FrozenCookies.targetBank = targetBank;
     }
     var currentCookieCPS = gcPs(cookieValue(currentBank.cost));
@@ -940,7 +1075,7 @@ function autoCookie() {
       FrozenCookies.lastUpgradeCount = currentUpgradeCount;
     }
     if (FrozenCookies.recalculateCaches) {
-      logEvent('Cache', 'Recalculating cached values.');
+      //logEvent('Cache', 'Recalculating cached values.');
       recommendation = nextPurchase(FrozenCookies.recalculateCaches);
       FrozenCookies.recalculateCaches = false;
     }
@@ -979,7 +1114,7 @@ function autoCookie() {
       disabledPopups = false;
 //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
       recommendation.purchase.buy();
-      logEvent('Store', 'Autobought ' + recommendation.purchase.name + ' for ' + Beautify(recommendation.delta_cps) + ' CPS.');
+      logEvent('Store', 'Autobought ' + recommendation.purchase.name + ' for ' + Beautify(recommendation.cost) + ', resulting in ' + Beautify(recommendation.delta_cps) + ' CPS.');
       disabledPopups = true;
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.processing = false;
@@ -990,11 +1125,17 @@ function autoCookie() {
     if (Game.goldenCookie.life && FrozenCookies.autoGC) {
       Game.goldenCookie.click();
     }
+    if (Game.seasonPopup.life > 0 && FrozenCookies.autoReindeer) {
+      Game.seasonPopup.click();
+    }
     if (FrozenCookies.autoBlacklistOff) {
       autoBlacklistOff();
     }
     if ((Game.frenzy > 0) != FrozenCookies.last_gc_state) {
       if (FrozenCookies.last_gc_state) {
+      	logEvent('GC', 'Frenzy ended, cookie production back to normal.');
+        logEvent('HC', 'Frenzy won ' + FrozenCookies.hcs_during_frenzy + ' heavenly chips');
+        FrozenCookies.hcs_during_frenzy = 0;
         FrozenCookies.gc_time += Date.now() - FrozenCookies.last_gc_time;
       } else {
         FrozenCookies.non_gc_time += Date.now() - FrozenCookies.last_gc_time;
