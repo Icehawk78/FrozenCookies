@@ -230,13 +230,18 @@ var blacklist = [
     'buildings': []
   },
   {
-	'upgrades': [182, 183, 184],
-	'buildings': []
+    'upgrades': [181, 182, 183, 184],
+    'buildings': []
   }
 ];
 
 var halloweenCookies = [134,135,136,137,138,139,140];
 var christmasCookies = [143,144,145,146,147,148,149];
+var holidayCookies = {
+  halloween: [134,135,136,137,138,139,140],
+  christmas: [143,144,145,146,147,148,149],
+  valentines: [169,170,171,172,173,174]
+}
 
 var cookieInfo = {
   'clot':        {'odds':[0,0.10386789477947,0.19565417350258,0.279830557040944],                   isOverlap:false},

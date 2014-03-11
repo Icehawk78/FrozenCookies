@@ -36,7 +36,7 @@ function setOverrides() {
   
   // Allow autoCookie to run
   FrozenCookies.processing = false;
-  
+  FrozenCookies.priceReductionTest = false;
   
   FrozenCookies.cookieBot = 0;
   FrozenCookies.autoclickBot = 0;
@@ -590,6 +590,9 @@ function purchaseEfficiency(price, deltaCps, baseDeltaCps, currentCps) {
   var efficiency = Number.POSITIVE_INFINITY;
   if (deltaCps > 0) {
     efficiency = FrozenCookies.efficiencyWeight * divCps(price, currentCps) + divCps(price, deltaCps);
+  } else if (FrozenCookies.priceReductionTest && FrozenCookies.caches.recommendationList.length > 0) {
+    var nextRec = FrozenCookies.caches.recommendationList.filter(function(i){return i.id != Game.Upgrades['Season savings'].id && i.id != Game.Upgrades['Toy workshop']})[0];
+    efficiency = ((nextRec.cost / totalDiscount(nextRec.type == 'building')) - nextRec.cost) > price ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
   }
   return efficiency;
 }
@@ -626,19 +629,27 @@ function addScores(recommendations) {
 function nextPurchase(recalculate) {
   if (recalculate) {
     var recList = recommendationList(recalculate);
-    var purchase = recList[0];
-    if (purchase.type == 'upgrade' && unfinishedUpgradePrereqs(Game.UpgradesById[purchase.id])) {
-      var prereqList = unfinishedUpgradePrereqs(Game.UpgradesById[purchase.id]);
-      purchase = recList.filter(function(a){return prereqList.some(function(b){return b.id == a.id && b.type == a.type})})[0];
+    var purchase = null;
+    for (var i = 0; i < recList.length; i++) {
+      var target = recList[i];
+      if (target.type == 'upgrade' && unfinishedUpgradePrereqs(Game.UpgradesById[target.id])) {
+        var prereqList = unfinishedUpgradePrereqs(Game.UpgradesById[target.id]);
+        purchase = recList.filter(function(a){return prereqList.some(function(b){return b.id == a.id && b.type == a.type})})[0];
+      }
+      if (purchase) {
+        FrozenCookies.caches.nextPurchase = purchase;
+        FrozenCookies.caches.nextChainedPurchase = target;
+        break;
+      }
     }
-    FrozenCookies.caches.nextPurchase = purchase;
   }
   return FrozenCookies.caches.nextPurchase;
 //  return purchase;
 }
 
-function nextChainedPurchase() {
-  return recommendationList()[0];
+function nextChainedPurchase(recalculate) {
+  nextPurchase(recalculate);
+  return FrozenCookies.caches.nextChainedPurchase;
 }
 
 function buildingStats(recalculate) {
@@ -696,7 +707,7 @@ function upgradeStats(recalculate) {
 }
 
 function santaStats() {
-  return {
+  return Game.Has('A festive hat') ? {
     id: 0,
     efficiency: Infinity,
     base_delta_cps: 0,
@@ -709,13 +720,14 @@ function santaStats() {
       buy: buySanta,
       getCost: function() {return cumulativeSantaCost(1);}
     }
-  }
+  } : [];
 }
 
-function totalDiscount() {
+function totalDiscount(building) {
   var price = 1;
-  if (Game.Has('Season savings')) price*=0.99;
-  if (Game.Has('Santa\'s dominion')) price*=0.99;
+  if (Game.Has('Season savings') && building) price *= 0.99;
+  if (Game.Has('Toy workshop') && !building) price *= 0.95;
+  if (Game.Has('Santa\'s dominion')) price *= (building ? 0.99 : 0.98);
   return price;
 }
 
@@ -726,7 +738,7 @@ function cumulativeBuildingCost(basePrice, startingNumber, endingNumber) {
 function cumulativeSantaCost(amount) {
   var total = 0;
   if (!amount) {
-    
+  
   } else if (Game.santaLevel + amount < Game.santaLevels.length) {
     for (var i=Game.santaLevel + 1; i <= Game.santaLevel + amount; i++) {
       total += Math.pow(i, i);
@@ -863,7 +875,8 @@ function buyFunctionToggle(upgrade) {
       /Game\.SetResearch\('.*'\)/,
       /Game\.Upgrades\['.*'\]\.basePrice=.*/,
       /Game\.CollectWrinklers\(\)/,
-      /Game\.RefreshBuildings\(\)/,
+//      /Game\.RefreshBuildings\(\)/,
+//      /Game\.upgradesToRebuild=1/,
       /Game\.Popup\(.*\)/,
       /var drop=choose\(Game\.santaDrops\)/,
       /Game\.computeSeasonPrices\(\)/,
@@ -877,6 +890,8 @@ function buyFunctionToggle(upgrade) {
       .replace(/if\s*\(.+\)\s*\{.+\}/,'')
       .replace(/\+\+/,'+=1')
       .replace(/\-\-/,'-=1')
+      .replace(/Game\.RefreshBuildings\(\)/, 'FrozenCookies.priceReductionTest=true')
+      .replace(/Game\.upgradesToRebuild=1/, 'FrozenCookies.priceReductionTest=true')
       .split(';')
       .map(function(a){return a.trim();})
       .filter(function(a){
@@ -1094,7 +1109,7 @@ function autoCookie() {
         if (popCount) {
           logEvent('Wrinkler', 'Popped ' + popCount + ' wrinklers in attempt to gain cookies.');
         }
-      } else if (Game.wrinklers.reduce(function(sum,w) {return sum + w.sucked * 1.1;}) + Game.cookies >= delayAmount + recommendation.cost) {
+      } else if (Game.wrinklers.reduce(function(sum,w) {return sum + w.sucked * 1.1;}, 0) + Game.cookies >= delayAmount + recommendation.cost) {
         Game.wrinklers.forEach(function(w) {
           if (w.phase) {
             w.hp = 0;
