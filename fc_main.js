@@ -585,14 +585,20 @@ function haveAllHalloween() {
   return _.every(halloweenCookies, function(id) {return Game.UpgradesById[id].unlocked;});
 }
 
+function checkPrices(price) {
+  var efficiency = Infinity;
+  if (FrozenCookies.priceReductionTest && FrozenCookies.caches.recommendationList.length > 0) {
+    var nextRec = FrozenCookies.caches.recommendationList.filter(function(i){return i.id != Game.Upgrades['Season savings'].id && i.id != Game.Upgrades['Toy workshop']})[0];
+    efficiency = ((nextRec.cost / totalDiscount(nextRec.type == 'building')) - nextRec.cost) > price ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
+  }
+  return efficiency;
+}
+
 // Use this for changes to future efficiency calcs
 function purchaseEfficiency(price, deltaCps, baseDeltaCps, currentCps) {
   var efficiency = Number.POSITIVE_INFINITY;
   if (deltaCps > 0) {
     efficiency = FrozenCookies.efficiencyWeight * divCps(price, currentCps) + divCps(price, deltaCps);
-  } else if (FrozenCookies.priceReductionTest && FrozenCookies.caches.recommendationList.length > 0) {
-    var nextRec = FrozenCookies.caches.recommendationList.filter(function(i){return i.id != Game.Upgrades['Season savings'].id && i.id != Game.Upgrades['Toy workshop']})[0];
-    efficiency = ((nextRec.cost / totalDiscount(nextRec.type == 'building')) - nextRec.cost) > price ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY;
   }
   return efficiency;
 }
@@ -688,6 +694,7 @@ function upgradeStats(recalculate) {
         if (upgradeBlacklist === true || _.contains(upgradeBlacklist, current.id) || (!current.unlocked && !needed)) {
           return null;
         }
+        var cost = upgradePrereqCost(current);
         var baseCpsOrig = baseCps();
         var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
         var existingAchievements = Game.AchievementsById.map(function(item){return item.won});
@@ -695,12 +702,12 @@ function upgradeStats(recalculate) {
         var reverseFunctions = upgradeToggle(current);
         var baseCpsNew = baseCps();
         var cpsNew = baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
+        var priceReductionTest = checkPrices(cost);
         upgradeToggle(current, existingAchievements, reverseFunctions);
         Game.elderWrath = existingWrath;
         var deltaCps = cpsNew - cpsOrig;
         var baseDeltaCps = baseCpsNew - baseCpsOrig;
-        var cost = upgradePrereqCost(current);
-        var efficiency = purchaseEfficiency(cost, deltaCps, baseDeltaCps, cpsOrig)
+        var efficiency = (priceReductionTest < 0) ? priceReductionTest : purchaseEfficiency(cost, deltaCps, baseDeltaCps, cpsOrig)
         return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : cost, 'purchase' : current, 'type' : 'upgrade'};
       }
     }).filter(function(a){return a;});
