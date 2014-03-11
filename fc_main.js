@@ -1131,7 +1131,8 @@ function autoCookie() {
       }
     }
     
-    if (FrozenCookies.autoBuy && (Game.cookies >= delayAmount() + recommendation.cost) && (nextChainedPurchase().delta_cps > 0)) {
+    if (FrozenCookies.autoBuy && (Game.cookies >= delayAmount() + recommendation.cost) && (nextChainedPurchase().delta_cps >= 0)) {
+//    if (FrozenCookies.autoBuy && (Game.cookies >= delayAmount() + recommendation.cost)) {
       recommendation.time = Date.now() - Game.startDate;
 //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
       recommendation.purchase.clickFunction = null;
