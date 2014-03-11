@@ -635,6 +635,8 @@ function nextPurchase(recalculate) {
       if (target.type == 'upgrade' && unfinishedUpgradePrereqs(Game.UpgradesById[target.id])) {
         var prereqList = unfinishedUpgradePrereqs(Game.UpgradesById[target.id]);
         purchase = recList.filter(function(a){return prereqList.some(function(b){return b.id == a.id && b.type == a.type})})[0];
+      } else {
+        purchase = target;
       }
       if (purchase) {
         FrozenCookies.caches.nextPurchase = purchase;
