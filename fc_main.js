@@ -992,7 +992,7 @@ function saveStats() {
 
 function viewStatGraphs() {
   var containerDiv = $('#statGraphContainer').length ? 
-    $('#statGraphContainer') : 
+    $('#statGraphContainer').show() : 
     $('<div>').attr('id', 'statGraphContainer')
       .html($('<div>')
       .attr('id', 'statGraphs'))
