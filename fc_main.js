@@ -1018,7 +1018,9 @@ function viewStatGraphs() {
             }
           },
           yaxis: {
-            padMin: 0
+            padMin: 0,
+            renderer: $.jqplot.LogAxisRenderer,
+            tickDistribution: 'even',
           },
           y2axis: {
             padMin: 0,

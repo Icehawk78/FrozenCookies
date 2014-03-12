@@ -20,7 +20,9 @@ var script_list = [
     '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasTextRenderer.min.js',
     '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasAxisLabelRenderer.min.js',
     '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasAxisTickRenderer.min.js',
-    '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.categoryAxisRenderer.min.js',
+    '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.highlighter.min.js',
+    '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.logAxisRenderer.min.js',
+    '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.cursor.min.js',
     FrozenCookies.baseUrl + '/cc_upgrade_prerequisites.js',
     FrozenCookies.baseUrl + '/fc_main.js',
     FrozenCookies.baseUrl + '/fc_button.js'
