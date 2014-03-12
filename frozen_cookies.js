@@ -19,6 +19,7 @@ var script_list = [
     '//cdn.jsdelivr.net/jquery.jcanvas/13.04.26/jcanvas.min.js',
     '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasTextRenderer.min.js',
     '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasAxisLabelRenderer.min.js',
+    '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasAxisTickRenderer.min.js',
     '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.categoryAxisRenderer.min.js',
     FrozenCookies.baseUrl + '/cc_upgrade_prerequisites.js',
     FrozenCookies.baseUrl + '/fc_main.js',

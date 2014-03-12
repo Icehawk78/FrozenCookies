@@ -1007,7 +1007,16 @@ function viewStatGraphs() {
     var graphs = $.jqplot('statGraphs', transpose(FrozenCookies.trackedStats.map(function(s) {return [s.baseCps, s.effectiveCps, s.hc]})),
       {
         legend: {show: true},
-        axesDefaults: {ticks: FrozenCookies.trackedStats.map(function(s) {return [s.time, timeDisplay(s.time / 1000)]})},
+        axes: {
+          xaxis: {
+            tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+            tickOptions: {
+              angle: -30,
+              fontSize: '10pt'
+            }
+            ticks: FrozenCookies.trackedStats.map(function(s) {return [s.time, timeDisplay(s.time / 1000)]})
+          }
+        }
         series: [{label: 'Base CPS'},{label:'Effective CPS'},{label:'Earned HC'}]
       });
   }
