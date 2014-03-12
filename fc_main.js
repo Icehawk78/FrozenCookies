@@ -1027,10 +1027,11 @@ function viewStatGraphs() {
   }
   if (FrozenCookies.trackedStats.length > 0 && (Date.now() - FrozenCookies.lastGraphDraw) > 1000) {
     FrozenCookies.lastGraphDraw = Date.now();
-    $('#statGraphs').empty().attr('style', 'height:' + containerDiv.height() + ';width:' + containerDiv.width() + ';');
+    $('#statGraphs').empty();
     var graphs = $.jqplot('statGraphs', transpose(FrozenCookies.trackedStats.map(function(s) {return [[s.time / 1000, s.baseCps], [s.time / 1000, s.effectiveCps], [s.time / 1000, s.hc]]})),  // 
       {
         legend: {show: true},
+        height: containerDiv.height() - 50,
         axes: {
           xaxis: {
             tickRenderer: $.jqplot.CanvasAxisTickRenderer,
