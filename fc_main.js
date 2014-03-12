@@ -1031,6 +1031,7 @@ function viewStatGraphs() {
     var graphs = $.jqplot('statGraphs', transpose(FrozenCookies.trackedStats.map(function(s) {return [[s.time / 1000, s.baseCps], [s.time / 1000, s.effectiveCps], [s.time / 1000, s.hc]]})),  // 
       {
         legend: {show: true},
+        height: containerDiv.height(),
         axes: {
           xaxis: {
             tickRenderer: $.jqplot.CanvasAxisTickRenderer,
@@ -1045,11 +1046,15 @@ function viewStatGraphs() {
             padMin: 0,
             renderer: $.jqplot.LogAxisRenderer,
             tickDistribution: 'even',
+            tickOptions: {
+              formatter: function(ah,ai) {return Beautify(ai);}
+            }
           },
           y2axis: {
             padMin: 0,
             tickOptions: {
-              showGridline: false
+              showGridline: false,
+              formatter: function(ah,ai) {return Beautify(ai);}
             }
           }
         },
