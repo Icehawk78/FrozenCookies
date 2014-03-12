@@ -34,6 +34,7 @@ function setOverrides() {
   FrozenCookies.targetBank = {'cost': 0, 'efficiency' : 0};
   FrozenCookies.disabledPopups = true;
   FrozenCookies.trackedStats = [];
+  FrozenCookies.lastGraphDraw = 0;
   
   // Allow autoCookie to run
   FrozenCookies.processing = false;
@@ -992,7 +993,7 @@ function saveStats() {
 
 function viewStatGraphs() {
   var containerDiv = $('#statGraphContainer').length ? 
-    $('#statGraphContainer').dialog() : 
+    $('#statGraphContainer') : 
     $('<div>').attr('id', 'statGraphContainer')
       .html($('<div>')
       .attr('id', 'statGraphs'))
@@ -1003,7 +1004,11 @@ function viewStatGraphs() {
         width:$(window).width() * 0.8, 
         height:$(window).height() * 0.8
       });
-  if (FrozenCookies.trackedStats.length > 0) {
+  if (containerDiv.is(':hidden')) {
+    containerDiv.dialog();
+  }
+  if (FrozenCookies.trackedStats.length > 0 && (Date.now() - FrozenCookies.lastGraphDraw) > 1000) {
+    FrozenCookies.lastGraphDraw = Date.now();
     $('#statGraphs').empty();
     var graphs = $.jqplot('statGraphs', transpose(FrozenCookies.trackedStats.map(function(s) {return [[s.time / 1000, s.baseCps], [s.time / 1000, s.effectiveCps], [s.time / 1000, s.hc]]})),  // 
       {
@@ -1238,7 +1243,7 @@ function autoCookie() {
       disabledPopups = false;
 //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
       recommendation.purchase.buy();
-      if (FrozenCookies.trackStats == 5) {
+      if (FrozenCookies.trackStats == 5 && recommendation.type == 'upgrade') {
         saveStats();
       }
       logEvent('Store', 'Autobought ' + recommendation.purchase.name + ' for ' + Beautify(recommendation.cost) + ', resulting in ' + Beautify(recommendation.delta_cps) + ' CPS.');
