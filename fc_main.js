@@ -991,7 +991,7 @@ function saveStats() {
 }
 
 function viewStatGraphs() {
-  var containerDiv = $('#statsGraphContainer').length ? $('#statGraphContainer') : $('<div>').attr({id: 'statGraphContainer'}).html($('<div>').attr({id: 'statGraphs'}).dialog({modal:true, title: 'Frozen Cookies Tracked Stats', width:$(window).width() * 0.8, height:$(window).height() * 0.8});
+  var containerDiv = $('#statsGraphContainer').length ? $('#statGraphContainer') : $('<div>').attr({id: 'statGraphContainer'}).html($('<div>').attr({id: 'statGraphs'})).dialog({modal:true, title: 'Frozen Cookies Tracked Stats', width:$(window).width() * 0.8, height:$(window).height() * 0.8});
   var graphs = ($('#statGraphContainer').length) ? $.jqplot('statGraphs', [new Array(3)],
     {
       legend: {show: true},
