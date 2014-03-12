@@ -1001,7 +1001,7 @@ function viewStatGraphs() {
         title: 'Frozen Cookies Tracked Stats', 
         close: function(event, ui) {
           $(event.target).unload();
-        }
+        },
         width:$(window).width() * 0.8, 
         height:$(window).height() * 0.8
       });
