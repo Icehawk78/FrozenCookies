@@ -985,7 +985,7 @@ function saveStats() {
     effectiveCps: effectiveCps(),
     hc: Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)
   });
-  if ($('#statGraphContainer').length > 0) {
+  if ($('#statGraphContainer').length > 0 && !$('#statGraphContainer').is(':hidden')) {
     viewStatGraphs();
   }
 }
