@@ -1013,7 +1013,7 @@ function viewStatGraphs() {
             tickOptions: {
               angle: -30,
               fontSize: '10pt'
-            }
+            },
             ticks: FrozenCookies.trackedStats.map(function(s) {return [s.time, timeDisplay(s.time / 1000)]})
           }
         }
