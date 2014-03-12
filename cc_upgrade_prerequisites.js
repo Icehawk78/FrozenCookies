@@ -62,7 +62,7 @@ FrozenCookies.preferenceValues = {
     'display':['Tracking OFF', 'Every 60s', 'Every 30m', 'Every 1h', 'Every 24h', 'Every purchase'],
     'default':0,
     'extras':'<a class="option" id="viewStats" onclick="viewStatGraphs();">View Stat Graphs</a>'
-  }
+  },
   'numberDisplay':{
     'hint':'Change how numbers are shortened',
     'display':["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"],
