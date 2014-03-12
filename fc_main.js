@@ -1004,6 +1004,7 @@ function viewStatGraphs() {
         height:$(window).height() * 0.8
       });
   if (FrozenCookies.trackedStats.length > 0) {
+    $('#statGraphs').empty();
     var graphs = $.jqplot('statGraphs', transpose(FrozenCookies.trackedStats.map(function(s) {return [[s.time / 1000, s.baseCps], [s.time / 1000, s.effectiveCps], [s.time / 1000, s.hc]]})),  // 
       {
         legend: {show: true},
