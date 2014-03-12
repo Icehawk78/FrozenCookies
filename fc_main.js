@@ -1045,11 +1045,15 @@ function viewStatGraphs() {
             padMin: 0,
             renderer: $.jqplot.LogAxisRenderer,
             tickDistribution: 'even',
+            tickOptions: {
+              formatter: function(ah,ai) {return Beautify(ai);}
+            }
           },
           y2axis: {
             padMin: 0,
             tickOptions: {
-              showGridline: false
+              showGridline: false,
+              formatter: function(ah,ai) {return Beautify(ai);}
             }
           }
         },
