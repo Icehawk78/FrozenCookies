@@ -993,9 +993,10 @@ function saveStats() {
 function viewStatGraphs() {
   var containerDiv = $('#statsGraphContainer').length ? 
     $('#statGraphContainer') : 
-    $('<div>').attr({id: 'statGraphContainer'})
+    $('<div>').attr('id', 'statGraphContainer')
       .html($('<div>')
-      .attr({id: 'statGraphs'}))
+      .attr('id', 'statGraphs'))
+      .appendTo('body')
       .dialog({
         modal:true, 
         title: 'Frozen Cookies Tracked Stats',
