@@ -992,13 +992,15 @@ function saveStats() {
 
 function viewStatGraphs() {
   var containerDiv = $('#statsGraphContainer').length ? $('#statGraphContainer') : $('<div>').attr({id: 'statGraphContainer'}).html($('<div>').attr({id: 'statGraphs'})).dialog({modal:true, title: 'Frozen Cookies Tracked Stats', width:$(window).width() * 0.8, height:$(window).height() * 0.8});
-  var graphs = $.jqplot('statGraphs', transpose(FrozenCookies.trackedStats.map(function(s) {return [s.baseCps, s.effectiveCps, s.hc]})),
-    {
-      legend: {show: true},
-      axesDefaults: {ticks: FrozenCookies.trackedStats.map(function(s) {return [s.time, timeDisplay(s.time)]})},
-      series: [{label: 'Base CPS'},{label:'Effective CPS'},{label:'Earned HC'}]
-    });
-  graphs.redraw();
+  if (FrozenCookies.trackedStats.length > 0) {
+    var graphs = $.jqplot('statGraphs', transpose(FrozenCookies.trackedStats.map(function(s) {return [s.baseCps, s.effectiveCps, s.hc]})),
+      {
+        legend: {show: true},
+        axesDefaults: {ticks: FrozenCookies.trackedStats.map(function(s) {return [s.time, timeDisplay(s.time)]})},
+        series: [{label: 'Base CPS'},{label:'Effective CPS'},{label:'Earned HC'}]
+      });
+    graphs.redraw();
+  }
 }
 
 function doTimeTravel() {
