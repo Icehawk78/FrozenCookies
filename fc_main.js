@@ -1016,7 +1016,7 @@ function viewStatGraphs() {
             },
             ticks: FrozenCookies.trackedStats.map(function(s) {return [s.time, timeDisplay(s.time / 1000)]})
           }
-        }
+        },
         series: [{label: 'Base CPS'},{label:'Effective CPS'},{label:'Earned HC'}]
       });
   }
