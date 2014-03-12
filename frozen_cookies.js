@@ -40,7 +40,8 @@ function fcInit() {
   jquery.setAttribute('src', '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
   jquery.onload = function() {
     script_list.forEach(function(url,id){
-      do {} while (id < done);
+      var wasteful = Date.now();
+      do {wasteful = Date.now();} while (id < done);
       if (/\.js/.exec(url)) {
         $.getScript(url,function() {
           done++;
