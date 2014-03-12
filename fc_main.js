@@ -991,7 +991,20 @@ function saveStats() {
 }
 
 function viewStatGraphs() {
-  var containerDiv = $('#statsGraphContainer').length ? $('#statGraphContainer') : $('<div>').attr({id: 'statGraphContainer'}).html($('<div>').attr({id: 'statGraphs'})).dialog({modal:true, title: 'Frozen Cookies Tracked Stats', width:$(window).width() * 0.8, height:$(window).height() * 0.8});
+  var containerDiv = $('#statsGraphContainer').length ? 
+    $('#statGraphContainer') : 
+    $('<div>').attr({id: 'statGraphContainer'})
+      .html($('<div>')
+      .attr({id: 'statGraphs'}))
+      .dialog({
+        modal:true, 
+        title: 'Frozen Cookies Tracked Stats', 
+        close: function(event, ui) {
+          $(event.target).unload();
+        }
+        width:$(window).width() * 0.8, 
+        height:$(window).height() * 0.8
+      });
   if (FrozenCookies.trackedStats.length > 0) {
     var graphs = $.jqplot('statGraphs', transpose(FrozenCookies.trackedStats.map(function(s) {return [s.baseCps, s.effectiveCps, s.hc]})),
       {
