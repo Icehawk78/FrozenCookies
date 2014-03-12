@@ -26,13 +26,13 @@ function fcInit() {
       '//cdn.jsdelivr.net/underscorejs/1.6.0/underscore-min.js',
       '//cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js',
       '//cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css',
-      FrozenCookies.baseUrl + '/cc_upgrade_prerequisites.js',
-      FrozenCookies.baseUrl + '/fc_main.js',
-      FrozenCookies.baseUrl + '/fc_button.js'
       '//cdn.jsdelivr.net/jquery.jcanvas/13.04.26/jcanvas.min.js',
       '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasTextRenderer.min.js',
       '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasAxisLabelRenderer.min.js',
       '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.categoryAxisRenderer.min.js',
+      FrozenCookies.baseUrl + '/cc_upgrade_prerequisites.js',
+      FrozenCookies.baseUrl + '/fc_main.js',
+      FrozenCookies.baseUrl + '/fc_button.js'
     ],
     jquery = document.createElement('script');
 
