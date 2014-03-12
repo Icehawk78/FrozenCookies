@@ -997,7 +997,7 @@ function viewStatGraphs() {
       legend: {show: true},
       axesDefaults: {ticks: FrozenCookies.trackedStats.map(function(s) {return [s.time, timeDisplay(s.time)]})},
       series: [{label: 'Base CPS'},{label:'Effective CPS'},{label:'Earned HC'}]
-    }) : $.jqplot('statGraphs');
+    });
   graphs.redraw();
 }
 
