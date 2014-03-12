@@ -21,9 +21,15 @@ FrozenCookies.loadInterval = setInterval(function() {
 function fcInit() {
   var done = 0,
     script_list = [
-      'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
-      'http://underscorejs.org/underscore-min.js',
-      FrozenCookies.baseUrl + '/jcanvas.min.js',
+      '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js',
+      '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css',
+      '//cdn.jsdelivr.net/underscorejs/1.6.0/underscore-min.js',
+      '//cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js',
+      '//cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css',
+      '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasTextRenderer.min.js',
+      '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasAxisLabelRenderer.min.js',
+      '//cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.categoryAxisRenderer.min.js',
+      '//cdn.jsdelivr.net/jquery.jcanvas/13.04.26/jcanvas.min.js',
       FrozenCookies.baseUrl + '/cc_upgrade_prerequisites.js',
       FrozenCookies.baseUrl + '/fc_main.js',
       FrozenCookies.baseUrl + '/fc_button.js'
@@ -31,17 +37,22 @@ function fcInit() {
     jquery = document.createElement('script');
 
   jquery.setAttribute('type', 'text/javascript');
-  jquery.setAttribute('src', 'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
+  jquery.setAttribute('src', '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
   jquery.onload = function() {
     script_list.forEach(function(url,id){
-      $.getScript(url,function() {
+      if (/\.js/.exec(url)) {
+        $.getScript(url,function() {
+          done++;
+          if (done>=script_list.length)
+          {
+            setOverrides();
+            FCStart();
+          }
+        });
+      } else if (/\.css$/.exec(url)) {
+        $('<link>').attr({rel: 'stylesheet', type: 'text/css', href: url}).appendTo($('head'));
         done++;
-        if (done>=script_list.length)
-        {
-          setOverrides();
-          FCStart();
-        }
-      });
+      }
     });
   };
   document.head.appendChild(jquery);

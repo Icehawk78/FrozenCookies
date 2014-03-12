@@ -33,6 +33,7 @@ function setOverrides() {
   FrozenCookies.currentBank = {'cost': 0, 'efficiency' : 0};
   FrozenCookies.targetBank = {'cost': 0, 'efficiency' : 0};
   FrozenCookies.disabledPopups = true;
+  FrozenCookies.trackedStats = [];
   
   // Allow autoCookie to run
   FrozenCookies.processing = false;
@@ -44,7 +45,6 @@ function setOverrides() {
   FrozenCookies.frenzyClickBot = 0;
   
   // Caching
-  
   FrozenCookies.recalculateCaches = true;
   FrozenCookies.caches = {};
   FrozenCookies.caches.nextPurchase = {};
@@ -406,6 +406,10 @@ function baseClickingCps(clickSpeed) {
   return clickSpeed * cpc;
 }
 
+function effectiveCps() {
+  return baseCps() + gcPs(cookieValue(delayAmount())) + baseClickingCps(FrozenCookies.cookieClickSpeed) + reindeerCps();
+}
+
 function cookieValue(bankAmount) {
   var cps = baseCps();
   var clickCps = baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
@@ -413,13 +417,15 @@ function cookieValue(bankAmount) {
   var luckyMod = Game.Has('Get lucky') ? 2 : 1;
   var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1
   var wrathValue = Game.elderWrath;
+  
+  var wrinklerMod = (wrathValue && FrozenCookies.autoWrinkler && haveAllHalloween()) ? 6 : 1;
   var value = 0;
   // Clot
-  value -= cookieInfo.clot.odds[wrathValue] * (cps + clickCps) * luckyMod * 66 * 0.5;
+  value -= cookieInfo.clot.odds[wrathValue] * (cps + clickCps) * luckyMod * wrinklerMod * 66 * 0.5;
   // Frenzy
-  value += cookieInfo.frenzy.odds[wrathValue] * (cps + clickCps) * luckyMod * 77 * 7;
+  value += cookieInfo.frenzy.odds[wrathValue] * (cps + clickCps) * luckyMod * wrinklerMod * 77 * 7;
   // Blood
-  value += cookieInfo.blood.odds[wrathValue] * (cps + clickCps) * luckyMod * 666 * 6;
+  value += cookieInfo.blood.odds[wrathValue] * (cps + clickCps) * luckyMod * wrinklerMod * 666 * 6;
   // Chain
   value += cookieInfo.chain.odds[wrathValue] * calculateChainValue(bankAmount, cps, (7 - (wrathValue / 3)));
   // Ruin
@@ -437,12 +443,21 @@ function cookieValue(bankAmount) {
   // Click
   value += cookieInfo.click.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777;
   // Frenzy + Click
-  value += cookieInfo.click.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 7;
+  value += cookieInfo.frenzyClick.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 7;
   // Clot + Click
-  value += cookieInfo.click.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 0.5;
+  value += cookieInfo.clotClick.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 0.5;
   // Blah
   value += 0;
   return value;
+}
+
+function reindeerValue() {
+  return Math.max(25, baseCps() * (Game.Has('Ho ho ho-flavored frosting') ? 2 : 1) * 60);
+}
+
+function reindeerCps() {
+  var averageTime = probabilitySpan('reindeer', 0, 0.5) / Game.fps;
+  return reindeerValue() / averageTime * FrozenCookies.simulatedGCPercent;
 }
 
 function calculateChainValue(bankAmount, cps, digit) { 
@@ -944,12 +959,58 @@ function buySanta() {
   }
 }
 
+function statSpeed() {
+  var speed = 0;
+  switch (FrozenCookies.trackStats) {
+    case 1: // 60s
+      speed = 1000 * 60; 
+      break;
+    case 2: // 30m
+      speed = 1000 * 60 * 30;
+      break;
+    case 3: // 1h
+      speed = 1000 * 60 * 60;
+      break;
+    case 4: // 24h
+      speed = 1000 * 60 * 60 * 24;
+      break;
+  }
+  return speed;
+}
+
+function saveStats() {
+  FrozenCookies.trackedStats.push({
+    time: Date.now() - Game.startDate,
+    baseCps: baseCps(),
+    effectiveCps: effectiveCps(),
+    hc: Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)
+  });
+  if ($('#statGraphContainer').length > 0) {
+    viewStatGraphs();
+  }
+}
+
+function viewStatGraphs() {
+  var containerDiv = $('#statsGraphContainer').length ? $('#statGraphContainer') : $('<div>').attr({id: 'statGraphContainer'}).html($('<div>').attr({id: 'statGraphs'}).dialog({modal:true, title: 'Frozen Cookies Tracked Stats', width:$(window).width() * 0.8, height:$(window).height() * 0.8});
+  var graphs = ($('#statGraphContainer').length) ? $.jqplot('statGraphs', [new Array(3)],
+    {
+      legend: {show: true},
+      series: [{label: 'Base CPS'},{label:'Effective CPS'},{label:'Earned HC'}]
+    }) : $.jqplot('statGraphs');
+  graphs.axesDefaults.ticks = FrozenCookies.trackedStats.map(function(s) {return [s.time, timeDisplay(s.time)]});
+  var data = FrozenCookies.trackedStats.map(function(s) {return [s.baseCps, s.effectiveCps, s.hc]}).transpose();
+  graphs.series.forEach(function(s,i){
+    s.data = data[i];
+  });
+  graphs.redraw();
+}
+
 function doTimeTravel() {
 //  'Time Travel DISABLED','Purchases by Estimated Effective CPS','Purchases by Simulated Real Time','Heavenly Chips by Estimated Effective CPS','Heavenly Chips by Simulated Real Time'
   if (FrozenCookies.timeTravelMethod) {
     // Estimated Effective CPS
     if (timeTravelMethod % 2 === 1) {
-      var fullCps = baseCps() + gcPs(cookieValue(delayAmount())) + baseClickingCps(FrozenCookies.cookieClickSpeed);
+      var fullCps = effectiveCps();
       if (fullCps) {
         var neededCookies = 0;
         if (timeTravelMethod === 1) {
@@ -965,7 +1026,7 @@ function doTimeTravel() {
     FrozenCookies.timeTravelAmount = 0;
   }
 /*
-  var fullCps = baseCps() + gcPs(cookieValue(delayAmount())) + baseClickingCps(FrozenCookies.cookieClickSpeed);
+  var fullCps = effectiveCps();
   if (fullCps > 0) {
     var neededCookies = Math.max(0, recommendation.cost + delayAmount() - Game.cookies);
     var time = neededCookies / fullCps;
@@ -1019,6 +1080,40 @@ function inRect(x,y,rect) {
 	var y2 = Math.sin(newA) * h1;
 	return (x2 > -0.5 * rect.w && x2 < 0.5 * rect.w && y2 > -0.5 * rect.h && y2 < 0.5 * rect.h);
 }
+
+Array.prototype.transpose = function() {
+
+  // Calculate the width and height of the Array
+  var a = this,
+    w = a.length ? a.length : 0,
+    h = a[0] instanceof Array ? a[0].length : 0;
+
+  // In case it is a zero matrix, no transpose routine needed.
+  if(h === 0 || w === 0) { return []; }
+
+  /**
+   * @var {Number} i Counter
+   * @var {Number} j Counter
+   * @var {Array} t Transposed data is stored in this array.
+   */
+  var i, j, t = [];
+
+  // Loop through every item in the outer array (height)
+  for(i=0; i<h; i++) {
+
+    // Insert a new row (array)
+    t[i] = [];
+
+    // Loop through every item per item in outer array (width)
+    for(j=0; j<w; j++) {
+
+      // Save transposed data.
+      t[i][j] = a[j][i];
+    }
+  }
+
+  return t;
+};
 
 // Unused
 function shouldClickGC() {
@@ -1139,6 +1234,9 @@ function autoCookie() {
       disabledPopups = false;
 //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
       recommendation.purchase.buy();
+      if (FrozenCookies.trackStats == 5) {
+        
+      }
       logEvent('Store', 'Autobought ' + recommendation.purchase.name + ' for ' + Beautify(recommendation.cost) + ', resulting in ' + Beautify(recommendation.delta_cps) + ' CPS.');
       disabledPopups = true;
       FrozenCookies.recalculateCaches = true;
@@ -1208,6 +1306,9 @@ function FCStart() {
     FrozenCookies.frenzyClickBot = setInterval(autoFrenzyClick, FrozenCookies.frequency);
   }
   
+  if (statSpeed(FrozenCookies.trackStats) > 0) {
+    FrozenCookies.statBot = setInterval(saveStats, statSpeed(FrozenCookies.trackStats));
+  }
   
   FCMenu();
 }
