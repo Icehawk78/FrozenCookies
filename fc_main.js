@@ -778,6 +778,24 @@ function cumulativeSantaCost(amount) {
   return total;
 }
 
+function cumulativeSantaCost(amount) {
+  var total = 0;
+  if (!amount) {
+    
+  } else if (Game.santaLevel + amount < Game.santaLevels.length) {
+    for (var i=Game.santaLevel + 1; i <= Game.santaLevel + amount; i++) {
+      total += Math.pow(i, i);
+    }
+  } else if (amount < Game.santaLevels.length) {
+    for (var i=Game.santaLevel + 1; i <= amount; i++) {
+      total += Math.pow(i, i);
+    }
+  } else {
+    total = Infinity;
+  }
+  return total;
+}
+
 function upgradePrereqCost(upgrade, full) {
   var cost = upgrade.getPrice();
   if (upgrade.unlocked) {
@@ -788,9 +806,9 @@ function upgradePrereqCost(upgrade, full) {
     cost += prereqs.buildings.reduce(function(sum,item,index) {
       var building = Game.ObjectsById[index];
       if (item && full) {
-        sum += cumulativeBuildingCost(building.basePrice, 0, item);
+        sum += cumulativeBuildingCost(building.getPrice(), 0, item);
       } else if (item && building.amount < item) {
-        sum += cumulativeBuildingCost(building.basePrice, building.amount, item);
+        sum += cumulativeBuildingCost(building.getPrice(), building.amount, item);
       }
       return sum;
     },0);
