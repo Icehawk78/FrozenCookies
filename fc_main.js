@@ -993,7 +993,7 @@ function saveStats() {
 function viewStatGraphs() {
   var containerDiv = $('#statsGraphContainer').length ? 
     $('#statGraphContainer') : 
-    $('<div>').attr({id: 'statGraphContainer', style: 'z-index: 1000000'})
+    $('<div>').attr({id: 'statGraphContainer'})
       .html($('<div>')
       .attr({id: 'statGraphs'}))
       .dialog({

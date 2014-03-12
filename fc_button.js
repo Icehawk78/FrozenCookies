@@ -15,7 +15,8 @@ $('<style type="text/css">')
   '.bad {border-width:1px; border-style:solid; border-color:#660033;}' +
   '.average {border-width:1px; border-style:solid; border-color:#663399;}' +
   '.good {border-width:1px; border-style:solid; border-color:#3399FF;}' +
-  '.best {border-width:1px; border-style:solid; border-color:#00FFFF;}'
+  '.best {border-width:1px; border-style:solid; border-color:#00FFFF;}' +
+  '.ui-dialog {z-index:1000000;}'
   )
   .appendTo('head');
 
