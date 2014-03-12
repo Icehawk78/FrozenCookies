@@ -1004,7 +1004,7 @@ function viewStatGraphs() {
         height:$(window).height() * 0.8
       });
   if (FrozenCookies.trackedStats.length > 0) {
-    var graphs = $.jqplot('statGraphs', transpose(FrozenCookies.trackedStats.map(function(s) {return [s.baseCps, s.effectiveCps, s.hc]})),
+    var graphs = $.jqplot('statGraphs', transpose(FrozenCookies.trackedStats.map(function(s) {return [[s.time / 1000, s.baseCps], [s.time / 1000, s.effectiveCps], [s.time / 1000, s.hc]]})),  // 
       {
         legend: {show: true},
         axes: {
@@ -1012,15 +1012,19 @@ function viewStatGraphs() {
             tickRenderer: $.jqplot.CanvasAxisTickRenderer,
             tickOptions: {
               angle: -30,
-              fontSize: '10pt'
-            },
-            ticks: FrozenCookies.trackedStats.map(function(s) {return [s.time, timeDisplay(s.time / 1000)]})
+              fontSize: '10pt',
+              showGridline: false,
+              formatter: function(ah,ai) {return timeDisplay(ai);}
+            }
           },
           yaxis: {
             padMin: 0
           },
           y2axis: {
-            padMin: 0
+            padMin: 0,
+            tickOptions: {
+              showGridline: false
+            }
           }
         },
         highlighter: {
