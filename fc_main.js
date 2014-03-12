@@ -1017,11 +1017,15 @@ function viewStatGraphs() {
             ticks: FrozenCookies.trackedStats.map(function(s) {return [s.time, timeDisplay(s.time / 1000)]})
           },
           yaxis: {
-            min: 0
+            padMin: 0
           },
           y2axis: {
-            min: 0
+            padMin: 0
           }
+        },
+        highlighter: {
+          show: true,
+          sizeAdjust: 15
         },
         series: [{label: 'Base CPS'},{label:'Effective CPS'},{label:'Earned HC', yaxis: 'y2axis'}]
       });
