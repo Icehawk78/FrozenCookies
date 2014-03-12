@@ -11,12 +11,12 @@
 
 // Dev:       https://raw.github.com/Icehawk78/FrozenCookies/development/
 // Master:    https://raw.github.com/Icehawk78/FrozenCookies/master/
-// Github.io: http://icehawk78.github.com/FrozenCookies/
+// Github.io: http://icehawk78.github.io/FrozenCookies/
 
 function LoadFrozenCookies() {
   var js = document.createElement('script');
   js.setAttribute('type', 'text/javascript');
-  js.setAttribute('src', 'http://icehawk78.github.com/FrozenCookies/frozen_cookies.js');
+  js.setAttribute('src', 'http://icehawk78.github.io/FrozenCookies/frozen_cookies.js');
   document.head.appendChild(js);
 }
 // It's not the best way but Chrome doesn't work with addEventListener... :(
