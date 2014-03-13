@@ -806,9 +806,9 @@ function upgradePrereqCost(upgrade, full) {
     cost += prereqs.buildings.reduce(function(sum,item,index) {
       var building = Game.ObjectsById[index];
       if (item && full) {
-        sum += cumulativeBuildingCost(building.getPrice(), 0, item);
+        sum += cumulativeBuildingCost(building.basePrice, 0, item);
       } else if (item && building.amount < item) {
-        sum += cumulativeBuildingCost(building.getPrice(), building.amount, item);
+        sum += cumulativeBuildingCost(building.basePrice, building.amount, item);
       }
       return sum;
     },0);
@@ -1313,6 +1313,10 @@ function FCStart() {
   if (FrozenCookies.autoclickBot) {
     clearInterval(FrozenCookies.autoclickBot);
     FrozenCookies.autoclickBot = 0;
+  }
+  if (FrozenCookies.statBot) {
+    clearInterval(FrozenCookies.statBot);
+    FrozenCookies.statBot = 0;
   }
 // Remove until timing issues are fixed
 //  if (FrozenCookies.goldenCookieBot) {
