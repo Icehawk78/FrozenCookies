@@ -41,11 +41,16 @@ FrozenCookies.preferenceValues = {
     'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist', 'Grandmapocalypse Mode', 'Manual Seasons'],
     'default':0
   },
-  'timeTravelMethod':{
+/*  'timeTravelMethod':{
     'hint':'Time travel is unstable. This determines how time travel works. If you\'re unsure, don\'t touch this.',
     'display':['Time Travel DISABLED'],//,'Purchases by Estimated Effective CPS','Purchases by Simulated Real Time','Heavenly Chips by Estimated Effective CPS','Heavenly Chips by Simulated Real Time'],
     'default':0,
     'extras':'<a class="option" id="timeTravelPurchases" onclick="updateTimeTravelAmount();">Set Time Travel Amount</a>'
+  },*/
+  'saveWrinklers':{
+    'hint':'Store wrinkler information in FC upon game save, and restore wrinklers upon game load. (This is essentially only for crash prevention.)',
+    'display':['Wrinkler Saving OFF','Wrinkler Saving ON'],
+    'default':0
   },
   'simulatedGCPercent':{
     'hint':'What percentage of Golden Cookies should be assumed as "clicked" for GC efficiency calculations (100% recommended)',
@@ -59,7 +64,7 @@ FrozenCookies.preferenceValues = {
   },
   'trackStats':{
     'hint':'Track your CPS/HC earned over time during a single session to enable graphing. This may end up being *extremely* memory-intensive.',
-    'display':['Tracking OFF', 'Every 60s', 'Every 30m', 'Every 1h', 'Every 24h', 'On upgrades'],
+    'display':['Tracking OFF', 'Every 60s', 'Every 30m', 'Every 1h', 'Every 24h', 'On upgrades', 'Smart Timing'],
     'default':0,
     'extras':'<a class="option" id="viewStats" onclick="viewStatGraphs();">View Stat Graphs</a>'
   },
@@ -193,13 +198,13 @@ var upgradeJson = [
   {'id':183,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[181]},
   {'id':184,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[181]},
   
-  {'id':134,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183]},
-  {'id':135,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183]},
-  {'id':136,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183]},
-  {'id':137,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183]},
-  {'id':138,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183]},
-  {'id':139,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183]},
-  {'id':140,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183]},
+  {'id':134,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183], 'wrinklers':1},
+  {'id':135,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183], 'wrinklers':1},
+  {'id':136,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183], 'wrinklers':1},
+  {'id':137,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183], 'wrinklers':1},
+  {'id':138,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183], 'wrinklers':1},
+  {'id':139,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183], 'wrinklers':1},
+  {'id':140,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183], 'wrinklers':1},
   
   {'id':143,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[182]},
   {'id':144,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[182]},
