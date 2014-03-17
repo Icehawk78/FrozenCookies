@@ -1207,7 +1207,7 @@ function transpose(a) {
 function smartTrackingStats(delay) {
   saveStats();
   if (FrozenCookies.trackStats == 6) {
-    delay /= (FrozenCookies.delayPurchaseCount > 0) ? (1/1.5) : (delay > FrozenCookies.minDelay ? 2 : 1);
+    delay /= (FrozenCookies.delayPurchaseCount == 0) ? (1/1.5) : (delay > FrozenCookies.minDelay ? 2 : 1);
     FrozenCookies.smartTrackingBot = setTimeout(function(){smartTrackingStats(delay);}, delay);
     FrozenCookies.delayPurchaseCount = 0;
   }
@@ -1418,7 +1418,7 @@ function FCStart() {
   if (statSpeed(FrozenCookies.trackStats) > 0) {
     FrozenCookies.statBot = setInterval(saveStats, statSpeed(FrozenCookies.trackStats));
   } else if (FrozenCookies.trackStats == 6 && !FrozenCookies.smartTrackingBot) {
-    FrozenCookies.smartTrackingBot = setTimeout(function() {smartTrackingStats(FrozenCookies.minDelay * 8)}, FrozenCookies.minDelay * 8);
+    FrozenCookies.smartTrackingBot = setTimeout(function() {smartTrackingStats(FrozenCookies.minDelay * 8)}, FrozenCookies.minDelay);
   }
   
   FCMenu();
