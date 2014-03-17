@@ -426,12 +426,12 @@ function baseClickingCps(clickSpeed) {
   return clickSpeed * cpc;
 }
 
-function effectiveCps(delayAmount) {
+function effectiveCps(delay) {
   var wrinklerMod = (Game.elderWrath && (!FrozenCookies.autoWrinkler || (FrozenCookies.autoWrinkler && haveAllHalloween()))) ? 6 : 1;
-  if (delayAmount == null) {
-    delayAmount = delayAmount();
+  if (delay == null) {
+    delay = delayAmount();
   }
-  return baseCps() * wrinklerMod + gcPs(cookieValue(delayAmount)) + baseClickingCps(FrozenCookies.cookieClickSpeed) + reindeerCps();
+  return baseCps() * wrinklerMod + gcPs(cookieValue(delay)) + baseClickingCps(FrozenCookies.cookieClickSpeed) + reindeerCps();
 }
 
 function frenzyProbability() {
