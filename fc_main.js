@@ -47,7 +47,7 @@ function setOverrides() {
   
   // Smart tracking details
   FrozenCookies.smartTrackingBot = 0;
-  FrozenCookies.minDelay = 1000 * 60 * 10; // 10s minimum reporting between purchases with "smart tracking" on
+  FrozenCookies.minDelay = 1000 * 10; // 10s minimum reporting between purchases with "smart tracking" on
   FrozenCookies.delayPurchaseCount = 0;
   
   // Caching
@@ -65,7 +65,11 @@ function setOverrides() {
   Beautify = fcBeautify;
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
   Game.oldReset = Game.Reset;
+  Game.oldWriteSave = Game.WriteSave;
+  Game.oldLoadSave = Game.LoadSave;
   Game.Reset = fcReset;
+  Game.WriteSave = fcWriteSave;
+  Game.LoadSave = fcLoadSave;
   Game.Win = fcWin;
   Game.oldBackground = Game.DrawBackground;
   Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
@@ -240,17 +244,18 @@ function fcReset(bypass) {
 }
 
 function fcLoadSave(data) {
-  Game.oldLoadSave(data);
+  var res = Game.oldLoadSave(data);
   if (FrozenCookies.saveWrinklers && localStorage.wrinklers && !data) {
     Game.wrinklers = JSON.parse(localStorage.wrinklers);
   }
+  return res;
 }
 
 function fcWriteSave(exporting) {
   if (FrozenCookies.saveWrinklers && Game.wrinklers) {
     localStorage.wrinklers = JSON.stringify(Game.wrinklers);
   }
-  Game.oldWriteSave(exporting);
+  return Game.oldWriteSave(exporting);
 }
 
 function updateLocalStorage() {
