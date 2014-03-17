@@ -760,7 +760,7 @@ function upgradeStats(recalculate) {
     FrozenCookies.caches.upgrades = Game.UpgradesById.map(function (current) {
       if (!current.bought) {
         var needed = unfinishedUpgradePrereqs(current);
-        if (upgradeBlacklist === true || _.contains(upgradeBlacklist, current.id) || (!current.unlocked && !needed)) {
+        if (isUnavailable(current, upgradeBlacklist)) {
           return null;
         }
         var cost = upgradePrereqCost(current);
@@ -784,6 +784,19 @@ function upgradeStats(recalculate) {
   return FrozenCookies.caches.upgrades;
 }
 
+function isUnavailable(upgrade, upgradeBlacklist) {
+  var result = false;
+  if (!upgrade.unlocked) {
+    var needed = unfinishedUpgradePrereqs(upgrade);
+    result |= (upgradeBlacklist === true);
+    result |= _.contains(upgradeBlacklist, upgrade.id);
+    result |= !upgrade.unlocked && !needed;
+    result |= (needed && _.find(needed, function(a){return a.type == "wrinklers"}) != null);
+    result |= (upgrade.season && (Game.seasonT > Game.fps * 60 * 60 * 23));
+  }
+  return result;
+}
+
 function santaStats() {
   return Game.Has('A festive hat') && (Game.santaLevel + 1 < Game.santaLevels.length) ? {
     id: 0,
@@ -801,7 +814,7 @@ function santaStats() {
   } : [];
 }
 
-function totalDiscount(building) {
+function totalDiscount(building) {                                                                                    
   var price = 1;
   if (Game.Has('Season savings') && building) price *= 0.99;
   if (Game.Has('Toy workshop') && !building) price *= 0.95;
@@ -909,6 +922,9 @@ function unfinishedUpgradePrereqs(upgrade) {
     if (prereqs.santa) {
       needed.push({type:'santa', id: 0});
     }
+    if (prereqs.wrinklers && Game.elderWrath == 0) {
+      needed.push({type:'wrinklers', id:0});
+    }
   }
   return needed.length ? needed : null;
 }
@@ -982,7 +998,7 @@ function buyFunctionToggle(upgrade) {
       .replace(/\n/g, '')
       .replace(/function\s*\(\)\s*{(.+)\s*}/, "$1")
       .replace(/for\s*\(.+\)\s*\{.+\}/,'')
-      .replace(/if\s*\(this\.season\)\s*Game\.season=this\.season\;/,('Game.season="' + ((Game.seasonT < Game.fps * 60 * 60 * 23) ? upgrade.season : Game.season) + '";'))
+      .replace(/if\s*\(this\.season\)\s*Game\.season=this\.season\;/,('Game.season="' + upgrade.season + '";'))
       .replace(/if\s*\(.+\)\s*[^{}]*?\;/,'')
       .replace(/if\s*\(.+\)\s*\{.+\}/,'')
       .replace(/\+\+/,'+=1')
