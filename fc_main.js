@@ -408,7 +408,24 @@ function baseClickingCps(clickSpeed) {
 }
 
 function effectiveCps() {
-  return baseCps() + gcPs(cookieValue(delayAmount())) + baseClickingCps(FrozenCookies.cookieClickSpeed) + reindeerCps();
+  var wrinklerMod = (Game.elderWrath && (!FrozenCookies.autoWrinkler || (FrozenCookies.autoWrinkler && haveAllHalloween()))) ? 6 : 1;
+  
+  return baseCps() * wrinklerMod + gcPs(cookieValue(delayAmount())) + baseClickingCps(FrozenCookies.cookieClickSpeed) + reindeerCps();
+}
+
+function frenzyProbability() {
+  var wrathValue = Game.elderWrath;
+  return cookieInfo.frenzy.odds[wrathValue] + cookieInfo.frenzyRuin.odds[wrathValue] + cookieInfo.frenzyLucky.odds[wrathValue] + cookieInfo.frenzyClick.odds[wrathValue];
+}
+
+function clotProbability() {
+  var wrathValue = Game.elderWrath;
+  return cookieInfo.clot.odds[wrathValue] + cookieInfo.clotRuin.odds[wrathValue] + cookieInfo.clotLucky.odds[wrathValue] + cookieInfo.clotClick.odds[wrathValue];
+}
+
+function bloodProbability() {
+  var wrathValue = Game.elderWrath;
+  return cookieInfo.blood.odds[wrathValue];
 }
 
 function cookieValue(bankAmount) {
@@ -419,7 +436,7 @@ function cookieValue(bankAmount) {
   var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1
   var wrathValue = Game.elderWrath;
   
-  var wrinklerMod = (wrathValue && FrozenCookies.autoWrinkler && haveAllHalloween()) ? 6 : 1;
+  var wrinklerMod = (Game.elderWrath && (!FrozenCookies.autoWrinkler || (FrozenCookies.autoWrinkler && haveAllHalloween()))) ? 6 : 1;
   var value = 0;
   // Clot
   value -= cookieInfo.clot.odds[wrathValue] * (cps + clickCps) * luckyMod * wrinklerMod * 66 * 0.5;
@@ -453,7 +470,17 @@ function cookieValue(bankAmount) {
 }
 
 function reindeerValue() {
-  return Math.max(25, baseCps() * (Game.Has('Ho ho ho-flavored frosting') ? 2 : 1) * 60);
+  var value = 0;
+  if (Game.season == 'christmas') {
+    var remaining = 1 - (frenzyProbability() + clotProbability() + bloodProbability());
+    var outputMod = Game.Has('Ho ho ho-flavored frosting') ? 2 : 1;
+    
+    value += Math.max(25, baseCps() * outputMod * 60 * 7) * frenzyProbability();
+    value += Math.max(25, baseCps() * outputMod * 60 * 0.5) * clotProbability();
+    value += Math.max(25, baseCps() * outputMod * 60 * 666) * bloodProbability();
+    value += Math.max(25, baseCps() * outputMod * 60) * remaining;
+  }
+  return value;
 }
 
 function reindeerCps() {
@@ -685,11 +712,11 @@ function buildingStats(recalculate) {
         return null;
       }
       var baseCpsOrig = baseCps();
-      var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
+      var cpsOrig = effectiveCps(); // baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
       var existingAchievements = Game.AchievementsById.map(function(item,i){return item.won});
       buildingToggle(current);
       var baseCpsNew = baseCps();
-      var cpsNew = baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
+      var cpsNew = effectiveCps(); // baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
       buildingToggle(current, existingAchievements);
       var deltaCps = cpsNew - cpsOrig;
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
@@ -712,12 +739,12 @@ function upgradeStats(recalculate) {
         }
         var cost = upgradePrereqCost(current);
         var baseCpsOrig = baseCps();
-        var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
+        var cpsOrig = effectiveCps(); // baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
         var existingAchievements = Game.AchievementsById.map(function(item){return item.won});
         var existingWrath = Game.elderWrath;
         var reverseFunctions = upgradeToggle(current);
         var baseCpsNew = baseCps();
-        var cpsNew = baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
+        var cpsNew = effectiveCps(); // baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
         var priceReductionTest = checkPrices();
         upgradeToggle(current, existingAchievements, reverseFunctions);
         Game.elderWrath = existingWrath;
@@ -732,7 +759,7 @@ function upgradeStats(recalculate) {
 }
 
 function santaStats() {
-  return Game.Has('A festive hat') ? {
+  return Game.Has('A festive hat') && (Game.santaLevel + 1 < Game.santaLevels.length) ? {
     id: 0,
     efficiency: Infinity,
     base_delta_cps: 0,
@@ -929,6 +956,7 @@ function buyFunctionToggle(upgrade) {
       .replace(/\n/g, '')
       .replace(/function\s*\(\)\s*{(.+)\s*}/, "$1")
       .replace(/for\s*\(.+\)\s*\{.+\}/,'')
+      .replace(/if\s*\(this\.season\)\s*Game\.season=this\.season\;/,('Game.season="' + ((Game.seasonT < Game.fps * 60 * 60 * 23) ? upgrade.season : Game.season) + '";'))
       .replace(/if\s*\(.+\)\s*[^{}]*?\;/,'')
       .replace(/if\s*\(.+\)\s*\{.+\}/,'')
       .replace(/\+\+/,'+=1')
@@ -956,7 +984,9 @@ function buyFunctionToggle(upgrade) {
       } else if (achievementMatch && Game.Achievements[achievementMatch[1]].won == 0) {
         reversed = 'Game.Achievements[\'' + achievementMatch[1] + '\'].won=0';
       } else if (a.split('=').length > 1) {
-        reversed = a.split('=')[0] + '=' + eval(a.split('=')[0]);
+        var expression = a.split('=');
+        var isString = expression[1].indexOf("'") > -1 || expression[1].indexOf('"') > -1;
+        reversed = expression[0] + '=' + (isString ? "'" : '') + eval(expression[0]) + (isString ? "'" : ''); 
       }
       return reversed;
     });
