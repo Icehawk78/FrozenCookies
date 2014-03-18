@@ -69,7 +69,9 @@ function setOverrides() {
   Game.oldLoadSave = Game.LoadSave;
   Game.Reset = fcReset;
   Game.WriteSave = fcWriteSave;
-  Game.LoadSave = fcLoadSave;
+  if (FrozenCookies.saveWrinklers && localStorage.wrinklers && !data) {
+    Game.wrinklers = JSON.parse(localStorage.wrinklers);
+  }
   Game.Win = fcWin;
   Game.oldBackground = Game.DrawBackground;
   Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
@@ -241,14 +243,6 @@ function fcReset(bypass) {
   FrozenCookies.lastCps = 0;
   updateLocalStorage();
   recommendationList(true);
-}
-
-function fcLoadSave(data) {
-  var res = Game.oldLoadSave(data);
-  if (FrozenCookies.saveWrinklers && localStorage.wrinklers && !data) {
-    Game.wrinklers = JSON.parse(localStorage.wrinklers);
-  }
-  return res;
 }
 
 function fcWriteSave(exporting) {
