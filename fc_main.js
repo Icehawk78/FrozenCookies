@@ -45,6 +45,11 @@ function setOverrides() {
   FrozenCookies.autoFrenzyBot = 0;
   FrozenCookies.frenzyClickBot = 0;
   
+  // Smart tracking details
+  FrozenCookies.smartTrackingBot = 0;
+  FrozenCookies.minDelay = 1000 * 10; // 10s minimum reporting between purchases with "smart tracking" on
+  FrozenCookies.delayPurchaseCount = 0;
+  
   // Caching
   FrozenCookies.recalculateCaches = true;
   FrozenCookies.caches = {};
@@ -60,7 +65,13 @@ function setOverrides() {
   Beautify = fcBeautify;
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
   Game.oldReset = Game.Reset;
+  Game.oldWriteSave = Game.WriteSave;
+  Game.oldLoadSave = Game.LoadSave;
   Game.Reset = fcReset;
+  Game.WriteSave = fcWriteSave;
+  if (FrozenCookies.saveWrinklers && localStorage.wrinklers) {
+    Game.wrinklers = JSON.parse(localStorage.wrinklers);
+  }
   Game.Win = fcWin;
   Game.oldBackground = Game.DrawBackground;
   Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
@@ -232,6 +243,13 @@ function fcReset(bypass) {
   FrozenCookies.lastCps = 0;
   updateLocalStorage();
   recommendationList(true);
+}
+
+function fcWriteSave(exporting) {
+  if (FrozenCookies.saveWrinklers && Game.wrinklers) {
+    localStorage.wrinklers = JSON.stringify(Game.wrinklers);
+  }
+  return Game.oldWriteSave(exporting);
 }
 
 function updateLocalStorage() {
@@ -407,8 +425,27 @@ function baseClickingCps(clickSpeed) {
   return clickSpeed * cpc;
 }
 
-function effectiveCps() {
-  return baseCps() + gcPs(cookieValue(delayAmount())) + baseClickingCps(FrozenCookies.cookieClickSpeed) + reindeerCps();
+function effectiveCps(delay) {
+  var wrinklerMod = (Game.elderWrath && (!FrozenCookies.autoWrinkler || (FrozenCookies.autoWrinkler && haveAllHalloween()))) ? 6 : 1;
+  if (delay == null) {
+    delay = delayAmount();
+  }
+  return baseCps() * wrinklerMod + gcPs(cookieValue(delay)) + baseClickingCps(FrozenCookies.cookieClickSpeed) + reindeerCps();
+}
+
+function frenzyProbability() {
+  var wrathValue = Game.elderWrath;
+  return cookieInfo.frenzy.odds[wrathValue] + cookieInfo.frenzyRuin.odds[wrathValue] + cookieInfo.frenzyLucky.odds[wrathValue] + cookieInfo.frenzyClick.odds[wrathValue];
+}
+
+function clotProbability() {
+  var wrathValue = Game.elderWrath;
+  return cookieInfo.clot.odds[wrathValue] + cookieInfo.clotRuin.odds[wrathValue] + cookieInfo.clotLucky.odds[wrathValue] + cookieInfo.clotClick.odds[wrathValue];
+}
+
+function bloodProbability() {
+  var wrathValue = Game.elderWrath;
+  return cookieInfo.blood.odds[wrathValue];
 }
 
 function cookieValue(bankAmount) {
@@ -419,7 +456,7 @@ function cookieValue(bankAmount) {
   var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1
   var wrathValue = Game.elderWrath;
   
-  var wrinklerMod = (wrathValue && FrozenCookies.autoWrinkler && haveAllHalloween()) ? 6 : 1;
+  var wrinklerMod = (Game.elderWrath && (!FrozenCookies.autoWrinkler || (FrozenCookies.autoWrinkler && haveAllHalloween()))) ? 6 : 1;
   var value = 0;
   // Clot
   value -= cookieInfo.clot.odds[wrathValue] * (cps + clickCps) * luckyMod * wrinklerMod * 66 * 0.5;
@@ -453,7 +490,17 @@ function cookieValue(bankAmount) {
 }
 
 function reindeerValue() {
-  return Math.max(25, baseCps() * (Game.Has('Ho ho ho-flavored frosting') ? 2 : 1) * 60);
+  var value = 0;
+  if (Game.season == 'christmas') {
+    var remaining = 1 - (frenzyProbability() + clotProbability() + bloodProbability());
+    var outputMod = Game.Has('Ho ho ho-flavored frosting') ? 2 : 1;
+    
+    value += Math.max(25, baseCps() * outputMod * 60 * 7) * frenzyProbability();
+    value += Math.max(25, baseCps() * outputMod * 60 * 0.5) * clotProbability();
+    value += Math.max(25, baseCps() * outputMod * 60 * 666) * bloodProbability();
+    value += Math.max(25, baseCps() * outputMod * 60) * remaining;
+  }
+  return value;
 }
 
 function reindeerCps() {
@@ -685,11 +732,11 @@ function buildingStats(recalculate) {
         return null;
       }
       var baseCpsOrig = baseCps();
-      var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
+      var cpsOrig = effectiveCps(Math.min(Game.cookies, currentBank)); // baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
       var existingAchievements = Game.AchievementsById.map(function(item,i){return item.won});
       buildingToggle(current);
       var baseCpsNew = baseCps();
-      var cpsNew = baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
+      var cpsNew = effectiveCps(currentBank); // baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
       buildingToggle(current, existingAchievements);
       var deltaCps = cpsNew - cpsOrig;
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
@@ -707,17 +754,17 @@ function upgradeStats(recalculate) {
     FrozenCookies.caches.upgrades = Game.UpgradesById.map(function (current) {
       if (!current.bought) {
         var needed = unfinishedUpgradePrereqs(current);
-        if (upgradeBlacklist === true || _.contains(upgradeBlacklist, current.id) || (!current.unlocked && !needed)) {
+        if (isUnavailable(current, upgradeBlacklist)) {
           return null;
         }
         var cost = upgradePrereqCost(current);
         var baseCpsOrig = baseCps();
-        var cpsOrig = baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
+        var cpsOrig = effectiveCps(Math.min(Game.cookies, currentBank)); // baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
         var existingAchievements = Game.AchievementsById.map(function(item){return item.won});
         var existingWrath = Game.elderWrath;
         var reverseFunctions = upgradeToggle(current);
         var baseCpsNew = baseCps();
-        var cpsNew = baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
+        var cpsNew = effectiveCps(currentBank); // baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
         var priceReductionTest = checkPrices();
         upgradeToggle(current, existingAchievements, reverseFunctions);
         Game.elderWrath = existingWrath;
@@ -731,8 +778,21 @@ function upgradeStats(recalculate) {
   return FrozenCookies.caches.upgrades;
 }
 
+function isUnavailable(upgrade, upgradeBlacklist) {
+  var result = false;
+  if (!upgrade.unlocked) {
+    var needed = unfinishedUpgradePrereqs(upgrade);
+    result |= (upgradeBlacklist === true);
+    result |= _.contains(upgradeBlacklist, upgrade.id);
+    result |= !upgrade.unlocked && !needed;
+    result |= (needed && _.find(needed, function(a){return a.type == "wrinklers"}) != null);
+    result |= (upgrade.season && (Game.seasonT > Game.fps * 60 * 60 * 23));
+  }
+  return result;
+}
+
 function santaStats() {
-  return Game.Has('A festive hat') ? {
+  return Game.Has('A festive hat') && (Game.santaLevel + 1 < Game.santaLevels.length) ? {
     id: 0,
     efficiency: Infinity,
     base_delta_cps: 0,
@@ -748,7 +808,7 @@ function santaStats() {
   } : [];
 }
 
-function totalDiscount(building) {
+function totalDiscount(building) {                                                                                    
   var price = 1;
   if (Game.Has('Season savings') && building) price *= 0.99;
   if (Game.Has('Toy workshop') && !building) price *= 0.95;
@@ -806,9 +866,9 @@ function upgradePrereqCost(upgrade, full) {
     cost += prereqs.buildings.reduce(function(sum,item,index) {
       var building = Game.ObjectsById[index];
       if (item && full) {
-        sum += cumulativeBuildingCost(building.getPrice(), 0, item);
+        sum += cumulativeBuildingCost(building.basePrice, 0, item);
       } else if (item && building.amount < item) {
-        sum += cumulativeBuildingCost(building.getPrice(), building.amount, item);
+        sum += cumulativeBuildingCost(building.basePrice, building.amount, item);
       }
       return sum;
     },0);
@@ -856,19 +916,62 @@ function unfinishedUpgradePrereqs(upgrade) {
     if (prereqs.santa) {
       needed.push({type:'santa', id: 0});
     }
+    if (prereqs.wrinklers && Game.elderWrath == 0) {
+      needed.push({type:'wrinklers', id:0});
+    }
   }
   return needed.length ? needed : null;
 }
 
 function upgradeToggle(upgrade, achievements, reverseFunctions) {
   if (!achievements) {
+    reverseFunctions = {};
+    if (!upgrade.unlocked) {
+      var prereqs = _.find(upgradeJson, function(a) {return a.id == upgrade.id;});
+      if (prereqs) {
+        reverseFunctions.prereqBuildings = [];
+        prereqs.buildings.forEach(function(a,b) {
+          var building = Game.ObjectsById[b];
+          if (a && building.amount < a) {
+            var difference = a - building.amount;
+            reverseFunctions.prereqBuildings.push({id: b, amount: difference});
+            building.amount += difference;
+            building.bought += difference;
+            Game.BuildingsOwned += difference;
+          }
+        });
+        reverseFunctions.prereqUpgrades = [];
+        if (prereqs.upgrades.length > 0) {
+          prereqs.upgrades.forEach(function(id) {
+            var upgrade = Game.UpgradesById[id];
+            if (!upgrade.bought) {
+              reverseFunctions.prereqUpgrades.push({id: id, reverseFunctions: upgradeToggle(upgrade)});
+            }
+          });
+        }
+      }
+    }
     upgrade.bought = 1;
     Game.UpgradesOwned += 1;
-    reverseFunctions = buyFunctionToggle(upgrade);
+    reverseFunctions.current = buyFunctionToggle(upgrade);
   } else {
+    if (reverseFunctions.prereqBuildings) {
+      reverseFunctions.prereqBuildings.forEach(function(b) {
+        var building = Game.ObjectsById[b.id];
+        building.amount -= b.amount;
+        building.bought -= b.amount;
+        Game.BuildingsOwned -= b.amount;
+      });
+    }
+    if (reverseFunctions.prereqUpgrades) {
+      reverseFunctions.prereqUpgrades.forEach(function(u) {
+        var upgrade = Game.UpgradesById[u.id];
+        upgradeToggle(upgrade, [], u.reverseFunctions);
+      });
+    }
     upgrade.bought = 0;
     Game.UpgradesOwned -= 1;
-    buyFunctionToggle(reverseFunctions);
+    buyFunctionToggle(reverseFunctions.current);
     Game.AchievementsOwned = 0;
     achievements.forEach(function(won, index){
       var achievement = Game.AchievementsById[index];
@@ -929,6 +1032,7 @@ function buyFunctionToggle(upgrade) {
       .replace(/\n/g, '')
       .replace(/function\s*\(\)\s*{(.+)\s*}/, "$1")
       .replace(/for\s*\(.+\)\s*\{.+\}/,'')
+      .replace(/if\s*\(this\.season\)\s*Game\.season=this\.season\;/,('Game.season="' + upgrade.season + '";'))
       .replace(/if\s*\(.+\)\s*[^{}]*?\;/,'')
       .replace(/if\s*\(.+\)\s*\{.+\}/,'')
       .replace(/\+\+/,'+=1')
@@ -956,7 +1060,9 @@ function buyFunctionToggle(upgrade) {
       } else if (achievementMatch && Game.Achievements[achievementMatch[1]].won == 0) {
         reversed = 'Game.Achievements[\'' + achievementMatch[1] + '\'].won=0';
       } else if (a.split('=').length > 1) {
-        reversed = a.split('=')[0] + '=' + eval(a.split('=')[0]);
+        var expression = a.split('=');
+        var isString = expression[1].indexOf("'") > -1 || expression[1].indexOf('"') > -1;
+        reversed = expression[0] + '=' + (isString ? "'" : '') + eval(expression[0]) + (isString ? "'" : ''); 
       }
       return reversed;
     });
@@ -997,19 +1103,20 @@ function statSpeed() {
   return speed;
 }
 
-function saveStats() {
+function saveStats(fromGraph) {
   FrozenCookies.trackedStats.push({
     time: Date.now() - Game.startDate,
     baseCps: baseCps(),
     effectiveCps: effectiveCps(),
     hc: Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)
   });
-  if ($('#statGraphContainer').length > 0 && !$('#statGraphContainer').is(':hidden')) {
+  if ($('#statGraphContainer').length > 0 && !$('#statGraphContainer').is(':hidden') && !fromGraph) {
     viewStatGraphs();
   }
 }
 
 function viewStatGraphs() {
+  saveStats(true);
   var containerDiv = $('#statGraphContainer').length ? 
     $('#statGraphContainer') : 
     $('<div>').attr('id', 'statGraphContainer')
@@ -1031,6 +1138,7 @@ function viewStatGraphs() {
     var graphs = $.jqplot('statGraphs', transpose(FrozenCookies.trackedStats.map(function(s) {return [[s.time / 1000, s.baseCps], [s.time / 1000, s.effectiveCps], [s.time / 1000, s.hc]]})),  // 
       {
         legend: {show: true},
+        height: containerDiv.height() - 50,
         axes: {
           xaxis: {
             tickRenderer: $.jqplot.CanvasAxisTickRenderer,
@@ -1144,6 +1252,15 @@ function inRect(x,y,rect) {
 
 function transpose(a) {
   return Object.keys(a[0]).map(function (c) { return a.map(function (r) { return r[c]; }); });
+}
+
+function smartTrackingStats(delay) {
+  saveStats();
+  if (FrozenCookies.trackStats == 6) {
+    delay /= (FrozenCookies.delayPurchaseCount == 0) ? (1/1.5) : (delay > FrozenCookies.minDelay ? 2 : 1);
+    FrozenCookies.smartTrackingBot = setTimeout(function(){smartTrackingStats(delay);}, delay);
+    FrozenCookies.delayPurchaseCount = 0;
+  }
 }
 
 // Unused
@@ -1267,6 +1384,8 @@ function autoCookie() {
       recommendation.purchase.buy();
       if (FrozenCookies.trackStats == 5 && recommendation.type == 'upgrade') {
         saveStats();
+      } else if (FrozenCookies.trackStats == 6) {
+        FrozenCookies.delayPurchaseCount += 1;
       }
       logEvent('Store', 'Autobought ' + recommendation.purchase.name + ' for ' + Beautify(recommendation.cost) + ', resulting in ' + Beautify(recommendation.delta_cps) + ' CPS.');
       disabledPopups = true;
@@ -1313,6 +1432,15 @@ function FCStart() {
     clearInterval(FrozenCookies.autoclickBot);
     FrozenCookies.autoclickBot = 0;
   }
+  if (FrozenCookies.statBot) {
+    clearInterval(FrozenCookies.statBot);
+    FrozenCookies.statBot = 0;
+  }
+  
+  if (!FrozenCookies.saveWrinklers && localStorage.wrinklers) {
+    delete localStorage.wrinklers;
+  }
+
 // Remove until timing issues are fixed
 //  if (FrozenCookies.goldenCookieBot) {
 //    clearInterval(FrozenCookies.goldenCookieBot);
@@ -1339,6 +1467,8 @@ function FCStart() {
   
   if (statSpeed(FrozenCookies.trackStats) > 0) {
     FrozenCookies.statBot = setInterval(saveStats, statSpeed(FrozenCookies.trackStats));
+  } else if (FrozenCookies.trackStats == 6 && !FrozenCookies.smartTrackingBot) {
+    FrozenCookies.smartTrackingBot = setTimeout(function() {smartTrackingStats(FrozenCookies.minDelay * 8)}, FrozenCookies.minDelay);
   }
   
   FCMenu();
