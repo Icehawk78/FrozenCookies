@@ -10,6 +10,13 @@ How to use
 2. Load up Cookie Clicker.
 3. Load the recently created bookmark.
 
+How to use v.2 (Userscript/GreaseMonkey/TamperMonkey)
+-----------------------------------------------------
+
+1. Go to http://userscripts.org/scripts/show/417095
+2. Click the 'install' button in the upper right corner.
+3. Load up Cookie Clicker.
+
 What can Frozen Cookies do?
 ---------------------------
 
