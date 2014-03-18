@@ -69,7 +69,7 @@ function setOverrides() {
   Game.oldLoadSave = Game.LoadSave;
   Game.Reset = fcReset;
   Game.WriteSave = fcWriteSave;
-  if (FrozenCookies.saveWrinklers && localStorage.wrinklers && !data) {
+  if (FrozenCookies.saveWrinklers && localStorage.wrinklers) {
     Game.wrinklers = JSON.parse(localStorage.wrinklers);
   }
   Game.Win = fcWin;
