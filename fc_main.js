@@ -931,13 +931,53 @@ function unfinishedUpgradePrereqs(upgrade) {
 
 function upgradeToggle(upgrade, achievements, reverseFunctions) {
   if (!achievements) {
+    reverseFunctions = {};
+    if (!upgrade.unlocked) {
+      var prereqs = _.find(upgradeJson, function(a) {return a.id == upgrade.id;});
+      if (prereqs) {
+        reverseFunctions.prereqBuildings = [];
+        prereqs.buildings.forEach(function(a,b) {
+          var building = Game.ObjectsById[b];
+          if (a && building.amount < a) {
+            var difference = a - building.amount;
+            reverseFunctions.prereqBuildings.push({id: b, amount: difference});
+            building.amount += difference;
+            building.bought += difference;
+            Game.BuildingsOwned += difference;
+          }
+        });
+        reverseFunctions.prereqUpgrades = [];
+        if (prereqs.upgrades.length > 0) {
+          prereqs.upgrades.forEach(function(id) {
+            var upgrade = Game.UpgradesById[id];
+            if (!upgrade.bought) {
+              reverseFunctions.prereqUpgrades.push({id: id, reverseFunctions: upgradeToggle(upgrade)});
+            }
+          });
+        }
+      }
+    }
     upgrade.bought = 1;
     Game.UpgradesOwned += 1;
-    reverseFunctions = buyFunctionToggle(upgrade);
+    reverseFunctions.current = buyFunctionToggle(upgrade);
   } else {
+    if (reverseFunctions.prereqBuildings) {
+      reverseFunctions.prereqBuildings.forEach(function(b) {
+        var building = Game.ObjectsById[b.id];
+        building.amount -= b.amount;
+        building.bought -= b.amount;
+        Game.BuildingsOwned -= b.amount;
+      });
+    }
+    if (reverseFunctions.prereqUpgrades) {
+      reverseFunctions.prereqUpgrades.forEach(function(u) {
+        var upgrade = Game.UpgradesById[u.id];
+        upgradeToggle(upgrade, [], u.reverseFunctions);
+      });
+    }
     upgrade.bought = 0;
     Game.UpgradesOwned -= 1;
-    buyFunctionToggle(reverseFunctions);
+    buyFunctionToggle(reverseFunctions.current);
     Game.AchievementsOwned = 0;
     achievements.forEach(function(won, index){
       var achievement = Game.AchievementsById[index];
