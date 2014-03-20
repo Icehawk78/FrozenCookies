@@ -425,12 +425,13 @@ function baseClickingCps(clickSpeed) {
   return clickSpeed * cpc;
 }
 
-function effectiveCps(delay) {
-  var wrinklerMod = (Game.elderWrath && (!FrozenCookies.autoWrinkler || (FrozenCookies.autoWrinkler && haveAllHalloween()))) ? 6 : 1;
+function effectiveCps(delay, wrathValue) {
+  wrathValue = wrathValue ? wrathValue : Game.elderWrath;
+  var wrinklerMod = (wrathValue && (!FrozenCookies.autoWrinkler || (FrozenCookies.autoWrinkler && haveAllHalloween()))) ? 6 : 1;
   if (delay == null) {
     delay = delayAmount();
   }
-  return baseCps() * wrinklerMod + gcPs(cookieValue(delay)) + baseClickingCps(FrozenCookies.cookieClickSpeed) + reindeerCps();
+  return baseCps() * wrinklerMod + gcPs(cookieValue(delay, wrathValue)) + baseClickingCps(FrozenCookies.cookieClickSpeed * FrozenCookies.autoClick) + reindeerCps();
 }
 
 function frenzyProbability() {
@@ -448,13 +449,13 @@ function bloodProbability() {
   return cookieInfo.blood.odds[wrathValue];
 }
 
-function cookieValue(bankAmount) {
+function cookieValue(bankAmount, wrathValue) {
   var cps = baseCps();
   var clickCps = baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
   var frenzyCps = FrozenCookies.autoFrenzy ? baseClickingCps(FrozenCookies.autoFrenzy * FrozenCookies.frenzyClickSpeed) : clickCps;
   var luckyMod = Game.Has('Get lucky') ? 2 : 1;
   var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1
-  var wrathValue = Game.elderWrath;
+  wrathValue = wrathValue ? wrathValue : Game.elderWrath;
   
   var wrinklerMod = (Game.elderWrath && (!FrozenCookies.autoWrinkler || (FrozenCookies.autoWrinkler && haveAllHalloween()))) ? 6 : 1;
   var value = 0;
@@ -780,14 +781,12 @@ function upgradeStats(recalculate) {
 
 function isUnavailable(upgrade, upgradeBlacklist) {
   var result = false;
-  if (!upgrade.unlocked) {
-    var needed = unfinishedUpgradePrereqs(upgrade);
-    result |= (upgradeBlacklist === true);
-    result |= _.contains(upgradeBlacklist, upgrade.id);
-    result |= !upgrade.unlocked && !needed;
-    result |= (needed && _.find(needed, function(a){return a.type == "wrinklers"}) != null);
-    result |= (upgrade.season && (Game.seasonT > Game.fps * 60 * 60 * 23));
-  }
+  var needed = unfinishedUpgradePrereqs(upgrade);
+  result = result || !upgrade.unlocked && !needed;
+  result = result || (upgradeBlacklist === true);
+  result = result || _.contains(upgradeBlacklist, upgrade.id);
+  result = result || (needed && _.find(needed, function(a){return a.type == "wrinklers"}) != null);
+  result = result || (upgrade.season && (Game.seasonT > Game.fps * 60 * 60 * 23));
   return result;
 }
 
