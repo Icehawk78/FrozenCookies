@@ -1025,6 +1025,7 @@ function buyFunctionToggle(upgrade) {
       /Game\.Popup\(.*\)/,
       /var drop=choose\(Game\.santaDrops\)/,
       /Game\.computeSeasonPrices\(\)/,
+      /Game\.seasonPopup\.reset\(\)/,
       /\S/
     ];
     var buyFunctions = upgrade.buyFunction.toString()
