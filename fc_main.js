@@ -426,8 +426,8 @@ function baseClickingCps(clickSpeed) {
 }
 
 function effectiveCps(delay, wrathValue) {
-  wrathValue = wrathValue ? wrathValue : Game.elderWrath;
-  var wrinklerMod = (wrathValue && (!FrozenCookies.autoWrinkler || (FrozenCookies.autoWrinkler && haveAllHalloween()))) ? 6 : 1;
+  wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
+  var wrinklerMod = (wrathValue > 0 && (!FrozenCookies.autoWrinkler || (FrozenCookies.autoWrinkler && haveAllHalloween()))) ? 6 : 1;
   if (delay == null) {
     delay = delayAmount();
   }
@@ -435,17 +435,17 @@ function effectiveCps(delay, wrathValue) {
 }
 
 function frenzyProbability(wrathValue) {
-  wrathValue = wrathValue ? wrathValue : Game.elderWrath;
+  wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
   return cookieInfo.frenzy.odds[wrathValue] + cookieInfo.frenzyRuin.odds[wrathValue] + cookieInfo.frenzyLucky.odds[wrathValue] + cookieInfo.frenzyClick.odds[wrathValue];
 }
 
 function clotProbability(wrathValue) {
-  wrathValue = wrathValue ? wrathValue : Game.elderWrath;
+  wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
   return cookieInfo.clot.odds[wrathValue] + cookieInfo.clotRuin.odds[wrathValue] + cookieInfo.clotLucky.odds[wrathValue] + cookieInfo.clotClick.odds[wrathValue];
 }
 
 function bloodProbability(wrathValue) {
-  wrathValue = wrathValue ? wrathValue : Game.elderWrath;
+  wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
   return cookieInfo.blood.odds[wrathValue];
 }
 
@@ -455,7 +455,7 @@ function cookieValue(bankAmount, wrathValue) {
   var frenzyCps = FrozenCookies.autoFrenzy ? baseClickingCps(FrozenCookies.autoFrenzy * FrozenCookies.frenzyClickSpeed) : clickCps;
   var luckyMod = Game.Has('Get lucky') ? 2 : 1;
   var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1
-  wrathValue = wrathValue ? wrathValue : Game.elderWrath;
+  wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
   
   var wrinklerMod = (wrathValue > 0 && (!FrozenCookies.autoWrinkler || (FrozenCookies.autoWrinkler && haveAllHalloween()))) ? 6 : 1;
   var value = 0;
