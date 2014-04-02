@@ -1391,7 +1391,7 @@ function autoCookie() {
       disabledPopups = true;
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.processing = false;
-      return autoCookie();
+      return FrozenCookies.frequency ? autoCookie() : null;
     }
     
     // This apparently *has* to stay here, or else fast purchases will multi-click it.
@@ -1418,6 +1418,9 @@ function autoCookie() {
       FrozenCookies.last_gc_time = Date.now();
     }
     FrozenCookies.processing = false;
+    if (FrozenCookies.frequency) {
+      FrozenCookies.cookieBot = setTimeout(autoCookie, FrozenCookies.frequency);
+    }
   }
 }
 
@@ -1450,7 +1453,7 @@ function FCStart() {
   // Now create new intervals with their specified frequencies.
   
   if (FrozenCookies.frequency) {
-    FrozenCookies.cookieBot = setInterval(autoCookie, FrozenCookies.frequency);
+    FrozenCookies.cookieBot = setTimeout(autoCookie, FrozenCookies.frequency);
   }
   
 //  if (FrozenCookies.autoGC) {
