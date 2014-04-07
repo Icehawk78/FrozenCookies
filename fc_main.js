@@ -1172,6 +1172,43 @@ function viewStatGraphs() {
   }
 }
 
+function updateCaches() {
+  var recommendation, currentBank, targetBank, currentCookieCPS, currentUpgradeCount;
+  do {
+    recommendation = nextPurchase(FrozenCookies.recalculateCaches);
+    FrozenCookies.recalculateCaches = false;
+    currentBank = bestBank(0);
+    targetBank = bestBank(recommendation.efficiency);
+    currentCookieCPS = gcPs(cookieValue(currentBank.cost));
+    currentUpgradeCount = Game.UpgradesInStore.length;
+
+    if (FrozenCookies.lastCPS != Game.cookiesPs) {
+      FrozenCookies.recalculateCaches = true;
+      FrozenCookies.lastCPS = Game.cookiesPs;
+    }
+    
+    if (FrozenCookies.currentBank.cost != currentBank.cost) {
+      FrozenCookies.recalculateCaches = true;
+      FrozenCookies.currentBank = currentBank;
+    }
+    
+    if (FrozenCookies.targetBank.cost != targetBank.cost) {
+      FrozenCookies.recalculateCaches = true;
+      FrozenCookies.targetBank = targetBank;
+    }
+    
+    if (FrozenCookies.lastCookieCPS != currentCookieCPS) {
+      FrozenCookies.recalculateCaches = true;
+      FrozenCookies.lastCookieCPS = currentCookieCPS;
+    }
+    
+    if (FrozenCookies.lastUpgradeCount != currentUpgradeCount) {
+      FrozenCookies.recalculateCaches = true;
+      FrozenCookies.lastUpgradeCount = currentUpgradeCount;
+    }
+  } while (FrozenCookies.recalculateCaches);
+}
+
 function doTimeTravel() {
 //  'Time Travel DISABLED','Purchases by Estimated Effective CPS','Purchases by Simulated Real Time','Heavenly Chips by Estimated Effective CPS','Heavenly Chips by Simulated Real Time'
   if (FrozenCookies.timeTravelMethod) {
@@ -1305,45 +1342,15 @@ function autoCookie() {
         FrozenCookies.maxHCPercent = currHCPercent;
       }
       var maxStr = (FrozenCookies.maxHCPercent === currHCPercent) ? ' (!)' : '';
-      if (Game.frenzy === 0) {
+      if (Game.frenzy === 0 && Game.clickFrenzy === 0) {
         logEvent('HC', 'Gained ' + changeAmount + ' Heavenly Chips in ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000) + '.' + maxStr + ' Overall average: ' + currHCPercent + ' HC/hr.');
       } else {
         FrozenCookies.hcs_during_frenzy += changeAmount;
       }
       updateLocalStorage();
     }
-    if (FrozenCookies.lastCPS != Game.cookiesPs) {
-      FrozenCookies.recalculateCaches = true;
-      FrozenCookies.lastCPS = Game.cookiesPs;
-    }
-    var recommendation = nextPurchase(FrozenCookies.recalculateCaches);
-    FrozenCookies.recalculateCaches = false;
-    var currentBank = bestBank(0);
-    if (FrozenCookies.currentBank.cost != currentBank.cost) {
-      FrozenCookies.recalculateCaches = true;
-      FrozenCookies.currentBank = currentBank;
-    }
-    var targetBank = bestBank(recommendation.efficiency);
-    if (FrozenCookies.targetBank.cost != targetBank.cost) {
-      FrozenCookies.recalculateCaches = true;
-      //logEvent('Bank', 'Target Bank level changed to ' + Beautify(targetBank.cost) + ' cookies.');
-      FrozenCookies.targetBank = targetBank;
-    }
-    var currentCookieCPS = gcPs(cookieValue(currentBank.cost));
-    if (FrozenCookies.lastCookieCPS != currentCookieCPS) {
-      FrozenCookies.recalculateCaches = true;
-      FrozenCookies.lastCookieCPS = currentCookieCPS;
-    }
-    var currentUpgradeCount = Game.UpgradesInStore.length;
-    if (FrozenCookies.lastUpgradeCount != currentUpgradeCount) {
-      FrozenCookies.recalculateCaches = true;
-      FrozenCookies.lastUpgradeCount = currentUpgradeCount;
-    }
-    if (FrozenCookies.recalculateCaches) {
-      //logEvent('Cache', 'Recalculating cached values.');
-      recommendation = nextPurchase(FrozenCookies.recalculateCaches);
-      FrozenCookies.recalculateCaches = false;
-    }
+    updateCaches();
+    var recommendation = nextPurchase();
     if (FrozenCookies.timeTravelAmount) {
       doTimeTravel();
     }
@@ -1402,7 +1409,7 @@ function autoCookie() {
     if (FrozenCookies.autoBlacklistOff) {
       autoBlacklistOff();
     }
-    if ((Game.frenzy > 0) != FrozenCookies.last_gc_state) {
+    if (((Game.frenzy > 0 && Game.frenzyPower > 1) || Game.clickFrenzy > 0) != FrozenCookies.last_gc_state) {
       if (FrozenCookies.last_gc_state) {
       	logEvent('GC', 'Frenzy ended, cookie production back to normal.');
         logEvent('HC', 'Frenzy won ' + FrozenCookies.hcs_during_frenzy + ' heavenly chips');
