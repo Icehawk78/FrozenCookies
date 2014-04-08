@@ -769,7 +769,7 @@ function upgradeStats(recalculate) {
         Game.elderWrath = existingWrath;
         var deltaCps = cpsNew - cpsOrig;
         var baseDeltaCps = baseCpsNew - baseCpsOrig;
-        var efficiency = (priceReductionTest > cost) ? 1 : purchaseEfficiency(cost, deltaCps, baseDeltaCps, cpsOrig)
+        var efficiency = (priceReductionTest > cost && deltaCps >= 0) ? 1 : purchaseEfficiency(cost, deltaCps, baseDeltaCps, cpsOrig)
         return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : cost, 'purchase' : current, 'type' : 'upgrade'};
       }
     }).filter(function(a){return a;});
