@@ -655,7 +655,7 @@ function checkPrices(discount) {
     var nextRec = FrozenCookies.caches.recommendationList.filter(function(i){return i.id != Game.Upgrades['Season savings'].id && i.id != Game.Upgrades['Toy workshop']})[0];
     var nextPrereq = (nextRec.type == 'upgrade') ? unfinishedUpgradePrereqs(nextRec.purchase) : null;
     nextRec = nextPrereq == null ? nextRec : FrozenCookies.caches.recommendationList.filter(function(a){return nextPrereq.some(function(b){return b.id == a.id && b.type == a.type})})[0];
-    value = (nextRec.cost / totalDiscount(nextRec.type == 'building')) - nextRec.cost;
+    value = nextRec.cost == null ? 0 : (nextRec.cost / totalDiscount(nextRec.type == 'building')) - nextRec.cost;
   }
   return value;
 }
