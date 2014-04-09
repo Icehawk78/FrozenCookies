@@ -76,7 +76,7 @@ function setOverrides() {
   Game.oldBackground = Game.DrawBackground;
   Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
   // Remove the following when turning on tooltop code
-  Game.RebuildStore();
+//  Game.RebuildStore();
   Game.RebuildUpgrades();
   beautifyUpgradesAndAchievements();
   // Replace Game.Popup references with event logging
