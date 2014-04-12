@@ -645,10 +645,10 @@ function haveAll(holiday) {
   return _.every(holidayCookies[holiday], function(id) {return Game.UpgradesById[id].unlocked;});
 }
 
-function checkPrices(discount) {
+function checkPrices(currentUpgrade) {
   var value = 0;
-  if (discount > 0 && FrozenCookies.caches.recommendationList.length > 0) {
-    var nextRec = FrozenCookies.caches.recommendationList.filter(function(i){return i.id != Game.Upgrades['Season savings'].id && i.id != Game.Upgrades['Toy workshop']})[0];
+  if (FrozenCookies.caches.recommendationList.length > 0) {
+    var nextRec = FrozenCookies.caches.recommendationList.filter(function(i){return i.id != currentUpgrade.id)[0];
     var nextPrereq = (nextRec.type == 'upgrade') ? unfinishedUpgradePrereqs(nextRec.purchase) : null;
     nextRec = (nextPrereq == null || nextPrereq.filter(function(u){return u.cost != null;}).length == 0) ? nextRec : FrozenCookies.caches.recommendationList.filter(function(a){return nextPrereq.some(function(b){return b.id == a.id && b.type == a.type})})[0];
     value = nextRec.cost == null ? 0 : (nextRec.cost / totalDiscount(nextRec.type == 'building')) - nextRec.cost;
@@ -764,7 +764,7 @@ function upgradeStats(recalculate) {
         var reverseFunctions = upgradeToggle(current);
         var baseCpsNew = baseCps();
         var cpsNew = effectiveCps(currentBank); // baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
-        var priceReduction = checkPrices(discounts - (totalDiscount() + totalDiscount(true)));
+        var priceReduction = discounts == (totalDiscount() + totalDiscount(true)) ? 0 : checkPrices(current);
         upgradeToggle(current, existingAchievements, reverseFunctions);
         Game.elderWrath = existingWrath;
         var deltaCps = cpsNew - cpsOrig;
