@@ -151,7 +151,10 @@ var numberFormatters = [
     ' quadrillion',
     ' quintillion',
     ' sextillion',
-    ' septillion'
+    ' septillion',
+    ' octillion',
+    ' nonillion',
+    ' decillion',
   ]),
 
   formatEveryThirdPower([
@@ -162,7 +165,10 @@ var numberFormatters = [
     ' Qa',
     ' Qi',
     ' Sx',
-    ' Sp'
+    ' Sp',
+    ' Oc',
+    ' No',
+    ' De',
   ]),
 
   formatEveryThirdPower([
