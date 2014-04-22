@@ -231,6 +231,7 @@ function timeDisplay(seconds) {
 }
 
 function fcReset(bypass) {
+  Game.CollectWrinklers();
   Game.oldReset(bypass);
   FrozenCookies.nonFrenzyTime = 0;
   FrozenCookies.frenzyTime = 0;
@@ -241,6 +242,7 @@ function fcReset(bypass) {
   FrozenCookies.maxHCPercent = 0;
   FrozenCookies.prevLastHCTime = Date.now();
   FrozenCookies.lastCps = 0;
+  FrozenCookies.trackedStats = [];
   updateLocalStorage();
   recommendationList(true);
 }
