@@ -1112,7 +1112,7 @@ function saveStats(fromGraph) {
     time: Date.now() - Game.startDate,
     baseCps: baseCps(),
     effectiveCps: effectiveCps(),
-    hc: Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)
+    hc: Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + w.sucked * 1.1},0))
   });
   if ($('#statGraphContainer').length > 0 && !$('#statGraphContainer').is(':hidden') && !fromGraph) {
     viewStatGraphs();
