@@ -455,7 +455,6 @@ function cookieValue(bankAmount, wrathValue, wrinklerCount) {
   var clickCps = baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
   var frenzyCps = FrozenCookies.autoFrenzy ? baseClickingCps(FrozenCookies.autoFrenzy * FrozenCookies.frenzyClickSpeed) : clickCps;
   var luckyMod = Game.Has('Get lucky') ? 2 : 1;
-  var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1
   wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
   wrinklerCount = wrinklerCount != null ? wrinklerCount : (wrathValue ? 10 : 0);
   var wrinkler = wrinklerMod(wrinklerCount);
@@ -464,9 +463,9 @@ function cookieValue(bankAmount, wrathValue, wrinklerCount) {
   // Clot
   value -= cookieInfo.clot.odds[wrathValue] * (cps + clickCps) * luckyMod * wrinkler * 66 * 0.5;
   // Frenzy
-  value += cookieInfo.frenzy.odds[wrathValue] * (cps + clickCps) * luckyMod * wrinkler * 77 * 7;
+  value += cookieInfo.frenzy.odds[wrathValue] * (cps + clickCps) * luckyMod * wrinkler * 77 * 6;
   // Blood
-  value += cookieInfo.blood.odds[wrathValue] * (cps + clickCps) * luckyMod * wrinkler * 666 * 6;
+  value += cookieInfo.blood.odds[wrathValue] * (cps + clickCps) * luckyMod * wrinkler * 6 * 665;
   // Chain
   value += cookieInfo.chain.odds[wrathValue] * calculateChainValue(bankAmount, cps, (7 - (wrathValue / 3)));
   // Ruin
