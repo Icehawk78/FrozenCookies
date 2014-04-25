@@ -296,26 +296,24 @@ function getBuildingSpread () {
   return Game.ObjectsById.map(function(a){return a.amount;}).join('/')
 }
 
-// Press 'b' to pop up a copyable window with building spread. 
-document.addEventListener('keydown', function(event) {
-  if(event.keyCode == 66) {
-    copyToClipboard(getBuildingSpread());
-  }
-});
-
 // Press 'a' to toggle autobuy.
+// Press 'b' to pop up a copyable window with building spread. 
+// Press 'c' to toggle auto-GC
+// Press 'w' to display a wrinkler-info window
 document.addEventListener('keydown', function(event) {
   if(event.keyCode == 65) {
     Game.Toggle('autoBuy','autobuyButton','Autobuy OFF','Autobuy ON');
     toggleFrozen('autoBuy');
   }
-});
-
-// Press 'c' to toggle auto-GC
-document.addEventListener('keydown', function(event) {
+  if(event.keyCode == 66) {
+    copyToClipboard(getBuildingSpread());
+  }
   if(event.keyCode == 67) {
     Game.Toggle('autoGC','autogcButton','Autoclick GC OFF','Autoclick GC ON');
     toggleFrozen('autoGC');
+  }
+  if(event.keyCode == 87) {
+    Game.Notify('Wrinkler Info', 'Popping all wrinklers will give you ' + Beautify(Game.wrinklers.reduce(function(s,w){return s + w.sucked * 1.1},0)) + ' cookies. <input type="button" value="Click here to pop all wrinklers" onclick="Game.CollectWrinklers()"></input>', [19,8],7);
   }
 });
 
