@@ -6,7 +6,7 @@ var scriptElement = document.getElementById( 'frozenCookieScript' ),
 	FrozenCookies = {
 		'baseUrl': baseUrl,
 		'branch' : 'M',
-		'version': 1.12
+		'version': 1.2
 	};
 
 // Load external libraries
