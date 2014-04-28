@@ -461,11 +461,11 @@ function cookieValue(bankAmount, wrathValue, wrinklerCount) {
   
   var value = 0;
   // Clot
-  value -= cookieInfo.clot.odds[wrathValue] * (cps + clickCps) * luckyMod * wrinkler * 66 * 0.5;
+  value -= cookieInfo.clot.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 66 * 0.5;
   // Frenzy
-  value += cookieInfo.frenzy.odds[wrathValue] * (cps + clickCps) * luckyMod * wrinkler * 77 * 6;
+  value += cookieInfo.frenzy.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 77 * 6;
   // Blood
-  value += cookieInfo.blood.odds[wrathValue] * (cps + clickCps) * luckyMod * wrinkler * 6 * 665;
+  value += cookieInfo.blood.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 6 * 665;
   // Chain
   value += cookieInfo.chain.odds[wrathValue] * calculateChainValue(bankAmount, cps, (7 - (wrathValue / 3)));
   // Ruin
@@ -489,6 +489,48 @@ function cookieValue(bankAmount, wrathValue, wrinklerCount) {
   // Blah
   value += 0;
   return value;
+}
+
+function cookieStats(bankAmount, wrathValue, wrinklerCount) {
+  var cps = baseCps();
+  var clickCps = baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
+  var frenzyCps = FrozenCookies.autoFrenzy ? baseClickingCps(FrozenCookies.autoFrenzy * FrozenCookies.frenzyClickSpeed) : clickCps;
+  var luckyMod = Game.Has('Get lucky') ? 2 : 1;
+  var clickFrenzyMod = (Game.clickFrenzy > 0) ? 777 : 1
+  wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
+  wrinklerCount = wrinklerCount != null ? wrinklerCount : (wrathValue ? 10 : 0);
+  var wrinkler = wrinklerMod(wrinklerCount);
+  
+  var result = {};
+  // Clot
+  result.clot = -1 * cookieInfo.clot.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 66 * 0.5;
+  // Frenzy
+  result.frenzy = cookieInfo.frenzy.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 77 * 7;
+  // Blood
+  result.blood = cookieInfo.blood.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 666 * 6;
+  // Chain
+  result.chain = cookieInfo.chain.odds[wrathValue] * calculateChainValue(bankAmount, cps, (7 - (wrathValue / 3)));
+  // Ruin
+  result.ruin = -1 * cookieInfo.ruin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10) + 13);
+  // Frenzy + Ruin
+  result.frenzyRuin = -1 * cookieInfo.frenzyRuin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 7) + 13);
+  // Clot + Ruin
+  result.clotRuin = -1 * cookieInfo.clotRuin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 0.5) + 13);
+  // Lucky
+  result.lucky = cookieInfo.lucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20) + 13);
+  // Frenzy + Lucky
+  result.frenzyLucky = cookieInfo.frenzyLucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20 * 7) + 13);
+  // Clot + Lucky
+  result.clotLucky = cookieInfo.clotLucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20 * 0.5) + 13);
+  // Click
+  result.click = cookieInfo.click.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777;
+  // Frenzy + Click
+  result.frenzyClick = cookieInfo.frenzyClick.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 7;
+  // Clot + Click
+  result.clotClick = cookieInfo.clotClick.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 0.5;
+  // Blah
+  result.blah = 0;
+  return result;
 }
 
 function reindeerValue(wrathValue) {
