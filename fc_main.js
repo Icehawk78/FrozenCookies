@@ -69,9 +69,9 @@ function setOverrides() {
   Game.oldLoadSave = Game.LoadSave;
   Game.Reset = fcReset;
   Game.WriteSave = fcWriteSave;
-  if (FrozenCookies.saveWrinklers && localStorage.wrinklers) {
-    Game.wrinklers = JSON.parse(localStorage.wrinklers);
-  }
+//  if (FrozenCookies.saveWrinklers && localStorage.wrinklers) {
+//    Game.wrinklers = JSON.parse(localStorage.wrinklers);
+//  }
   Game.Win = fcWin;
   Game.oldBackground = Game.DrawBackground;
   Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
@@ -248,9 +248,9 @@ function fcReset(bypass) {
 }
 
 function fcWriteSave(exporting) {
-  if (FrozenCookies.saveWrinklers && Game.wrinklers) {
-    localStorage.wrinklers = JSON.stringify(Game.wrinklers);
-  }
+//  if (FrozenCookies.saveWrinklers && Game.wrinklers) {
+//    localStorage.wrinklers = JSON.stringify(Game.wrinklers);
+//  }
   return Game.oldWriteSave(exporting);
 }
 
@@ -1311,7 +1311,7 @@ function liveWrinklers() {
 }
 
 function wrinklerMod(num) {
-  return 1 + num * (0.055 * num - 0.05);
+  return FrozenCookies.includeWrinklers ? 1 + num * (0.055 * num - 0.05) : 1;
 }
 
 function shouldPopWrinklers() {
@@ -1468,9 +1468,9 @@ function FCStart() {
     FrozenCookies.statBot = 0;
   }
   
-  if (!FrozenCookies.saveWrinklers && localStorage.wrinklers) {
-    delete localStorage.wrinklers;
-  }
+//  if (!FrozenCookies.saveWrinklers && localStorage.wrinklers) {
+//    delete localStorage.wrinklers;
+//  }
 
 // Remove until timing issues are fixed
 //  if (FrozenCookies.goldenCookieBot) {
