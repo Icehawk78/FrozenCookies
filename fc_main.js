@@ -69,9 +69,9 @@ function setOverrides() {
   Game.oldLoadSave = Game.LoadSave;
   Game.Reset = fcReset;
   Game.WriteSave = fcWriteSave;
-  if (FrozenCookies.saveWrinklers && localStorage.wrinklers) {
-    Game.wrinklers = JSON.parse(localStorage.wrinklers);
-  }
+//  if (FrozenCookies.saveWrinklers && localStorage.wrinklers) {
+//    Game.wrinklers = JSON.parse(localStorage.wrinklers);
+//  }
   Game.Win = fcWin;
   Game.oldBackground = Game.DrawBackground;
   Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
@@ -237,7 +237,7 @@ function fcReset(bypass) {
   FrozenCookies.frenzyTime = 0;
   FrozenCookies.last_gc_state = (Game.frenzy > 0);
   FrozenCookies.last_gc_time = Date.now();
-  FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w) {return s + w.sucked * 1.1;}, 0));
+  FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + w.sucked * 1.1;}, 0));
   FrozenCookies.lastHCTime = Date.now();
   FrozenCookies.maxHCPercent = 0;
   FrozenCookies.prevLastHCTime = Date.now();
@@ -248,9 +248,9 @@ function fcReset(bypass) {
 }
 
 function fcWriteSave(exporting) {
-  if (FrozenCookies.saveWrinklers && Game.wrinklers) {
-    localStorage.wrinklers = JSON.stringify(Game.wrinklers);
-  }
+//  if (FrozenCookies.saveWrinklers && Game.wrinklers) {
+//    localStorage.wrinklers = JSON.stringify(Game.wrinklers);
+//  }
   return Game.oldWriteSave(exporting);
 }
 
@@ -1311,7 +1311,7 @@ function liveWrinklers() {
 }
 
 function wrinklerMod(num) {
-  return 1 + num * (0.055 * num - 0.05);
+  return FrozenCookies.includeWrinklers ? 1 + num * (0.055 * num - 0.05) : 1;
 }
 
 function shouldPopWrinklers() {
@@ -1366,7 +1366,7 @@ function autoFrenzyClick() {
 function autoCookie() {
   if (!FrozenCookies.processing) {
     FrozenCookies.processing = true;
-    var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w) {return s + w.sucked * 1.1;}, 0));
+    var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + w.sucked * 1.1;}, 0));
     if (FrozenCookies.lastHCAmount < currentHCAmount) {
       var changeAmount = currentHCAmount - FrozenCookies.lastHCAmount;
       FrozenCookies.lastHCAmount = currentHCAmount;
@@ -1468,9 +1468,9 @@ function FCStart() {
     FrozenCookies.statBot = 0;
   }
   
-  if (!FrozenCookies.saveWrinklers && localStorage.wrinklers) {
-    delete localStorage.wrinklers;
-  }
+//  if (!FrozenCookies.saveWrinklers && localStorage.wrinklers) {
+//    delete localStorage.wrinklers;
+//  }
 
 // Remove until timing issues are fixed
 //  if (FrozenCookies.goldenCookieBot) {
