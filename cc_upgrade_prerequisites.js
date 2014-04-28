@@ -47,10 +47,10 @@ FrozenCookies.preferenceValues = {
     'default':0,
     'extras':'<a class="option" id="timeTravelPurchases" onclick="updateTimeTravelAmount();">Set Time Travel Amount</a>'
   },*/
-  'saveWrinklers':{
-    'hint':'Store wrinkler information in FC upon game save, and restore wrinklers upon game load. (This is essentially only for crash prevention.)',
-    'display':['Wrinkler Saving OFF','Wrinkler Saving ON'],
-    'default':0
+  'includeWrinklers':{
+    'hint':'Include wrinklers in efficiency calculations.',
+    'display':['Wrinkler Valuation OFF','Wrinkler Valuation ON'],
+    'default':1
   },
   'simulatedGCPercent':{
     'hint':'What percentage of Golden Cookies should be assumed as "clicked" for GC efficiency calculations (100% recommended)',
