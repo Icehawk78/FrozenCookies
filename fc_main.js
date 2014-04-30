@@ -437,12 +437,12 @@ function effectiveCps(delay, wrathValue, wrinklerCount) {
 
 function frenzyProbability(wrathValue) {
   wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
-  return cookieInfo.frenzy.odds[wrathValue] + cookieInfo.frenzyRuin.odds[wrathValue] + cookieInfo.frenzyLucky.odds[wrathValue] + cookieInfo.frenzyClick.odds[wrathValue];
+  return cookieInfo.frenzy.odds[wrathValue];// + cookieInfo.frenzyRuin.odds[wrathValue] + cookieInfo.frenzyLucky.odds[wrathValue] + cookieInfo.frenzyClick.odds[wrathValue];
 }
 
 function clotProbability(wrathValue) {
   wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
-  return cookieInfo.clot.odds[wrathValue] + cookieInfo.clotRuin.odds[wrathValue] + cookieInfo.clotLucky.odds[wrathValue] + cookieInfo.clotClick.odds[wrathValue];
+  return cookieInfo.clot.odds[wrathValue];// + cookieInfo.clotRuin.odds[wrathValue] + cookieInfo.clotLucky.odds[wrathValue] + cookieInfo.clotClick.odds[wrathValue];
 }
 
 function bloodProbability(wrathValue) {
