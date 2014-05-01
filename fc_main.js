@@ -831,7 +831,7 @@ function isUnavailable(upgrade, upgradeBlacklist) {
   result = result || (upgradeBlacklist === true);
   result = result || _.contains(upgradeBlacklist, upgrade.id);
   result = result || (needed && _.find(needed, function(a){return a.type == "wrinklers"}) != null);
-  result = result || (upgrade.season && (Game.seasonT > Game.fps * 60 * 60 * 23));
+  result = result || (upgrade.season && !haveAll(Game.season));
   return result;
 }
 
