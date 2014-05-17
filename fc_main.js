@@ -1109,7 +1109,7 @@ function buyFunctionToggle(upgrade) {
         reversed = 'Game.Achievements[\'' + achievementMatch[1] + '\'].won=0';
       } else if (a.split('=').length > 1) {
         var expression = a.split('=');
-        console.log('0: ' + expression[0] + ', 1: ' + expression[1]);
+        //console.log('0: ' + expression[0] + ', 1: ' + expression[1]);
         var isString = expression[1].indexOf("'") > -1 || expression[1].indexOf('"') > -1;
         reversed = expression[0] + '=' + (isString ? "'" : '') + eval(expression[0]) + (isString ? "'" : ''); 
       }
