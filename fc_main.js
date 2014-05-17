@@ -1078,7 +1078,7 @@ function buyFunctionToggle(upgrade) {
       /\S/
     ];
     var buyFunctions = upgrade.buyFunction.toString()
-      .replace(/[\n\r\s]+/g, '')
+      .replace(/[\n\r\s]+/g, ' ')
       .replace(/function\s*\(\)\s*{(.+)\s*}/, "$1")
       .replace(/for\s*\(.+\)\s*\{.+\}/,'')
       .replace(/if\s*\(this\.season\)\s*Game\.season=this\.season\;/,('Game.season="' + upgrade.season + '";'))
