@@ -1068,6 +1068,7 @@ function buyFunctionToggle(upgrade) {
       /Game\.Upgrades\['.*'\]\.basePrice=.*/,
       /Game\.CollectWrinklers\(\)/,
       /Game\.RefreshBuildings\(\)/,
+      /Game\.storeToRefresh=1/,
       /Game\.upgradesToRebuild=1/,
       /Game\.Popup\(.*\)/,
       /Game\.Notify\(.*\)/,
