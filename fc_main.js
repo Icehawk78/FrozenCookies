@@ -1225,6 +1225,7 @@ function viewStatGraphs() {
 
 function updateCaches() {
   var recommendation, currentBank, targetBank, currentCookieCPS, currentUpgradeCount;
+  var recalcCount = 0;
   do {
     recommendation = nextPurchase(FrozenCookies.recalculateCaches);
     FrozenCookies.recalculateCaches = false;
@@ -1259,7 +1260,8 @@ function updateCaches() {
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.lastUpgradeCount = currentUpgradeCount;
     }
-  } while (FrozenCookies.recalculateCaches);
+    recalcCount += 1;
+  } while (FrozenCookies.recalculateCaches && recalcCount < 10);
 }
 
 function doTimeTravel() {
