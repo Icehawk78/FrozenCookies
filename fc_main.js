@@ -80,8 +80,9 @@ function setOverrides() {
   Game.RebuildUpgrades();
   beautifyUpgradesAndAchievements();
   // Replace Game.Popup references with event logging
-  eval("Game.goldenCookie.click = " + Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
-  eval("Game.UpdateWrinklers = " + Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
+  eval('Game.goldenCookie.click = ' + Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
+  eval('Game.UpdateWrinklers = ' + Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
+  eval('FrozenCookies.safeGainsCalc = ' + Game.CalculateGains.toString().replace(/eggMult\+=\(1.+/, 'eggMult++; // CENTURY EGGS SUCK'));
   
   // Give free achievements!
   if(!Game.HasAchiev('Third-party')) {
@@ -1231,10 +1232,11 @@ function updateCaches() {
     targetBank = bestBank(recommendation.efficiency);
     currentCookieCPS = gcPs(cookieValue(currentBank.cost));
     currentUpgradeCount = Game.UpgradesInStore.length;
+    FrozenCookies.safeGainsCalc();
 
-    if (FrozenCookies.lastCPS != Game.cookiesPs) {
+    if (FrozenCookies.lastCPS != FrozenCookies.calculatedCps) {
       FrozenCookies.recalculateCaches = true;
-      FrozenCookies.lastCPS = Game.cookiesPs;
+      FrozenCookies.lastCPS = FrozenCookies.calculatedCps;
     }
     
     if (FrozenCookies.currentBank.cost != currentBank.cost) {
