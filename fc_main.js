@@ -1059,27 +1059,32 @@ function buyFunctionToggle(upgrade) {
     }
     
     var ignoreFunctions = [
+      /Game\.Earn\('.*\)/,
       /Game\.Lock\('.*'\)/,
       /Game\.Unlock\(.*\)/,
       /Game\.Objects\['.*'\]\.drawFunction\(\)/,
+      /Game\.Objects\['.*'\]\.redraw\(\)/,
       /Game\.SetResearch\('.*'\)/,
       /Game\.Upgrades\['.*'\]\.basePrice=.*/,
       /Game\.CollectWrinklers\(\)/,
       /Game\.RefreshBuildings\(\)/,
+      /Game\.storeToRefresh=1/,
       /Game\.upgradesToRebuild=1/,
       /Game\.Popup\(.*\)/,
-      /var drop=choose\(Game\.santaDrops\)/,
+      /Game\.Notify\(.*\)/,
+      /var\s+.+\s*=.+/,
       /Game\.computeSeasonPrices\(\)/,
       /Game\.seasonPopup\.reset\(\)/,
       /\S/
     ];
     var buyFunctions = upgrade.buyFunction.toString()
-      .replace(/\n/g, '')
+      .replace(/[\n\r\s]+/g, ' ')
       .replace(/function\s*\(\)\s*{(.+)\s*}/, "$1")
       .replace(/for\s*\(.+\)\s*\{.+\}/,'')
       .replace(/if\s*\(this\.season\)\s*Game\.season=this\.season\;/,('Game.season="' + upgrade.season + '";'))
       .replace(/if\s*\(.+\)\s*[^{}]*?\;/,'')
       .replace(/if\s*\(.+\)\s*\{.+\}/,'')
+      .replace(/else\s+\(.+\)\s*\;/,'')
       .replace(/\+\+/,'+=1')
       .replace(/\-\-/,'-=1')
       .split(';')
