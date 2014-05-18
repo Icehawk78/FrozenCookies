@@ -1240,7 +1240,6 @@ function updateCaches() {
 
     if (FrozenCookies.lastCPS != FrozenCookies.calculatedCps) {
       FrozenCookies.recalculateCaches = true;
-      console.log('FC.cps: ' + FrozenCookies.calculatedCps);
       FrozenCookies.lastCPS = FrozenCookies.calculatedCps;
     }
     
