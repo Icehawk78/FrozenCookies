@@ -16,6 +16,9 @@ function setOverrides() {
   // Becomes 0 almost immediately after user input, so default to 0
   FrozenCookies.timeTravelAmount = 0;
   
+  // Force redraw every 10 purchases
+  FrozenCookies.autobuyCount = 0;
+  
   // Get historical data
   FrozenCookies.non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
   FrozenCookies.gc_time = Number(localStorage.getItem('frenzyTime'));
@@ -1462,6 +1465,7 @@ function autoCookie() {
       disabledPopups = false;
 //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
       recommendation.purchase.buy();
+      FrozenCookies.autobuyCount += 1;
       if (FrozenCookies.trackStats == 5 && recommendation.type == 'upgrade') {
         saveStats();
       } else if (FrozenCookies.trackStats == 6) {
@@ -1469,6 +1473,10 @@ function autoCookie() {
       }
       logEvent('Store', 'Autobought ' + recommendation.purchase.name + ' for ' + Beautify(recommendation.cost) + ', resulting in ' + Beautify(recommendation.delta_cps) + ' CPS.');
       disabledPopups = true;
+      if (FrozenCookies.autobuyCount >= 10) {
+      	Game.Draw();
+      	FrozenCookies.autobuyCount = 0;
+      }
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.processing = false;
       return FrozenCookies.frequency ? autoCookie() : null;
