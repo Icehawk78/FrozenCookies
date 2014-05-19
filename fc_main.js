@@ -16,6 +16,9 @@ function setOverrides() {
   // Becomes 0 almost immediately after user input, so default to 0
   FrozenCookies.timeTravelAmount = 0;
   
+  // Force redraw every 10 purchases
+  FrozenCookies.autobuyCount = 0;
+  
   // Get historical data
   FrozenCookies.non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
   FrozenCookies.gc_time = Number(localStorage.getItem('frenzyTime'));
@@ -80,8 +83,9 @@ function setOverrides() {
   Game.RebuildUpgrades();
   beautifyUpgradesAndAchievements();
   // Replace Game.Popup references with event logging
-  eval("Game.goldenCookie.click = " + Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
-  eval("Game.UpdateWrinklers = " + Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
+  eval('Game.goldenCookie.click = ' + Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
+  eval('Game.UpdateWrinklers = ' + Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
+  eval('FrozenCookies.safeGainsCalc = ' + Game.CalculateGains.toString().replace(/eggMult\+=\(1.+/, 'eggMult++; // CENTURY EGGS SUCK').replace(/Game\.cookiesPs/g, 'FrozenCookies.calculatedCps').replace(/Game\.globalCpsMult/g, 'mult'));
   
   // Give free achievements!
   if(!Game.HasAchiev('Third-party')) {
@@ -1116,7 +1120,6 @@ function buyFunctionToggle(upgrade) {
         reversed = 'Game.Achievements[\'' + achievementMatch[1] + '\'].won=0';
       } else if (a.split('=').length > 1) {
         var expression = a.split('=');
-        //console.log('0: ' + expression[0] + ', 1: ' + expression[1]);
         var isString = expression[1].indexOf("'") > -1 || expression[1].indexOf('"') > -1;
         reversed = expression[0] + '=' + (isString ? "'" : '') + eval(expression[0]) + (isString ? "'" : ''); 
       }
@@ -1232,6 +1235,7 @@ function viewStatGraphs() {
 
 function updateCaches() {
   var recommendation, currentBank, targetBank, currentCookieCPS, currentUpgradeCount;
+  var recalcCount = 0;
   do {
     recommendation = nextPurchase(FrozenCookies.recalculateCaches);
     FrozenCookies.recalculateCaches = false;
@@ -1239,10 +1243,11 @@ function updateCaches() {
     targetBank = bestBank(recommendation.efficiency);
     currentCookieCPS = gcPs(cookieValue(currentBank.cost));
     currentUpgradeCount = Game.UpgradesInStore.length;
+    FrozenCookies.safeGainsCalc();
 
-    if (FrozenCookies.lastCPS != Game.cookiesPs) {
+    if (FrozenCookies.lastCPS != FrozenCookies.calculatedCps) {
       FrozenCookies.recalculateCaches = true;
-      FrozenCookies.lastCPS = Game.cookiesPs;
+      FrozenCookies.lastCPS = FrozenCookies.calculatedCps;
     }
     
     if (FrozenCookies.currentBank.cost != currentBank.cost) {
@@ -1264,7 +1269,8 @@ function updateCaches() {
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.lastUpgradeCount = currentUpgradeCount;
     }
-  } while (FrozenCookies.recalculateCaches);
+    recalcCount += 1;
+  } while (FrozenCookies.recalculateCaches && recalcCount < 10);
 }
 
 function doTimeTravel() {
@@ -1465,6 +1471,7 @@ function autoCookie() {
       disabledPopups = false;
 //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
       recommendation.purchase.buy();
+      FrozenCookies.autobuyCount += 1;
       if (FrozenCookies.trackStats == 5 && recommendation.type == 'upgrade') {
         saveStats();
       } else if (FrozenCookies.trackStats == 6) {
@@ -1472,6 +1479,10 @@ function autoCookie() {
       }
       logEvent('Store', 'Autobought ' + recommendation.purchase.name + ' for ' + Beautify(recommendation.cost) + ', resulting in ' + Beautify(recommendation.delta_cps) + ' CPS.');
       disabledPopups = true;
+      if (FrozenCookies.autobuyCount >= 10) {
+      	Game.Draw();
+      	FrozenCookies.autobuyCount = 0;
+      }
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.processing = false;
       return FrozenCookies.frequency ? autoCookie() : null;
