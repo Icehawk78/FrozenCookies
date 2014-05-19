@@ -289,7 +289,9 @@ function nextHC(tg) {
 }
 
 function copyToClipboard (text) {
+  Game.promptOn = 1;
   window.prompt ("Copy to clipboard: Ctrl+C, Enter", text);
+  Game.promptOn = 0;
 }
  
 function getBuildingSpread () {
@@ -301,19 +303,24 @@ function getBuildingSpread () {
 // Press 'c' to toggle auto-GC
 // Press 'w' to display a wrinkler-info window
 document.addEventListener('keydown', function(event) {
-  if(event.keyCode == 65) {
-    Game.Toggle('autoBuy','autobuyButton','Autobuy OFF','Autobuy ON');
-    toggleFrozen('autoBuy');
-  }
-  if(event.keyCode == 66) {
-    copyToClipboard(getBuildingSpread());
-  }
-  if(event.keyCode == 67) {
-    Game.Toggle('autoGC','autogcButton','Autoclick GC OFF','Autoclick GC ON');
-    toggleFrozen('autoGC');
-  }
-  if(event.keyCode == 87) {
-    Game.Notify('Wrinkler Info', 'Popping all wrinklers will give you ' + Beautify(Game.wrinklers.reduce(function(s,w){return s + w.sucked * 1.1},0)) + ' cookies. <input type="button" value="Click here to pop all wrinklers" onclick="Game.CollectWrinklers()"></input>', [19,8],7);
+  if (!Game.promptOn) {
+    if(event.keyCode == 65) {
+      Game.Toggle('autoBuy','autobuyButton','Autobuy OFF','Autobuy ON');
+      toggleFrozen('autoBuy');
+    }
+    if(event.keyCode == 66) {
+      copyToClipboard(getBuildingSpread());
+    }
+    if(event.keyCode == 67) {
+      Game.Toggle('autoGC','autogcButton','Autoclick GC OFF','Autoclick GC ON');
+      toggleFrozen('autoGC');
+    }
+    if(event.keyCode == 69) {
+      copyToClipboard(Game.WriteSave(true));
+    }
+    if(event.keyCode == 87) {
+      Game.Notify('Wrinkler Info', 'Popping all wrinklers will give you ' + Beautify(Game.wrinklers.reduce(function(s,w){return s + w.sucked * 1.1},0)) + ' cookies. <input type="button" value="Click here to pop all wrinklers" onclick="Game.CollectWrinklers()"></input>', [19,8],7);
+    }
   }
 });
 
