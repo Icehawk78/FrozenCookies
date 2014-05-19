@@ -316,6 +316,9 @@ document.addEventListener('keydown', function(event) {
     Game.Toggle('autoGC','autogcButton','Autoclick GC OFF','Autoclick GC ON');
     toggleFrozen('autoGC');
   }
+  if(event.keyCode == 69) {
+    copyToClipboard(Game.WriteSave(true));
+  }
   if(event.keyCode == 87) {
     Game.Notify('Wrinkler Info', 'Popping all wrinklers will give you ' + Beautify(Game.wrinklers.reduce(function(s,w){return s + w.sucked * 1.1},0)) + ' cookies. <input type="button" value="Click here to pop all wrinklers" onclick="Game.CollectWrinklers()"></input>', [19,8],7);
   }
