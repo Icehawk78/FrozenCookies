@@ -1385,7 +1385,7 @@ function liveWrinklers() {
 }
 
 function wrinklerMod(num) {
-  return FrozenCookies.includeWrinklers ? 1.1 * num * num * 0.05 * (Game.Has('Wrinklerspawn') ? 1.05 : 1) + (1 - 0.05 * num) : 1;
+  return 1.1 * num * num * 0.05 * (Game.Has('Wrinklerspawn') ? 1.05 : 1) + (1 - 0.05 * num);
 }
 
 function shouldPopWrinklers() {
