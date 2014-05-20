@@ -428,13 +428,13 @@ function getProbabilityModifiers(listType) {
   var result;
   switch (listType) {
     case "golden":
-      result = Game.Has('Lucky day') * 0.5 + Game.Has('Serendipity') * 0.5 + Game.Has('Golden goose egg') * 0.95;
+      result = (Game.Has('Lucky day') ? 0.5 : 1) * (Game.Has('Serendipity') ? 0.5 : 1) + (Game.Has('Golden goose egg') ? 0.95 : 1);
       break;
     case "reindeer":
-      result = Game.Has('Reindeer baking grounds') * 0.5;
+      result = Game.Has('Reindeer baking grounds') ? 0.5 : 1;
       break;
   }
-  return result ? result : 1;
+  return result;
 }
 
 function cumulativeProbability(listType, start, stop) {
