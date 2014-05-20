@@ -239,6 +239,10 @@ function timeDisplay(seconds) {
 
 function fcReset(bypass) {
   Game.CollectWrinklers();
+  if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
+    Game.ObjectsById.forEach(function(b){b.sell(b.amount);});
+    Game.Upgrades['Chocolate egg'].buy();
+  }
   Game.oldReset(bypass);
   FrozenCookies.frenzyTimes = {};
   FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
@@ -731,6 +735,9 @@ function recommendationList(recalculate) {
       .sort(function(a,b){
         return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
       }));
+  }
+  if (FrozenCookies.pastemode) {
+    FrozenCookies.caches.recommendationList.reverse();
   }
   return FrozenCookies.caches.recommendationList;
 //  return upgradeStats(recalculate).concat(buildingStats(recalculate)).sort(function(a,b){return (a.efficiency - b.efficiency)});
@@ -1385,7 +1392,7 @@ function shouldPopWrinklers() {
   var toPop = [];
   var living = liveWrinklers();
   if (living.length > 0) {
-    if (Game.season == 'halloween' && !haveAll('halloween')) {
+    if ((Game.season == 'halloween' || Game.season == 'easter') && !haveAll(Game.season)) {
       toPop = living.map(function(w) {return w.id});
     } else {
       var delay = delayAmount();
