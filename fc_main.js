@@ -1471,7 +1471,7 @@ function autoCookie() {
       }
     }
     
-    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost) && (isFinite(nextChainedPurchase().efficiency))) {
+    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
 //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
       recommendation.time = Date.now() - Game.startDate;
 //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
