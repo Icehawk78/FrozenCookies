@@ -383,7 +383,7 @@ function FCMenu() {
     subsection.append($('<div>').addClass('listing').html('<b>Golden Cookie Clicks:</b> ' + Beautify(Game.goldenClicks)));
     subsection.append($('<div>').addClass('listing').html('<b>Missed Golden Cookie Clicks:</b> ' + Beautify(Game.missedGoldenClicks)));
     subsection.append($('<div>').addClass('listing').html('<b>Last Golden Cookie Effect:</b> ' + Game.goldenCookie.last));
-    $.each(FrozenCookies.frenzyTimes, function(time, rate) {
+    $.each(FrozenCookies.frenzyTimes, function(rate, time) {
       subsection.append($('<div>').addClass('listing').html('<b>Total Recorded Time at x' + rate + ':</b> ' + timeDisplay(time/1000)));
     });
     menu.append(subsection);
