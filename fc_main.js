@@ -20,8 +20,9 @@ function setOverrides() {
   FrozenCookies.autobuyCount = 0;
   
   // Get historical data
-  FrozenCookies.non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
-  FrozenCookies.gc_time = Number(localStorage.getItem('frenzyTime'));
+  FrozenCookies.frenzyTimes = JSON.parse(localStorage.getItem('frenzyTimes')) || {};
+//  FrozenCookies.non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
+//  FrozenCookies.gc_time = Number(localStorage.getItem('frenzyTime'));
   FrozenCookies.lastHCAmount = Number(localStorage.getItem('lastHCAmount'));
   FrozenCookies.lastHCTime = Number(localStorage.getItem('lastHCTime'));
   FrozenCookies.prevLastHCTime = Number(localStorage.getItem('prevLastHCTime'));
@@ -265,8 +266,9 @@ function updateLocalStorage() {
   
   localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
   localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
-  localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
-  localStorage.frenzyTime = FrozenCookies.gc_time;
+  localStorage.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
+//  localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
+//  localStorage.frenzyTime = FrozenCookies.gc_time;
   localStorage.lastHCAmount = FrozenCookies.lastHCAmount;
   localStorage.maxHCPercent = FrozenCookies.maxHCPercent;
   localStorage.lastHCTime = FrozenCookies.lastHCTime;
@@ -1498,20 +1500,23 @@ function autoCookie() {
     }
     var currentFrenzy = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
     if (currentFrenzy != FrozenCookies.last_gc_state) {
-      if (FrozenCookies.last_gc_state && !currentFrenzy) {
+      if (FrozenCookies.last_gc_state != 1 && currentFrenzy == 1) {
       	logEvent('GC', 'Frenzy ended, cookie production x1');
       	if (FrozenCookies.hc_gain) {
 	  logEvent('HC', 'Won ' + FrozenCookies.hcs_during_frenzy + ' heavenly chips during Frenzy. Overall average: ' + currHCPercent + ' HC/hr.');
 	  FrozenCookies.hc_gain = 0;
       	}
       } else {
-      	if (FrozenCookies.last_gc_state) {
+      	if (FrozenCookies.last_gc_state != 1) {
       	  logEvent('GC', 'Previous Frenzy x' + FrozenCookies.last_gc_state + 'interrupted.')
         } else if (FrozenCookies.hc_gain) {
 	  logEvent('HC', 'Won ' + FrozenCookies.hc_gain + ' heavenly chips outside of Frenzy. Overall average: ' + currHCPercent + ' HC/hr.');
           FrozenCookies.hc_gain = 0;
         }
       	logEvent('GC', 'Starting ' + (Game.clickFrenzy ? 'Clicking ' : '') + 'Frenzy x' +  currentFrenzy);
+      }
+      if (FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] == null) {
+      	FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] = 0;
       }
       FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] += Date.now() - FrozenCookies.last_gc_time;
       FrozenCookies.last_gc_state = currentFrenzy;
