@@ -795,7 +795,7 @@ function buildingStats(recalculate) {
       var baseDeltaCps = baseCpsNew - baseCpsOrig;
       var efficiency = purchaseEfficiency(current.getPrice(), deltaCps, baseDeltaCps, cpsOrig)
       return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : current.getPrice(), 'purchase' : current, 'type' : 'building'};
-    });
+    }).filter(function(a){return a;});
   }
   return FrozenCookies.caches.buildings;
 }
