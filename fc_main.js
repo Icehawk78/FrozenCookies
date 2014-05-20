@@ -262,7 +262,7 @@ function fcReset(bypass) {
   FrozenCookies.frenzyTimes = {};
   FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
   FrozenCookies.last_gc_time = Date.now();
-  FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + w.sucked * 1.1;}, 0));
+  FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
   FrozenCookies.lastHCTime = Date.now();
   FrozenCookies.maxHCPercent = 0;
   FrozenCookies.prevLastHCTime = Date.now();
@@ -345,7 +345,7 @@ document.addEventListener('keydown', function(event) {
       copyToClipboard(Game.WriteSave(true));
     }
     if(event.keyCode == 87) {
-      Game.Notify('Wrinkler Info', 'Popping all wrinklers will give you ' + Beautify(Game.wrinklers.reduce(function(s,w){return s + w.sucked * 1.1},0)) + ' cookies. <input type="button" value="Click here to pop all wrinklers" onclick="Game.CollectWrinklers()"></input>', [19,8],7);
+      Game.Notify('Wrinkler Info', 'Popping all wrinklers will give you ' + Beautify(Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);},0)) + ' cookies. <input type="button" value="Click here to pop all wrinklers" onclick="Game.CollectWrinklers()"></input>', [19,8],7);
     }
   }
 });
@@ -1199,7 +1199,7 @@ function saveStats(fromGraph) {
     time: Date.now() - Game.startDate,
     baseCps: baseCps(),
     effectiveCps: effectiveCps(),
-    hc: Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + w.sucked * 1.1},0))
+    hc: Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);},0))
   });
   if ($('#statGraphContainer').length > 0 && !$('#statGraphContainer').is(':hidden') && !fromGraph) {
     viewStatGraphs();
@@ -1407,6 +1407,10 @@ function wrinklerMod(num) {
   return 1.1 * num * num * 0.05 * (Game.Has('Wrinklerspawn') ? 1.05 : 1) + (1 - 0.05 * num);
 }
 
+function popValue(sucked) {
+  return sucked * 1.1 * (Game.Has('Wrinklerspawn') ? 1.05 : 1);
+}
+
 function shouldPopWrinklers() {
   var toPop = [];
   var living = liveWrinklers();
@@ -1421,7 +1425,7 @@ function shouldPopWrinklers() {
         var futureWrinklers = living.length - (current.ids.length + 1);
         if (current.total < nextRecNeeded && effectiveCps(delay, Game.elderWrath, futureWrinklers) + nextRecCps > effectiveCps()) {
           current.ids.push(w.id);
-          current.total += w.sucked * 1.1;
+          current.total += popValue(w.sucked);
         }
         return current;
       }, {total:0, ids:[]});
@@ -1459,7 +1463,7 @@ function autoFrenzyClick() {
 function autoCookie() {
   if (!FrozenCookies.processing) {
     FrozenCookies.processing = true;
-    var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + w.sucked * 1.1;}, 0));
+    var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
     if (FrozenCookies.lastHCAmount < currentHCAmount) {
       var changeAmount = currentHCAmount - FrozenCookies.lastHCAmount;
       FrozenCookies.lastHCAmount = currentHCAmount;
