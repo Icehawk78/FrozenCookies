@@ -1,4 +1,18 @@
 function setOverrides() {
+  // Add polyfills:
+  
+  (function (global) {
+    var global_isFinite = global.isFinite;
+    Object.defineProperty(Number, 'isFinite', {
+      value: function isFinite(value) {
+        return typeof value === 'number' && global_isFinite(value);
+      },
+      configurable: true,
+      enumerable: false,
+      writable: true
+    });
+  })(this);
+  
   // Set all cycleable preferences
   _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
     FrozenCookies[preference] = preferenceParse(preference, FrozenCookies.preferenceValues[preference].default);
@@ -414,8 +428,10 @@ function getProbabilityModifiers(listType) {
   switch (listType) {
     case "golden":
       result = Game.Has('Lucky day') * 0.5 + Game.Has('Serendipity') * 0.5 + Game.Has('Golden goose egg') * 0.95;
+      break;
     case "reindeer":
       result = Game.Has('Reindeer baking grounds') * 0.5;
+      break;
   }
   return result ? result : 1;
 }
