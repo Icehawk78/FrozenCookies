@@ -1504,15 +1504,15 @@ function autoCookie() {
     if (((Game.frenzy > 0 && Game.frenzyPower > 1) || Game.clickFrenzy > 0) != FrozenCookies.last_gc_state) {
       if (FrozenCookies.last_gc_state) {
       	logEvent('GC', 'Frenzy ended, cookie production back to normal.');
-      	if (FrozenCookies.hc_gain) {
-	  logEvent('HC', 'Frenzy won ' + FrozenCookies.hc_gain + ' heavenly chips');
+      	if (FrozenCookies.hcs_during_frenzy) {
+	  logEvent('HC', 'Frenzy won ' + FrozenCookies.hcs_during_frenzy + ' heavenly chips');
       	}
         FrozenCookies.gc_time += Date.now() - FrozenCookies.last_gc_time;
       } else {
-      	logEvent('GC', (Game.clickFrenzy ? 'Clicking ' : '') + 'Frenzy x' +  Game.frenzyPower
-      	if (FrozenCookies.hc_gain) {
-	  logEvent('HC', 'Frenzy won ' + FrozenCookies.hc_gain + ' heavenly chips');
-      	}
+      	logEvent('GC', (Game.clickFrenzy ? 'Clicking ' : '') + 'Frenzy x' +  (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1));
+      	//if (FrozenCookies.hc_gain) {
+	//  logEvent('HC', 'Frenzy won ' + FrozenCookies.hc_gain + ' heavenly chips');
+      	//}
         FrozenCookies.non_gc_time += Date.now() - FrozenCookies.last_gc_time;
       }
       updateLocalStorage();
