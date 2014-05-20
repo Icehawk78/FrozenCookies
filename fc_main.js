@@ -881,7 +881,7 @@ function totalDiscount(building) {
   if (Game.Has('Season savings') && building) price *= 0.99;
   if (Game.Has('Toy workshop') && !building) price *= 0.95;
   if (Game.Has('Santa\'s dominion')) price *= (building ? 0.99 : 0.98);
-  if (Game.Has('Faberge egg')) price *= 0.99
+  if (Game.Has('Faberge egg')) price *= 0.99;
   return price;
 }
 
