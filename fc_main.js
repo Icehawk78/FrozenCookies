@@ -735,9 +735,9 @@ function recommendationList(recalculate) {
       .sort(function(a,b){
         return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
       }));
-  }
-  if (FrozenCookies.pastemode) {
-    FrozenCookies.caches.recommendationList.reverse();
+      if (FrozenCookies.pastemode) {
+        FrozenCookies.caches.recommendationList.reverse();
+      }
   }
   return FrozenCookies.caches.recommendationList;
 //  return upgradeStats(recalculate).concat(buildingStats(recalculate)).sort(function(a,b){return (a.efficiency - b.efficiency)});
