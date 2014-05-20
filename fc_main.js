@@ -31,7 +31,7 @@ function setOverrides() {
   // Set default values for calculations
   FrozenCookies.hc_gain = 0;
   FrozenCookies.hc_gain_time = Date.now();
-  FrozenCookies.last_gc_state = (Game.frenzy > 0);
+  FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
   FrozenCookies.last_gc_time = Date.now();
   FrozenCookies.lastCPS = Game.cookiesPs;
   FrozenCookies.lastCookieCPS = 0;
@@ -240,9 +240,8 @@ function timeDisplay(seconds) {
 function fcReset(bypass) {
   Game.CollectWrinklers();
   Game.oldReset(bypass);
-  FrozenCookies.nonFrenzyTime = 0;
-  FrozenCookies.frenzyTime = 0;
-  FrozenCookies.last_gc_state = (Game.frenzy > 0);
+  FrozenCookies.frenzyTimes = {};
+  FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
   FrozenCookies.last_gc_time = Date.now();
   FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + w.sucked * 1.1;}, 0));
   FrozenCookies.lastHCTime = Date.now();
