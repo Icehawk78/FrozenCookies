@@ -1,17 +1,18 @@
-function setOverrides() {
-  // Add polyfills:
+// Add polyfills:
   
-  (function (global) {
-    var global_isFinite = global.isFinite;
-    Object.defineProperty(Number, 'isFinite', {
-      value: function isFinite(value) {
-        return typeof value === 'number' && global_isFinite(value);
-      },
-      configurable: true,
-      enumerable: false,
-      writable: true
-    });
-  })(this);
+(function (global) {
+  var global_isFinite = global.isFinite;
+  Object.defineProperty(Number, 'isFinite', {
+    value: function isFinite(value) {
+      return typeof value === 'number' && global_isFinite(value);
+    },
+    configurable: true,
+    enumerable: false,
+    writable: true
+  });
+})(this);
+
+function setOverrides() {
   
   // Set all cycleable preferences
   _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
