@@ -383,8 +383,9 @@ function FCMenu() {
     subsection.append($('<div>').addClass('listing').html('<b>Golden Cookie Clicks:</b> ' + Beautify(Game.goldenClicks)));
     subsection.append($('<div>').addClass('listing').html('<b>Missed Golden Cookie Clicks:</b> ' + Beautify(Game.missedGoldenClicks)));
     subsection.append($('<div>').addClass('listing').html('<b>Last Golden Cookie Effect:</b> ' + Game.goldenCookie.last));
-    subsection.append($('<div>').addClass('listing').html('<b>Total Recorded Frenzy Time:</b> ' + timeDisplay(FrozenCookies.gc_time/1000)));
-    subsection.append($('<div>').addClass('listing').html('<b>Total Recorded Non-Frenzy Time:</b> ' + timeDisplay(FrozenCookies.non_gc_time/1000)));
+    $.each(FrozenCookies.frenzyTimes, function(time, rate) {
+      subsection.append($('<div>').addClass('listing').html('<b>Total Recorded Time at x' + rate + ':</b> ' + timeDisplay(time/1000)));
+    });
     menu.append(subsection);
     subsection = $('<div>').addClass('subsection');
     subsection.append($('<div>').addClass('title').html('Heavenly Chips Information'));
