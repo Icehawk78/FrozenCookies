@@ -29,6 +29,7 @@ function setOverrides() {
   FrozenCookies.maxHCPercent = Number(localStorage.getItem('maxHCPercent'));
 
   // Set default values for calculations
+  FrozenCookies.hc_gain = 0;
   FrozenCookies.last_gc_state = (Game.frenzy > 0);
   FrozenCookies.last_gc_time = Date.now();
   FrozenCookies.lastCPS = Game.cookiesPs;
