@@ -47,10 +47,10 @@ FrozenCookies.preferenceValues = {
     'default':0,
     'extras':'<a class="option" id="timeTravelPurchases" onclick="updateTimeTravelAmount();">Set Time Travel Amount</a>'
   },*/
-  'includeWrinklers':{
-    'hint':'Include wrinklers in efficiency calculations.',
-    'display':['Wrinkler Valuation OFF','Wrinkler Valuation ON'],
-    'default':1
+  'pastemode':{
+    'hint':'Always autobuy the least efficient purchase. This is a stupid idea, you should never turn this on.',
+    'display':['Pastemode OFF','Pastemode ON'],
+    'default':0
   },
   'simulatedGCPercent':{
     'hint':'What percentage of Golden Cookies should be assumed as "clicked" for GC efficiency calculations (100% recommended)',
