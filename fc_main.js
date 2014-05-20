@@ -428,7 +428,7 @@ function getProbabilityModifiers(listType) {
   var result;
   switch (listType) {
     case "golden":
-      result = (Game.Has('Lucky day') ? 0.5 : 1) * (Game.Has('Serendipity') ? 0.5 : 1) + (Game.Has('Golden goose egg') ? 0.95 : 1);
+      result = (Game.Has('Lucky day') ? 0.5 : 1) * (Game.Has('Serendipity') ? 0.5 : 1) * (Game.Has('Golden goose egg') ? 0.95 : 1);
       break;
     case "reindeer":
       result = Game.Has('Reindeer baking grounds') ? 0.5 : 1;
