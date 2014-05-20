@@ -47,10 +47,10 @@ FrozenCookies.preferenceValues = {
     'default':0,
     'extras':'<a class="option" id="timeTravelPurchases" onclick="updateTimeTravelAmount();">Set Time Travel Amount</a>'
   },*/
-  'includeWrinklers':{
-    'hint':'Include wrinklers in efficiency calculations.',
-    'display':['Wrinkler Valuation OFF','Wrinkler Valuation ON'],
-    'default':1
+  'pastemode':{
+    'hint':'Always autobuy the least efficient purchase. This is a stupid idea, you should never turn this on.',
+    'display':['Pastemode OFF','Pastemode ON'],
+    'default':0
   },
   'simulatedGCPercent':{
     'hint':'What percentage of Golden Cookies should be assumed as "clicked" for GC efficiency calculations (100% recommended)',
@@ -283,11 +283,10 @@ var cookieInfo = {
   'blah':        {'odds':[0,0,0,0], isOverlap:false}
 };
 
-function generateProbabilities(upgradeLevel, minBase, maxMult) {
+function generateProbabilities(upgradeMult, minBase, maxMult) {
   var cumProb = [];
   var remainingProbability = 1;
-  var upgradeDiv = upgradeLevel ? 2 * upgradeLevel : 1;
-  var minTime = minBase / upgradeDiv;
+  var minTime = minBase * upgradeMult;
   var maxTime = maxMult * minTime;
   var spanTime = maxTime - minTime;
   for (var i=0; i<maxTime; i++) {
@@ -299,6 +298,12 @@ function generateProbabilities(upgradeLevel, minBase, maxMult) {
 }
 
 var cumulativeProbabilityList = {
-  golden : [0,1,2].map(function(x) {return generateProbabilities(x, 5 * 60 * Game.fps, 3);}),
-  reindeer : [0,1].map(function(x) {return generateProbabilities(x, 3 * 60 * Game.fps, 2);})
+  golden : [1, 0.95, 0.5, 0.475, 0.25, 0.2375].reduce(function(r,x) {
+    r[x] = generateProbabilities(x, 5 * 60 * Game.fps, 3);
+    return r;
+  }, {}),
+  reindeer : [1, 0.5].reduce(function(r,x) {
+    r[x] = generateProbabilities(x, 3 * 60 * Game.fps, 2);
+    return r;
+  }, {})
 };
