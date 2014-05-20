@@ -726,7 +726,7 @@ function recommendationList(recalculate) {
       .concat(buildingStats(recalculate))
       .concat(santaStats())
       .sort(function(a,b){
-        return a.efficiency != b.efficiency ? b.efficiency - a.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
+        return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
       }));
   }
   return FrozenCookies.caches.recommendationList;
@@ -1466,7 +1466,7 @@ function autoCookie() {
       }
     }
     
-    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost) && (nextChainedPurchase().delta_cps >= 0)) {
+    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost) && (isFinite(nextChainedPurchase().efficiency))) {
 //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
       recommendation.time = Date.now() - Game.startDate;
 //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
@@ -1504,15 +1504,21 @@ function autoCookie() {
     if (((Game.frenzy > 0 && Game.frenzyPower > 1) || Game.clickFrenzy > 0) != FrozenCookies.last_gc_state) {
       if (FrozenCookies.last_gc_state) {
       	logEvent('GC', 'Frenzy ended, cookie production back to normal.');
-        logEvent('HC', 'Frenzy won ' + FrozenCookies.hcs_during_frenzy + ' heavenly chips');
-        FrozenCookies.hcs_during_frenzy = 0;
+      	if (FrozenCookies.hc_gain) {
+	  logEvent('HC', 'Frenzy won ' + FrozenCookies.hc_gain + ' heavenly chips');
+      	}
         FrozenCookies.gc_time += Date.now() - FrozenCookies.last_gc_time;
       } else {
+      	logEvent('GC', (Game.clickFrenzy ? 'Clicking ' : '') + 'Frenzy x' +  Game.frenzyPower
+      	if (FrozenCookies.hc_gain) {
+	  logEvent('HC', 'Frenzy won ' + FrozenCookies.hc_gain + ' heavenly chips');
+      	}
         FrozenCookies.non_gc_time += Date.now() - FrozenCookies.last_gc_time;
       }
       updateLocalStorage();
       FrozenCookies.last_gc_state = ((Game.frenzy > 0 && Game.frenzyPower > 1) || Game.clickFrenzy > 0);
       FrozenCookies.last_gc_time = Date.now();
+      FrozenCookies.hc_gain = 0;
     }
     FrozenCookies.processing = false;
     if (FrozenCookies.frequency) {
