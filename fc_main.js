@@ -881,11 +881,12 @@ function totalDiscount(building) {
   if (Game.Has('Season savings') && building) price *= 0.99;
   if (Game.Has('Toy workshop') && !building) price *= 0.95;
   if (Game.Has('Santa\'s dominion')) price *= (building ? 0.99 : 0.98);
+  if (Game.Has('Faberge egg')) price *= 0.99
   return price;
 }
 
 function cumulativeBuildingCost(basePrice, startingNumber, endingNumber) {
-  return basePrice * totalDiscount() * (Math.pow(Game.priceIncrease, endingNumber) - Math.pow(Game.priceIncrease, startingNumber)) / (Game.priceIncrease - 1);
+  return basePrice * totalDiscount(true) * (Math.pow(Game.priceIncrease, endingNumber) - Math.pow(Game.priceIncrease, startingNumber)) / (Game.priceIncrease - 1);
 }
 
 function cumulativeSantaCost(amount) {
