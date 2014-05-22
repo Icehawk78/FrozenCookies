@@ -280,7 +280,7 @@ function fcReset(bypass) {
       	Game.HowMuchPrestige(Game.cookiesReset) - 
         Game.HowMuchPrestige(
           (Game.cookiesEarned + Game.cookiesReset + 
-            (Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0) + Game.ObjectsById.reduce(function(s,b){return s + cumulativeBuildingCost(b.basePrice, 1, b.amount + 1) / 2})) * (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg') ? 1.05 : 1)
+            (Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0) + Game.ObjectsById.reduce(function(s,b){return s + cumulativeBuildingCost(b.basePrice, 1, b.amount + 1) / 2},0)) * (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg') ? 1.05 : 1)
           )
         )) + ' Heavenly Chips if you reset now.</small></div>',
     [['Yes!','Game.Reset(1);Game.ClosePrompt();'],'No']);
