@@ -277,12 +277,12 @@ function fcReset(bypass) {
       '<small>This will pop all wrinklers, sell all buildings, and buy the Chocolate Egg if possible, before removing all progress and granting Heavenly Chips. ' +
       '<br>You will gain a total of ' + 
       Beautify(
-      	Game.HowMuchPrestige(Game.cookiesReset) - 
         Game.HowMuchPrestige(
           (Game.cookiesEarned + Game.cookiesReset + 
             (Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0) + Game.ObjectsById.reduce(function(s,b){return s + cumulativeBuildingCost(b.basePrice, 1, b.amount + 1) / 2},0)) * (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg') ? 1.05 : 1)
           )
-        )) + ' Heavenly Chips if you reset now.</small></div>',
+        ) - 
+        Game.HowMuchPrestige(Game.cookiesReset)) + ' Heavenly Chips if you reset now.</small></div>',
     [['Yes!','Game.Reset(1);Game.ClosePrompt();'],'No']);
   }
 }
