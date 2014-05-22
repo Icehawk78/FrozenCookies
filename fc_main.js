@@ -904,6 +904,7 @@ function defaultPurchase() {
     id: 0,
     efficiency: Infinity,
     delta_cps: 0,
+    base_delta_cps: 0,
     cost: Infinity,
     type: 'other',
     purchase: {
