@@ -786,8 +786,9 @@ function nextPurchase(recalculate) {
   if (recalculate) {
     var recList = recommendationList(recalculate);
     var purchase = null;
+    var target = null;
     for (var i = 0; i < recList.length; i++) {
-      var target = recList[i];
+      target = recList[i];
       if (target.type == 'upgrade' && unfinishedUpgradePrereqs(Game.UpgradesById[target.id])) {
         var prereqList = unfinishedUpgradePrereqs(Game.UpgradesById[target.id]);
         purchase = recList.filter(function(a){return prereqList.some(function(b){return b.id == a.id && b.type == a.type})})[0];
@@ -800,8 +801,9 @@ function nextPurchase(recalculate) {
         break;
       }
     }
-    if (recList.length == 0) {
-      return defaultPurchase();
+    if (purchase == null) {
+      FrozenCookies.caches.nextPurchase = defaultPurchase();
+      FrozenCookies.caches.nextChainedPurchase = defaultPurchase();
     }
   }
   return FrozenCookies.caches.nextPurchase;
