@@ -253,23 +253,31 @@ function timeDisplay(seconds) {
 }
 
 function fcReset(bypass) {
-  Game.CollectWrinklers();
-  if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
-    Game.ObjectsById.forEach(function(b){b.sell(b.amount);});
-    Game.Upgrades['Chocolate egg'].buy();
+  if (bypass) {
+    Game.CollectWrinklers();
+    if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
+      Game.ObjectsById.forEach(function(b){b.sell(b.amount);});
+      Game.Upgrades['Chocolate egg'].buy();
+    }
+    Game.oldReset(bypass);
+    FrozenCookies.frenzyTimes = {};
+    FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
+    FrozenCookies.last_gc_time = Date.now();
+    FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
+    FrozenCookies.lastHCTime = Date.now();
+    FrozenCookies.maxHCPercent = 0;
+    FrozenCookies.prevLastHCTime = Date.now();
+    FrozenCookies.lastCps = 0;
+    FrozenCookies.trackedStats = [];
+    updateLocalStorage();
+    recommendationList(true);
+  } else {
+    Game.Prompt(
+      '<h3>Reset</h3><div class="block">Do you want to reset?<br>' + 
+      '<small>This will pop all wrinklers, sell all buildings, and buy the Chocolate Egg if possible, before removing all progress and granting Heavenly Chips. ' +
+      'You will gain a total of ' + Game.HowMuchPrestige((Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0)) * (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg') ? 1.05 : 1)) + 'Heavenly Chips if you reset now.</small></div>',
+    [['Yes!','Game.Reset(1);Game.ClosePrompt();'],'No']);
   }
-  Game.oldReset(bypass);
-  FrozenCookies.frenzyTimes = {};
-  FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
-  FrozenCookies.last_gc_time = Date.now();
-  FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
-  FrozenCookies.lastHCTime = Date.now();
-  FrozenCookies.maxHCPercent = 0;
-  FrozenCookies.prevLastHCTime = Date.now();
-  FrozenCookies.lastCps = 0;
-  FrozenCookies.trackedStats = [];
-  updateLocalStorage();
-  recommendationList(true);
 }
 
 function fcWriteSave(exporting) {
