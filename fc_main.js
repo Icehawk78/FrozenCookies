@@ -800,6 +800,9 @@ function nextPurchase(recalculate) {
         break;
       }
     }
+    if (recList.length == 0) {
+      return defaultPurchase();
+    }
   }
   return FrozenCookies.caches.nextPurchase;
 //  return purchase;
@@ -892,6 +895,22 @@ function santaStats() {
       getCost: function() {return cumulativeSantaCost(1);}
     }
   } : [];
+}
+
+function defaultPurchase() {
+  return {
+    id: 0,
+    efficiency: Infinity,
+    delta_cps: 0,
+    cost: Infinity,
+    type: 'other',
+    purchase: {
+      id: 0,
+      name: 'No valid purchases!',
+      buy: function(){},
+      getCost: function() {return Infinity;}
+    }
+  }
 }
 
 function totalDiscount(building) {                                                                                    
