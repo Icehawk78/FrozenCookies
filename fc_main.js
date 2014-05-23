@@ -729,7 +729,7 @@ function delayAmount() {
 }
 
 function haveAll(holiday) {
-  return _.every(holidayCookies[holiday], function(id) {return Game.UpgradesById[id].unlocked;});
+  return Game.HasAchiev(holidayAchievements[holiday]) && _.every(holidayCookies[holiday], function(id) {return Game.UpgradesById[id].unlocked;});
 }
 
 function checkPrices(currentUpgrade) {
