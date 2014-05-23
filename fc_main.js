@@ -100,6 +100,11 @@ function setOverrides() {
   Game.RefreshStore();
   Game.RebuildUpgrades();
   beautifyUpgradesAndAchievements();
+  
+  // Relock current season because people apparently get confused by its existence even though it has nothing to do with me.
+  if (Game.seasons[Game.season] && Game.HasUnlocked([Game.seasons[Game.season].trigger])) { 
+    Game.Lock(Game.seasons[Game.season].trigger);
+  }
   // Replace Game.Popup references with event logging
   eval('Game.goldenCookie.click = ' + Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
   eval('Game.UpdateWrinklers = ' + Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
