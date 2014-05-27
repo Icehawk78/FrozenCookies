@@ -339,7 +339,8 @@ function FCMenu() {
       chainRecommendation = nextChainedPurchase(),
       isChained = !(recommendation.id == chainRecommendation.id && recommendation.type == chainRecommendation.type),
       bankLevel = bestBank(chainRecommendation.efficiency),
-      actualCps = Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed;
+      actualCps = Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed,
+      chocolateRecoup = chainRecommendation.type == 'upgrade' ? Infinity : chainRecommendation.cost * 0.425 * 0.05 / chainRecommendation.delta_cps;
 
     subsection.append($('<div>').addClass('listing').html('<b>Next Purchase:</b> ' + recommendation.purchase.name));
     if (isChained) {
@@ -349,6 +350,9 @@ function FCMenu() {
     subsection.append($('<div>').addClass('listing').html('<b>Estimated Actual completion time:</b> ' + timeDisplay(divCps((recommendation.cost + bankLevel.cost - Game.cookies), effectiveCps()))));
     if (isChained) {
       subsection.append($('<div>').addClass('listing').html('<b>Time till Chain completion:</b> ' + timeDisplay(divCps(Math.max(0,(chainRecommendation.cost + bankLevel.cost - Game.cookies)), actualCps))));
+    }
+    if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
+      subsection.append($('<div>').addClass('listing').html('<b>Time to Recoup Chocolate:</b> ' + timeDisplay(chocolateRecoup)));
     }
     subsection.append($('<div>').addClass('listing').html('<b>Cost:</b> ' + Beautify(recommendation.cost)));
     subsection.append($('<div>').addClass('listing').html('<b>Golden Cookie Bank:</b> ' + Beautify(bankLevel.cost)));
@@ -459,6 +463,9 @@ function FCMenu() {
     buildTable.append($('<tr><td><b>Lucky Bank</b></td><td>n/a</td><td>' + Beautify(bankLucky.efficiency) + '</td><td>' + Beautify(Math.max(0,bankLucky.cost - Game.cookies)) + '</td><td>' + Beautify(gcPs(cookieValue(bankLucky.cost) - cookieValue(Game.cookies))) + '</td></tr>'));
     buildTable.append($('<tr><td><b>Lucky Frenzy Bank</b></td><td>n/a</td><td>' + Beautify(bankLuckyFrenzy.efficiency) + '</td><td>' + Beautify(Math.max(0,bankLuckyFrenzy.cost - Game.cookies)) + '</td><td>' + Beautify(gcPs(cookieValue(bankLuckyFrenzy.cost) - cookieValue(Game.cookies))) + '</td></tr>'));
     buildTable.append($('<tr><td><b>Chain Bank</b></td><td>n/a</td><td>' + Beautify(bankChain.efficiency) + '</td><td>' + Beautify(Math.max(0,bankChain.cost - Game.cookies)) + '</td><td>' + Beautify(gcPs(cookieValue(bankChain.cost) - cookieValue(Game.cookies))) + '</td></tr>'));
+    $.each({'Pledging/Appeased' : 0, 'One Mind/Awoken' : 1, 'Displease' : 2, 'Full Wrath/Angered' : 3}, function(k,v) {
+      buildTable.append($('<tr><td><b>' + k + '</b></td><td>n/a</td><td title="Ratio of Effective CPS vs Base CPS">' + Beautify(effectiveCps(Game.cookies, v) / baseCps()) + '</td><td>n/a</td><td>' + Beautify(effectiveCps(Game.cookies, v) - effectiveCps()) + '</td></tr>'));
+    });
     subsection.append($('<div>').addClass('listing').append(buildTable));
     menu.append(subsection);
   };
