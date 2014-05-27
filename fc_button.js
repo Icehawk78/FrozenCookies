@@ -340,7 +340,7 @@ function FCMenu() {
       isChained = !(recommendation.id == chainRecommendation.id && recommendation.type == chainRecommendation.type),
       bankLevel = bestBank(chainRecommendation.efficiency),
       actualCps = Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed,
-      chocolateRecoup = chainRecommendation.type == 'upgrade' ? Infinity : chainRecommendation.cost * 0.425 * 0.05 / chainRecommendation.delta_cps;
+      chocolateRecoup = recommendation.type == 'upgrade' ? Infinity : recommendation.cost * 0.425 * 0.05 / recommendation.delta_cps;
 
     subsection.append($('<div>').addClass('listing').html('<b>Next Purchase:</b> ' + recommendation.purchase.name));
     if (isChained) {
@@ -352,7 +352,7 @@ function FCMenu() {
       subsection.append($('<div>').addClass('listing').html('<b>Time till Chain completion:</b> ' + timeDisplay(divCps(Math.max(0,(chainRecommendation.cost + bankLevel.cost - Game.cookies)), actualCps))));
     }
     if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
-      subsection.append($('<div>').addClass('listing').html('<b>Time to Recoup Chocolate:</b> ' + timeDisplay(chocolateRecoup)));
+      subsection.append($('<div>').addClass('listing').html('<b>Time to Recoup Chocolate:</b> ' + timeDisplay(divCps(recommendation.cost + bankLevel.cost - Game.cookies, effectiveCps()) + chocolateRecoup)));
     }
     subsection.append($('<div>').addClass('listing').html('<b>Cost:</b> ' + Beautify(recommendation.cost)));
     subsection.append($('<div>').addClass('listing').html('<b>Golden Cookie Bank:</b> ' + Beautify(bankLevel.cost)));
