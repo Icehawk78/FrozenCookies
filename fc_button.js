@@ -463,7 +463,7 @@ function FCMenu() {
     buildTable.append($('<tr><td><b>Lucky Bank</b></td><td>n/a</td><td>' + Beautify(bankLucky.efficiency) + '</td><td>' + Beautify(Math.max(0,bankLucky.cost - Game.cookies)) + '</td><td>' + Beautify(gcPs(cookieValue(bankLucky.cost) - cookieValue(Game.cookies))) + '</td></tr>'));
     buildTable.append($('<tr><td><b>Lucky Frenzy Bank</b></td><td>n/a</td><td>' + Beautify(bankLuckyFrenzy.efficiency) + '</td><td>' + Beautify(Math.max(0,bankLuckyFrenzy.cost - Game.cookies)) + '</td><td>' + Beautify(gcPs(cookieValue(bankLuckyFrenzy.cost) - cookieValue(Game.cookies))) + '</td></tr>'));
     buildTable.append($('<tr><td><b>Chain Bank</b></td><td>n/a</td><td>' + Beautify(bankChain.efficiency) + '</td><td>' + Beautify(Math.max(0,bankChain.cost - Game.cookies)) + '</td><td>' + Beautify(gcPs(cookieValue(bankChain.cost) - cookieValue(Game.cookies))) + '</td></tr>'));
-    $.each({'Pledging/Appeased' : 0, 'One Mind/Awoken' : 1, 'Displease' : 2, 'Full Wrath/Angered' : 3}, function(k,v) {
+    $.each({'Pledging/Appeased' : 0, 'One Mind/Awoken' : 1, 'Displeased' : 2, 'Full Wrath/Angered' : 3}, function(k,v) {
       buildTable.append($('<tr><td><b>' + k + '</b></td><td>n/a</td><td title="Ratio of Effective CPS vs Base CPS">' + Beautify(effectiveCps(Game.cookies, v) / baseCps()) + '</td><td>n/a</td><td>' + Beautify(effectiveCps(Game.cookies, v) - effectiveCps()) + '</td></tr>'));
     });
     subsection.append($('<div>').addClass('listing').append(buildTable));
