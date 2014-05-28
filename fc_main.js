@@ -357,6 +357,12 @@ document.addEventListener('keydown', function(event) {
     if(event.keyCode == 69) {
       copyToClipboard(Game.WriteSave(true));
     }
+    if (event.keyCode == 82) {
+      Game.Reset();
+    }
+    if (event.keyCode == 83) {
+      Game.WriteSave();
+    }
     if(event.keyCode == 87) {
       Game.Notify('Wrinkler Info', 'Popping all wrinklers will give you ' + Beautify(Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);},0)) + ' cookies. <input type="button" value="Click here to pop all wrinklers" onclick="Game.CollectWrinklers()"></input>', [19,8],7);
     }
