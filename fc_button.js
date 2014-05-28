@@ -340,7 +340,7 @@ function FCMenu() {
       isChained = !(recommendation.id == chainRecommendation.id && recommendation.type == chainRecommendation.type),
       bankLevel = bestBank(chainRecommendation.efficiency),
       actualCps = Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed,
-      chocolateRecoup = (recommendation.type == 'upgrade' ? recommendation.cost : recommendation.cost * 0.425 * 0.05) / recommendation.delta_cps;
+      chocolateRecoup = recommendation.type == 'upgrade' ? recommendation.cost / (recommendation.delta_cps * 21) : (recommendation.cost * 17) / (recommendation.delta_cps * 480);
 
     subsection.append($('<div>').addClass('listing').html('<b>Next Purchase:</b> ' + recommendation.purchase.name));
     if (isChained) {
