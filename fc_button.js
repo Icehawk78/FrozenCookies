@@ -340,7 +340,7 @@ function FCMenu() {
       isChained = !(recommendation.id == chainRecommendation.id && recommendation.type == chainRecommendation.type),
       bankLevel = bestBank(chainRecommendation.efficiency),
       actualCps = Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed,
-      chocolateRecoup = recommendation.type == 'upgrade' ? Infinity : recommendation.cost * 0.425 * 0.05 / recommendation.delta_cps;
+      chocolateRecoup = (recommendation.type == 'upgrade' ? recommendation.cost : recommendation.cost * 0.425 * 0.05) / recommendation.delta_cps;
 
     subsection.append($('<div>').addClass('listing').html('<b>Next Purchase:</b> ' + recommendation.purchase.name));
     if (isChained) {
@@ -394,7 +394,7 @@ function FCMenu() {
     subsection = $('<div>').addClass('subsection');
     subsection.append($('<div>').addClass('title').html('Heavenly Chips Information'));
     currHC = Game.prestige['Heavenly chips'];
-    resetHC = Game.HowMuchPrestige(Game.cookiesReset+Game.cookiesEarned);
+    resetHC = Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue());
     subsection.append($('<div>').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.prestige['Heavenly chips'])));
     subsection.append($('<div>').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(resetHC)));
     subsection.append($('<div>').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
