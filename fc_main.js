@@ -256,7 +256,7 @@ function fcReset(bypass) {
   if (bypass) {
     Game.CollectWrinklers();
     if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
-      Game.ObjectsById.forEach(function(b){b.sell(b.amount);});
+      Game.ObjectsById.forEach(function(b){b.sell(-1);});
       Game.Upgrades['Chocolate egg'].buy();
     }
     Game.oldReset(bypass);
@@ -272,17 +272,15 @@ function fcReset(bypass) {
     updateLocalStorage();
     recommendationList(true);
   } else {
+    var totalHC = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + wrinklerValue() + chocolateValue());
     Game.Prompt(
       '<h3>Reset</h3><div class="block">Do you want to reset?<br>' + 
       '<small>This will pop all wrinklers, sell all buildings, and buy the Chocolate Egg if possible, before removing all progress and granting Heavenly Chips. ' +
-      '<br>You will gain a total of ' + 
+      '<br>You will gain ' + 
       Beautify(
-        Game.HowMuchPrestige(
-          (Game.cookiesEarned + Game.cookiesReset + 
-            (Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0) + Game.ObjectsById.reduce(function(s,b){return s + cumulativeBuildingCost(b.basePrice, 1, b.amount + 1) / 2},0)) * (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg') ? 1.05 : 1)
-          )
-        ) - 
-        Game.HowMuchPrestige(Game.cookiesReset)) + ' Heavenly Chips if you reset now.</small></div>',
+        totalHC - 
+        Game.HowMuchPrestige(Game.cookiesReset)) + ' Heavenly Chips, for a total of ' + 
+      Beautify(totalHC) + ' Heavenly Chips if you reset now.</small></div>',
     [['Yes!','Game.Reset(1);Game.ClosePrompt();'],'No']);
   }
 }
@@ -604,6 +602,19 @@ function calculateChainValue(bankAmount, cps, digit) {
   x = Math.min(bankAmount, (cps * 60 * 60 * 6 * 4));
   n = Math.floor(Math.log((9*x)/(4*digit))/Math.LN10);
   return 125 * Math.pow(9,(n-3)) * digit;
+}
+
+function chocolateValue(bankAmount) {
+  var value = 0;
+  if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
+    bankAmount = (bankAmount != null && bankAmount !== 0) ? bankAmount : Game.cookies;
+    value = 0.05 * (wrinklerValue() + bankAmount + Game.ObjectsById.reduce(function(s,b){return s + cumulativeBuildingCost(b.basePrice, 1, b.amount + 1) / 2},0));
+  }
+  return value;
+}
+
+function wrinklerValue() {
+  return Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0);
 }
 
 /* Old way, less efficient
