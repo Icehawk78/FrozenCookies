@@ -483,12 +483,13 @@ function FCMenu() {
       {name: 'Chain Bank', cost: chainBank(), efficiency: cookieEfficiency(Game.cookies, chainBank())}];
     
     banks.forEach(function(bank) {
-      buildTable.append($('<tr><td colspan="2"><b>' + bank.name + (bank.efficiency === 0 ? ' (*)' : '') + '</b></td><td>' + Beautify(bank.efficiency) + '</td><td>' + Beautify(Math.max(0, bank.cost - Game.cookies)) + '</td></tr>'));
+      var deltaCps = effectiveCps(bank.cost) - effectiveCps();
+      buildTable.append($('<tr><td colspan="2"><b>' + bank.name + (bank.deltaCps === 0 ? ' (*)' : '') + '</b></td><td>' + Beautify(bank.efficiency) + '</td><td>' + Beautify(Math.max(0, bank.cost - Game.cookies)) + '</td><td>' + Beautify(deltaCps) + '</td></tr>'));
     });
     buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>'));
     buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>').css('border-top', '2px dashed'));
     $.each({'Pledging/Appeased' : 0, 'One Mind/Awoken' : 1, 'Displeased' : 2, 'Full Wrath/Angered' : 3}, function(k,v) {
-      buildTable.append($('<tr><td><b>' + k + (Game.elderWrath === v ? ' (*)' : '') + '</b></td><td>n/a</td><td title="Ratio of Effective CPS vs Base CPS">' + Beautify(effectiveCps(Game.cookies, v) / baseCps()) + '</td><td>n/a</td><td>' + Beautify(effectiveCps(Game.cookies, v) - effectiveCps()) + '</td></tr>'));
+      buildTable.append($('<tr><td colspan="2"><b>' + k + (Game.elderWrath === v ? ' (*)' : '') + '</b></td><td colspan="2" title="Ratio of Effective CPS vs Base CPS">' + Beautify(effectiveCps(Game.cookies, v) / baseCps()) + '</td><td>' + Beautify(effectiveCps(Game.cookies, v) - effectiveCps()) + '</td></tr>'));
     });
     subsection.append($('<div>').addClass('listing').append(buildTable));
     menu.append(subsection);
