@@ -340,7 +340,7 @@ function FCMenu() {
       isChained = !(recommendation.id == chainRecommendation.id && recommendation.type == chainRecommendation.type),
       bankLevel = bestBank(chainRecommendation.efficiency),
       actualCps = Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed,
-      chocolateRecoup = recommendation.type == 'upgrade' ? recommendation.cost / (recommendation.delta_cps * 21) : (recommendation.cost * 17) / (recommendation.delta_cps * 480);
+      chocolateRecoup = (recommendation.type == 'upgrade' ? recommendation.cost : recommendation.cost * 0.425) / (recommendation.delta_cps * 21);
 
     subsection.append($('<div>').addClass('listing').html('<b>Next Purchase:</b> ' + recommendation.purchase.name));
     if (isChained) {
@@ -476,7 +476,7 @@ function FCMenu() {
     });
     // Table Dividers
     buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>'));
-    buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>').css('border-top', '2px dashed'));
+    buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>').css('border-top', '2px dashed #999'));
     
     banks = [{name: 'Lucky Bank', cost: luckyBank(), efficiency: cookieEfficiency(Game.cookies, luckyBank())},
       {name: 'Lucky Frenzy Bank', cost: luckyFrenzyBank(), efficiency: cookieEfficiency(Game.cookies, luckyFrenzyBank())},
@@ -487,7 +487,7 @@ function FCMenu() {
       buildTable.append($('<tr><td colspan="2"><b>' + bank.name + (bank.deltaCps === 0 ? ' (*)' : '') + '</b></td><td>' + Beautify(bank.efficiency) + '</td><td>' + Beautify(Math.max(0, bank.cost - Game.cookies)) + '</td><td>' + Beautify(deltaCps) + '</td></tr>'));
     });
     buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>'));
-    buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>').css('border-top', '2px dashed'));
+    buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>').css('border-top', '2px dashed #999'));
     $.each({'Pledging/Appeased' : 0, 'One Mind/Awoken' : 1, 'Displeased' : 2, 'Full Wrath/Angered' : 3}, function(k,v) {
       buildTable.append($('<tr><td colspan="2"><b>' + k + (Game.elderWrath === v ? ' (*)' : '') + '</b></td><td colspan="2" title="Ratio of Effective CPS vs Base CPS">' + Beautify(effectiveCps(Game.cookies, v) / baseCps()) + '</td><td>' + Beautify(effectiveCps(Game.cookies, v) - effectiveCps()) + '</td></tr>'));
     });
