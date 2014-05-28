@@ -728,6 +728,21 @@ function delayAmount() {
 */
 }
 
+function canAfford(building, amount) {
+  var cost = cumulativeBuildingCost(building.basePrice, building.amount, amount);
+  var availableCookies = Game.cookies + wrinklerValue() + Game.ObjectsById.reduce(function(s,b) {return s + (b.name == building.name ? 0 : cumulativeBuildingCost(b.basePrice, 1, b.amount + 1) / 2);}, 0);
+  availableCookies *= Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg') ? 1.05 : 1;
+  return Math.max(0, cost - availableCookies);
+}
+
+function earnedRemaining(total) {
+  return Math.max(0, total - (Game.cookiesEarned + wrinklerValue() + chocolateValue()));
+}
+
+function estimatedTimeRemaining(cookies) {
+  return timeDisplay(cookies / effectiveCps());
+}
+
 function haveAll(holiday) {
   return Game.HasAchiev(holidayAchievements[holiday]) && _.every(holidayCookies[holiday], function(id) {return Game.UpgradesById[id].unlocked;});
 }
