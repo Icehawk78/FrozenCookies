@@ -435,7 +435,7 @@ function FCMenu() {
     if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
       subsection.append($('<div>').addClass('listing').html('<b>Chocolate Egg Value:</b> ' + Beautify(chocolateValue())));
     }
-    if (liveWrinkers().length > 0) {
+    if (liveWrinklers().length > 0) {
       subsection.append($('<div>').addClass('listing').html('<b>Wrinkler Value:</b> ' + Beautify(wrinklerValue())));
     }
     menu.append(subsection);
