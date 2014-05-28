@@ -623,22 +623,20 @@ function wrinklerValue() {
   return Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0);
 }
 
-/* Old way, less efficient
-function calculateChainValue(bankAmount, cps) {
-  var payoutTotal = 0;
-  var payoutNext = '6';
-  var step = 1;
-  var remainingProbability = 1;
-  while (payoutNext < bankAmount * 0.25 || payoutNext <= cps * 60 * 60 * 6) {
-    step += 1;
-    payoutTotal += remainingProbability * 0.1 * payoutNext;
-    remainingProbability -= remainingProbability * 0.1
-    payoutNext += '6';
-  }
-  payoutTotal += remainingProbability * payoutNext.substr(0,payoutNext.length-1);
-  return payoutTotal;
+function canAfford(building, amount) {
+  var cost = cumulativeBuildingCost(building.basePrice, building.amount, amount);
+  var availableCookies = Game.cookies + wrinklerValue() + Game.ObjectsById.reduce(function(s,b) {return s + (b.name == building.name ? 0 : cumulativeBuildingCost(b.basePrice, 1, b.amount + 1) / 2);}, 0);
+  availableCookies *= Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg') ? 1.05 : 1;
+  return Math.max(0, cost - availableCookies);
 }
-*/
+
+function earnedRemaining(total) {
+  return Math.max(0, total - (Game.cookiesEarned + wrinklerValue() + chocolateValue()));
+}
+
+function estimatedTimeRemaining(cookies) {
+  return timeDisplay(cookies / effectiveCps());
+}
 
 function luckyBank() {
   return baseCps() * 60 * 20 * 10;
