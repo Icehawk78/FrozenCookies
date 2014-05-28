@@ -366,6 +366,9 @@ function FCMenu() {
       subsection.append($('<div>').addClass('listing').html('<b>Golden Cookie Efficiency:</b> ' + Beautify(bankLevel.efficiency)));
     }
     menu.append(subsection);
+    
+    // Golden Cookies
+    
     subsection = $('<div>').addClass('subsection');
     subsection.append($('<div>').addClass('title').html('Golden Cookie Information'));
     currentCookies = Math.min(Game.cookies, FrozenCookies.targetBank.cost);
@@ -383,6 +386,8 @@ function FCMenu() {
     }
     subsection.append($('<div>').addClass('listing').html('<b>Max Lucky Cookie Value:</b> ' + Beautify(maxLuckyValue())));
     subsection.append($('<div>').addClass('listing').html('<b>Cookie Bank Required for Max Lucky:</b> ' + Beautify(maxLuckyValue() * 10)));
+    subsection.append($('<div>').addClass('listing').html('<b>Max Chain Cookie Value:</b> ' + Beautify(calculateChainValue(chainBank(), Game.cookiesPs, (7 - (Game.elderWrath / 3))))));
+    subsection.append($('<div>').addClass('listing').html('<b>Cookie Bank Required for Max Chain:</b> ' + Beautify(chainBank())));
     subsection.append($('<div>').addClass('listing').html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(cookieValue(currentCookies)))));
     subsection.append($('<div>').addClass('listing').html('<b>Golden Cookie Clicks:</b> ' + Beautify(Game.goldenClicks)));
     subsection.append($('<div>').addClass('listing').html('<b>Missed Golden Cookie Clicks:</b> ' + Beautify(Game.missedGoldenClicks)));
@@ -391,6 +396,9 @@ function FCMenu() {
       subsection.append($('<div>').addClass('listing').html('<b>Total Recorded Time at x' + rate + ':</b> ' + timeDisplay(time/1000)));
     });
     menu.append(subsection);
+    
+    // Heavenly Chips
+    
     subsection = $('<div>').addClass('subsection');
     subsection.append($('<div>').addClass('title').html('Heavenly Chips Information'));
     currHC = Game.prestige['Heavenly chips'];
@@ -413,6 +421,8 @@ function FCMenu() {
       }
     }
     menu.append(subsection);
+    
+    // Other Information
     subsection = $('<div>').addClass('subsection');
     subsection.append($('<div>').addClass('title').html('Other Information'));
     cps = baseCps() + baseClickingCps(FrozenCookies.cookieClickSpeed * FrozenCookies.autoClick);
@@ -422,8 +432,15 @@ function FCMenu() {
     subsection.append($('<div>').addClass('listing').html('<b>Base CPS' + clickStr + baseChosen + ':</b> ' + Beautify(cps)));
     subsection.append($('<div>').addClass('listing').html('<b>Frenzy CPS' + clickStr + frenzyChosen + ':</b> ' + Beautify(cps * 7)));
     subsection.append($('<div>').addClass('listing').html('<b>Estimated Effective CPS:</b> ' + Beautify(effectiveCps())));
-    subsection.append($('<div>').addClass('listing').html('<b>Game Started:</b> ' + Game.sayTime((Date.now()-Game.startDate)/1000*Game.fps)));
+    if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
+      subsection.append($('<div>').addClass('listing').html('<b>Chocolate Egg Value:</b> ' + Beautify(chocolateValue())));
+    }
+    if (liveWrinkers().length > 0) {
+      subsection.append($('<div>').addClass('listing').html('<b>Wrinkler Value:</b> ' + Beautify(wrinklerValue())));
+    }
     menu.append(subsection);
+    
+    
     if (FrozenCookies.preferenceValues) {
       subsection = $('<div>').addClass('subsection');
       subsection.append($('<div>').addClass('title').html('Frozen Cookie Controls'));
@@ -460,9 +477,11 @@ function FCMenu() {
     bankLucky = {'cost': luckyBank(), 'efficiency': cookieEfficiency(Game.cookies, luckyBank())};
     bankLuckyFrenzy = {'cost': luckyFrenzyBank(), 'efficiency': cookieEfficiency(Game.cookies, luckyFrenzyBank())};
     bankChain = {'cost': chainBank(), 'efficiency': cookieEfficiency(Game.cookies, chainBank())};
+    buildTable.append($('<tr>').append($('<td>').css({'rowspan': 5, 'border-bottom-style' : 'dashed', 'border-bottom-width' : '2px')));
     buildTable.append($('<tr><td><b>Lucky Bank</b></td><td>n/a</td><td>' + Beautify(bankLucky.efficiency) + '</td><td>' + Beautify(Math.max(0,bankLucky.cost - Game.cookies)) + '</td><td>' + Beautify(gcPs(cookieValue(bankLucky.cost) - cookieValue(Game.cookies))) + '</td></tr>'));
     buildTable.append($('<tr><td><b>Lucky Frenzy Bank</b></td><td>n/a</td><td>' + Beautify(bankLuckyFrenzy.efficiency) + '</td><td>' + Beautify(Math.max(0,bankLuckyFrenzy.cost - Game.cookies)) + '</td><td>' + Beautify(gcPs(cookieValue(bankLuckyFrenzy.cost) - cookieValue(Game.cookies))) + '</td></tr>'));
     buildTable.append($('<tr><td><b>Chain Bank</b></td><td>n/a</td><td>' + Beautify(bankChain.efficiency) + '</td><td>' + Beautify(Math.max(0,bankChain.cost - Game.cookies)) + '</td><td>' + Beautify(gcPs(cookieValue(bankChain.cost) - cookieValue(Game.cookies))) + '</td></tr>'));
+    buildTable.append($('<tr>').append($('<td>').css({'rowspan': 5, 'border-bottom-style' : 'dashed', 'border-bottom-width' : '2px')));
     $.each({'Pledging/Appeased' : 0, 'One Mind/Awoken' : 1, 'Displeased' : 2, 'Full Wrath/Angered' : 3}, function(k,v) {
       buildTable.append($('<tr><td><b>' + k + '</b></td><td>n/a</td><td title="Ratio of Effective CPS vs Base CPS">' + Beautify(effectiveCps(Game.cookies, v) / baseCps()) + '</td><td>n/a</td><td>' + Beautify(effectiveCps(Game.cookies, v) - effectiveCps()) + '</td></tr>'));
     });
