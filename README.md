@@ -39,12 +39,115 @@ What can Frozen Cookies do?
 What's new?
 -----------
 
- - 2013-10-23: Improved code stability, added large cookie autoclicker, clicking frenzy autoclicker, and blacklists for Speedrun/Hardcore achievements
- - 2013-10-22: Fixed multiple problems with the previous changes
- - 2013-10-21: Updated GC valuation code
- - 2013-10-17: Timers are much smoother and not on the FC page, many stability improvements, newer GC valuation code, and moved the hosting URL to one that won't cause script-type warnings when you load it.
- - 2013-10-03: Finally getting around to updating this file. Lots of other changes have been added in the meantime.
- - 2013-09-23: Added Chained Upgrade purchases
+2014 May 27:
+
+- Time to Recoup Chocolate stat added
+- Chocolate Egg benefits being included in the HC stats section
+- Wrath Stage information added to the Internal Information section
+
+2014 May 23:
+
+- Google Chrome updated, blocks invalid MIME-type scripts from running, forcing all users to switch to the gh-pages branch hosted on http://icehaw78.github.io/FrozenCookies; No local code changes were needed for this
+
+2014 May 20:
+
+- Wrinklers will autopop if turned on, in Easter or Halloween, and don't have all seasonal cookies for that season unlocked
+Will autobuy and value Faberge Egg, Golden Goose Egg, and Wrinklerspawn
+- Century Egg doesn't cause the browser to freeze (note: It's still broken in beta; won't be fixed)
+- "Manual Seasons" blacklist removed (this is now integrated with the core autobuy - if you're in a season and don't have all related cookies, autobuy won't buy another season upgrade)
+- Wrinkler Saving functionality removed entirely, due to that working with the core game now
+- "No Buildings" blacklist added (for use with all of your Chocolate Egg hoarding needs - will maintain a Pledge if deemed valuable, as well as maintaining seasons)
+- Resetting while FC is loaded will now pop all wrinklers, sell all buildings, and finally buy the Chocolate Egg (if available) before actually resetting, without any manual interaction needed.
+- Console logging cleaned up quite a bit (now condenses HC reports by either 'In Frenzy' or 'Out of Frenzy', rather than spamming 100x "You gained 1 HC!" when not in a frenzy)
+- Added more granular Frenzy timing info in the Golden Cookie Info section
+- Keyboard shortcuts now include 'e' to pop up your save export string in a handy copyable window.
+- "Pastemode" added, to reverse the efficiency calculations
+
+2014 May 18:
+
+- Updated to work with Easter beta (Major issue of Century Egg causing an infinite loop will freeze FC)
+
+2014 Apr 28:
+
+- Found and fixed a major bug that was valuing autoclicking for wrinklers, which reverted the general consensus of "Never leave One Mind" for high-automation players
+- Started a cross-community strategy optimization Holy War
+
+2014 Apr 8:
+
+- Rewrite cache recalculations with the design from @Bryanarby
+- Autopop wrinklers is season-aware and cost-efficiency-aware
+- Prevent negative-efficiency upgrades from being prioritized/existing
+- Provided number-shortening-code to Orteil for use in core CC
+
+2014 Mar 18:
+
+- Chained Upgrades accurately simulate all prerequisites' benefits as well as costs
+- Wrinkler valuation updated to prevent exiting of One Mind if it shouldn't
+- Autobuy won't switch seasons during the first hour of that season (to avoid constant back and forth before unlocking anything in a given season).
+- A beta Wrinkler-saver (that is off by default) which will simply hook into the game's built in Save function, will store your wrinklers upon save, and when FC is first loaded, will restore them entirely (including amount sucked, life, and even position around the cookie). Use at your own risk.
+- A new "smart tracking" for the graphing stats, which introduces a delay between tracking times, and will increase the reporting during times of increased purchasing, and will decrease the reporting during times of saving. This is currently the recommended tracking method, if you plan on using the graphs. (Thanks to /u/bryanarby for the initial idea of a modulated tracking function.)
+- Even fewer bugs than before.
+- Possibly more bugs, as well?
+
+2014 Mar 12:
+
+- Graphs!
+- Actually working with the most recent update
+- An attempt to model Reindeer/Wrinklers for efficiency calculation purposes (not quite working yet)
+- Maybe other stuff that I forgot?
+
+2013 Dec 31:
+
+- Reindeer Autoclicker [technically not new, since someone else added this earlier]
+- Automatic Santa stage upgrading
+- Fixed a bug in the chained upgrade cost code that was calculating the cumulative cost of buildings very very wrong
+
+2013 Nov 15:
+
+- Auto Blacklist Disabler - this will allow you to set a blacklist, but once its goal is reached, it will return to no blacklist. (This allows you to, among other things, turn on Grandmapocalypse Mode to acquire all halloween cookies, without having to monitor whether they're all gotten or not, and then it returns to normal buy all.) Without this turned on, blacklists will work how they previously did.
+- Grandmapocalypse Mode Blacklist - this will now stop you at Wrath:1, rather than Wrath:3, as this seems likely to be far more effective for wrinklers. After you've bought the Elder Pact, of course, you can't go back, but for those who want to run in the earlier mode, this will allow you to do so.
+- Beautified numbers now round properly. This includes a bug that surfaced last week, where thousands were displaying as millions, as well as the much older bug where 999,999,999 would display as 1000 million, rather than 1 billion.
+- Golden cookie double-clicking bugs and buying Elder Covenant bugs - these should not be happening any more; if they are, please let me know.
+
+
+2013 Oct 28:
+
+- Chain timer no longer resets after the purchase of each item in the chain (the total value of the chain is the cost of every prerequisite, the amount completed of the timer is the cost of all purchased prereqs + cookies on hand).
+- You can now change how numbers are shortened, with many different formatting options to choose from.
+- The giant efficiency table now marks Chained upgrades as such with a (C) in the list.
+- Clicking CPS is now included in any calculations involving time delays when autoclick is turned on.
+- Click Frenzy Autoclick (should) override the base autoclick speed if both are turned on and set.
+- Frenzy Power now shown when active (x7, x666, or x0.5)
+- Efficiency Table should now be slightly less terribly formatted (though likely not by much).
+- Numerous bugs from the previous versions should be fixed (I forget what all they are, though.)
+
+2013 Oct 23:
+
+- Improved code stability, added large cookie autoclicker, clicking frenzy autoclicker, and blacklists for Speedrun/Hardcore achievements
+
+2013 Oct 22:
+
+- Fixed multiple problems with the previous changes
+
+2013 Oct 21:
+
+- Updated GC valuation code
+
+2013 Oct 17:
+
+- Timers are much smoother and not on the FC page
+- Many stability improvements
+- Newer GC valuation code
+- Moved the hosting URL to one that won't cause script-type warnings when you load it. (http://icehawk78.github.io/FrozenCookies)
+
+2013 Oct 03:
+
+- Finally getting around to updating this file.
+- Lots of other changes have been added in the meantime.
+
+2013 Sep 23:
+
+- Added Chained Upgrade purchases
 
 Upcoming features!
 ------------------
