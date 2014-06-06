@@ -1546,6 +1546,8 @@ function autoCookie() {
       }
     }
     
+    var itemBought = false;
+    
     if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
 //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
       recommendation.time = Date.now() - Game.startDate;
@@ -1568,7 +1570,7 @@ function autoCookie() {
       }
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.processing = false;
-      return FrozenCookies.frequency ? autoCookie() : null;
+      itemBought = true;
     }
     
     // This apparently *has* to stay here, or else fast purchases will multi-click it.
@@ -1611,7 +1613,7 @@ function autoCookie() {
     }
     FrozenCookies.processing = false;
     if (FrozenCookies.frequency) {
-      FrozenCookies.cookieBot = setTimeout(autoCookie, FrozenCookies.frequency);
+      FrozenCookies.cookieBot = setTimeout(autoCookie, itemBought ? 0 : FrozenCookies.frequency);
     }
   }
 }
