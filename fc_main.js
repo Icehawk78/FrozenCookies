@@ -340,6 +340,9 @@ function getBuildingSpread () {
 // Press 'a' to toggle autobuy.
 // Press 'b' to pop up a copyable window with building spread. 
 // Press 'c' to toggle auto-GC
+// Press 'e' to pop up a copyable window with your export string
+// Press 'r' to pop up the reset window
+// Press 's' to do a manual save
 // Press 'w' to display a wrinkler-info window
 document.addEventListener('keydown', function(event) {
   if (!Game.promptOn) {
