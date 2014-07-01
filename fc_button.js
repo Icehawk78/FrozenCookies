@@ -315,8 +315,8 @@ function updateTimers() {
     t_draw.push({
       f_percent: decimal_HC_complete,
       c1: "rgba(55, 169, 230, 1)",
-      name: "HC Completion",
-      display: (Math.round(decimal_HC_complete*10000)/100)+"%"
+      name: "HC Completion Time",
+      display: nextHC()
     });
   }
   height = $('#backgroundLeftCanvas').height() - 140;
