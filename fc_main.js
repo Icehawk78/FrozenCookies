@@ -1546,7 +1546,10 @@ function autoCookie() {
       Game.goldenCookie.click();
     }
     if (Game.seasonPopup.life > 0 && FrozenCookies.autoReindeer) {
-      Game.seasonPopup.click();
+      // Give reindeer a chance to be a Frenzy reindeer
+      if(Game.frenzy || Game.seasonPopup.life < 8) {
+        Game.seasonPopup.click();
+      }
     }
     if (FrozenCookies.autoBlacklistOff) {
       autoBlacklistOff();
