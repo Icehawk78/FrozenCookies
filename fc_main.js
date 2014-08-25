@@ -252,37 +252,24 @@ function timeDisplay(seconds) {
   return (days + hours + minutes + seconds).trim();
 }
 
-function fcReset(bypass) {
-  if (bypass) {
-    Game.CollectWrinklers();
-    if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
-      Game.ObjectsById.forEach(function(b){b.sell(-1);});
-      Game.Upgrades['Chocolate egg'].buy();
-    }
-    Game.oldReset(bypass);
-    FrozenCookies.frenzyTimes = {};
-    FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
-    FrozenCookies.last_gc_time = Date.now();
-    FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
-    FrozenCookies.lastHCTime = Date.now();
-    FrozenCookies.maxHCPercent = 0;
-    FrozenCookies.prevLastHCTime = Date.now();
-    FrozenCookies.lastCps = 0;
-    FrozenCookies.trackedStats = [];
-    updateLocalStorage();
-    recommendationList(true);
-  } else {
-    var totalHC = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + wrinklerValue() + chocolateValue());
-    Game.Prompt(
-      '<h3>Reset</h3><div class="block">Do you want to reset?<br>' + 
-      '<small>This will pop all wrinklers, sell all buildings, and buy the Chocolate Egg if possible, before removing all progress and granting Heavenly Chips. ' +
-      '<br>You will gain ' + 
-      Beautify(
-        totalHC - 
-        Game.HowMuchPrestige(Game.cookiesReset)) + ' Heavenly Chips, for a total of ' + 
-      Beautify(totalHC) + ' Heavenly Chips if you reset now.</small></div>',
-    [['Yes!','Game.Reset(1);Game.ClosePrompt();'],'No']);
+function fcReset() {
+  Game.CollectWrinklers();
+  if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
+    Game.ObjectsById.forEach(function(b){b.sell(-1);});
+    Game.Upgrades['Chocolate egg'].buy();
   }
+  Game.oldReset();
+  FrozenCookies.frenzyTimes = {};
+  FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
+  FrozenCookies.last_gc_time = Date.now();
+  FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
+  FrozenCookies.lastHCTime = Date.now();
+  FrozenCookies.maxHCPercent = 0;
+  FrozenCookies.prevLastHCTime = Date.now();
+  FrozenCookies.lastCps = 0;
+  FrozenCookies.trackedStats = [];
+  updateLocalStorage();
+  recommendationList(true);
 }
 
 function fcWriteSave(exporting) {
