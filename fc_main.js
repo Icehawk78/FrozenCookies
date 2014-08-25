@@ -96,17 +96,10 @@ function setOverrides() {
   Game.Win = fcWin;
   Game.oldBackground = Game.DrawBackground;
   Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
-  
-  // Relock current season because people apparently get confused by its existence even though it has nothing to do with me.
-  if (Game.seasons[Game.season] && Game.HasUnlocked(Game.seasons[Game.season].trigger)) { 
-    Game.Lock(Game.seasons[Game.season].trigger);
-  }
-  
   // Remove the following when turning on tooltop code
   Game.RefreshStore();
   Game.RebuildUpgrades();
   beautifyUpgradesAndAchievements();
-  
   // Replace Game.Popup references with event logging
   eval('Game.goldenCookie.click = ' + Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
   eval('Game.UpdateWrinklers = ' + Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
@@ -260,23 +253,36 @@ function timeDisplay(seconds) {
 }
 
 function fcReset(bypass) {
-  Game.CollectWrinklers();
-  if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
-    Game.ObjectsById.forEach(function(b){b.sell(b.amount);});
-    Game.Upgrades['Chocolate egg'].buy();
+  if (bypass) {
+    Game.CollectWrinklers();
+    if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
+      Game.ObjectsById.forEach(function(b){b.sell(-1);});
+      Game.Upgrades['Chocolate egg'].buy();
+    }
+    Game.oldReset(bypass);
+    FrozenCookies.frenzyTimes = {};
+    FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
+    FrozenCookies.last_gc_time = Date.now();
+    FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
+    FrozenCookies.lastHCTime = Date.now();
+    FrozenCookies.maxHCPercent = 0;
+    FrozenCookies.prevLastHCTime = Date.now();
+    FrozenCookies.lastCps = 0;
+    FrozenCookies.trackedStats = [];
+    updateLocalStorage();
+    recommendationList(true);
+  } else {
+    var totalHC = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + wrinklerValue() + chocolateValue());
+    Game.Prompt(
+      '<h3>Reset</h3><div class="block">Do you want to reset?<br>' + 
+      '<small>This will pop all wrinklers, sell all buildings, and buy the Chocolate Egg if possible, before removing all progress and granting Heavenly Chips. ' +
+      '<br>You will gain ' + 
+      Beautify(
+        totalHC - 
+        Game.HowMuchPrestige(Game.cookiesReset)) + ' Heavenly Chips, for a total of ' + 
+      Beautify(totalHC) + ' Heavenly Chips if you reset now.</small></div>',
+    [['Yes!','Game.Reset(1);Game.ClosePrompt();'],'No']);
   }
-  Game.oldReset(bypass);
-  FrozenCookies.frenzyTimes = {};
-  FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
-  FrozenCookies.last_gc_time = Date.now();
-  FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
-  FrozenCookies.lastHCTime = Date.now();
-  FrozenCookies.maxHCPercent = 0;
-  FrozenCookies.prevLastHCTime = Date.now();
-  FrozenCookies.lastCps = 0;
-  FrozenCookies.trackedStats = [];
-  updateLocalStorage();
-  recommendationList(true);
 }
 
 function fcWriteSave(exporting) {
@@ -334,6 +340,9 @@ function getBuildingSpread () {
 // Press 'a' to toggle autobuy.
 // Press 'b' to pop up a copyable window with building spread. 
 // Press 'c' to toggle auto-GC
+// Press 'e' to pop up a copyable window with your export string
+// Press 'r' to pop up the reset window
+// Press 's' to do a manual save
 // Press 'w' to display a wrinkler-info window
 document.addEventListener('keydown', function(event) {
   if (!Game.promptOn) {
@@ -350,6 +359,12 @@ document.addEventListener('keydown', function(event) {
     }
     if(event.keyCode == 69) {
       copyToClipboard(Game.WriteSave(true));
+    }
+    if (event.keyCode == 82) {
+      Game.Reset();
+    }
+    if (event.keyCode == 83) {
+      Game.WriteSave();
     }
     if(event.keyCode == 87) {
       Game.Notify('Wrinkler Info', 'Popping all wrinklers will give you ' + Beautify(Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);},0)) + ' cookies. <input type="button" value="Click here to pop all wrinklers" onclick="Game.CollectWrinklers()"></input>', [19,8],7);
@@ -598,22 +613,33 @@ function calculateChainValue(bankAmount, cps, digit) {
   return 125 * Math.pow(9,(n-3)) * digit;
 }
 
-/* Old way, less efficient
-function calculateChainValue(bankAmount, cps) {
-  var payoutTotal = 0;
-  var payoutNext = '6';
-  var step = 1;
-  var remainingProbability = 1;
-  while (payoutNext < bankAmount * 0.25 || payoutNext <= cps * 60 * 60 * 6) {
-    step += 1;
-    payoutTotal += remainingProbability * 0.1 * payoutNext;
-    remainingProbability -= remainingProbability * 0.1
-    payoutNext += '6';
+function chocolateValue(bankAmount) {
+  var value = 0;
+  if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
+    bankAmount = (bankAmount != null && bankAmount !== 0) ? bankAmount : Game.cookies;
+    value = 0.05 * (wrinklerValue() + bankAmount + Game.ObjectsById.reduce(function(s,b){return s + cumulativeBuildingCost(b.basePrice, 1, b.amount + 1) / 2},0));
   }
-  payoutTotal += remainingProbability * payoutNext.substr(0,payoutNext.length-1);
-  return payoutTotal;
+  return value;
 }
-*/
+
+function wrinklerValue() {
+  return Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0);
+}
+
+function buildingRemaining(building, amount) {
+  var cost = cumulativeBuildingCost(building.basePrice, building.amount, amount);
+  var availableCookies = Game.cookies + wrinklerValue() + Game.ObjectsById.reduce(function(s,b) {return s + (b.name == building.name ? 0 : cumulativeBuildingCost(b.basePrice, 1, b.amount + 1) / 2);}, 0);
+  availableCookies *= Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg') ? 1.05 : 1;
+  return Math.max(0, cost - availableCookies);
+}
+
+function earnedRemaining(total) {
+  return Math.max(0, total - (Game.cookiesEarned + wrinklerValue() + chocolateValue()));
+}
+
+function estimatedTimeRemaining(cookies) {
+  return timeDisplay(cookies / effectiveCps());
+}
 
 function luckyBank() {
   return baseCps() * 60 * 20 * 10;
@@ -728,23 +754,8 @@ function delayAmount() {
 */
 }
 
-function canAfford(building, amount) {
-  var cost = cumulativeBuildingCost(building.basePrice, building.amount, amount);
-  var availableCookies = Game.cookies + wrinklerValue() + Game.ObjectsById.reduce(function(s,b) {return s + (b.name == building.name ? 0 : cumulativeBuildingCost(b.basePrice, 1, b.amount + 1) / 2);}, 0);
-  availableCookies *= Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg') ? 1.05 : 1;
-  return Math.max(0, cost - availableCookies);
-}
-
-function earnedRemaining(total) {
-  return Math.max(0, total - (Game.cookiesEarned + wrinklerValue() + chocolateValue()));
-}
-
-function estimatedTimeRemaining(cookies) {
-  return timeDisplay(cookies / effectiveCps());
-}
-
 function haveAll(holiday) {
-  return Game.HasAchiev(holidayAchievements[holiday]) && _.every(holidayCookies[holiday], function(id) {return Game.UpgradesById[id].unlocked;});
+  return _.every(holidayCookies[holiday], function(id) {return Game.UpgradesById[id].unlocked;});
 }
 
 function checkPrices(currentUpgrade) {
@@ -808,8 +819,9 @@ function nextPurchase(recalculate) {
   if (recalculate) {
     var recList = recommendationList(recalculate);
     var purchase = null;
+    var target = null;
     for (var i = 0; i < recList.length; i++) {
-      var target = recList[i];
+      target = recList[i];
       if (target.type == 'upgrade' && unfinishedUpgradePrereqs(Game.UpgradesById[target.id])) {
         var prereqList = unfinishedUpgradePrereqs(Game.UpgradesById[target.id]);
         purchase = recList.filter(function(a){return prereqList.some(function(b){return b.id == a.id && b.type == a.type})})[0];
@@ -821,6 +833,10 @@ function nextPurchase(recalculate) {
         FrozenCookies.caches.nextChainedPurchase = target;
         break;
       }
+    }
+    if (purchase == null) {
+      FrozenCookies.caches.nextPurchase = defaultPurchase();
+      FrozenCookies.caches.nextChainedPurchase = defaultPurchase();
     }
   }
   return FrozenCookies.caches.nextPurchase;
@@ -914,6 +930,23 @@ function santaStats() {
       getCost: function() {return cumulativeSantaCost(1);}
     }
   } : [];
+}
+
+function defaultPurchase() {
+  return {
+    id: 0,
+    efficiency: Infinity,
+    delta_cps: 0,
+    base_delta_cps: 0,
+    cost: Infinity,
+    type: 'other',
+    purchase: {
+      id: 0,
+      name: 'No valid purchases!',
+      buy: function(){},
+      getCost: function() {return Infinity;}
+    }
+  }
 }
 
 function totalDiscount(building) {                                                                                    
@@ -1491,8 +1524,8 @@ function autoCookie() {
       FrozenCookies.lastHCAmount = currentHCAmount;
       FrozenCookies.prevLastHCTime = FrozenCookies.lastHCTime;
       FrozenCookies.lastHCTime = Date.now();
-      var currHCPercent = (60 * 60 * (FrozenCookies.lastHCAmount - Game.prestige['Heavenly chips'])/((FrozenCookies.lastHCTime - Game.startDate)/1000));
-      if ((Game.prestige['Heavenly chips'] < (currentHCAmount - changeAmount)) && currHCPercent > FrozenCookies.maxHCPercent) {
+      var currHCPercent = (60 * 60 * (FrozenCookies.lastHCAmount - Game.heavenlyChipsEarned)/((FrozenCookies.lastHCTime - Game.startDate)/1000));
+      if ((Game.heavenlyChipsEarned < (currentHCAmount - changeAmount)) && currHCPercent > FrozenCookies.maxHCPercent) {
         FrozenCookies.maxHCPercent = currHCPercent;
       }
       FrozenCookies.hc_gain += changeAmount;
@@ -1516,6 +1549,8 @@ function autoCookie() {
       }
     }
     
+    var itemBought = false;
+    
     if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
 //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
       recommendation.time = Date.now() - Game.startDate;
@@ -1538,7 +1573,7 @@ function autoCookie() {
       }
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.processing = false;
-      return FrozenCookies.frequency ? autoCookie() : null;
+      itemBought = true;
     }
     
     // This apparently *has* to stay here, or else fast purchases will multi-click it.
@@ -1581,7 +1616,7 @@ function autoCookie() {
     }
     FrozenCookies.processing = false;
     if (FrozenCookies.frequency) {
-      FrozenCookies.cookieBot = setTimeout(autoCookie, FrozenCookies.frequency);
+      FrozenCookies.cookieBot = setTimeout(autoCookie, itemBought ? 0 : FrozenCookies.frequency);
     }
   }
 }
