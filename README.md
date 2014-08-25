@@ -8,7 +8,7 @@ How to use
 
 ## Bookmarklet install
 
-1. Paste the *contents* (not the url) of http://icehawk78.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark.
+1. Paste the *contents* (not the url) of http://icehawk78.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark. (Use the of https://github.com/Icehawk78/FrozenCookies/blob/master/fc_bookmarklet_loader.js if you're on the beta.)
 2. Load up Cookie Clicker.
 3. Load the recently created bookmark.
 
