@@ -82,7 +82,6 @@ function setOverrides() {
   if (!blacklist[FrozenCookies.blacklist]) {
     FrozenCookies.blacklist = 'none';
   }
-  nextPurchase(true);
   Beautify = fcBeautify;
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
   Game.oldReset = Game.Reset;
@@ -97,6 +96,7 @@ function setOverrides() {
   Game.oldBackground = Game.DrawBackground;
   Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
   // Remove the following when turning on tooltop code
+  nextPurchase(true);
   Game.RefreshStore();
   Game.RebuildUpgrades();
   beautifyUpgradesAndAchievements();
