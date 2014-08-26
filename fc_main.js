@@ -1479,7 +1479,7 @@ function shouldPopWrinklers() {
 
 // Unused
 function autoGoldenCookie() {
-  if (!FrozenCookies.processing && Game.goldenCookie.life && !Game.OnAscend) {
+  if (!FrozenCookies.processing && Game.goldenCookie.life && !Game.OnAscend && !Game.AscendTimer) {
     FrozenCookies.processing = true;
     Game.goldenCookie.click();
     FrozenCookies.processing = false;
@@ -1503,7 +1503,7 @@ function autoFrenzyClick() {
 }
 
 function autoCookie() {
-  if (!FrozenCookies.processing && !Game.OnAscend) {
+  if (!FrozenCookies.processing && !Game.OnAscend && !Game.AscendTimer) {
     FrozenCookies.processing = true;
     var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
     if (FrozenCookies.lastHCAmount < currentHCAmount) {
@@ -1605,6 +1605,8 @@ function autoCookie() {
     if (FrozenCookies.frequency) {
       FrozenCookies.cookieBot = setTimeout(autoCookie, itemBought ? 0 : FrozenCookies.frequency);
     }
+  } else if (!FrozenCookies.processing && FrozenCookies.frequency) {
+    FrozenCookies.cookieBot = setTimeout(autoCookie, FrozenCookies.frequency);
   }
 }
 
@@ -1645,7 +1647,7 @@ function FCStart() {
 //  }
   
   if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
-    FrozenCookies.autoclickBot = setInterval(function() {if (!Game.OnAscend) {Game.ClickCookie()}}, 1000 / FrozenCookies.cookieClickSpeed);
+    FrozenCookies.autoclickBot = setInterval(function() {if (!Game.OnAscend && !Game.AscendTimer) {Game.ClickCookie()}}, 1000 / FrozenCookies.cookieClickSpeed);
   }
   
   if (FrozenCookies.autoFrenzy && FrozenCookies.frenzyClickSpeed) {
