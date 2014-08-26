@@ -14,7 +14,7 @@
 
 function setOverrides() {
   
-  // Set all cycleable preferences
+  // Set all cycleable preferencesau
   _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
     FrozenCookies[preference] = preferenceParse(preference, FrozenCookies.preferenceValues[preference].default);
   });
@@ -425,6 +425,9 @@ function autoBlacklistOff() {
       break;
     case 2:
       FrozenCookies.blacklist = (Game.cookiesEarned >= 1000000000) ? 0 : 2;
+      break;
+    case 3:
+      FrozenCookies.blacklist = (haveAll('halloween') && haveAll('valentines')) ? 0 : 3;
       break;
   }
 }
