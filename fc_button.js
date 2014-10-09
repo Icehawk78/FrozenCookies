@@ -330,7 +330,7 @@ function FCMenu() {
       return Game.oldUpdateMenu();
     }
     var currentCookies, maxCookies, isTarget, isMax, targetTxt, maxTxt,
-      currHC, resetHC, cps, baseChosen, frenzyChosen, clickStr, buildTable,
+      currHC, resetHC, gainedHC, cps, baseChosen, frenzyChosen, clickStr, buildTable,
       bankLucky, bankLuckyFrenzy, bankChain,
       menu = $('#menu').html('')
         .append($('<div>').addClass('section').html('Frozen Cookies v ' + FrozenCookies.branch + '.' + FrozenCookies.version)),
@@ -404,8 +404,11 @@ function FCMenu() {
     subsection.append($('<div>').addClass('title').html('Heavenly Chips Information'));
     currHC = Game.heavenlyChipsEarned;
     resetHC = Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue());
+    gainedHC = resetHC - currHC;
     subsection.append($('<div>').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.heavenlyChipsEarned)));
+    subsection.append($('<div>').addClass('listing').html('<b>HC Gained By Reset:</b> ' + Beautify(gainedHC)));
     subsection.append($('<div>').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(resetHC)));
+    subsection.append($('<div>').addClass('listing').html('<b>HC Required Before Optimal Reset:</b> ' + Beautify(estimatedHCTillReset(gainedHC))));
     subsection.append($('<div>').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
     subsection.append($('<div>').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
     if (currHC < resetHC) {

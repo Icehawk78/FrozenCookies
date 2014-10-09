@@ -480,6 +480,31 @@ function effectiveCps(delay, wrathValue, wrinklerCount) {
   return baseCps() * wrinkler + gcPs(cookieValue(delay, wrathValue, wrinklerCount)) + baseClickingCps(FrozenCookies.cookieClickSpeed * FrozenCookies.autoClick) + reindeerCps(wrathValue);
 }
 
+function estimatedHCTillReset(gainedHC) {
+	// Reset when E*T - C = (1/2)h^2
+	// Where:
+	// C = cookies baked (this game) divided by one trillion
+	// T = Session started this many seconds ago
+	// E = effective CPS
+	// h = number of heavenly chips you'd gain if you reset now
+
+	// Equivalently: number of heavenly chips to earn before you reset
+	// h = sqrt(2*E*T - 2C)
+
+	var C = Game.cookiesEarned / 1000000000000;
+	var E = effectiveCps() / 1000000000000;
+	var T = Date.now() - Game.startDate;
+
+	var total = 2*E*T - 2*C;
+
+	// Protect against sqrt of negative number
+	if (total < 0) {
+		return 0;
+	} else {
+		return Math.max(0, Math.ceil(Math.sqrt(total)) - gainedHC);
+	}
+}
+
 function frenzyProbability(wrathValue) {
   wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
   return cookieInfo.frenzy.odds[wrathValue];// + cookieInfo.frenzyRuin.odds[wrathValue] + cookieInfo.frenzyLucky.odds[wrathValue] + cookieInfo.frenzyClick.odds[wrathValue];
