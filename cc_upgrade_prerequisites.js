@@ -271,11 +271,11 @@ var upgradeJson = [
 
 var blacklist = [
   {
-    'upgrades': [],
+    'upgrades': [331],
     'buildings': []
   },
   {
-    'upgrades': [129,130,131,132,133],
+    'upgrades': [129,130,131,132,133,331],
     'buildings': []
   },
   {
@@ -283,11 +283,11 @@ var blacklist = [
     'buildings': []
   },
   {
-    'upgrades': [71, 72, 73, 74, 84, 85],
+    'upgrades': [71, 72, 73, 74, 84, 85, 331],
     'buildings': []
   },
   {
-    'upgrades': [],
+    'upgrades': [331],
     'buildings': true
   }
 ];
