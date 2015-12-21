@@ -1132,7 +1132,7 @@ function buildingToggle(building, achievements) {
     achievements.forEach(function(won, index){
       var achievement = Game.AchievementsById[index];
       achievement.won = won;
-      if (won && achievement.hide < 3) {
+      if (won && achievement.pool !== 'shadow') {
         Game.AchievementsOwned += 1;
       }
     });
