@@ -349,7 +349,7 @@ document.addEventListener('keydown', function(event) {
       copyToClipboard(Game.WriteSave(true));
     }
     if (event.keyCode == 82) {
-      Game.Reset();
+      Game.Ascend();
     }
     if (event.keyCode == 83) {
       Game.WriteSave();
