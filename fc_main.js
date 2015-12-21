@@ -56,6 +56,7 @@ function setOverrides() {
   FrozenCookies.disabledPopups = true;
   FrozenCookies.trackedStats = [];
   FrozenCookies.lastGraphDraw = 0;
+  FrozenCookies.calculatedCpsByType = {};
   
   // Allow autoCookie to run
   FrozenCookies.processing = false;
