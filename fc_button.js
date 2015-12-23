@@ -216,7 +216,7 @@ function updateTimers() {
     gc_min_delay = (probabilitySpan('golden', Game.goldenCookie.time, 0.01) - Game.goldenCookie.time) / maxCookieTime(),
     frenzy_delay = Game.frenzy / maxCookieTime(),
     click_frenzy_delay = Game.clickFrenzy / maxCookieTime(),
-    decimal_HC_complete = 1 - (Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue()) % 1),
+    decimal_HC_complete = Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue()) % 1,
     bankTotal = delayAmount(),
     purchaseTotal = nextPurchase().cost,
     bankCompletion = bankTotal ? (Math.min(Game.cookies, bankTotal)) / bankTotal : 0,
