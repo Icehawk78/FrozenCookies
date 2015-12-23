@@ -2,11 +2,11 @@
 var scriptElement = document.getElementById( 'frozenCookieScript' ),
 	baseUrl = scriptElement !== null ?
 		scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '') :
-		'http://icehawk78.github.io/FrozenCookies/',
+		'http://icehawk78.github.io/FrozenCookies/' + Game.version,
 	FrozenCookies = {
 		'baseUrl': baseUrl,
-		'branch' : 'G',
-		'version': 1.4
+		'branch' : 'Σ',
+		'version': 1.9.1
 	};
 
 // Load external libraries
