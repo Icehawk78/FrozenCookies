@@ -1,5 +1,5 @@
 // Add polyfills:
-  
+
 (function (global) {
   var global_isFinite = global.isFinite;
   Object.defineProperty(Number, 'isFinite', {
@@ -13,27 +13,27 @@
 })(this);
 
 function setOverrides() {
-  
-  // Set all cycleable preferencesau
+
+  // Set all cycleable preferences
   _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
     FrozenCookies[preference] = preferenceParse(preference, FrozenCookies.preferenceValues[preference].default);
   });
-  
+
   logEvent("Load", "Initial Load of Frozen Cookies v " + FrozenCookies.branch + "." + FrozenCookies.version + ". (You should only ever see this once.)");
 
   FrozenCookies.frequency = 100;
   FrozenCookies.efficiencyWeight = 1.0;
-  
+
   // Separate because these are user-input values
   FrozenCookies.cookieClickSpeed = preferenceParse('cookieClickSpeed',0);
   FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed',0);
-  
+
   // Becomes 0 almost immediately after user input, so default to 0
   FrozenCookies.timeTravelAmount = 0;
-  
+
   // Force redraw every 10 purchases
   FrozenCookies.autobuyCount = 0;
-  
+
   // Get historical data
   FrozenCookies.frenzyTimes = JSON.parse(localStorage.getItem('frenzyTimes')) || {};
 //  FrozenCookies.non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
@@ -56,21 +56,21 @@ function setOverrides() {
   FrozenCookies.disabledPopups = true;
   FrozenCookies.trackedStats = [];
   FrozenCookies.lastGraphDraw = 0;
-  
+
   // Allow autoCookie to run
   FrozenCookies.processing = false;
   FrozenCookies.priceReductionTest = false;
-  
+
   FrozenCookies.cookieBot = 0;
   FrozenCookies.autoclickBot = 0;
   FrozenCookies.autoFrenzyBot = 0;
   FrozenCookies.frenzyClickBot = 0;
-  
+
   // Smart tracking details
   FrozenCookies.smartTrackingBot = 0;
   FrozenCookies.minDelay = 1000 * 10; // 10s minimum reporting between purchases with "smart tracking" on
   FrozenCookies.delayPurchaseCount = 0;
-  
+
   // Caching
   FrozenCookies.recalculateCaches = true;
   FrozenCookies.caches = {};
@@ -78,7 +78,7 @@ function setOverrides() {
   FrozenCookies.caches.recommendationList = [];
   FrozenCookies.caches.buildings = [];
   FrozenCookies.caches.upgrades = [];
-  
+
   if (!blacklist[FrozenCookies.blacklist]) {
     FrozenCookies.blacklist = 'none';
   }
@@ -95,16 +95,17 @@ function setOverrides() {
   Game.Win = fcWin;
   Game.oldBackground = Game.DrawBackground;
   Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
-  // Remove the following when turning on tooltop code
   nextPurchase(true);
+  // Remove the following when turning on tooltop code
   Game.RefreshStore();
   Game.RebuildUpgrades();
   beautifyUpgradesAndAchievements();
   // Replace Game.Popup references with event logging
+  FrozenCookies.calculatedCpsByType = {};
   eval('Game.goldenCookie.click = ' + Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
   eval('Game.UpdateWrinklers = ' + Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
-  eval('FrozenCookies.safeGainsCalc = ' + Game.CalculateGains.toString().replace(/eggMult\+=\(1.+/, 'eggMult++; // CENTURY EGGS SUCK').replace(/Game\.cookiesPs/g, 'FrozenCookies.calculatedCps').replace(/Game\.globalCpsMult/g, 'mult'));
-  
+  eval('FrozenCookies.safeGainsCalc = ' + Game.CalculateGains.toString().replace(/eggMult\+=\(1.+/, 'eggMult++; // CENTURY EGGS SUCK').replace(/Game\.cookiesPs/g, 'FrozenCookies.calculatedCps').replace(/Game\.globalCpsMult/g, 'mult').replace(/Game\.milkProgress/g, 'FrozenCookies.milkProgress'));
+
   // Give free achievements!
   if(!Game.HasAchiev('Third-party')) {
     Game.Win('Third-party');
@@ -132,8 +133,8 @@ function formatEveryThirdPower(notations) {
         value /= 1000;
         base++;
       }
-      if (base > notations.length) {
-        return 'Infinity';
+      if (base >= notations.length) {
+        return 'A very large amount';
       } else {
         notationValue = notations[base];
       }
@@ -176,7 +177,26 @@ var numberFormatters = [
     ' septillion',
     ' octillion',
     ' nonillion',
-    ' decillion'
+    ' decillion',
+    ' undecillion',
+    ' duodecillion',
+    ' tredecillion',
+    ' quattuordecillion',
+    ' quindecillion',
+    ' sedecillion',
+    ' septendecillion',
+    ' octodecillion',
+    ' novemdecillion',
+    ' vigintillion',
+    ' unvigintillion',
+    ' duovigintillion',
+    ' trevigintillion',
+    ' quattuorvigintillion',
+    ' quinvigintillion',
+    ' sevigintillion',
+    ' septenvigintillion',
+    ' octovigintillion',
+    ' novemvigintillion'
   ]),
 
   formatEveryThirdPower([
@@ -190,7 +210,26 @@ var numberFormatters = [
     ' Sp',
     ' Oc',
     ' No',
-    ' De'
+    ' Dc',
+    ' UDc',
+    ' DDc',
+    ' TDc',
+    ' QaDc',
+    ' QiDc',
+    ' SeDc',
+    ' SpDc',
+    ' ODc',
+    ' NDc',
+    ' Vi',
+    ' UVi',
+    ' DVi',
+    ' TVi',
+    ' QaVi',
+    ' QiVi',
+    ' SeVi',
+    ' SpVi',
+    ' OVi',
+    ' NVi'
   ]),
 
   formatEveryThirdPower([
@@ -283,7 +322,7 @@ function updateLocalStorage() {
   _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
     localStorage[preference] = FrozenCookies[preference];
   });
-  
+
   localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
   localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
   localStorage.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
@@ -308,9 +347,8 @@ function divCps(value, cps) {
 }
 
 function nextHC(tg) {
-  var futureHC = Math.ceil(Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5);
-  var nextHC = futureHC*(futureHC+1)*0.5e12;
-  var toGo = nextHC - (Game.cookiesEarned + Game.cookiesReset);
+  var ascendNowToOwn = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
+  var toGo = Game.HowManyCookiesReset(ascendNowToOwn + 1) - (Game.cookiesEarned + Game.cookiesReset);
   return tg ? toGo : timeDisplay(divCps(toGo, Game.cookiesPs));
 }
 
@@ -319,13 +357,13 @@ function copyToClipboard (text) {
   window.prompt ("Copy to clipboard: Ctrl+C, Enter", text);
   Game.promptOn = 0;
 }
- 
+
 function getBuildingSpread () {
   return Game.ObjectsById.map(function(a){return a.amount;}).join('/')
 }
 
 // Press 'a' to toggle autobuy.
-// Press 'b' to pop up a copyable window with building spread. 
+// Press 'b' to pop up a copyable window with building spread.
 // Press 'c' to toggle auto-GC
 // Press 'e' to pop up a copyable window with your export string
 // Press 'r' to pop up the reset window
@@ -403,7 +441,7 @@ function cyclePreference(preferenceName) {
       Game.RefreshStore();
       Game.RebuildUpgrades();
       FCStart();
-    }  
+    }
   }
 }
 
@@ -427,7 +465,7 @@ function autoBlacklistOff() {
       FrozenCookies.blacklist = (Game.cookiesEarned >= 1000000000) ? 0 : 2;
       break;
     case 3:
-      FrozenCookies.blacklist = (haveAll('halloween') && haveAll('valentines')) ? 0 : 3;
+      FrozenCookies.blacklist = haveAll('halloween') ? 0 : 3;
       break;
   }
 }
@@ -503,7 +541,7 @@ function cookieValue(bankAmount, wrathValue, wrinklerCount) {
   wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
   wrinklerCount = wrinklerCount != null ? wrinklerCount : (wrathValue ? 10 : 0);
   var wrinkler = wrinklerMod(wrinklerCount);
-  
+
   var value = 0;
   // Clot
   value -= cookieInfo.clot.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 66 * 0.5;
@@ -545,7 +583,7 @@ function cookieStats(bankAmount, wrathValue, wrinklerCount) {
   wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
   wrinklerCount = wrinklerCount != null ? wrinklerCount : (wrathValue ? 10 : 0);
   var wrinkler = wrinklerMod(wrinklerCount);
-  
+
   var result = {};
   // Clot
   result.clot = -1 * cookieInfo.clot.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 66 * 0.5;
@@ -583,7 +621,7 @@ function reindeerValue(wrathValue) {
   if (Game.season == 'christmas') {
     var remaining = 1 - (frenzyProbability(wrathValue) + clotProbability(wrathValue) + bloodProbability(wrathValue));
     var outputMod = Game.Has('Ho ho ho-flavored frosting') ? 2 : 1;
-    
+
     value += Math.max(25, baseCps() * outputMod * 60 * 7) * frenzyProbability(wrathValue);
     value += Math.max(25, baseCps() * outputMod * 60 * 0.5) * clotProbability(wrathValue);
     value += Math.max(25, baseCps() * outputMod * 60 * 666) * bloodProbability(wrathValue);
@@ -597,7 +635,7 @@ function reindeerCps(wrathValue) {
   return reindeerValue(wrathValue) / averageTime * FrozenCookies.simulatedGCPercent;
 }
 
-function calculateChainValue(bankAmount, cps, digit) { 
+function calculateChainValue(bankAmount, cps, digit) {
   x = Math.min(bankAmount, (cps * 60 * 60 * 6 * 4));
   n = Math.floor(Math.log((9*x)/(4*digit))/Math.LN10);
   return 125 * Math.pow(9,(n-3)) * digit;
@@ -939,7 +977,7 @@ function defaultPurchase() {
   }
 }
 
-function totalDiscount(building) {                                                                                    
+function totalDiscount(building) {
   var price = 1;
   if (Game.Has('Season savings') && building) price *= 0.99;
   if (Game.Has('Toy workshop') && !building) price *= 0.95;
@@ -955,7 +993,7 @@ function cumulativeBuildingCost(basePrice, startingNumber, endingNumber) {
 function cumulativeSantaCost(amount) {
   var total = 0;
   if (!amount) {
-  
+
   } else if (Game.santaLevel + amount < Game.santaLevels.length) {
     for (var i=Game.santaLevel + 1; i <= Game.santaLevel + amount; i++) {
       total += Math.pow(i, i);
@@ -973,7 +1011,7 @@ function cumulativeSantaCost(amount) {
 function cumulativeSantaCost(amount) {
   var total = 0;
   if (!amount) {
-    
+
   } else if (Game.santaLevel + amount < Game.santaLevels.length) {
     for (var i=Game.santaLevel + 1; i <= Game.santaLevel + amount; i++) {
       total += Math.pow(i, i);
@@ -1108,7 +1146,7 @@ function upgradeToggle(upgrade, achievements, reverseFunctions) {
     achievements.forEach(function(won, index){
       var achievement = Game.AchievementsById[index];
       achievement.won = won;
-      if (won && achievement.hide < 3) {
+      if (won && achievement.pool == 'normal') {
         Game.AchievementsOwned += 1;
       }
     });
@@ -1131,7 +1169,7 @@ function buildingToggle(building, achievements) {
     achievements.forEach(function(won, index){
       var achievement = Game.AchievementsById[index];
       achievement.won = won;
-      if (won && achievement.hide < 3) {
+      if (won && achievement.pool == 'normal') {
         Game.AchievementsOwned += 1;
       }
     });
@@ -1145,7 +1183,7 @@ function buyFunctionToggle(upgrade) {
     if (!upgrade.buyFunction) {
       return null;
     }
-    
+
     var ignoreFunctions = [
       /Game\.Earn\('.*\)/,
       /Game\.Lock\('.*'\)/,
@@ -1181,11 +1219,11 @@ function buyFunctionToggle(upgrade) {
         ignoreFunctions.forEach(function(b){a = a.replace(b,'')});
         return a != '';
       });
-    
+
     if (buyFunctions.length == 0) {
       return null;
     }
-    
+
     var reversedFunctions = buyFunctions.map(function(a){
       var reversed = '';
       var achievementMatch = /Game\.Win\('(.*)'\)/.exec(a);
@@ -1198,7 +1236,7 @@ function buyFunctionToggle(upgrade) {
       } else if (a.split('=').length > 1) {
         var expression = a.split('=');
         var isString = expression[1].indexOf("'") > -1 || expression[1].indexOf('"') > -1;
-        reversed = expression[0] + '=' + (isString ? "'" : '') + eval(expression[0]) + (isString ? "'" : ''); 
+        reversed = expression[0] + '=' + (isString ? "'" : '') + eval(expression[0]) + (isString ? "'" : '');
       }
       return reversed;
     });
@@ -1211,20 +1249,24 @@ function buyFunctionToggle(upgrade) {
 }
 
 function buySanta() {
-  if (Game.LeftBackground) {
-    Game.mouseX = 48;
-    Game.mouseY = Game.LeftBackground.canvas.height-48-24;
-    Game.Click = 1;
-    Game.UpdateSanta();
-    Game.Click = 0;
-  }
+//  if (Game.LeftBackground) {
+//    Game.mouseX = 48;
+//    Game.mouseY = Game.LeftBackground.canvas.height-48-24;
+//    Game.Click = 1;
+//    Game.UpdateSpecial();
+//    Game.Click = 0;
+//  }
+    // This might be fixed now?
+    Game.specialTab = 'santa';
+    Game.UpgradeSanta();
+    Game.ToggleSpecialMenu();
 }
 
 function statSpeed() {
   var speed = 0;
   switch (FrozenCookies.trackStats) {
     case 1: // 60s
-      speed = 1000 * 60; 
+      speed = 1000 * 60;
       break;
     case 2: // 30m
       speed = 1000 * 60 * 30;
@@ -1253,16 +1295,16 @@ function saveStats(fromGraph) {
 
 function viewStatGraphs() {
   saveStats(true);
-  var containerDiv = $('#statGraphContainer').length ? 
-    $('#statGraphContainer') : 
+  var containerDiv = $('#statGraphContainer').length ?
+    $('#statGraphContainer') :
     $('<div>').attr('id', 'statGraphContainer')
       .html($('<div>')
       .attr('id', 'statGraphs'))
       .appendTo('body')
       .dialog({
-        modal:true, 
+        modal:true,
         title: 'Frozen Cookies Tracked Stats',
-        width:$(window).width() * 0.8, 
+        width:$(window).width() * 0.8,
         height:$(window).height() * 0.8
       });
   if (containerDiv.is(':hidden')) {
@@ -1271,7 +1313,7 @@ function viewStatGraphs() {
   if (FrozenCookies.trackedStats.length > 0 && (Date.now() - FrozenCookies.lastGraphDraw) > 1000) {
     FrozenCookies.lastGraphDraw = Date.now();
     $('#statGraphs').empty();
-    var graphs = $.jqplot('statGraphs', transpose(FrozenCookies.trackedStats.map(function(s) {return [[s.time / 1000, s.baseCps], [s.time / 1000, s.effectiveCps], [s.time / 1000, s.hc]]})),  // 
+    var graphs = $.jqplot('statGraphs', transpose(FrozenCookies.trackedStats.map(function(s) {return [[s.time / 1000, s.baseCps], [s.time / 1000, s.effectiveCps], [s.time / 1000, s.hc]]})),  //
       {
         legend: {show: true},
         height: containerDiv.height() - 50,
@@ -1326,22 +1368,22 @@ function updateCaches() {
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.lastCPS = FrozenCookies.calculatedCps;
     }
-    
+
     if (FrozenCookies.currentBank.cost != currentBank.cost) {
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.currentBank = currentBank;
     }
-    
+
     if (FrozenCookies.targetBank.cost != targetBank.cost) {
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.targetBank = targetBank;
     }
-    
+
     if (FrozenCookies.lastCookieCPS != currentCookieCPS) {
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.lastCookieCPS = currentCookieCPS;
     }
-    
+
     if (FrozenCookies.lastUpgradeCount != currentUpgradeCount) {
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.lastUpgradeCount = currentUpgradeCount;
@@ -1361,11 +1403,11 @@ function doTimeTravel() {
         if (timeTravelMethod === 1) {
 
         } else if (timeTravelMethod === 3) {
-        
+
         }
       }
     } else {
-    
+
     }
   } else {
     FrozenCookies.timeTravelAmount = 0;
@@ -1415,15 +1457,15 @@ function logEvent(event, text, popup) {
 }
 
 function inRect(x,y,rect) {
-	// Duplicate of internally defined method, 
-	// only needed because I'm modifying the scope of Game.UpdateWrinklers and it can't see this anymore.
-	var dx = x+Math.sin(-rect.r)*(-(rect.h/2-rect.o)),dy=y+Math.cos(-rect.r)*(-(rect.h/2-rect.o));
-	var h1 = Math.sqrt(dx*dx + dy*dy);
-	var currA = Math.atan2(dy,dx);
-	var newA = currA - rect.r;
-	var x2 = Math.cos(newA) * h1;
-	var y2 = Math.sin(newA) * h1;
-	return (x2 > -0.5 * rect.w && x2 < 0.5 * rect.w && y2 > -0.5 * rect.h && y2 < 0.5 * rect.h);
+    // Duplicate of internally defined method,
+    // only needed because I'm modifying the scope of Game.UpdateWrinklers and it can't see this anymore.
+    var dx = x+Math.sin(-rect.r)*(-(rect.h/2-rect.o)),dy=y+Math.cos(-rect.r)*(-(rect.h/2-rect.o));
+    var h1 = Math.sqrt(dx*dx + dy*dy);
+    var currA = Math.atan2(dy,dx);
+    var newA = currA - rect.r;
+    var x2 = Math.cos(newA) * h1;
+    var y2 = Math.sin(newA) * h1;
+    return (x2 > -0.5 * rect.w && x2 < 0.5 * rect.w && y2 > -0.5 * rect.h && y2 < 0.5 * rect.h);
 }
 
 function transpose(a) {
@@ -1514,8 +1556,8 @@ function autoCookie() {
       FrozenCookies.lastHCAmount = currentHCAmount;
       FrozenCookies.prevLastHCTime = FrozenCookies.lastHCTime;
       FrozenCookies.lastHCTime = Date.now();
-      var currHCPercent = (60 * 60 * (FrozenCookies.lastHCAmount - Game.heavenlyChipsEarned)/((FrozenCookies.lastHCTime - Game.startDate)/1000));
-      if ((Game.heavenlyChipsEarned < (currentHCAmount - changeAmount)) && currHCPercent > FrozenCookies.maxHCPercent) {
+      var currHCPercent = (60 * 60 * (FrozenCookies.lastHCAmount - Game.HowMuchPrestige(Game.cookiesReset))/((FrozenCookies.lastHCTime - Game.startDate)/1000));
+      if ((Game.HowMuchPrestige(Game.cookiesReset) < (currentHCAmount - changeAmount)) && currHCPercent > FrozenCookies.maxHCPercent) {
         FrozenCookies.maxHCPercent = currHCPercent;
       }
       FrozenCookies.hc_gain += changeAmount;
@@ -1538,9 +1580,8 @@ function autoCookie() {
         logEvent('Wrinkler', 'Popped ' + popCount + ' wrinklers.');
       }
     }
-    
     var itemBought = false;
-    
+
     if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
 //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
       recommendation.time = Date.now() - Game.startDate;
@@ -1558,14 +1599,14 @@ function autoCookie() {
       logEvent('Store', 'Autobought ' + recommendation.purchase.name + ' for ' + Beautify(recommendation.cost) + ', resulting in ' + Beautify(recommendation.delta_cps) + ' CPS.');
       disabledPopups = true;
       if (FrozenCookies.autobuyCount >= 10) {
-      	Game.Draw();
-      	FrozenCookies.autobuyCount = 0;
+          Game.Draw();
+          FrozenCookies.autobuyCount = 0;
       }
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.processing = false;
       itemBought = true;
     }
-    
+
     // This apparently *has* to stay here, or else fast purchases will multi-click it.
     if (Game.goldenCookie.life && FrozenCookies.autoGC) {
       Game.goldenCookie.click();
@@ -1579,25 +1620,25 @@ function autoCookie() {
     var currentFrenzy = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
     if (currentFrenzy != FrozenCookies.last_gc_state) {
       if (FrozenCookies.last_gc_state != 1 && currentFrenzy == 1) {
-      	logEvent('GC', 'Frenzy ended, cookie production x1');
-      	if (FrozenCookies.hc_gain) {
-      	  
-	  logEvent('HC', 'Won ' + FrozenCookies.hc_gain + ' heavenly chips during Frenzy. Rate: ' + (FrozenCookies.hc_gain * 1000) / (Date.now() - FrozenCookies.hc_gain_time) + ' HC/s.');
-	  FrozenCookies.hc_gain_time = Date.now();
-	  FrozenCookies.hc_gain = 0;
-      	}
+          logEvent('GC', 'Frenzy ended, cookie production x1');
+          if (FrozenCookies.hc_gain) {
+
+      logEvent('HC', 'Won ' + FrozenCookies.hc_gain + ' heavenly chips during Frenzy. Rate: ' + (FrozenCookies.hc_gain * 1000) / (Date.now() - FrozenCookies.hc_gain_time) + ' HC/s.');
+      FrozenCookies.hc_gain_time = Date.now();
+      FrozenCookies.hc_gain = 0;
+          }
       } else {
-      	if (FrozenCookies.last_gc_state != 1) {
-      	  logEvent('GC', 'Previous Frenzy x' + FrozenCookies.last_gc_state + 'interrupted.')
+          if (FrozenCookies.last_gc_state != 1) {
+            logEvent('GC', 'Previous Frenzy x' + FrozenCookies.last_gc_state + 'interrupted.')
         } else if (FrozenCookies.hc_gain) {
-	  logEvent('HC', 'Won ' + FrozenCookies.hc_gain + ' heavenly chips outside of Frenzy. Rate: ' + (FrozenCookies.hc_gain * 1000) / (Date.now() - FrozenCookies.hc_gain_time) + ' HC/s.');
+      logEvent('HC', 'Won ' + FrozenCookies.hc_gain + ' heavenly chips outside of Frenzy. Rate: ' + (FrozenCookies.hc_gain * 1000) / (Date.now() - FrozenCookies.hc_gain_time) + ' HC/s.');
           FrozenCookies.hc_gain_time = Date.now();
           FrozenCookies.hc_gain = 0;
         }
-      	logEvent('GC', 'Starting ' + (Game.clickFrenzy ? 'Clicking ' : '') + 'Frenzy x' +  currentFrenzy);
+          logEvent('GC', 'Starting ' + (Game.clickFrenzy ? 'Clicking ' : '') + 'Frenzy x' +  currentFrenzy);
       }
       if (FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] == null) {
-      	FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] = 0;
+          FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] = 0;
       }
       FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] += Date.now() - FrozenCookies.last_gc_time;
       FrozenCookies.last_gc_state = currentFrenzy;
@@ -1615,7 +1656,7 @@ function autoCookie() {
 
 function FCStart() {
   //  To allow polling frequency to change, clear intervals before setting new ones.
-  
+
   if (FrozenCookies.cookieBot) {
     clearInterval(FrozenCookies.cookieBot);
     FrozenCookies.cookieBot = 0;
@@ -1628,7 +1669,7 @@ function FCStart() {
     clearInterval(FrozenCookies.statBot);
     FrozenCookies.statBot = 0;
   }
-  
+
 //  if (!FrozenCookies.saveWrinklers && localStorage.wrinklers) {
 //    delete localStorage.wrinklers;
 //  }
@@ -1638,30 +1679,30 @@ function FCStart() {
 //    clearInterval(FrozenCookies.goldenCookieBot);
 //    FrozenCookies.goldenCookieBot = 0;
 //  }
-  
+
   // Now create new intervals with their specified frequencies.
-  
+
   if (FrozenCookies.frequency) {
     FrozenCookies.cookieBot = setTimeout(autoCookie, FrozenCookies.frequency);
   }
-  
+
 //  if (FrozenCookies.autoGC) {
 //    FrozenCookies.goldenCookieBot = setInterval(autoGoldenCookie, FrozenCookies.frequency);
 //  }
-  
+
   if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
     FrozenCookies.autoclickBot = setInterval(function() {if (!Game.OnAscend && !Game.AscendTimer) {Game.ClickCookie()}}, 1000 / FrozenCookies.cookieClickSpeed);
   }
-  
+
   if (FrozenCookies.autoFrenzy && FrozenCookies.frenzyClickSpeed) {
     FrozenCookies.frenzyClickBot = setInterval(autoFrenzyClick, FrozenCookies.frequency);
   }
-  
+
   if (statSpeed(FrozenCookies.trackStats) > 0) {
     FrozenCookies.statBot = setInterval(saveStats, statSpeed(FrozenCookies.trackStats));
   } else if (FrozenCookies.trackStats == 6 && !FrozenCookies.smartTrackingBot) {
     FrozenCookies.smartTrackingBot = setTimeout(function() {smartTrackingStats(FrozenCookies.minDelay * 8)}, FrozenCookies.minDelay);
   }
-  
+
   FCMenu();
 }
