@@ -70,7 +70,7 @@ FrozenCookies.preferenceValues = {
   },
   'numberDisplay':{
     'hint':'Change how numbers are shortened',
-    'display':["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"],
+    'display':["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10Â¹Â²)"],
     'default':1
   }
 };
