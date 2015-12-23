@@ -1,7 +1,7 @@
 // Global Variables
 var scriptElement = document.getElementById( 'frozenCookieScript' ),
 	baseUrl = (scriptElement !== null ?
-		scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '') :
+		scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '/') :
 		'http://icehawk78.github.io/FrozenCookies/') + Game.version,
 	FrozenCookies = {
 		'baseUrl': baseUrl,
