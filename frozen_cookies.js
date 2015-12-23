@@ -1,13 +1,13 @@
 // Global Variables
 var scriptElement = document.getElementById( 'frozenCookieScript' ),
-	baseUrl = scriptElement !== null ?
-		scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '') :
-		'https://cdn.rawgit.com/Icehawk78/FrozenCookies/master',
-	FrozenCookies = {
-		'baseUrl': baseUrl,
-		'branch' : 'Beta-',
-		'version': '1.5'
-	};
+    baseUrl = scriptElement !== null ?
+        scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '') :
+        'http://icehawk78.github.io/FrozenCookies/1.9',
+    FrozenCookies = {
+        'baseUrl': baseUrl,
+        'branch' : 'Beta ',
+        'version': '1.9'
+    };
 
 // Load external libraries
 var script_list = [
@@ -28,7 +28,7 @@ var script_list = [
     FrozenCookies.baseUrl + '/fc_main.js',
     FrozenCookies.baseUrl + '/fc_button.js'
   ]
-  
+
 FrozenCookies.loadInterval = setInterval(function() {
   if (Game && Game.ready) {
     clearInterval(FrozenCookies.loadInterval);
@@ -41,7 +41,7 @@ function loadScript(id) {
   if (id >= script_list.length) {
     setOverrides();
     FCStart();
-  } else { 
+  } else {
     var url = script_list[id];
     if (/\.js$/.exec(url)) {
       $.getScript(url, function() {loadScript(id + 1);});
