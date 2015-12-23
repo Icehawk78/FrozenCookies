@@ -11,7 +11,7 @@ $('#logButton').hide();
 $('<style type="text/css">')
   .html(
   '#fcEfficiencyTable {width: 100%;}' +
-  '#fcButton {top: 0px; right: 0px; padding-top: 12px; font-size: 90%; background-position: -96px 0px;}' +
+  '#fcButton {top: 0px; right: 0px; padding-top: 16px; padding-left: 2px; font-size: 90%; background-position: -100px 0px;}' +
   '.worst {border-width:1px; border-style:solid; border-color:#330000;}' +
   '.bad {border-width:1px; border-style:solid; border-color:#660033;}' +
   '.average {border-width:1px; border-style:solid; border-color:#663399;}' +
@@ -157,13 +157,13 @@ function drawCircles(t_d, x, y) {
   t_b = ['rgba(170, 170, 170, 1)','rgba(187, 187, 187, 1)','rgba(204, 204, 204, 1)','rgba(221, 221, 221, 1)','rgba(238, 238, 238, 1)','rgba(255, 255, 255, 1)'];
   maxWidth = Math.max.apply(null,t_d.map(function(o){return (o.name) ? c.measureText({fontSize: "12px", fontFamily: "Arial", maxWidth:c.width, text: (o.name + (o.display ? ": "+o.display : ""))}).width : 250;}));
   maxHeight = t_d.map(function(o){return (o.name) ? c.measureText({fontSize: "12px", fontFamily: "Arial", maxWidth:c.width, text: (o.name + (o.display ? ": "+o.display : ""))}).height : 250;})
-                     .reduce(function(sum,item){return sum+item;},0);        
+                     .reduce(function(sum,item){return sum+item;},0);
   c.drawRect({
     fillStyle: 'rgba(153, 153, 153, 0.6)',
     x: x + maxRadius * 2 + maxWidth / 2 + 35, y: y + maxRadius + 5,
     width: maxWidth + 20, height: maxHeight + 20
   });
-  
+
   t_d.forEach( function(o_draw) {
     if (o_draw.overlay)
     {
@@ -201,7 +201,7 @@ function drawCircles(t_d, x, y) {
         fillStyle: o_draw.c1,
         x: x + maxRadius * 2 + maxWidth / 2 + 35, y: y + heightOffset+15*i_tc,
         text: s_t
-      });   
+      });
       i_tc++;
     }
     i_c++;
@@ -216,7 +216,7 @@ function updateTimers() {
     gc_min_delay = (probabilitySpan('golden', Game.goldenCookie.time, 0.01) - Game.goldenCookie.time) / maxCookieTime(),
     frenzy_delay = Game.frenzy / maxCookieTime(),
     click_frenzy_delay = Game.clickFrenzy / maxCookieTime(),
-    decimal_HC_complete = ((Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5)%1),
+    decimal_HC_complete = 1 - (Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue()) % 1),
     bankTotal = delayAmount(),
     purchaseTotal = nextPurchase().cost,
     bankCompletion = bankTotal ? (Math.min(Game.cookies, bankTotal)) / bankTotal : 0,
@@ -235,9 +235,9 @@ function updateTimers() {
   purchasePercent = purchaseTotal / (purchaseTotal + bankTotal);
   bankMax = bankTotal / (purchaseTotal + bankTotal);
   actualCps = Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed;
-  
+
   t_draw = [];
-  
+
   if (chainTotal) {
     t_draw.push({
       f_percent: chainCompletion,
@@ -367,9 +367,9 @@ function FCMenu() {
       subsection.append($('<div>').addClass('listing').html('<b>Golden Cookie Efficiency:</b> ' + Beautify(bankLevel.efficiency)));
     }
     menu.append(subsection);
-    
+
     // Golden Cookies
-    
+
     subsection = $('<div>').addClass('subsection');
     subsection.append($('<div>').addClass('title').html('Golden Cookie Information'));
     currentCookies = Math.min(Game.cookies, FrozenCookies.targetBank.cost);
@@ -397,14 +397,14 @@ function FCMenu() {
       subsection.append($('<div>').addClass('listing').html('<b>Total Recorded Time at x' + rate + ':</b> ' + timeDisplay(time/1000)));
     });
     menu.append(subsection);
-    
+
     // Heavenly Chips
-    
+
     subsection = $('<div>').addClass('subsection');
     subsection.append($('<div>').addClass('title').html('Heavenly Chips Information'));
-    currHC = Game.heavenlyChipsEarned;
+    currHC = Game.HowMuchPrestige(Game.cookiesReset);
     resetHC = Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue());
-    subsection.append($('<div>').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.heavenlyChipsEarned)));
+    subsection.append($('<div>').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.HowMuchPrestige(Game.cookiesReset))));
     subsection.append($('<div>').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(resetHC)));
     subsection.append($('<div>').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
     subsection.append($('<div>').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
@@ -422,7 +422,7 @@ function FCMenu() {
       }
     }
     menu.append(subsection);
-    
+
     // Other Information
     subsection = $('<div>').addClass('subsection');
     subsection.append($('<div>').addClass('title').html('Other Information'));
@@ -440,8 +440,8 @@ function FCMenu() {
       subsection.append($('<div>').addClass('listing').html('<b>Wrinkler Value:</b> ' + Beautify(wrinklerValue())));
     }
     menu.append(subsection);
-    
-    
+
+
     if (FrozenCookies.preferenceValues) {
       subsection = $('<div>').addClass('subsection');
       subsection.append($('<div>').addClass('title').html('Frozen Cookie Controls'));
@@ -478,11 +478,11 @@ function FCMenu() {
     // Table Dividers
     buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>'));
     buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>').css('border-top', '2px dashed #999'));
-    
+
     banks = [{name: 'Lucky Bank', cost: luckyBank(), efficiency: cookieEfficiency(Game.cookies, luckyBank())},
       {name: 'Lucky Frenzy Bank', cost: luckyFrenzyBank(), efficiency: cookieEfficiency(Game.cookies, luckyFrenzyBank())},
       {name: 'Chain Bank', cost: chainBank(), efficiency: cookieEfficiency(Game.cookies, chainBank())}];
-    
+
     banks.forEach(function(bank) {
       var deltaCps = effectiveCps(bank.cost) - effectiveCps();
       buildTable.append($('<tr><td colspan="2"><b>' + bank.name + (bank.deltaCps === 0 ? ' (*)' : '') + '</b></td><td>' + Beautify(bank.efficiency) + '</td><td>' + Beautify(Math.max(0, bank.cost - Game.cookies)) + '</td><td>' + Beautify(deltaCps) + '</td></tr>'));
