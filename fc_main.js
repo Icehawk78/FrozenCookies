@@ -1550,7 +1550,7 @@ function autoFrenzyClick() {
 function autoCookie() {
   if (!FrozenCookies.processing && !Game.OnAscend && !Game.AscendTimer) {
     FrozenCookies.processing = true;
-    var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
+    var currentHCAmount = Math.floor(Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0)));
     if (FrozenCookies.lastHCAmount < currentHCAmount) {
       var changeAmount = currentHCAmount - FrozenCookies.lastHCAmount;
       FrozenCookies.lastHCAmount = currentHCAmount;
