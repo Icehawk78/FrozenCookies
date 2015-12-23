@@ -84,10 +84,10 @@ function setOverrides() {
   }
   Beautify = fcBeautify;
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
-  Game.oldReset = Game.Reset;
+  Game.oldReset = Game.Ascend;
   Game.oldWriteSave = Game.WriteSave;
   Game.oldLoadSave = Game.LoadSave;
-  Game.Reset = fcReset;
+  Game.Ascend = fcReset;
   Game.WriteSave = fcWriteSave;
 //  if (FrozenCookies.saveWrinklers && localStorage.wrinklers) {
 //    Game.wrinklers = JSON.parse(localStorage.wrinklers);
@@ -386,7 +386,7 @@ document.addEventListener('keydown', function(event) {
       copyToClipboard(Game.WriteSave(true));
     }
     if (event.keyCode == 82) {
-      Game.Reset();
+      Game.Ascend();
     }
     if (event.keyCode == 83) {
       Game.WriteSave();
@@ -543,34 +543,36 @@ function cookieValue(bankAmount, wrathValue, wrinklerCount) {
   var wrinkler = wrinklerMod(wrinklerCount);
 
   var value = 0;
-  // Clot
-  value -= cookieInfo.clot.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 66 * 0.5;
-  // Frenzy
-  value += cookieInfo.frenzy.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 77 * 6;
-  // Blood
-  value += cookieInfo.blood.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 6 * 665;
-  // Chain
-  value += cookieInfo.chain.odds[wrathValue] * calculateChainValue(bankAmount, cps, (7 - (wrathValue / 3)));
-  // Ruin
-  value -= cookieInfo.ruin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10) + 13);
-  // Frenzy + Ruin
-  value -= cookieInfo.frenzyRuin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 7) + 13);
-  // Clot + Ruin
-  value -= cookieInfo.clotRuin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 0.5) + 13);
-  // Lucky
-  value += cookieInfo.lucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20) + 13);
-  // Frenzy + Lucky
-  value += cookieInfo.frenzyLucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20 * 7) + 13);
-  // Clot + Lucky
-  value += cookieInfo.clotLucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20 * 0.5) + 13);
-  // Click
-  value += cookieInfo.click.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777;
-  // Frenzy + Click
-  value += cookieInfo.frenzyClick.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 7;
-  // Clot + Click
-  value += cookieInfo.clotClick.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 0.5;
-  // Blah
-  value += 0;
+  if (!Game.Has('Golden switch [off]')) {
+    // Clot
+    value -= cookieInfo.clot.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 66 * 0.5;
+    // Frenzy
+    value += cookieInfo.frenzy.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 77 * 6;
+    // Blood
+    value += cookieInfo.blood.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 6 * 665;
+    // Chain
+    value += cookieInfo.chain.odds[wrathValue] * calculateChainValue(bankAmount, cps, (7 - (wrathValue / 3)));
+    // Ruin
+    value -= cookieInfo.ruin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10) + 13);
+    // Frenzy + Ruin
+    value -= cookieInfo.frenzyRuin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 7) + 13);
+    // Clot + Ruin
+    value -= cookieInfo.clotRuin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 0.5) + 13);
+    // Lucky
+    value += cookieInfo.lucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20) + 13);
+    // Frenzy + Lucky
+    value += cookieInfo.frenzyLucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20 * 7) + 13);
+    // Clot + Lucky
+    value += cookieInfo.clotLucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20 * 0.5) + 13);
+    // Click
+    value += cookieInfo.click.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777;
+    // Frenzy + Click
+    value += cookieInfo.frenzyClick.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 7;
+    // Clot + Click
+    value += cookieInfo.clotClick.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 0.5;
+    // Blah
+    value += 0;
+  }
   return value;
 }
 
@@ -1608,7 +1610,7 @@ function autoCookie() {
     }
 
     // This apparently *has* to stay here, or else fast purchases will multi-click it.
-    if (Game.goldenCookie.life && FrozenCookies.autoGC) {
+    if (Game.goldenCookie.life && !Game.Has('Golden switch [off]') && FrozenCookies.autoGC) {
       Game.goldenCookie.click();
     }
     if (Game.seasonPopup.life > 0 && FrozenCookies.autoReindeer) {
