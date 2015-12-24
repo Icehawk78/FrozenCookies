@@ -1625,7 +1625,7 @@ function autoCookie() {
     }
     var currentFrenzy = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? Game.clickFrenzyPower : 1);
     if (currentFrenzy != FrozenCookies.last_gc_state) {
-      var hc_gain = FrozenCookies.hc_gain;
+      var hc_gain = FrozenCookies.hc_gain * 1;
       if (FrozenCookies.last_gc_state != 1 && currentFrenzy == 1) {
         logEvent('GC', 'Frenzy ended, cookie production x1');
         if (FrozenCookies.hc_gain) {
