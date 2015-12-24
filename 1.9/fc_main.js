@@ -1626,7 +1626,6 @@ function autoCookie() {
     var currentFrenzy = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? Game.clickFrenzyPower : 1);
     if (currentFrenzy != FrozenCookies.last_gc_state) {
       var hc_gain = FrozenCookies.hc_gain * 1;
-      logEvent('Debug', 'HC_GAIN:' + hc_gain);
       if (FrozenCookies.last_gc_state != 1 && currentFrenzy == 1) {
         logEvent('GC', 'Frenzy ended, cookie production x1');
         if (FrozenCookies.hc_gain) {
@@ -1644,7 +1643,6 @@ function autoCookie() {
           }
           logEvent('GC', 'Starting ' + (Game.clickFrenzy ? 'Clicking ' : '') + 'Frenzy x' +  currentFrenzy);
       }
-      logEvent('Debug', 'HC_GAIN:' + hc_gain);
       if (FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] == null) {
           FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] = 0;
       }
@@ -1652,8 +1650,7 @@ function autoCookie() {
         FrozenCookies.frenzyGains[FrozenCookies.last_gc_state] = 0;
       }
       FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] += Date.now() - FrozenCookies.last_gc_time;
-      logEvent('Debug', 'HC_GAIN:' + hc_gain);
-      FrozenCookies.frenzyGains[FrozenCookies.last_gs_state] += hc_gain;
+      FrozenCookies.frenzyGains[FrozenCookies.last_gc_state] += hc_gain;
       FrozenCookies.last_gc_state = currentFrenzy;
       FrozenCookies.last_gc_time = Date.now();
       updateLocalStorage();
