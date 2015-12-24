@@ -36,7 +36,7 @@ function setOverrides() {
 
   // Get historical data
   FrozenCookies.frenzyTimes = JSON.parse(localStorage.getItem('frenzyTimes')) || {};
-  FrozenCookies.frenzyGains = JSON.parse(localStorage.getItem('frenzyGains') || {};
+  FrozenCookies.frenzyGains = JSON.parse(localStorage.getItem('frenzyGains')) || {};
 //  FrozenCookies.non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
 //  FrozenCookies.gc_time = Number(localStorage.getItem('frenzyTime'));
   FrozenCookies.lastHCAmount = Number(localStorage.getItem('lastHCAmount'));
