@@ -216,7 +216,6 @@ function updateTimers() {
     gc_min_delay = (probabilitySpan('golden', Game.goldenCookie.time, 0.01) - Game.goldenCookie.time) / maxCookieTime(),
     frenzy_delay = Game.frenzy / maxCookieTime(),
     click_frenzy_delay = Game.clickFrenzy / maxCookieTime(),
-    decimal_HC_complete = Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue()) % 1,
     bankTotal = delayAmount(),
     purchaseTotal = nextPurchase().cost,
     bankCompletion = bankTotal ? (Math.min(Game.cookies, bankTotal)) / bankTotal : 0,
@@ -312,16 +311,8 @@ function updateTimers() {
       display: timeDisplay(Game.clickFrenzy/Game.fps)
     });
   }
-  if (decimal_HC_complete>0) {
-    t_draw.push({
-      f_percent: decimal_HC_complete,
-      c1: "rgba(55, 169, 230, 1)",
-      name: "HC Completion",
-      display: (Math.round(decimal_HC_complete*10000)/100)+"%"
-    });
-  }
   height = $('#backgroundLeftCanvas').height() - 140;
-  drawCircles(t_draw, 20, height);
+  drawCircles(t_draw, 40, height);
 }
 
 function FCMenu() {
