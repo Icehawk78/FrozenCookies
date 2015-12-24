@@ -46,7 +46,7 @@ function setOverrides() {
   // Set default values for calculations
   FrozenCookies.hc_gain = 0;
   FrozenCookies.hc_gain_time = Date.now();
-  FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
+  FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? Game.clickFrenzyPower : 1);
   FrozenCookies.last_gc_time = Date.now();
   FrozenCookies.lastCPS = Game.cookiesPs;
   FrozenCookies.lastCookieCPS = 0;
@@ -1620,7 +1620,7 @@ function autoCookie() {
     if (FrozenCookies.autoBlacklistOff) {
       autoBlacklistOff();
     }
-    var currentFrenzy = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
+    var currentFrenzy = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? Game.clickFrenzyPower : 1);
     if (currentFrenzy != FrozenCookies.last_gc_state) {
       if (FrozenCookies.last_gc_state != 1 && currentFrenzy == 1) {
           logEvent('GC', 'Frenzy ended, cookie production x1');
