@@ -332,8 +332,29 @@ function generateProbabilities(upgradeMult, minBase, maxMult) {
   return cumProb;
 }
 
+function combine(a) {
+  var fn = function(n, src, got, all) {
+    if (n == 0) {
+      if (got.length > 0) {
+        all[all.length] = got;
+      }
+      return;
+    }
+    for (var j = 0; j < src.length; j++) {
+      fn(n - 1, src.slice(j + 1), got.concat([src[j]]), all);
+    }
+    return;
+  }
+  var all = [];
+  for (var i=0; i < a.length; i++) {
+    fn(i, a, [], all);
+  }
+  all.push(a);
+  return all;
+}
+
 var cumulativeProbabilityList = {
-  golden : [1, 0.95, 0.5, 0.475, 0.25, 0.2375].reduce(function(r,x) {
+  golden : _.uniq(combine([0.95, 0.5, 0.5, 0.95, 0.95, 0.95, 0.98]).map(function(arr){return arr.reduce(function(r,i){return r*i},1)})).reduce(function(r,x) {
     r[x] = generateProbabilities(x, 5 * 60 * Game.fps, 3);
     return r;
   }, {}),
