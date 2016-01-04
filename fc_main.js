@@ -36,6 +36,7 @@ function setOverrides() {
 
   // Get historical data
   FrozenCookies.frenzyTimes = JSON.parse(localStorage.getItem('frenzyTimes')) || {};
+  FrozenCookies.frenzyGains = JSON.parse(localStorage.getItem('frenzyGains')) || {};
 //  FrozenCookies.non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
 //  FrozenCookies.gc_time = Number(localStorage.getItem('frenzyTime'));
   FrozenCookies.lastHCAmount = Number(localStorage.getItem('lastHCAmount'));
@@ -46,7 +47,7 @@ function setOverrides() {
   // Set default values for calculations
   FrozenCookies.hc_gain = 0;
   FrozenCookies.hc_gain_time = Date.now();
-  FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
+  FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? Game.clickFrenzyPower : 1);
   FrozenCookies.last_gc_time = Date.now();
   FrozenCookies.lastCPS = Game.cookiesPs;
   FrozenCookies.lastCookieCPS = 0;
@@ -291,14 +292,16 @@ function timeDisplay(seconds) {
   return (days + hours + minutes + seconds).trim();
 }
 
-function fcReset() {
+function fcReset(bypass) {
+  if (!bypass) Game.Prompt('<h3>Ascend</h3><div class="block">Do you REALLY want to ascend?<div class="line"></div>You will lose your progress and start over from scratch.<div class="line"></div>All your cookies will be converted into prestige and heavenly chips.<div class="line"></div>You will keep your achievements.</div>',[['Yes!','Game.ClosePrompt();Game.Ascend(1);'],'No']);
   Game.CollectWrinklers();
   if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
     Game.ObjectsById.forEach(function(b){b.sell(-1);});
     Game.Upgrades['Chocolate egg'].buy();
   }
-  Game.oldReset();
+  Game.oldReset(bypass);
   FrozenCookies.frenzyTimes = {};
+  FrozenCookies.frenzyGains = {};
   FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
   FrozenCookies.last_gc_time = Date.now();
   FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
@@ -326,6 +329,7 @@ function updateLocalStorage() {
   localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
   localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
   localStorage.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
+  localStorage.frenzyGains = JSON.stringify(FrozenCookies.frenzyGains);
 //  localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
 //  localStorage.frenzyTime = FrozenCookies.gc_time;
   localStorage.lastHCAmount = FrozenCookies.lastHCAmount;
@@ -471,14 +475,23 @@ function autoBlacklistOff() {
 }
 
 function getProbabilityList(listType) {
-  return cumulativeProbabilityList[listType][getProbabilityModifiers(listType)];
+  var mod = getProbabilityModifiers(listType);
+  var result = cumulativeProbabilityList[listType][mod];
+  if (result == null) {
+    var x = (listType == 'golden' ? 5 : 3);
+    var y = (listType == 'golden' ? 3 : 2);
+    result = generateProbabilities(mod, x * 60 * Game.fps, y);
+    cumulativeProbabilityList[listType][mod] = result;
+  }
+  return result;
 }
 
 function getProbabilityModifiers(listType) {
   var result;
   switch (listType) {
     case "golden":
-      result = (Game.Has('Lucky day') ? 0.5 : 1) * (Game.Has('Serendipity') ? 0.5 : 1) * (Game.Has('Golden goose egg') ? 0.95 : 1);
+      //result = (Game.Has('Lucky day') ? 0.5 : 1) * (Game.Has('Serendipity') ? 0.5 : 1) * (Game.Has('Golden goose egg') ? 0.95 : 1);
+      result = Game.goldenCookie.getTimeMod(1)/(Game.fps*60)
       break;
     case "reindeer":
       result = Game.Has('Reindeer baking grounds') ? 0.5 : 1;
@@ -1619,30 +1632,30 @@ function autoCookie() {
     if (FrozenCookies.autoBlacklistOff) {
       autoBlacklistOff();
     }
-    var currentFrenzy = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
+    var currentFrenzy = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? Game.clickFrenzyPower : 1);
     if (currentFrenzy != FrozenCookies.last_gc_state) {
+      var hc_gain = FrozenCookies.hc_gain * 1;
+      if (FrozenCookies.hc_gain) {
+        logEvent('HC', 'Won ' + FrozenCookies.hc_gain + ' heavenly chips ' + (FrozenCookies.last_gc_state == 1 ? 'outside of' : 'during') + ' Frenzy (Rate: ' + (FrozenCookies.hc_gain * 1000) / (Date.now() - FrozenCookies.hc_gain_time) + ' HC/s)');
+        FrozenCookies.hc_gain_time = Date.now();
+        FrozenCookies.hc_gain = 0;
+      }
       if (FrozenCookies.last_gc_state != 1 && currentFrenzy == 1) {
-          logEvent('GC', 'Frenzy ended, cookie production x1');
-          if (FrozenCookies.hc_gain) {
-
-      logEvent('HC', 'Won ' + FrozenCookies.hc_gain + ' heavenly chips during Frenzy. Rate: ' + (FrozenCookies.hc_gain * 1000) / (Date.now() - FrozenCookies.hc_gain_time) + ' HC/s.');
-      FrozenCookies.hc_gain_time = Date.now();
-      FrozenCookies.hc_gain = 0;
-          }
+        logEvent('GC', 'Frenzy ended, cookie production x1');
       } else {
           if (FrozenCookies.last_gc_state != 1) {
-            logEvent('GC', 'Previous Frenzy x' + FrozenCookies.last_gc_state + 'interrupted.')
-        } else if (FrozenCookies.hc_gain) {
-      logEvent('HC', 'Won ' + FrozenCookies.hc_gain + ' heavenly chips outside of Frenzy. Rate: ' + (FrozenCookies.hc_gain * 1000) / (Date.now() - FrozenCookies.hc_gain_time) + ' HC/s.');
-          FrozenCookies.hc_gain_time = Date.now();
-          FrozenCookies.hc_gain = 0;
-        }
+            logEvent('GC', 'Previous Frenzy x' + FrozenCookies.last_gc_state + ' interrupted.');
+          }
           logEvent('GC', 'Starting ' + (Game.clickFrenzy ? 'Clicking ' : '') + 'Frenzy x' +  currentFrenzy);
       }
       if (FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] == null) {
           FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] = 0;
       }
+      if (FrozenCookies.frenzyGains[FrozenCookies.last_gc_state] == null) {
+        FrozenCookies.frenzyGains[FrozenCookies.last_gc_state] = 0;
+      }
       FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] += Date.now() - FrozenCookies.last_gc_time;
+      FrozenCookies.frenzyGains[FrozenCookies.last_gc_state] += hc_gain;
       FrozenCookies.last_gc_state = currentFrenzy;
       FrozenCookies.last_gc_time = Date.now();
       updateLocalStorage();
