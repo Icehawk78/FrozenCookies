@@ -1489,18 +1489,24 @@ function autoGoldenCookie() {
   }
 }
 
+function safeCookieClick() {
+  if (!Game.OnAscend && !Game.AscendTimer) {
+    Game.ClickCookie();
+  }
+}
+
 function autoFrenzyClick() {
   if (Game.clickFrenzy > 0 && !FrozenCookies.autoFrenzyBot) {
     if (FrozenCookies.autoclickBot) {
       clearInterval(FrozenCookies.autoclickBot);
       FrozenCookies.autoclickBot = 0;
     }
-    FrozenCookies.autoFrenzyBot = setInterval(function(){Game.ClickCookie();}, 1000 / FrozenCookies.frenzyClickSpeed);
+    FrozenCookies.autoFrenzyBot = setInterval(safeCookieClick, 1000 / FrozenCookies.frenzyClickSpeed);
   } else if (Game.clickFrenzy == 0 && FrozenCookies.autoFrenzyBot) {
     clearInterval(FrozenCookies.autoFrenzyBot);
     FrozenCookies.autoFrenzyBot = 0;
     if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
-      FrozenCookies.autoclickBot = setInterval(function(){Game.ClickCookie();}, 1000 / FrozenCookies.cookieClickSpeed);
+      FrozenCookies.autoclickBot = setInterval(safeCookieClick, 1000 / FrozenCookies.cookieClickSpeed);
     }
   }
 }
@@ -1650,7 +1656,7 @@ function FCStart() {
 //  }
   
   if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
-    FrozenCookies.autoclickBot = setInterval(function() {if (!Game.OnAscend && !Game.AscendTimer) {Game.ClickCookie()}}, 1000 / FrozenCookies.cookieClickSpeed);
+    FrozenCookies.autoclickBot = setInterval(safeCookieClick, 1000 / FrozenCookies.cookieClickSpeed);
   }
   
   if (FrozenCookies.autoFrenzy && FrozenCookies.frenzyClickSpeed) {
