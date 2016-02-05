@@ -389,6 +389,9 @@ document.addEventListener('keydown', function(event) {
     if(event.keyCode == 69) {
       copyToClipboard(Game.WriteSave(true));
     }
+    if(event.keyCode == 77) {
+      doBuyAll();
+    }
     if (event.keyCode == 82) {
       Game.Ascend();
     }
@@ -428,6 +431,14 @@ function updateTimeTravelAmount() {
     newAmount = 0;
   }
   FrozenCookies.timeTravelAmount = newAmount;
+}
+
+function doBuyAll() {
+  var newAmount = prompt("How many of each building would you like to attempt to buy? This will buy up to that amount of each building, until you have that many of every building or cannot afford any more buildings. It is safe to do this repeatedly with the same value.");
+  if (typeof(newAmount) === 'undefined' || newAmount === null || isNaN(Number(newAmount)) || Number(newAmount) < 0) {
+    newAmount = 0;
+  }
+  buyAll(newAmount);
 }
 
 function cyclePreference(preferenceName) {
@@ -1498,6 +1509,14 @@ function smartTrackingStats(delay) {
 }
 
 // Unused
+function buyAll(amount) {
+  Game.ObjectsById.forEach(function(b) {
+    if (b.amount < amt) {
+      b.buy(amt - b.amount);
+    }
+  })
+};
+
 function shouldClickGC() {
   return Game.goldenCookie.life > 0 && FrozenCookies.autoGC;
 }
