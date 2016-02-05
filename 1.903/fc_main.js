@@ -1509,7 +1509,7 @@ function smartTrackingStats(delay) {
 }
 
 // Unused
-function buyAll(amount) {
+function buyAll(amt) {
   Game.ObjectsById.forEach(function(b) {
     if (b.amount < amt) {
       b.buy(amt - b.amount);
