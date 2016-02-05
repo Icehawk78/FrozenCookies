@@ -1223,6 +1223,7 @@ function buyFunctionToggle(upgrade) {
       .replace(/function\s*\(\)\s*{(.+)\s*}/, "$1")
       .replace(/for\s*\(.+\)\s*\{.+\}/,'')
       .replace(/if\s*\(this\.season\)\s*Game\.season=this\.season\;/,('Game.season="' + upgrade.season + '";'))
+      .replace(/Game\.season=this\.season\;/,('Game.season="' + upgrade.season + '";'))
       .replace(/if\s*\(.+\)\s*[^{}]*?\;/,'')
       .replace(/if\s*\(.+\)\s*\{.+\}/,'')
       .replace(/else\s+\(.+\)\s*\;/,'')
