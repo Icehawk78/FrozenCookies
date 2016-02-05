@@ -10,14 +10,16 @@ $('#logButton').hide();
 
 $('<style type="text/css">')
   .html(
-  '#fcEfficiencyTable {width: 100%;}' +
-  '#fcButton {top: 0px; right: 0px; padding-top: 16px; padding-left: 2px; font-size: 90%; background-position: -100px 0px;}' +
-  '.worst {border-width:1px; border-style:solid; border-color:#330000;}' +
-  '.bad {border-width:1px; border-style:solid; border-color:#660033;}' +
-  '.average {border-width:1px; border-style:solid; border-color:#663399;}' +
-  '.good {border-width:1px; border-style:solid; border-color:#3399FF;}' +
-  '.best {border-width:1px; border-style:solid; border-color:#00FFFF;}' +
-  '.ui-dialog {z-index:1000000;}'
+  '#fcEfficiencyTable {width: 100%;} ' +
+  '#fcButton {top: 0px; right: 0px; padding-top: 16px; padding-left: 2px; font-size: 90%; background-position: -100px 0px;} ' +
+  '.worst {border-width:1px; border-style:solid; border-color:#330000;} ' +
+  '.bad {border-width:1px; border-style:solid; border-color:#660033;} ' +
+  '.average {border-width:1px; border-style:solid; border-color:#663399;} ' +
+  '.good {border-width:1px; border-style:solid; border-color:#3399FF;} ' +
+  '.best {border-width:1px; border-style:solid; border-color:#00FFFF;} ' +
+  '.ui-dialog {z-index:1000000;} ' +
+  '#sectionMiddle {overflow-y: hidden;} ' +
+  '#menu {overflow-x: hidden; overflow-y: scroll;} '
   )
   .appendTo('head');
 
