@@ -1,13 +1,14 @@
 // Global Variables
-var scriptElement = document.getElementById( 'frozenCookieScript' ),
-	baseUrl = (scriptElement !== null ?
-		scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '/') :
-		'http://icehawk78.github.io/FrozenCookies/') + Game.version,
-	FrozenCookies = {
-		'baseUrl': baseUrl,
-		'branch' : 'Σ',
-		'version': '1.9.2'
-	};
+var scriptElement = document.getElementById( 'frozenCookieScript' );
+var version_list = [1.0466, 1.0501, 1.9, 1.905];
+var v_index = version_list.findIndex(function(i){return Game.version == i});
+var load_version = v_index == -1 ? version_list[version_list.length - 1] : version_list[v_index];
+var baseUrl = (scriptElement !== null ? scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '/') : 'http://icehawk78.github.io/FrozenCookies/') + load_version;
+var FrozenCookies = {
+	'baseUrl': baseUrl,
+	'branch' : 'Σ',
+	'version': '1.9.3'
+};
 
 // Load external libraries
 var script_list = [
