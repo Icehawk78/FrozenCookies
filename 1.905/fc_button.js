@@ -466,7 +466,7 @@ function FCMenu() {
     recommendationList().forEach(function(rec) {
       var item  = rec.purchase,
         chainStr = (item.unlocked === 0) ? ' (C)' : '';
-      buildTable.append($('<tr><td><b>' + item.name + chainStr + '</b></td><td>' + (Math.floor(rec.efficiencyScore * 10000) / 100).toString() + '%</td><td>' + Beautify(rec.efficiency) + '</td><td>' + Beautify(rec.cost) + '</td><td>' + Beautify(rec.delta_cps) + '</td></tr>'));
+      buildTable.append($('<tr><td style="width: 37.5%"><b>' + item.name + chainStr + '</b></td><td style="width: 10%">' + (Math.floor(rec.efficiencyScore * 10000) / 100).toString() + '%</td><td style="width: 17.5%">' + Beautify(rec.efficiency) + '</td><td style="width: 17.5%">' + Beautify(rec.cost) + '</td><td style="width: 17.5%">' + Beautify(rec.delta_cps) + '</td></tr>'));
     });
     // Table Dividers
     buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>'));
