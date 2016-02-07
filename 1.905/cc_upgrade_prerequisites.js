@@ -75,18 +75,16 @@ FrozenCookies.preferenceValues = {
   }
 };
 
-// Unused, for now:
-function buildUpgradeList() {
-  return _.compact(_.flatten(Game.ObjectsById.map(function(b){return b.buyFunction.toString().match(/if\s?\(this\.amount>=(\d+)\)\s?Game\.Unlock\((.+?)\);/g).map(function(matched){
-    var res = /if\s?\(this\.amount>=(\d+)\)\s?Game\.Unlock\((.+?)\);/.exec(matched);
-    var template = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-    template[b.id] += eval(res[1]);
-    
-    return Game.Upgrades[eval(res[2])] ? {id: Game.Upgrades[eval(res[2])].id, buildings: template, upgrades: []} : eval(res[2]).map(function(u){return {id: Game.Upgrades[u].id, buildings: template, upgrades: []}});
-  })})));
+// Reuse built-in info for creating at least some of the list. Will add more as I figure it out.
+function tieredUpgradeBuilder() {
+  return _.flatten(Game.ObjectsById.map(function(o){return o.tieredUpgrades})).map(function(u){
+    var builds = Game.ObjectsById.map(function(){return 0});
+    builds[u.buildingTie.id] = Game.Tiers[u.tier].unlock;
+    return {id: u.id, upgrades: [], buildings: builds};
+  });
 }
 
-var upgradeJson = [
+var upgradeJson = _.union(tieredUpgradeBuilder(), [
   {'id':0,'buildings':[1,0,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':1,'buildings':[1,0,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':2,'buildings':[10,0,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
@@ -99,97 +97,6 @@ var upgradeJson = [
   {'id':109,'buildings':[240,0,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':188,'buildings':[280,0,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':189,'buildings':[320,0,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-
-  {'id':7,'buildings':[0,1,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':8,'buildings':[0,1,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':9,'buildings':[0,10,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':44,'buildings':[0,50,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':110,'buildings':[0,100,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':192,'buildings':[0,200,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-
-  {'id':10,'buildings':[0,0,1,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':11,'buildings':[0,0,1,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':12,'buildings':[0,0,10,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':45,'buildings':[0,0,50,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':111,'buildings':[0,0,100,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':193,'buildings':[0,0,200,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-
-  {'id':16,'buildings':[0,0,0,1,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':17,'buildings':[0,0,0,1,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':18,'buildings':[0,0,0,10,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':47,'buildings':[0,0,0,50,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':113,'buildings':[0,0,0,100,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':195,'buildings':[0,0,0,200,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-
-  {'id':13,'buildings':[0,0,0,0,1,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':14,'buildings':[0,0,0,0,1,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':15,'buildings':[0,0,0,0,10,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':46,'buildings':[0,0,0,0,50,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':112,'buildings':[0,0,0,0,100,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':194,'buildings':[0,0,0,0,200,0,0,0,0,0,0,0,0,0],'upgrades':[]},
-
-  {'id':232,'buildings':[0,0,0,0,0,1,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':233,'buildings':[0,0,0,0,0,1,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':234,'buildings':[0,0,0,0,0,10,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':235,'buildings':[0,0,0,0,0,50,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':236,'buildings':[0,0,0,0,0,100,0,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':237,'buildings':[0,0,0,0,0,200,0,0,0,0,0,0,0,0],'upgrades':[]},
-
-  {'id':238,'buildings':[0,0,0,0,0,0,1,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':239,'buildings':[0,0,0,0,0,0,1,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':240,'buildings':[0,0,0,0,0,0,10,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':241,'buildings':[0,0,0,0,0,0,50,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':242,'buildings':[0,0,0,0,0,0,100,0,0,0,0,0,0,0],'upgrades':[]},
-  {'id':243,'buildings':[0,0,0,0,0,0,200,0,0,0,0,0,0,0],'upgrades':[]},
-
-  {'id':244,'buildings':[0,0,0,0,0,0,0,1,0,0,0,0,0,0],'upgrades':[]},
-  {'id':245,'buildings':[0,0,0,0,0,0,0,1,0,0,0,0,0,0],'upgrades':[]},
-  {'id':246,'buildings':[0,0,0,0,0,0,0,10,0,0,0,0,0,0],'upgrades':[]},
-  {'id':247,'buildings':[0,0,0,0,0,0,0,50,0,0,0,0,0,0],'upgrades':[]},
-  {'id':248,'buildings':[0,0,0,0,0,0,0,100,0,0,0,0,0,0],'upgrades':[]},
-  {'id':249,'buildings':[0,0,0,0,0,0,0,200,0,0,0,0,0,0],'upgrades':[]},
-
-  {'id':19,'buildings':[0,0,0,0,0,0,0,0,1,0,0,0,0,0],'upgrades':[]},
-  {'id':20,'buildings':[0,0,0,0,0,0,0,0,1,0,0,0,0,0],'upgrades':[]},
-  {'id':21,'buildings':[0,0,0,0,0,0,0,0,10,0,0,0,0,0],'upgrades':[]},
-  {'id':48,'buildings':[0,0,0,0,0,0,0,0,50,0,0,0,0,0],'upgrades':[]},
-  {'id':114,'buildings':[0,0,0,0,0,0,0,0,100,0,0,0,0,0],'upgrades':[]},
-  {'id':196,'buildings':[0,0,0,0,0,0,0,0,200,0,0,0,0,0],'upgrades':[]},
-
-  {'id':22,'buildings':[0,0,0,0,0,0,0,0,0,1,0,0,0,0],'upgrades':[]},
-  {'id':23,'buildings':[0,0,0,0,0,0,0,0,0,1,0,0,0,0],'upgrades':[]},
-  {'id':24,'buildings':[0,0,0,0,0,0,0,0,0,10,0,0,0,0],'upgrades':[]},
-  {'id':49,'buildings':[0,0,0,0,0,0,0,0,0,50,0,0,0,0],'upgrades':[]},
-  {'id':115,'buildings':[0,0,0,0,0,0,0,0,0,100,0,0,0,0],'upgrades':[]},
-  {'id':197,'buildings':[0,0,0,0,0,0,0,0,0,200,0,0,0,0],'upgrades':[]},
-
-  {'id':25,'buildings':[0,0,0,0,0,0,0,0,0,0,1,0,0,0],'upgrades':[]},
-  {'id':26,'buildings':[0,0,0,0,0,0,0,0,0,0,1,0,0,0],'upgrades':[]},
-  {'id':27,'buildings':[0,0,0,0,0,0,0,0,0,0,10,0,0,0],'upgrades':[]},
-  {'id':50,'buildings':[0,0,0,0,0,0,0,0,0,0,50,0,0,0],'upgrades':[]},
-  {'id':116,'buildings':[0,0,0,0,0,0,0,0,0,0,100,0,0,0],'upgrades':[]},
-  {'id':198,'buildings':[0,0,0,0,0,0,0,0,0,0,200,0,0,0],'upgrades':[]},
-
-  {'id':28,'buildings':[0,0,0,0,0,0,0,0,0,0,0,1,0,0],'upgrades':[]},
-  {'id':29,'buildings':[0,0,0,0,0,0,0,0,0,0,0,1,0,0],'upgrades':[]},
-  {'id':30,'buildings':[0,0,0,0,0,0,0,0,0,0,0,10,0,0],'upgrades':[]},
-  {'id':51,'buildings':[0,0,0,0,0,0,0,0,0,0,0,50,0,0],'upgrades':[]},
-  {'id':117,'buildings':[0,0,0,0,0,0,0,0,0,0,0,100,0,0],'upgrades':[]},
-  {'id':199,'buildings':[0,0,0,0,0,0,0,0,0,0,0,200,0,0],'upgrades':[]},
-
-  {'id':99,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,1,0],'upgrades':[]},
-  {'id':100,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,1,0],'upgrades':[]},
-  {'id':101,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,10,0],'upgrades':[]},
-  {'id':102,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,50,0],'upgrades':[]},
-  {'id':118,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,100,0],'upgrades':[]},
-  {'id':200,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,200,0],'upgrades':[]},
-
-  {'id':175,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,0,1],'upgrades':[]},
-  {'id':176,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,0,1],'upgrades':[]},
-  {'id':177,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,0,10],'upgrades':[]},
-  {'id':178,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,0,50],'upgrades':[]},
-  {'id':179,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,0,100],'upgrades':[]},
-  {'id':201,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,0,200],'upgrades':[]},
   
   {'id':57,'buildings':[0,1,15,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':58,'buildings':[0,1,0,15,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
@@ -267,7 +174,7 @@ var upgradeJson = [
   {'id':172,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[171,184]},
   {'id':173,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[172,184]},
   {'id':174,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[173,184]}
-];
+]);
 
 var blacklist = [
   {
