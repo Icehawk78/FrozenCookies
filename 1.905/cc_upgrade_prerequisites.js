@@ -173,7 +173,20 @@ var upgradeJson = _.union(tieredUpgradeBuilder(), [
   {'id':171,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[170,184]},
   {'id':172,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[171,184]},
   {'id':173,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[172,184]},
-  {'id':174,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[173,184]}
+  {'id':174,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[173,184]},
+  
+  {id: 210, buildings: [], upgrades: [209]},
+  {id: 210, buildings: [], upgrades: [209]},
+  {id: 210, buildings: [], upgrades: [209]},
+  {id: 210, buildings: [], upgrades: [209]},
+  {id: 210, buildings: [], upgrades: [209]},
+  {id: 210, buildings: [], upgrades: [209]},
+  {id: 210, buildings: [], upgrades: [209]},
+  {id: 210, buildings: [], upgrades: [209]},
+  {id: 210, buildings: [], upgrades: [209]},
+  {id: 210, buildings: [], upgrades: [209]},
+  {id: 210, buildings: [], upgrades: [209]},
+  211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229
 ]);
 
 var blacklist = [
