@@ -759,19 +759,19 @@ function weightedCookieValue(useCurrent) {
     base_golden += rollingEstimate * 0.0033;
     base_wrath += rollingEstimate * 0.0595;
   }
-  if (useCurrent && Game.cookies < maxLuckyValue() * 10) {
+  if (useCurrent && Game.cookies < maxLuckyValue() / 0.15) {
     if (lucky_mod) {
-      base_golden -= ((1200 * cps) - Math.min(1200 * cps, Game.cookies * 0.1)) * 0.49 * 0.5 + (maxLuckyValue() - (Game.cookies * 0.1)) * 0.49 * 0.5;
+      base_golden -= ((900 * cps) - Math.min(900 * cps, Game.cookies * 0.15)) * 0.49 * 0.5 + (maxLuckyValue() - (Game.cookies * 0.15)) * 0.49 * 0.5;
     } else {
-      base_golden -= (maxLuckyValue() - (Game.cookies * 0.1)) * 0.49;
-      base_wrath  -= (maxLuckyValue() - (Game.cookies * 0.1)) * 0.29;
+      base_golden -= (maxLuckyValue() - (Game.cookies * 0.15)) * 0.49;
+      base_wrath  -= (maxLuckyValue() - (Game.cookies * 0.15)) * 0.29;
     }
   }
   return Game.elderWrath / 3.0 * base_wrath + (3 - Game.elderWrath) / 3.0 * base_golden;
 }
 
 function maxLuckyValue() {
-  var gcMod = Game.Has('Get lucky') ? 8400 : 1200;
+  var gcMod = Game.Has('Get lucky') ? 6300 : 900;
   return baseCps() * gcMod;
 }
 
