@@ -696,11 +696,11 @@ function estimatedTimeRemaining(cookies) {
 }
 
 function luckyBank() {
-  return baseCps() * 60 * 15 * 15;
+  return (baseCps() * 60 * 15) / 0.15;
 }
 
 function luckyFrenzyBank() {
-  return baseCps() * 60 * 7 * 15 * 15;
+  return (baseCps() * 60 * 7 * 15) / 0.15;
 }
 
 function chainBank() {
