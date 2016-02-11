@@ -1385,13 +1385,13 @@ function updateCaches() {
   do {
     recommendation = nextPurchase(FrozenCookies.recalculateCaches);
     FrozenCookies.recalculateCaches = false;
-    FrozenCookies.disabledPopups = true;
+    FrozenCookies.disabledPopups = false;
     currentBank = bestBank(0);
     targetBank = bestBank(recommendation.efficiency);
     currentCookieCPS = gcPs(cookieValue(currentBank.cost));
     currentUpgradeCount = Game.UpgradesInStore.length;
     FrozenCookies.safeGainsCalc();
-    FrozenCookies.disabledPopups = false;
+    FrozenCookies.disabledPopups = true;
 
     if (FrozenCookies.lastCPS != FrozenCookies.calculatedCps) {
       FrozenCookies.recalculateCaches = true;
