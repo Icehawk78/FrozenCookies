@@ -1385,11 +1385,13 @@ function updateCaches() {
   do {
     recommendation = nextPurchase(FrozenCookies.recalculateCaches);
     FrozenCookies.recalculateCaches = false;
+    FrozenCookies.disabledPopups = true;
     currentBank = bestBank(0);
     targetBank = bestBank(recommendation.efficiency);
     currentCookieCPS = gcPs(cookieValue(currentBank.cost));
     currentUpgradeCount = Game.UpgradesInStore.length;
     FrozenCookies.safeGainsCalc();
+    FrozenCookies.disabledPopups = false;
 
     if (FrozenCookies.lastCPS != FrozenCookies.calculatedCps) {
       FrozenCookies.recalculateCaches = true;
@@ -1457,9 +1459,14 @@ function fcWin(what) {
   if (typeof what==='string') {
     if (Game.Achievements[what]) {
       if (Game.Achievements[what].won==0) {
+        var name=Game.Achievements[what].shortName?Game.Achievements[what].shortName:Game.Achievements[what].name;
         Game.Achievements[what].won=1;
         if (!FrozenCookies.disabledPopups) {
-          logEvent('Achievement', 'Achievement unlocked :<br>'+Game.Achievements[what].name+'<br> ', true);
+          if (Game.prefs.popups) {
+            Game.Popup('Achievement unlocked :<br>'+name);
+          } else {
+            Game.Notify('Achievement unlocked','<div class="title" style="font-size:18px;margin-top:-2px;">'+name+'</div>',Game.Achievements[what].icon);
+          }
         }
         if (Game.Achievements[what].hide!=3) {
           Game.AchievementsOwned++;
@@ -1478,8 +1485,10 @@ function logEvent(event, text, popup) {
   if (FrozenCookies.logging) {
     console.log(output);
   }
-  if (popup) {
+  if (popup && Game.prefs.popups) {
     Game.Popup(text);
+  } else if (popup) {
+    Game.Notify('Achievement unlocked','<div class="title" style="font-size:18px;margin-top:-2px;">'+name+'</div>',Game.Achievements[what].icon)
   }
 }
 
@@ -1508,7 +1517,6 @@ function smartTrackingStats(delay) {
   }
 }
 
-// Unused
 function buyAll(amt) {
   Game.ObjectsById.forEach(function(b) {
     if (b.amount < amt) {
@@ -1622,7 +1630,6 @@ function autoCookie() {
       recommendation.time = Date.now() - Game.startDate;
 //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
       recommendation.purchase.clickFunction = null;
-      disabledPopups = false;
 //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
       recommendation.purchase.buy();
       FrozenCookies.autobuyCount += 1;
@@ -1632,7 +1639,6 @@ function autoCookie() {
         FrozenCookies.delayPurchaseCount += 1;
       }
       logEvent('Store', 'Autobought ' + recommendation.purchase.name + ' for ' + Beautify(recommendation.cost) + ', resulting in ' + Beautify(recommendation.delta_cps) + ' CPS.');
-      disabledPopups = true;
       if (FrozenCookies.autobuyCount >= 10) {
           Game.Draw();
           FrozenCookies.autobuyCount = 0;
