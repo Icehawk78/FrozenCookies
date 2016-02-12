@@ -1203,7 +1203,7 @@ function buildingToggle(building, achievements) {
 
 function buyFunctionToggle(upgrade) {
   if (upgrade && !upgrade.length) {
-    if (!upgrade.buyFunction) {
+    if (!upgrade.buyFunction && !upgrade.toggleInto) {
       return null;
     }
 
@@ -1226,23 +1226,31 @@ function buyFunctionToggle(upgrade) {
       /Game\.seasonPopup\.reset\(\)/,
       /\S/
     ];
-    var buyFunctions = upgrade.buyFunction.toString()
-      .replace(/[\n\r\s]+/g, ' ')
-      .replace(/function\s*\(\)\s*{(.+)\s*}/, "$1")
-      .replace(/for\s*\(.+\)\s*\{.+\}/,'')
-      .replace(/if\s*\(this\.season\)\s*Game\.season=this\.season\;/,('Game.season="' + upgrade.season + '";'))
-      .replace(/Game\.season=this\.season\;/,('Game.season="' + upgrade.season + '";'))
-      .replace(/if\s*\(.+\)\s*[^{}]*?\;/,'')
-      .replace(/if\s*\(.+\)\s*\{.+\}/,'')
-      .replace(/else\s+\(.+\)\s*\;/,'')
-      .replace(/\+\+/,'+=1')
-      .replace(/\-\-/,'-=1')
-      .split(';')
-      .map(function(a){return a.trim();})
-      .filter(function(a){
-        ignoreFunctions.forEach(function(b){a = a.replace(b,'')});
-        return a != '';
-      });
+    var buyFunctions = [];
+    if (upgrade.buyFunction) {
+      buyFunctions = upgrade.buyFunction.toString()
+        .replace(/[\n\r\s]+/g, ' ')
+        .replace(/function\s*\(\)\s*{(.+)\s*}/, "$1")
+        .replace(/for\s*\(.+\)\s*\{.+\}/,'')
+        .replace(/if\s*\(this\.season\)\s*Game\.season=this\.season\;/,('Game.season="' + upgrade.season + '";'))
+        .replace(/Game\.season=this\.season\;/,('Game.season="' + upgrade.season + '";'))
+        .replace(/if\s*\(.+\)\s*[^{}]*?\;/,'')
+        .replace(/if\s*\(.+\)\s*\{.+\}/,'')
+        .replace(/else\s+\(.+\)\s*\;/,'')
+        .replace(/\+\+/,'+=1')
+        .replace(/\-\-/,'-=1')
+        .split(';')
+        .map(function(a){return a.trim();})
+        .filter(function(a){
+          ignoreFunctions.forEach(function(b){a = a.replace(b,'')});
+          return a != '';
+        });
+    }
+    
+    if (upgrade.toggleInto) {
+      buyFunctions.push('Game.Upgrades[\'' + upgrade.toggleInto + '\'].bought = 0;');
+      buyFunctions.push('Game.Upgrades[\'' + upgrade.toggleInto + '\'].unlocked = 1;');
+    }
 
     if (buyFunctions.length == 0) {
       return null;
@@ -1251,12 +1259,18 @@ function buyFunctionToggle(upgrade) {
     var reversedFunctions = buyFunctions.map(function(a){
       var reversed = '';
       var achievementMatch = /Game\.Win\('(.*)'\)/.exec(a);
+      var unlockMatch = /Game\.Unlock\('(.*)'\)/.exec(a);
+      var lockMatch = /Game\.Lock\('(.*)'\)/.exec(a);
       if (a.split('+=').length > 1) {
         reversed = a.split('+=').join('-=');
       } else if (a.split('-=').length > 1) {
         reversed = a.split('-=').join('+=');
       } else if (achievementMatch && Game.Achievements[achievementMatch[1]].won == 0) {
         reversed = 'Game.Achievements[\'' + achievementMatch[1] + '\'].won=0';
+      } else if (unlockMatch && Game.Upgrades[unlockMatch[1]].unlocked == 0) {
+        reversed = 'Game.Lock(\'' + unlockMatch[1] + '\')';
+      } else if (lockMatch && Game.Upgrades[lockMatch[1]].unlocked == 1) {
+        reversed = 'Game.Unlock(\'' + lockMatch[1] + '\')';
       } else if (a.split('=').length > 1) {
         var expression = a.split('=');
         var isString = expression[1].indexOf("'") > -1 || expression[1].indexOf('"') > -1;
