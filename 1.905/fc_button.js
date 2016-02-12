@@ -473,15 +473,15 @@ function FCMenu() {
     buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>').css('border-top', '2px dashed #999'));
 
     banks = [
-      {name: 'No Bank', cost: 0, efficiency: cookieEfficiency(Game.cookies, 0)},
-      {name: 'Lucky Bank', cost: luckyBank(), efficiency: cookieEfficiency(Game.cookies, luckyBank())},
-      {name: 'Lucky Frenzy Bank', cost: luckyFrenzyBank(), efficiency: cookieEfficiency(Game.cookies, luckyFrenzyBank())},
-      {name: 'Chain Bank', cost: chainBank(), efficiency: cookieEfficiency(Game.cookies, chainBank())}
+      {name: 'No Bank', cost: 0, efficiency: cookieEfficiency(0, 0)},
+      {name: 'Lucky Bank', cost: luckyBank(), efficiency: cookieEfficiency(0, luckyBank())},
+      {name: 'Lucky Frenzy Bank', cost: luckyFrenzyBank(), efficiency: cookieEfficiency(0, luckyFrenzyBank())},
+      {name: 'Chain Bank', cost: chainBank(), efficiency: cookieEfficiency(0, chainBank())}
     ];
 
     banks.forEach(function(bank) {
       var deltaCps = effectiveCps(bank.cost) - effectiveCps();
-      buildTable.append($('<tr><td colspan="2"><b>' + bank.name + (bank.deltaCps === 0 ? ' (*)' : '') + '</b></td><td>' + Beautify(bank.efficiency) + '</td><td>' + Beautify(Math.max(0, bank.cost - Game.cookies)) + '</td><td>' + Beautify(deltaCps) + '</td></tr>'));
+      buildTable.append($('<tr><td colspan="2"><b>' + bank.name + (deltaCps === 0 ? ' (*)' : '') + '</b></td><td>' + Beautify(bank.efficiency) + '</td><td>' + Beautify(bank.cost) + '</td><td>' + Beautify(deltaCps) + '</td></tr>'));
     });
     buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>'));
     buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>').css('border-top', '2px dashed #999'));
