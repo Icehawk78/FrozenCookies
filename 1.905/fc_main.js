@@ -711,31 +711,28 @@ function chainBank() {
 }
 
 function cookieEfficiency(startingPoint, bankAmount) {
-  var results = Number.MAX_VALUE;
+  var results = Infinity;
   var currentValue = cookieValue(startingPoint);
   var bankValue = cookieValue(bankAmount);
   var bankCps = gcPs(bankValue);
-  if (bankCps > 0) {
-    if (bankAmount <= startingPoint) {
-      results = 0;
-    } else {
-      var cost = Math.max(0,(bankAmount - startingPoint));
-      var deltaCps = gcPs(bankValue - currentValue);
-      results = divCps(cost, deltaCps);
-    }
-  } else if (bankAmount <= startingPoint) {
-    results = 0;
+  var cost = Math.max(0,(bankAmount - startingPoint));
+  var deltaCps = gcPs(bankValue) - gcPs(currentValue);
+  if (deltaCps > 0) {
+    results = divCps(cost, deltaCps);
   }
   return results;
 }
 
 function bestBank(minEfficiency) {
   var results = {};
-  var bankLevels = [0, luckyBank(), luckyFrenzyBank(), chainBank()].sort(function(a,b){return b-a;}).map(function(bank){
-    return {'cost': bank, 'efficiency': cookieEfficiency(Game.cookies, bank)};
+  var bankLevels = [luckyBank(), luckyFrenzyBank(), chainBank()].sort(function(a,b){return b-a;}).map(function(bank){
+    return {cost: bank, efficiency: cookieEfficiency(0, bank)};
   }).filter(function(bank){
-    return (bank.efficiency <= minEfficiency) ? bank : null;
+    return (bank.efficiency <= minEfficiency);
   });
+  if (bankLevels.length == 0) {
+    bankLevels.push({cost: 0, efficiency: 0});
+  }
   return bankLevels[0];
 }
 
