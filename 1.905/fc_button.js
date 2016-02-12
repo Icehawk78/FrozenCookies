@@ -472,9 +472,12 @@ function FCMenu() {
     buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>'));
     buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>').css('border-top', '2px dashed #999'));
 
-    banks = [{name: 'Lucky Bank', cost: luckyBank(), efficiency: cookieEfficiency(Game.cookies, luckyBank())},
+    banks = [
+      {name: 'No Bank', cost: 0, efficiency: cookieEfficiency(Game.cookies, 0)},
+      {name: 'Lucky Bank', cost: luckyBank(), efficiency: cookieEfficiency(Game.cookies, luckyBank())},
       {name: 'Lucky Frenzy Bank', cost: luckyFrenzyBank(), efficiency: cookieEfficiency(Game.cookies, luckyFrenzyBank())},
-      {name: 'Chain Bank', cost: chainBank(), efficiency: cookieEfficiency(Game.cookies, chainBank())}];
+      {name: 'Chain Bank', cost: chainBank(), efficiency: cookieEfficiency(Game.cookies, chainBank())}
+    ];
 
     banks.forEach(function(bank) {
       var deltaCps = effectiveCps(bank.cost) - effectiveCps();
