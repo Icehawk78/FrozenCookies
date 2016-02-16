@@ -557,6 +557,14 @@ function bloodProbability(wrathValue) {
   return cookieInfo.blood.odds[wrathValue];
 }
 
+function getCookieOdds(resultType, wrathValue) {
+  if (Game.Has('Get lucky')) {
+    return cookieInfo[resultType].odds[wrathValue];
+  } else {
+    return cookieInfo[resultType].overlaps.reduce(function(sum, type){return sum + cookieInfo[type].odds[wrathValue];}, 0);
+  }
+}
+
 function cookieValue(bankAmount, wrathValue, wrinklerCount) {
   var cps = baseCps();
   var clickCps = baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
@@ -569,31 +577,31 @@ function cookieValue(bankAmount, wrathValue, wrinklerCount) {
   var value = 0;
   if (!Game.Has('Golden switch [off]')) {
     // Clot
-    value -= cookieInfo.clot.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 66 * 0.5;
+    value -= getCookieOdds('clot', wrathValue) * (wrinkler * cps + clickCps) * luckyMod * 66 * 0.5;
     // Frenzy
-    value += cookieInfo.frenzy.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 77 * 6;
+    value += getCookieOdds('frenzy', wrathValue) * (wrinkler * cps + clickCps) * luckyMod * 77 * 6;
     // Blood
-    value += cookieInfo.blood.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 6 * 665;
+    value += getCookieOdds('blood', wrathValue) * (wrinkler * cps + clickCps) * luckyMod * 6 * 665;
     // Chain
-    value += cookieInfo.chain.odds[wrathValue] * calculateChainValue(bankAmount, cps, (7 - (wrathValue / 3)));
+    value += getCookieOdds('chain', wrathValue) * calculateChainValue(bankAmount, cps, (7 - (wrathValue / 3)));
     // Ruin
-    value -= cookieInfo.ruin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10) + 13);
+    value -= getCookieOdds('ruin', wrathValue) * (Math.min(bankAmount * 0.05, cps * 60 * 10) + 13);
     // Frenzy + Ruin
-    value -= cookieInfo.frenzyRuin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 7) + 13);
+    value -= getCookieOdds('frenzyRuin', wrathValue) * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 7) + 13);
     // Clot + Ruin
-    value -= cookieInfo.clotRuin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 0.5) + 13);
+    value -= getCookieOdds('clotRuin', wrathValue) * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 0.5) + 13);
     // Lucky
-    value += cookieInfo.lucky.odds[wrathValue] * (Math.min(bankAmount * 0.15, cps * 60 * 15) + 13);
+    value += getCookieOdds('lucky', wrathValue) * (Math.min(bankAmount * 0.15, cps * 60 * 15) + 13);
     // Frenzy + Lucky
-    value += cookieInfo.frenzyLucky.odds[wrathValue] * (Math.min(bankAmount * 0.15, cps * 60 * 15 * 7) + 13);
+    value += getCookieOdds('frenzyLucky', wrathValue) * (Math.min(bankAmount * 0.15, cps * 60 * 15 * 7) + 13);
     // Clot + Lucky
-    value += cookieInfo.clotLucky.odds[wrathValue] * (Math.min(bankAmount * 0.15, cps * 60 * 15 * 0.5) + 13);
+    value += getCookieOdds('clotLucky', wrathValue) * (Math.min(bankAmount * 0.15, cps * 60 * 15 * 0.5) + 13);
     // Click
-    value += cookieInfo.click.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777;
+    value += getCookieOdds('click', wrathValue) * frenzyCps * luckyMod * 13 * 777;
     // Frenzy + Click
-    value += cookieInfo.frenzyClick.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 7;
+    value += getCookieOdds('frenzyClick', wrathValue) * frenzyCps * luckyMod * 13 * 777 * 7;
     // Clot + Click
-    value += cookieInfo.clotClick.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 0.5;
+    value += getCookieOdds('clotClick', wrathValue) * frenzyCps * luckyMod * 13 * 777 * 0.5;
     // Blah
     value += 0;
   }
@@ -612,31 +620,31 @@ function cookieStats(bankAmount, wrathValue, wrinklerCount) {
 
   var result = {};
   // Clot
-  result.clot = -1 * cookieInfo.clot.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 66 * 0.5;
+  result.clot = -1 * getCookieOdds('clot', wrathValue) * (wrinkler * cps + clickCps) * luckyMod * 66 * 0.5;
   // Frenzy
-  result.frenzy = cookieInfo.frenzy.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 77 * 7;
+  result.frenzy = getCookieOdds('frenzy', wrathValue) * (wrinkler * cps + clickCps) * luckyMod * 77 * 7;
   // Blood
-  result.blood = cookieInfo.blood.odds[wrathValue] * (wrinkler * cps + clickCps) * luckyMod * 666 * 6;
+  result.blood = getCookieOdds('blood', wrathValue) * (wrinkler * cps + clickCps) * luckyMod * 666 * 6;
   // Chain
-  result.chain = cookieInfo.chain.odds[wrathValue] * calculateChainValue(bankAmount, cps, (7 - (wrathValue / 3)));
+  result.chain = getCookieOdds('chain', wrathValue) * calculateChainValue(bankAmount, cps, (7 - (wrathValue / 3)));
   // Ruin
-  result.ruin = -1 * cookieInfo.ruin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10) + 13);
+  result.ruin = -1 * getCookieOdds('ruin', wrathValue) * (Math.min(bankAmount * 0.05, cps * 60 * 10) + 13);
   // Frenzy + Ruin
-  result.frenzyRuin = -1 * cookieInfo.frenzyRuin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 7) + 13);
+  result.frenzyRuin = -1 * getCookieOdds('frenzyRuin', wrathValue) * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 7) + 13);
   // Clot + Ruin
-  result.clotRuin = -1 * cookieInfo.clotRuin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 0.5) + 13);
+  result.clotRuin = -1 * getCookieOdds('clotRuin', wrathValue) * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 0.5) + 13);
   // Lucky
-  result.lucky = cookieInfo.lucky.odds[wrathValue] * (Math.min(bankAmount * 0.15, cps * 60 * 15) + 13);
+  result.lucky = getCookieOdds('lucky', wrathValue) * (Math.min(bankAmount * 0.15, cps * 60 * 15) + 13);
   // Frenzy + Lucky
-  result.frenzyLucky = cookieInfo.frenzyLucky.odds[wrathValue] * (Math.min(bankAmount * 0.15, cps * 60 * 15 * 7) + 13);
+  result.frenzyLucky = getCookieOdds('frenzyLucky', wrathValue) * (Math.min(bankAmount * 0.15, cps * 60 * 15 * 7) + 13);
   // Clot + Lucky
-  result.clotLucky = cookieInfo.clotLucky.odds[wrathValue] * (Math.min(bankAmount * 0.15, cps * 60 * 15 * 0.5) + 13);
+  result.clotLucky = getCookieOdds('clotLucky', wrathValue) * (Math.min(bankAmount * 0.15, cps * 60 * 15 * 0.5) + 13);
   // Click
-  result.click = cookieInfo.click.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777;
+  result.click = getCookieOdds('click', wrathValue) * frenzyCps * luckyMod * 13 * 777;
   // Frenzy + Click
-  result.frenzyClick = cookieInfo.frenzyClick.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 7;
+  result.frenzyClick = getCookieOdds('frenzyClick', wrathValue) * frenzyCps * luckyMod * 13 * 777 * 7;
   // Clot + Click
-  result.clotClick = cookieInfo.clotClick.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777 * 0.5;
+  result.clotClick = getCookieOdds('clotClick', wrathValue) * frenzyCps * luckyMod * 13 * 777 * 0.5;
   // Blah
   result.blah = 0;
   return result;
