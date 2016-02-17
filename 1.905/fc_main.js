@@ -107,7 +107,7 @@ function setOverrides() {
   var tempReincarnate = Game.Reincarnate.toString().split('}');
   tempReincarnate[tempReincarnate.length - 3] += ' fcReincarnate();';
   eval('Game.Reincarnate = tempReincarnate.join("}");');
-  var tempAscend = Game.oldReset.toString().split('{');
+  var tempAscend = Game.Ascend.toString().split('{');
   tempAscend[2] = 'fcAscend(); ' + tempAscend[2];
   eval('Game.Ascend = tempAscend.join("{");');
   Game.WriteSave = fcWriteSave;
