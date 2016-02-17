@@ -94,11 +94,7 @@ function setOverrides() {
   Game.Win = fcWin;
   Game.oldBackground = Game.DrawBackground;
   Game.DrawBackground = function() {Game.oldBackground(); updateTimers();}
-  nextPurchase(true);
-  // Remove the following when turning on tooltop code
-  Game.RefreshStore();
-  Game.RebuildUpgrades();
-  beautifyUpgradesAndAchievements();
+  
   // Replace Game.Popup references with event logging
   FrozenCookies.calculatedCpsByType = {};
   eval('Game.goldenCookie.click = ' + Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
@@ -117,6 +113,12 @@ function setOverrides() {
   if (!Game.HasAchiev('Third-party')) {
     Game.Win('Third-party');
   }
+  
+  nextPurchase(true);
+  // Remove the following when turning on tooltop code
+  Game.RefreshStore();
+  Game.RebuildUpgrades();
+  beautifyUpgradesAndAchievements();
 }
 
 function preferenceParse(setting, defaultVal) {
