@@ -1,25 +1,14 @@
-// Polyfill findIndex for older browsers
-if (!Array.prototype.findIndex) {
-  Array.prototype.findIndex = function(predicate) {
-    if (this === null) {
-      throw new TypeError('Array.prototype.findIndex called on null or undefined');
-    }
-    if (typeof predicate !== 'function') {
-      throw new TypeError('predicate must be a function');
-    }
-    var list = Object(this);
-    var length = list.length >>> 0;
-    var thisArg = arguments[1];
-    var value;
-
-    for (var i = 0; i < length; i++) {
-      value = list[i];
-      if (predicate.call(thisArg, value, i, list)) {
-        return i;
-      }
-    }
-    return -1;
-  };
+// Try different Polyfill findIndex for older browsers?
+if (!Array.prototype.find) {
+    Array.prototype.find = function (callback, thisArg) {
+        "use strict";
+        this.forEach(function (elmVal, i, arr) {
+            if (callback.call(thisArg, elmVal, i, arr)) {
+                return elmVal;
+            }
+        });
+        return undefined;
+    };
 }
 
 // Global Variables
