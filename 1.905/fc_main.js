@@ -293,25 +293,28 @@ function timeDisplay(seconds) {
 }
 
 function fcReset(bypass) {
-  if (!bypass) Game.Prompt('<h3>Ascend</h3><div class="block">Do you REALLY want to ascend?<div class="line"></div>You will lose your progress and start over from scratch.<div class="line"></div>All your cookies will be converted into prestige and heavenly chips.<div class="line"></div>You will keep your achievements.</div>',[['Yes!','Game.ClosePrompt();Game.Ascend(1);'],'No']);
-  Game.CollectWrinklers();
-  if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
-    Game.ObjectsById.forEach(function(b){b.sell(-1);});
-    Game.Upgrades['Chocolate egg'].buy();
+  if (!bypass) {
+    Game.Prompt('<h3>Ascend</h3><div class="block">Do you REALLY want to ascend?<div class="line"></div>You will lose your progress and start over from scratch.<div class="line"></div>All your cookies will be converted into prestige and heavenly chips.<div class="line"></div>You will keep your achievements.</div>',[['Yes!','Game.ClosePrompt();Game.Ascend(1);'],'No']);
+  } else {
+    Game.CollectWrinklers();
+    if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
+      Game.ObjectsById.forEach(function(b){b.sell(-1);});
+      Game.Upgrades['Chocolate egg'].buy();
+    }
+    Game.oldReset(bypass);
+    FrozenCookies.frenzyTimes = {};
+    FrozenCookies.frenzyGains = {};
+    FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
+    FrozenCookies.last_gc_time = Date.now();
+    FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
+    FrozenCookies.lastHCTime = Date.now();
+    FrozenCookies.maxHCPercent = 0;
+    FrozenCookies.prevLastHCTime = Date.now();
+    FrozenCookies.lastCps = 0;
+    FrozenCookies.trackedStats = [];
+    updateLocalStorage();
+    recommendationList(true);
   }
-  Game.oldReset(bypass);
-  FrozenCookies.frenzyTimes = {};
-  FrozenCookies.frenzyGains = {};
-  FrozenCookies.last_gc_state = (Game.frenzy ? Game.frenzyPower : 1) * (Game.clickFrenzy ? 777 : 1);
-  FrozenCookies.last_gc_time = Date.now();
-  FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
-  FrozenCookies.lastHCTime = Date.now();
-  FrozenCookies.maxHCPercent = 0;
-  FrozenCookies.prevLastHCTime = Date.now();
-  FrozenCookies.lastCps = 0;
-  FrozenCookies.trackedStats = [];
-  updateLocalStorage();
-  recommendationList(true);
 }
 
 function fcWriteSave(exporting) {
