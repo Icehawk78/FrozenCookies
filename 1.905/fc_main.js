@@ -103,6 +103,7 @@ function setOverrides() {
   FrozenCookies.calculatedCpsByType = {};
   eval('Game.goldenCookie.click = ' + Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
   eval('Game.UpdateWrinklers = ' + Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
+  eval('FrozenCookies.getTimeMod = ' + Game.goldenCookie.getTimeMod.toString().replace(/if \(this\.chain>0\) m\=0\.05;/, ''));
   eval('FrozenCookies.safeGainsCalc = ' + Game.CalculateGains.toString().replace(/eggMult\+=\(1.+/, 'eggMult++; // CENTURY EGGS SUCK').replace(/Game\.cookiesPs/g, 'FrozenCookies.calculatedCps').replace(/Game\.globalCpsMult/g, 'mult').replace(/Game\.milkProgress/g, 'FrozenCookies.milkProgress'));
   var tempReincarnate = Game.Reincarnate.toString().split('}');
   tempReincarnate[tempReincarnate.length - 3] += ' fcReincarnate();';
@@ -510,7 +511,7 @@ function getProbabilityModifiers(listType) {
   switch (listType) {
     case "golden":
       //result = (Game.Has('Lucky day') ? 0.5 : 1) * (Game.Has('Serendipity') ? 0.5 : 1) * (Game.Has('Golden goose egg') ? 0.95 : 1);
-      result = Game.goldenCookie.getTimeMod(1)/(Game.fps*60)
+      result = FrozenCookies.getTimeMod(1)/(Game.fps*60)
       break;
     case "reindeer":
       result = Game.Has('Reindeer baking grounds') ? 0.5 : 1;
