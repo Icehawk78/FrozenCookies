@@ -106,10 +106,10 @@ function setOverrides() {
   eval('FrozenCookies.safeGainsCalc = ' + Game.CalculateGains.toString().replace(/eggMult\+=\(1.+/, 'eggMult++; // CENTURY EGGS SUCK').replace(/Game\.cookiesPs/g, 'FrozenCookies.calculatedCps').replace(/Game\.globalCpsMult/g, 'mult').replace(/Game\.milkProgress/g, 'FrozenCookies.milkProgress'));
   var tempReincarnate = Game.Reincarnate.toString().split('}');
   tempReincarnate[tempReincarnate.length - 3] += ' fcReincarnate();';
-  eval('Game.Reincarnate = tempReincarnate.join("}");');
+  eval('Game.Reincarnate = ' + tempReincarnate.join("}"));
   var tempAscend = Game.Ascend.toString().split('{');
   tempAscend[2] = 'fcAscend(); ' + tempAscend[2];
-  eval('Game.Ascend = tempAscend.join("{");');
+  eval('Game.Ascend = ' + tempAscend.join("{"));
   Game.WriteSave = fcWriteSave;
 
   // Give free achievements!
