@@ -358,8 +358,9 @@ function divCps(value, cps) {
 }
 
 function nextHC(tg) {
-  var ascendNowToOwn = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
-  var toGo = Game.HowManyCookiesReset(ascendNowToOwn + 1) - (Game.cookiesEarned + Game.cookiesReset);
+  var currentCookies = Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0);
+  var ascendNowToOwn = Math.floor(Game.HowMuchPrestige(currentCookies));
+  var toGo = Game.HowManyCookiesReset(ascendNowToOwn + 1) - (currentCookies);
   return tg ? toGo : timeDisplay(divCps(toGo, Game.cookiesPs));
 }
 
