@@ -85,11 +85,9 @@ function setOverrides() {
   }
   Beautify = fcBeautify;
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
-  Game.oldReset = Game.Ascend;
   Game.oldWriteSave = Game.WriteSave;
   Game.oldLoadSave = Game.LoadSave;
-  Game.Ascend = fcReset;
-  
+
 //  if (FrozenCookies.saveWrinklers && localStorage.wrinklers) {
 //    Game.wrinklers = JSON.parse(localStorage.wrinklers);
 //  }
