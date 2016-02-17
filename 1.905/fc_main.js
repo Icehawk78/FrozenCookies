@@ -317,7 +317,8 @@ function fcReincarnate() {
   FrozenCookies.lastCps = 0;
   FrozenCookies.trackedStats = [];
   updateLocalStorage();
-  recommendationList(true);
+  FrozenCookies.recalculateCaches = true;
+  updateCaches();
 }
 
 function fcWriteSave(exporting) {
