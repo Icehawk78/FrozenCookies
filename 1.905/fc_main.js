@@ -302,6 +302,7 @@ function timeDisplay(seconds) {
 
 function fcAscend() {
   Game.CollectWrinklers();
+  Game.UpdateWrinklers();
   if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
     Game.ObjectsById.forEach(function(b){b.sell(-1);});
     Game.Upgrades['Chocolate egg'].buy();
