@@ -555,6 +555,10 @@ function effectiveCps(delay, wrathValue, wrinklerCount) {
   return baseCps() * wrinkler + gcPs(cookieValue(delay, wrathValue, wrinklerCount)) + baseClickingCps(FrozenCookies.cookieClickSpeed * FrozenCookies.autoClick) + reindeerCps(wrathValue);
 }
 
+FrozenCookies.compareCps = function() {
+  return (effectiveCps() / (Game.cookiesEarned / ((Date.now() - Game.startDate) * Game.fps))) * 100;
+}
+
 function frenzyProbability(wrathValue) {
   wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
   return cookieInfo.frenzy.odds[wrathValue];// + cookieInfo.frenzyRuin.odds[wrathValue] + cookieInfo.frenzyLucky.odds[wrathValue] + cookieInfo.frenzyClick.odds[wrathValue];
