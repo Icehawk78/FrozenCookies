@@ -556,7 +556,11 @@ function effectiveCps(delay, wrathValue, wrinklerCount) {
 }
 
 FrozenCookies.compareCps = function() {
-  return (effectiveCps() / (Game.cookiesEarned / ((Date.now() - Game.startDate) / 1000))) * 100;
+  return (effectiveCps() * (Date.now() - Game.startDate)) / (Game.cookiesEarned * 1000);
+}
+
+FrozenCookies.compareHC = function() {
+  return Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset) / Game.HowMuchPrestige(Game.cookiesReset);
 }
 
 function frenzyProbability(wrathValue) {
