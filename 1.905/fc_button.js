@@ -426,6 +426,7 @@ function FCMenu() {
     subsection.append($('<div>').addClass('listing').html('<b>Base CPS' + clickStr + baseChosen + ':</b> ' + Beautify(cps)));
     subsection.append($('<div>').addClass('listing').html('<b>Frenzy CPS' + clickStr + frenzyChosen + ':</b> ' + Beautify(cps * 7)));
     subsection.append($('<div>').addClass('listing').html('<b>Estimated Effective CPS:</b> ' + Beautify(effectiveCps())));
+    subsection.append($('<div>').addClass('listing').html('<b>Effective vs Average CPS Ratio:</b> ' + Beautify(FrozenCookies.compareCps())));
     if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
       subsection.append($('<div>').addClass('listing').html('<b>Chocolate Egg Value:</b> ' + Beautify(chocolateValue())));
     }
