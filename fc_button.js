@@ -211,9 +211,9 @@ function drawCircles(t_d, x, y) {
 function updateTimers() {
   var chainPurchase, bankPercent, purchasePercent, bankMax, actualCps, t_draw,
     maxColor, height,
-    gc_delay = (probabilitySpan('golden', Game.goldenCookie.time, 0.5) - Game.goldenCookie.time) / maxCookieTime(),
-    gc_max_delay = (probabilitySpan('golden', Game.goldenCookie.time, 0.99) - Game.goldenCookie.time) / maxCookieTime(),
-    gc_min_delay = (probabilitySpan('golden', Game.goldenCookie.time, 0.01) - Game.goldenCookie.time) / maxCookieTime(),
+    gc_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.5) - Game.shimmerTypes.golden.time) / maxCookieTime(),
+    gc_max_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.99) - Game.shimmerTypes.golden.time) / maxCookieTime(),
+    gc_min_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.01) - Game.shimmerTypes.golden.time) / maxCookieTime(),
     frenzy_delay = Game.frenzy / maxCookieTime(),
     click_frenzy_delay = Game.clickFrenzy / maxCookieTime(),
     decimal_HC_complete = ((Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5)%1),
@@ -392,7 +392,7 @@ function FCMenu() {
     subsection.append($('<div>').addClass('listing').html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(cookieValue(currentCookies)))));
     subsection.append($('<div>').addClass('listing').html('<b>Golden Cookie Clicks:</b> ' + Beautify(Game.goldenClicks)));
     subsection.append($('<div>').addClass('listing').html('<b>Missed Golden Cookie Clicks:</b> ' + Beautify(Game.missedGoldenClicks)));
-    subsection.append($('<div>').addClass('listing').html('<b>Last Golden Cookie Effect:</b> ' + Game.goldenCookie.last));
+    subsection.append($('<div>').addClass('listing').html('<b>Last Golden Cookie Effect:</b> ' + Game.shimmerTypes.golden.last));
     $.each(FrozenCookies.frenzyTimes, function(rate, time) {
       subsection.append($('<div>').addClass('listing').html('<b>Total Recorded Time at x' + rate + ':</b> ' + timeDisplay(time/1000)));
     });

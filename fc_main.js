@@ -101,7 +101,7 @@ function setOverrides() {
   Game.RebuildUpgrades();
   beautifyUpgradesAndAchievements();
   // Replace Game.Popup references with event logging
-  eval('Game.goldenCookie.click = ' + Game.goldenCookie.click.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
+  eval('Game.shimmerTypes.golden.popFunc = ' + Game.shimmerTypes.golden.popFunc.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("GC", $1, true);'));
   eval('Game.UpdateWrinklers = ' + Game.UpdateWrinklers.toString().replace(/Game\.Popup\((.+)\)\;/g, 'logEvent("Wrinkler", $1, true);'));
   eval('FrozenCookies.safeGainsCalc = ' + Game.CalculateGains.toString().replace(/eggMult\+=\(1.+/, 'eggMult++; // CENTURY EGGS SUCK').replace(/Game\.cookiesPs/g, 'FrozenCookies.calculatedCps').replace(/Game\.globalCpsMult/g, 'mult'));
   
@@ -712,7 +712,7 @@ function maxLuckyValue() {
 }
 
 function maxCookieTime() {
-  return Game.goldenCookie.maxTime
+  return Game.shimmerTypes.golden.maxTime
 }
 
 function gcPs(gcValue) {
@@ -1197,8 +1197,9 @@ function buyFunctionToggle(upgrade) {
         reversed = 'Game.Achievements[\'' + achievementMatch[1] + '\'].won=0';
       } else if (a.split('=').length > 1) {
         var expression = a.split('=');
-        var isString = expression[1].indexOf("'") > -1 || expression[1].indexOf('"') > -1;
-        reversed = expression[0] + '=' + (isString ? "'" : '') + eval(expression[0]) + (isString ? "'" : ''); 
+        var expressionResult = eval(expression[0]);
+        var isString = _.isString(expressionResult);
+        reversed = expression[0] + '=' + (isString ? "'" : '') + expressionResult + (isString ? "'" : '');
       }
       return reversed;
     });
@@ -1441,7 +1442,11 @@ function smartTrackingStats(delay) {
 
 // Unused
 function shouldClickGC() {
-  return Game.goldenCookie.life > 0 && FrozenCookies.autoGC;
+  for (var i in Game.shimmers) {
+    if (Game.shimmers[i].type == 'golden') {
+      return Game.shimmers[i].life > 0 && FrozenCookies.autoGC;
+    }
+  }
 }
 
 function liveWrinklers() {
@@ -1480,15 +1485,6 @@ function shouldPopWrinklers() {
   return toPop;
 }
 
-// Unused
-function autoGoldenCookie() {
-  if (!FrozenCookies.processing && Game.goldenCookie.life && !Game.OnAscend && !Game.AscendTimer) {
-    FrozenCookies.processing = true;
-    Game.goldenCookie.click();
-    FrozenCookies.processing = false;
-  }
-}
-
 function autoFrenzyClick() {
   if (Game.clickFrenzy > 0 && !FrozenCookies.autoFrenzyBot) {
     if (FrozenCookies.autoclickBot) {
@@ -1503,6 +1499,15 @@ function autoFrenzyClick() {
       FrozenCookies.autoclickBot = setInterval(function(){Game.ClickCookie();}, 1000 / FrozenCookies.cookieClickSpeed);
     }
   }
+}
+
+function goldenCookieLife() {
+  for (var i in Game.shimmers) {
+    if (Game.shimmers[i].type == 'golden') {
+      return Game.shimmers[i].life
+    }
+  }
+  return null;
 }
 
 function autoCookie() {
@@ -1567,8 +1572,12 @@ function autoCookie() {
     }
     
     // This apparently *has* to stay here, or else fast purchases will multi-click it.
-    if (Game.goldenCookie.life && FrozenCookies.autoGC) {
-      Game.goldenCookie.click();
+    if (goldenCookieLife() && FrozenCookies.autoGC) {
+      for (var i in Game.shimmers) {
+        if (Game.shimmers[i].type == 'golden') {
+          Game.shimmers[i].pop();
+        }
+      }
     }
     if (Game.seasonPopup.life > 0 && FrozenCookies.autoReindeer) {
       Game.seasonPopup.click();
