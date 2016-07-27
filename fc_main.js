@@ -309,8 +309,8 @@ function divCps(value, cps) {
 }
 
 function nextHC(tg) {
-  var futureHC = Math.ceil(Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5);
-  var nextHC = futureHC*(futureHC+1)*0.5e12;
+  var futureHC = Math.ceil(Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset));
+  var nextHC = Game.HowManyCookiesReset(futureHC)
   var toGo = nextHC - (Game.cookiesEarned + Game.cookiesReset);
   return tg ? toGo : timeDisplay(divCps(toGo, Game.cookiesPs));
 }
@@ -1529,8 +1529,8 @@ function autoCookie() {
       FrozenCookies.lastHCAmount = currentHCAmount;
       FrozenCookies.prevLastHCTime = FrozenCookies.lastHCTime;
       FrozenCookies.lastHCTime = Date.now();
-      var currHCPercent = (60 * 60 * (FrozenCookies.lastHCAmount - Game.heavenlyChipsEarned)/((FrozenCookies.lastHCTime - Game.startDate)/1000));
-      if ((Game.heavenlyChipsEarned < (currentHCAmount - changeAmount)) && currHCPercent > FrozenCookies.maxHCPercent) {
+      var currHCPercent = (60 * 60 * (FrozenCookies.lastHCAmount - Game.heavenlyChips)/((FrozenCookies.lastHCTime - Game.startDate)/1000));
+      if ((Game.heavenlyChips < (currentHCAmount - changeAmount)) && currHCPercent > FrozenCookies.maxHCPercent) {
         FrozenCookies.maxHCPercent = currHCPercent;
       }
       FrozenCookies.hc_gain += changeAmount;
