@@ -216,7 +216,7 @@ function updateTimers() {
     gc_min_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.01) - Game.shimmerTypes.golden.time) / maxCookieTime(),
     frenzy_delay = Game.hasBuff('Frenzy') / maxCookieTime(),
     click_frenzy_delay = Game.hasBuff('Click frenzy') / maxCookieTime(),
-    decimal_HC_complete = ((Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5)%1),
+    decimal_HC_complete = (Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)%1),
     bankTotal = delayAmount(),
     purchaseTotal = nextPurchase().cost,
     bankCompletion = bankTotal ? (Math.min(Game.cookies, bankTotal)) / bankTotal : 0,
@@ -402,9 +402,9 @@ function FCMenu() {
     
     subsection = $('<div>').addClass('subsection');
     subsection.append($('<div>').addClass('title').html('Heavenly Chips Information'));
-    currHC = Game.heavenlyChipsEarned;
+    currHC = Game.heavenlyChips;
     resetHC = Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue());
-    subsection.append($('<div>').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.heavenlyChipsEarned)));
+    subsection.append($('<div>').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.heavenlyChips)));
     subsection.append($('<div>').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(resetHC)));
     subsection.append($('<div>').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
     subsection.append($('<div>').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
