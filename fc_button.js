@@ -201,11 +201,42 @@ function drawCircles(t_d, x, y) {
         fillStyle: o_draw.c1,
         x: x + maxRadius * 2 + maxWidth / 2 + 35, y: y + heightOffset+15*i_tc,
         text: s_t
-      });   
+      });
       i_tc++;
     }
     i_c++;
   });
+}
+
+function hasBuildingSpecialBuff() {
+  if(Game.hasBuff('High-five') > 0) { return Game.hasBuff('High-five'); }
+  if(Game.hasBuff('Slap to the face') > 0) { return Game.hasBuff('Slap to the face'); }
+  if(Game.hasBuff('Congregation') > 0) { return Game.hasBuff('Congregation'); }
+  if(Game.hasBuff('Senility') > 0) { return Game.hasBuff('Senility'); }
+  if(Game.hasBuff('Luxuriant harvest') > 0) { return Game.hasBuff('Luxuriant harvest'); }
+  if(Game.hasBuff('Locusts') > 0) { return Game.hasBuff('Locusts'); }
+  if(Game.hasBuff('Ore vein') > 0) { return Game.hasBuff('Ore vein'); }
+  if(Game.hasBuff('Cave-in') > 0) { return Game.hasBuff('Cave-in'); }
+  if(Game.hasBuff('Oiled-up') > 0) { return Game.hasBuff('Oiled-up'); }
+  if(Game.hasBuff('Jammed machinery') > 0) { return Game.hasBuff('Jammed machinery'); }
+  if(Game.hasBuff('Juicy profits') > 0) { return Game.hasBuff('Juicy profits'); }
+  if(Game.hasBuff('Recession') > 0) { return Game.hasBuff('Recession'); }
+  if(Game.hasBuff('Fervent adoration') > 0) { return Game.hasBuff('Fervent adoration'); }
+  if(Game.hasBuff('Crisis of faith') > 0) { return Game.hasBuff('Crisis of faith'); }
+  if(Game.hasBuff('Manabloom') > 0) { return Game.hasBuff('Manabloom'); }
+  if(Game.hasBuff('Magivores') > 0) { return Game.hasBuff('Magivores'); }
+  if(Game.hasBuff('Delicious lifeforms') > 0) { return Game.hasBuff('Delicious lifeforms'); }
+  if(Game.hasBuff('Black holes') > 0) { return Game.hasBuff('Black holes'); }
+  if(Game.hasBuff('Breakthrough') > 0) { return Game.hasBuff('Breakthrough'); }
+  if(Game.hasBuff('Lab disaster') > 0) { return Game.hasBuff('Lab disaster'); }
+  if(Game.hasBuff('Righteous cataclysm') > 0) { return Game.hasBuff('Righteous cataclysm'); }
+  if(Game.hasBuff('Dimensional calamity') > 0) { return Game.hasBuff('Dimensional calamity'); }
+  if(Game.hasBuff('Golden ages') > 0) { return Game.hasBuff('Golden ages'); }
+  if(Game.hasBuff('Time jam') > 0) { return Game.hasBuff('Time jam'); }
+  if(Game.hasBuff('Extra cycles') > 0) { return Game.hasBuff('Extra cycles'); }
+  if(Game.hasBuff('Predictable tragedy') > 0) { return Game.hasBuff('Predictable tragedy'); }
+  if(Game.hasBuff('Solar flare') > 0) { return Game.hasBuff('Solar flare'); }
+  if(Game.hasBuff('Eclipse') > 0) { return Game.hasBuff('Eclipse'); }
 }
 
 function updateTimers() {
@@ -216,6 +247,8 @@ function updateTimers() {
     gc_min_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.01) - Game.shimmerTypes.golden.time) / maxCookieTime(),
     frenzy_delay = Game.hasBuff('Frenzy') / maxCookieTime(),
     click_frenzy_delay = Game.hasBuff('Click frenzy') / maxCookieTime(),
+    bulding_special_delay = hasBuildingSpecialBuff() / maxCookieTime(),
+    cookie_storm_delay = Game.hasBuff('Cookie storm') / maxCookieTime(),
     decimal_HC_complete = (Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)%1),
     bankTotal = delayAmount(),
     purchaseTotal = nextPurchase().cost,
@@ -310,6 +343,22 @@ function updateTimers() {
       c1: "rgba(0, 196, 255, 1)",
       name: "Click Frenzy Time",
       display: timeDisplay(Game.hasBuff('Click frenzy')/Game.fps)
+    });
+  }
+  if (bulding_special_delay > 0) {
+    t_draw.push({
+      f_percent: bulding_special_delay,
+      c1: "rgba(0, 196, 255, 1)",
+      name: "Building Special Time",
+      display: timeDisplay(hasBuildingSpecialBuff()/Game.fps)
+    });
+  }
+  if (cookie_storm_delay > 0) {
+    t_draw.push({
+      f_percent: cookie_storm_delay,
+      c1: "rgba(0, 196, 255, 1)",
+      name: "Cookie Storm Time",
+      display: timeDisplay(Game.hasBuff('Cookie storm')/Game.fps)
     });
   }
   if (decimal_HC_complete>0) {

@@ -897,12 +897,18 @@ function upgradeStats(recalculate) {
 
 function isUnavailable(upgrade, upgradeBlacklist) {
   var result = false;
+
   var needed = unfinishedUpgradePrereqs(upgrade);
   result = result || !upgrade.unlocked && !needed;
   result = result || (upgradeBlacklist === true);
   result = result || _.contains(upgradeBlacklist, upgrade.id);
   result = result || (needed && _.find(needed, function(a){return a.type == "wrinklers"}) != null);
   result = result || (upgrade.season && !haveAll(Game.season));
+
+  if (upgrade.id == 331) {
+    result = true; // blacklist golden switch from being used, until proper logic can be implemented
+  }
+
   return result;
 }
 
@@ -1524,7 +1530,8 @@ function autoCookie() {
   if (!FrozenCookies.processing && !Game.OnAscend && !Game.AscendTimer) {
     FrozenCookies.processing = true;
     var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
-    if (FrozenCookies.lastHCAmount < currentHCAmount) {
+
+    if (Math.floor(FrozenCookies.lastHCAmount) < Math.floor(currentHCAmount)) {
       var changeAmount = currentHCAmount - FrozenCookies.lastHCAmount;
       FrozenCookies.lastHCAmount = currentHCAmount;
       FrozenCookies.prevLastHCTime = FrozenCookies.lastHCTime;
