@@ -46,7 +46,7 @@ function setOverrides() {
   // Set default values for calculations
   FrozenCookies.hc_gain = 0;
   FrozenCookies.hc_gain_time = Date.now();
-  FrozenCookies.last_gc_state = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * (Game.hasBuff('Click frenzy') ? Game.buffs['Click frenzy'].multClick : 1);
+  FrozenCookies.last_gc_state = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * hasClickFrenzy();
   FrozenCookies.last_gc_time = Date.now();
   FrozenCookies.lastCPS = Game.cookiesPs;
   FrozenCookies.lastCookieCPS = 0;
@@ -261,7 +261,7 @@ function fcReset() {
   }
   Game.oldReset();
   FrozenCookies.frenzyTimes = {};
-  FrozenCookies.last_gc_state = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * (Game.hasBuff('Click frenzy') ? Game.buffs['Click frenzy'].multClick : 1);
+  FrozenCookies.last_gc_state = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * hasClickFrenzy();
   FrozenCookies.last_gc_time = Date.now();
   FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
   FrozenCookies.lastHCTime = Date.now();
@@ -459,13 +459,16 @@ function probabilitySpan(listType, start, endProbability) {
   return _.sortedIndex(getProbabilityList(listType), (startProbability + endProbability - startProbability * endProbability));
 }
 
+function hasClickFrenzy() {
+  return (Game.hasBuff('Click frenzy') > 0) ? Game.buffs['Click frenzy'].multiclick : (Game.hasBuff('Dragonflight') > 0) ? Game.buffs['Dragonflight'].multClick : 1;
+}
 function baseCps() {
   var frenzyMod = (Game.hasBuff('Frenzy') > 0) ? Game.buffs['Frenzy'].multCpS : 1;
   return Game.cookiesPs / frenzyMod;
 }
 
 function baseClickingCps(clickSpeed) {
-  var clickFrenzyMod = (Game.hasBuff('Click frenzy') > 0) ? Game.buffs['Click frenzy'].multClick : 1;
+  var clickFrenzyMod = hasClickFrenzy();
   var frenzyMod = (Game.hasBuff('Frenzy') > 0) ? Game.buffs['Frenzy'].multCpS : 1;
   var cpc = Game.mouseCps() / (clickFrenzyMod * frenzyMod);
   return clickSpeed * cpc;
@@ -542,7 +545,7 @@ function cookieStats(bankAmount, wrathValue, wrinklerCount) {
   var clickCps = baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
   var frenzyCps = FrozenCookies.autoFrenzy ? baseClickingCps(FrozenCookies.autoFrenzy * FrozenCookies.frenzyClickSpeed) : clickCps;
   var luckyMod = Game.Has('Get lucky') ? 2 : 1;
-  var clickFrenzyMod = (Game.hasBuff('Click frenzy') > 0) ? Game.buffs['Click frenzy'].multClick : 1
+  var clickFrenzyMod = hasClickFrenzy();
   wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
   wrinklerCount = wrinklerCount != null ? wrinklerCount : (wrathValue ? 10 : 0);
   var wrinkler = wrinklerMod(wrinklerCount);
@@ -1487,13 +1490,13 @@ function shouldPopWrinklers() {
 }
 
 function autoFrenzyClick() {
-  if (Game.hasBuff('Click frenzy') > 0 && !FrozenCookies.autoFrenzyBot) {
+  if (hasClickFrenzy() > 1 && !FrozenCookies.autoFrenzyBot) {
     if (FrozenCookies.autoclickBot) {
       clearInterval(FrozenCookies.autoclickBot);
       FrozenCookies.autoclickBot = 0;
     }
     FrozenCookies.autoFrenzyBot = setInterval(function(){Game.ClickCookie();}, 1000 / FrozenCookies.frenzyClickSpeed);
-  } else if (Game.hasBuff('Click frenzy') == 0 && FrozenCookies.autoFrenzyBot) {
+  } else if (hasClickFrenzy() == 1 && FrozenCookies.autoFrenzyBot) {
     clearInterval(FrozenCookies.autoFrenzyBot);
     FrozenCookies.autoFrenzyBot = 0;
     if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
@@ -1599,7 +1602,7 @@ function autoCookie() {
     if (FrozenCookies.autoBlacklistOff) {
       autoBlacklistOff();
     }
-    var currentFrenzy = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * (Game.hasBuff('Click frenzy') ? Game.buffs['Click frenzy'].multClick : 1);
+    var currentFrenzy = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * hasClickFrenzy());
     if (currentFrenzy != FrozenCookies.last_gc_state) {
       if (FrozenCookies.last_gc_state != 1 && currentFrenzy == 1) {
       	logEvent('GC', 'Frenzy ended, cookie production x1');
@@ -1617,7 +1620,7 @@ function autoCookie() {
           FrozenCookies.hc_gain_time = Date.now();
           FrozenCookies.hc_gain = 0;
         }
-	logEvent('GC', 'Starting ' + (Game.hasBuff('Click frenzy') ? 'Clicking ' : '') + 'Frenzy x' +  currentFrenzy);
+	logEvent('GC', 'Starting ' + ((hasClickFrenzy > 1) ? 'Clicking ' : '') + 'Frenzy x' +  currentFrenzy);
       }
       if (FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] == null) {
       	FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] = 0;
