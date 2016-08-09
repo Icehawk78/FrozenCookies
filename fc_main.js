@@ -460,8 +460,13 @@ function probabilitySpan(listType, start, endProbability) {
 }
 
 function hasClickFrenzy() {
-  return (Game.hasBuff('Click frenzy') > 0) ? Game.buffs['Click frenzy'].multiclick : (Game.hasBuff('Dragonflight') > 0) ? Game.buffs['Dragonflight'].multClick : 1;
+  var ret = 1
+  for (var i in Game.buffs) {
+    if (typeof Game.buffs[i].multClick != 'undefined') ret*=Game.buffs[i].multClick;
+  }
+  return ret;
 }
+
 function baseCps() {
   var frenzyMod = (Game.hasBuff('Frenzy') > 0) ? Game.buffs['Frenzy'].multCpS : 1;
   return Game.cookiesPs / frenzyMod;
