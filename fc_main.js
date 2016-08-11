@@ -1504,9 +1504,9 @@ function autoFrenzyClick() {
 
 function autoGSBuy() {
   if (Game.hasBuff('Click frenzy') > 0 || Game.hasBuff('dragonflight') > 0) {
-    Game.Upgrades['Golden switch [on]'].buy();
-  } else if (Game.hasBuff('frenzy') == 0) {
     Game.Upgrades['Golden switch [off]'].buy();
+  } else if (Game.hasBuff('frenzy') == 0) {
+    Game.Upgrades['Golden switch [on]'].buy();
   }
 }
 
@@ -1661,7 +1661,7 @@ function FCStart() {
   }
   
   if (FrozenCookies.autoGSBot) {
-      ClearInterval(FrozenCookies.autoGSBot);
+      clearInterval(FrozenCookies.autoGSBot);
       FrozenCookies.autoGSBot = 0;
   }
   
