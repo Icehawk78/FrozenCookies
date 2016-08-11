@@ -1660,6 +1660,11 @@ function FCStart() {
     FrozenCookies.statBot = 0;
   }
   
+  if (FrozenCookies.autoGSBot) {
+      ClearInterval(FrozenCookies.autoGSBot);
+      FrozenCookies.autoGSBot = 0;
+  }
+  
 //  if (!FrozenCookies.saveWrinklers && localStorage.wrinklers) {
 //    delete localStorage.wrinklers;
 //  }
