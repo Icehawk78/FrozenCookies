@@ -72,6 +72,11 @@ FrozenCookies.preferenceValues = {
     'hint':'Change how numbers are shortened',
     'display':["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (x10¹²)"],
     'default':1
+  }.
+  'autoGS':{
+    'hint':'Automatically turn on the Golden Switch during Dragonflight and Click Frenzy',
+    'display':['OFF','ON'],
+    'default':0
   }
 };
 
