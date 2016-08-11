@@ -1694,7 +1694,7 @@ function FCStart() {
   }
   
   if (FrozenCookies.autoGS) {
-      FrozenCookies.autoGSBot = setInterval(autoGSBuy,100)
+      FrozenCookies.autoGSBot = setInterval(autoGSBuy,FrozenCookies.frequency)
   }
   
   if (statSpeed(FrozenCookies.trackStats) > 0) {
