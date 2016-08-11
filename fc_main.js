@@ -1505,7 +1505,7 @@ function autoFrenzyClick() {
 function autoGSBuy() {
   if (Game.hasBuff('Click frenzy') > 0 || Game.hasBuff('Dragonflight') > 0) {
     Game.Upgrades['Golden switch [off]'].buy();
-  } else if (Game.hasBuff('frenzy') == 0) {
+  } else if (Game.hasBuff('Frenzy') == 0) {
     Game.Upgrades['Golden switch [on]'].buy();
   }
 }
