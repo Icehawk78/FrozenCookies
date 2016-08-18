@@ -177,7 +177,8 @@ var numberFormatters = [
     ' septillion',
     ' octillion',
     ' nonillion',
-    ' decillion'
+    ' decillion',
+    ' undecillion'
   ]),
 
   formatEveryThirdPower([
@@ -191,7 +192,8 @@ var numberFormatters = [
     ' Sp',
     ' Oc',
     ' No',
-    ' De'
+    ' De',
+    ' Un'
   ]),
 
   formatEveryThirdPower([
