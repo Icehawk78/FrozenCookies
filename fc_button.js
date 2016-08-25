@@ -211,12 +211,12 @@ function drawCircles(t_d, x, y) {
 function updateTimers() {
   var chainPurchase, bankPercent, purchasePercent, bankMax, actualCps, t_draw,
     maxColor, height,
-    gc_delay = (probabilitySpan('golden', Game.goldenCookie.time, 0.5) - Game.goldenCookie.time) / maxCookieTime(),
-    gc_max_delay = (probabilitySpan('golden', Game.goldenCookie.time, 0.99) - Game.goldenCookie.time) / maxCookieTime(),
-    gc_min_delay = (probabilitySpan('golden', Game.goldenCookie.time, 0.01) - Game.goldenCookie.time) / maxCookieTime(),
-    frenzy_delay = Game.frenzy / maxCookieTime(),
-    click_frenzy_delay = Game.clickFrenzy / maxCookieTime(),
-    decimal_HC_complete = ((Math.sqrt((Game.cookiesEarned + Game.cookiesReset)/0.5e12+0.25)-0.5)%1),
+    gc_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.5) - Game.shimmerTypes.golden.time) / maxCookieTime(),
+    gc_max_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.99) - Game.shimmerTypes.golden.time) / maxCookieTime(),
+    gc_min_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.01) - Game.shimmerTypes.golden.time) / maxCookieTime(),
+    frenzy_delay = Game.hasBuff('Frenzy') / maxCookieTime(),
+    click_frenzy_delay = Game.hasBuff('Click frenzy') / maxCookieTime(),
+    decimal_HC_complete = (Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)%1),
     bankTotal = delayAmount(),
     purchaseTotal = nextPurchase().cost,
     bankCompletion = bankTotal ? (Math.min(Game.cookies, bankTotal)) / bankTotal : 0,
@@ -300,8 +300,8 @@ function updateTimers() {
     t_draw.push({
       f_percent: frenzy_delay,
       c1: "rgba(255, 0, 0, 1)",
-      name: "Frenzy (x" + Game.frenzyPower + ") Time",
-      display: timeDisplay(Game.frenzy/Game.fps)
+      name: "Frenzy (x" + Game.buffs['Frenzy'].multCpS + ") Time",
+      display: timeDisplay(Game.hasBuff('Frenzy')/Game.fps)
     });
   }
   if (click_frenzy_delay>0) {
@@ -309,7 +309,7 @@ function updateTimers() {
       f_percent: click_frenzy_delay,
       c1: "rgba(0, 196, 255, 1)",
       name: "Click Frenzy Time",
-      display: timeDisplay(Game.clickFrenzy/Game.fps)
+      display: timeDisplay(Game.hasBuff('Click frenzy')/Game.fps)
     });
   }
   if (decimal_HC_complete>0) {
@@ -392,7 +392,7 @@ function FCMenu() {
     subsection.append($('<div>').addClass('listing').html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(cookieValue(currentCookies)))));
     subsection.append($('<div>').addClass('listing').html('<b>Golden Cookie Clicks:</b> ' + Beautify(Game.goldenClicks)));
     subsection.append($('<div>').addClass('listing').html('<b>Missed Golden Cookie Clicks:</b> ' + Beautify(Game.missedGoldenClicks)));
-    subsection.append($('<div>').addClass('listing').html('<b>Last Golden Cookie Effect:</b> ' + Game.goldenCookie.last));
+    subsection.append($('<div>').addClass('listing').html('<b>Last Golden Cookie Effect:</b> ' + Game.shimmerTypes.golden.last));
     $.each(FrozenCookies.frenzyTimes, function(rate, time) {
       subsection.append($('<div>').addClass('listing').html('<b>Total Recorded Time at x' + rate + ':</b> ' + timeDisplay(time/1000)));
     });
@@ -402,9 +402,9 @@ function FCMenu() {
     
     subsection = $('<div>').addClass('subsection');
     subsection.append($('<div>').addClass('title').html('Heavenly Chips Information'));
-    currHC = Game.heavenlyChipsEarned;
+    currHC = Game.heavenlyChips;
     resetHC = Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue());
-    subsection.append($('<div>').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.heavenlyChipsEarned)));
+    subsection.append($('<div>').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.heavenlyChips)));
     subsection.append($('<div>').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(resetHC)));
     subsection.append($('<div>').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
     subsection.append($('<div>').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
@@ -427,8 +427,8 @@ function FCMenu() {
     subsection = $('<div>').addClass('subsection');
     subsection.append($('<div>').addClass('title').html('Other Information'));
     cps = baseCps() + baseClickingCps(FrozenCookies.cookieClickSpeed * FrozenCookies.autoClick);
-    baseChosen = (Game.frenzy) ? '' : ' (*)';
-    frenzyChosen = (Game.frenzy) ? ' (*)' : '';
+    baseChosen = (Game.hasBuff('Frenzy')) ? '' : ' (*)';
+    frenzyChosen = (Game.hasBuff('Frenzy')) ? ' (*)' : '';
     clickStr = (FrozenCookies.autoClick) ? ' + Autoclick' : '';
     subsection.append($('<div>').addClass('listing').html('<b>Base CPS' + clickStr + baseChosen + ':</b> ' + Beautify(cps)));
     subsection.append($('<div>').addClass('listing').html('<b>Frenzy CPS' + clickStr + frenzyChosen + ':</b> ' + Beautify(cps * 7)));
