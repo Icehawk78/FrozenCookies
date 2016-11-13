@@ -49,6 +49,7 @@ function setOverrides() {
   FrozenCookies.last_gc_state = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * (Game.hasBuff('Click frenzy') ? Game.buffs['Click frenzy'].multClick : 1);
   FrozenCookies.last_gc_time = Date.now();
   FrozenCookies.lastCPS = Game.cookiesPs;
+  FrozenCookies.lastBaseCPS = Game.cookiesPs;
   FrozenCookies.lastCookieCPS = 0;
   FrozenCookies.lastUpgradeCount = 0;
   FrozenCookies.currentBank = {'cost': 0, 'efficiency' : 0};
@@ -268,6 +269,7 @@ function fcReset() {
   FrozenCookies.maxHCPercent = 0;
   FrozenCookies.prevLastHCTime = Date.now();
   FrozenCookies.lastCps = 0;
+  FrozenCookies.lastBaseCps = 0;
   FrozenCookies.trackedStats = [];
   updateLocalStorage();
   recommendationList(true);
@@ -460,8 +462,16 @@ function probabilitySpan(listType, start, endProbability) {
 }
 
 function baseCps() {
-  var frenzyMod = (Game.hasBuff('Frenzy') > 0) ? Game.buffs['Frenzy'].multCpS : 1;
-  return Game.cookiesPs / frenzyMod;
+  var buffMod = 1;
+  for (var i in Game.buffs) {
+    if (typeof Game.buffs[i].multCpS != 'undefined') buffMod *= Game.buffs[i].multCpS;
+  }
+  if (buffMod === 0) {
+    return FrozenCookies.lastBaseCPS;
+  }
+  var baseCPS = Game.cookiesPs / buffMod;
+  FrozenCookies.lastBaseCPS = baseCPS;
+  return baseCPS;
 }
 
 function baseClickingCps(clickSpeed) {
