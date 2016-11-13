@@ -1505,7 +1505,7 @@ function shouldPopWrinklers() {
 }
 
 function autoFrenzyClick() {
-  if (Game.hasBuff('Click frenzy') > 0 && !FrozenCookies.autoFrenzyBot) {
+  if ((Game.hasBuff('Click frenzy') > 0 || Game.hasBuff('Cursed finger') > 0) && !FrozenCookies.autoFrenzyBot) {
     if (FrozenCookies.autoclickBot) {
       clearInterval(FrozenCookies.autoclickBot);
       FrozenCookies.autoclickBot = 0;
