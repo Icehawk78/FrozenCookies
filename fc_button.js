@@ -435,7 +435,7 @@ function FCMenu() {
       subsection.append($('<div>').addClass('listing').html('<b>Max Average Cookie Value:</b> ' + Beautify(cookieValue(maxCookies))));
     }
     subsection.append($('<div>').addClass('listing').html('<b>Max Lucky Cookie Value:</b> ' + Beautify(maxLuckyValue())));
-    subsection.append($('<div>').addClass('listing').html('<b>Cookie Bank Required for Max Lucky:</b> ' + Beautify(maxLuckyValue() * 10)));
+    subsection.append($('<div>').addClass('listing').html('<b>Cookie Bank Required for Max Lucky:</b> ' + Beautify(maxLuckyBank())));
     subsection.append($('<div>').addClass('listing').html('<b>Max Chain Cookie Value:</b> ' + Beautify(calculateChainValue(chainBank(), Game.cookiesPs, (7 - (Game.elderWrath / 3))))));
     subsection.append($('<div>').addClass('listing').html('<b>Cookie Bank Required for Max Chain:</b> ' + Beautify(chainBank())));
     subsection.append($('<div>').addClass('listing').html('<b>Estimated Cookie CPS:</b> ' + Beautify(gcPs(cookieValue(currentCookies)))));
