@@ -533,7 +533,7 @@ function FCMenu() {
       {name: 'Chain Bank', cost: chainBank(), efficiency: cookieEfficiency(Game.cookies, chainBank())}];
     
     banks.forEach(function(bank) {
-      var deltaCps = effectiveCps(bank.cost) - effectiveCps();
+      var deltaCps = effectiveCps(bank.cost) - effectiveCps(Game.cookies);
       buildTable.append($('<tr><td colspan="2"><b>' + bank.name + (bank.deltaCps === 0 ? ' (*)' : '') + '</b></td><td>' + Beautify(bank.efficiency) + '</td><td>' + Beautify(Math.max(0, bank.cost - Game.cookies)) + '</td><td>' + Beautify(deltaCps) + '</td></tr>'));
     });
     buildTable.append($('<tr><td colspan="5">&nbsp;</td></tr>'));
