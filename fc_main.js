@@ -1219,12 +1219,10 @@ function buyFunctionToggle(upgrade) {
 }
 
 function buySanta() {
-  if (Game.LeftBackground) {
-    Game.mouseX = 48;
-    Game.mouseY = Game.LeftBackground.canvas.height-48-24;
-    Game.Click = 1;
-    Game.UpdateSanta();
-    Game.Click = 0;
+  Game.specialTab = 'santa';
+  Game.UpgradeSanta();
+  if (Game.santaLevel + 1 >= Game.santaLevels.length) {
+    Game.ToggleSpecialMenu();
   }
 }
 
