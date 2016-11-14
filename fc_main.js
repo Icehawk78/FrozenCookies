@@ -1521,7 +1521,7 @@ function autoFrenzyClick() {
       FrozenCookies.autoclickBot = 0;
     }
     FrozenCookies.autoFrenzyBot = setInterval(function(){Game.ClickCookie();}, 1000 / FrozenCookies.frenzyClickSpeed);
-  } else if (hasClickFrenzy() == 1 && FrozenCookies.autoFrenzyBot) {
+  } else if (hasClickFrenzy() == 1 && Game.hasBuff('Cursed finger') == 0 && FrozenCookies.autoFrenzyBot) {
     clearInterval(FrozenCookies.autoFrenzyBot);
     FrozenCookies.autoFrenzyBot = 0;
     if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
