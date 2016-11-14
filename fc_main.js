@@ -1530,6 +1530,14 @@ function autoFrenzyClick() {
   }
 }
 
+function autoGSBuy() {
+  if (Game.hasBuff('Click frenzy') > 0 || Game.hasBuff('Dragonflight') > 0) {
+    Game.Upgrades['Golden switch [off]'].buy();
+  } else if (Game.hasBuff('Frenzy') == 0) {
+    Game.Upgrades['Golden switch [on]'].buy();
+  }
+}
+
 function goldenCookieLife() {
   for (var i in Game.shimmers) {
     if (Game.shimmers[i].type == 'golden') {
@@ -1681,6 +1689,11 @@ function FCStart() {
     FrozenCookies.statBot = 0;
   }
   
+  if (FrozenCookies.autoGSBot) {
+      clearInterval(FrozenCookies.autoGSBot);
+      FrozenCookies.autoGSBot = 0;
+  }
+  
 //  if (!FrozenCookies.saveWrinklers && localStorage.wrinklers) {
 //    delete localStorage.wrinklers;
 //  }
@@ -1709,11 +1722,17 @@ function FCStart() {
     FrozenCookies.frenzyClickBot = setInterval(autoFrenzyClick, FrozenCookies.frequency);
   }
   
+  if (FrozenCookies.autoGS) {
+      FrozenCookies.autoGSBot = setInterval(autoGSBuy,FrozenCookies.frequency)
+  }
+  
   if (statSpeed(FrozenCookies.trackStats) > 0) {
     FrozenCookies.statBot = setInterval(saveStats, statSpeed(FrozenCookies.trackStats));
   } else if (FrozenCookies.trackStats == 6 && !FrozenCookies.smartTrackingBot) {
     FrozenCookies.smartTrackingBot = setTimeout(function() {smartTrackingStats(FrozenCookies.minDelay * 8)}, FrozenCookies.minDelay);
   }
+  
+
   
   FCMenu();
 }
