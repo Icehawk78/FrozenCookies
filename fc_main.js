@@ -46,9 +46,10 @@ function setOverrides() {
   // Set default values for calculations
   FrozenCookies.hc_gain = 0;
   FrozenCookies.hc_gain_time = Date.now();
-  FrozenCookies.last_gc_state = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * (Game.hasBuff('Click frenzy') ? Game.buffs['Click frenzy'].multClick : 1);
+  FrozenCookies.last_gc_state = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * hasClickFrenzy();
   FrozenCookies.last_gc_time = Date.now();
   FrozenCookies.lastCPS = Game.cookiesPs;
+  FrozenCookies.lastBaseCPS = Game.cookiesPs;
   FrozenCookies.lastCookieCPS = 0;
   FrozenCookies.lastUpgradeCount = 0;
   FrozenCookies.currentBank = {'cost': 0, 'efficiency' : 0};
@@ -263,13 +264,14 @@ function fcReset() {
   }
   Game.oldReset();
   FrozenCookies.frenzyTimes = {};
-  FrozenCookies.last_gc_state = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * (Game.hasBuff('Click frenzy') ? Game.buffs['Click frenzy'].multClick : 1);
+  FrozenCookies.last_gc_state = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * hasClickFrenzy();
   FrozenCookies.last_gc_time = Date.now();
   FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
   FrozenCookies.lastHCTime = Date.now();
   FrozenCookies.maxHCPercent = 0;
   FrozenCookies.prevLastHCTime = Date.now();
   FrozenCookies.lastCps = 0;
+  FrozenCookies.lastBaseCps = 0;
   FrozenCookies.trackedStats = [];
   updateLocalStorage();
   recommendationList(true);
@@ -461,13 +463,29 @@ function probabilitySpan(listType, start, endProbability) {
   return _.sortedIndex(getProbabilityList(listType), (startProbability + endProbability - startProbability * endProbability));
 }
 
+function hasClickFrenzy() {
+  var ret = 1
+  for (var i in Game.buffs) {
+    if (typeof Game.buffs[i].multClick != 'undefined') ret*=Game.buffs[i].multClick;
+  }
+  return ret;
+}
+
 function baseCps() {
-  var frenzyMod = (Game.hasBuff('Frenzy') > 0) ? Game.buffs['Frenzy'].multCpS : 1;
-  return Game.cookiesPs / frenzyMod;
+  var buffMod = 1;
+  for (var i in Game.buffs) {
+    if (typeof Game.buffs[i].multCpS != 'undefined') buffMod *= Game.buffs[i].multCpS;
+  }
+  if (buffMod === 0) {
+    return FrozenCookies.lastBaseCPS;
+  }
+  var baseCPS = Game.cookiesPs / buffMod;
+  FrozenCookies.lastBaseCPS = baseCPS;
+  return baseCPS;
 }
 
 function baseClickingCps(clickSpeed) {
-  var clickFrenzyMod = (Game.hasBuff('Click frenzy') > 0) ? Game.buffs['Click frenzy'].multClick : 1;
+  var clickFrenzyMod = hasClickFrenzy();
   var frenzyMod = (Game.hasBuff('Frenzy') > 0) ? Game.buffs['Frenzy'].multCpS : 1;
   var cpc = Game.mouseCps() / (clickFrenzyMod * frenzyMod);
   return clickSpeed * cpc;
@@ -523,11 +541,11 @@ function cookieValue(bankAmount, wrathValue, wrinklerCount) {
   // Clot + Ruin
   value -= cookieInfo.clotRuin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 0.5) + 13);
   // Lucky
-  value += cookieInfo.lucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20) + 13);
+  value += cookieInfo.lucky.odds[wrathValue] * (Math.min(bankAmount * 0.15, cps * 60 * 15) + 13);
   // Frenzy + Lucky
-  value += cookieInfo.frenzyLucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20 * 7) + 13);
+  value += cookieInfo.frenzyLucky.odds[wrathValue] * (Math.min(bankAmount * 0.15, cps * 60 * 15 * 7) + 13);
   // Clot + Lucky
-  value += cookieInfo.clotLucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20 * 0.5) + 13);
+  value += cookieInfo.clotLucky.odds[wrathValue] * (Math.min(bankAmount * 0.15, cps * 60 * 15 * 0.5) + 13);
   // Click
   value += cookieInfo.click.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777;
   // Frenzy + Click
@@ -544,7 +562,7 @@ function cookieStats(bankAmount, wrathValue, wrinklerCount) {
   var clickCps = baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
   var frenzyCps = FrozenCookies.autoFrenzy ? baseClickingCps(FrozenCookies.autoFrenzy * FrozenCookies.frenzyClickSpeed) : clickCps;
   var luckyMod = Game.Has('Get lucky') ? 2 : 1;
-  var clickFrenzyMod = (Game.hasBuff('Click frenzy') > 0) ? Game.buffs['Click frenzy'].multClick : 1
+  var clickFrenzyMod = hasClickFrenzy();
   wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
   wrinklerCount = wrinklerCount != null ? wrinklerCount : (wrathValue ? 10 : 0);
   var wrinkler = wrinklerMod(wrinklerCount);
@@ -565,11 +583,11 @@ function cookieStats(bankAmount, wrathValue, wrinklerCount) {
   // Clot + Ruin
   result.clotRuin = -1 * cookieInfo.clotRuin.odds[wrathValue] * (Math.min(bankAmount * 0.05, cps * 60 * 10 * 0.5) + 13);
   // Lucky
-  result.lucky = cookieInfo.lucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20) + 13);
+  result.lucky = cookieInfo.lucky.odds[wrathValue] * (Math.min(bankAmount * 0.15, cps * 60 * 15) + 13);
   // Frenzy + Lucky
-  result.frenzyLucky = cookieInfo.frenzyLucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20 * 7) + 13);
+  result.frenzyLucky = cookieInfo.frenzyLucky.odds[wrathValue] * (Math.min(bankAmount * 0.15, cps * 60 * 15 * 7) + 13);
   // Clot + Lucky
-  result.clotLucky = cookieInfo.clotLucky.odds[wrathValue] * (Math.min(bankAmount * 0.1, cps * 60 * 20 * 0.5) + 13);
+  result.clotLucky = cookieInfo.clotLucky.odds[wrathValue] * (Math.min(bankAmount * 0.15, cps * 60 * 15 * 0.5) + 13);
   // Click
   result.click = cookieInfo.click.odds[wrathValue] * frenzyCps * luckyMod * 13 * 777;
   // Frenzy + Click
@@ -635,11 +653,11 @@ function estimatedTimeRemaining(cookies) {
 }
 
 function luckyBank() {
-  return baseCps() * 60 * 20 * 10;
+  return baseCps() * 60 * 100;
 }
 
 function luckyFrenzyBank() {
-  return baseCps() * 60 * 20 * 7 * 10;
+  return baseCps() * 60 * 100 * 7;
 }
 
 function chainBank() {
@@ -698,20 +716,24 @@ function weightedCookieValue(useCurrent) {
     base_golden += rollingEstimate * 0.0033;
     base_wrath += rollingEstimate * 0.0595;
   }
-  if (useCurrent && Game.cookies < maxLuckyValue() * 10) {
+  if (useCurrent && Game.cookies < maxLuckyBank()) {
     if (lucky_mod) {
-      base_golden -= ((1200 * cps) - Math.min(1200 * cps, Game.cookies * 0.1)) * 0.49 * 0.5 + (maxLuckyValue() - (Game.cookies * 0.1)) * 0.49 * 0.5;
+      base_golden -= ((900 * cps) - Math.min(900 * cps, Game.cookies * 0.15)) * 0.49 * 0.5 + (maxLuckyValue() - (Game.cookies * 0.15)) * 0.49 * 0.5;
     } else {
-      base_golden -= (maxLuckyValue() - (Game.cookies * 0.1)) * 0.49;
-      base_wrath  -= (maxLuckyValue() - (Game.cookies * 0.1)) * 0.29;
+      base_golden -= (maxLuckyValue() - (Game.cookies * 0.15)) * 0.49;
+      base_wrath  -= (maxLuckyValue() - (Game.cookies * 0.15)) * 0.29;
     }
   }
   return Game.elderWrath / 3.0 * base_wrath + (3 - Game.elderWrath) / 3.0 * base_golden;
 }
 
 function maxLuckyValue() {
-  var gcMod = Game.Has('Get lucky') ? 8400 : 1200;
+  var gcMod = Game.Has('Get lucky') ? 6300 : 900;
   return baseCps() * gcMod;
+}
+
+function maxLuckyBank() {
+  return  Game.Has('Get lucky') ? luckyFrenzyBank() : luckyBank();
 }
 
 function maxCookieTime() {
@@ -899,12 +921,18 @@ function upgradeStats(recalculate) {
 
 function isUnavailable(upgrade, upgradeBlacklist) {
   var result = false;
+
   var needed = unfinishedUpgradePrereqs(upgrade);
   result = result || !upgrade.unlocked && !needed;
   result = result || (upgradeBlacklist === true);
   result = result || _.contains(upgradeBlacklist, upgrade.id);
   result = result || (needed && _.find(needed, function(a){return a.type == "wrinklers"}) != null);
   result = result || (upgrade.season && !haveAll(Game.season));
+
+  if (upgrade.id == 331) {
+    result = true; // blacklist golden switch from being used, until proper logic can be implemented
+  }
+
   return result;
 }
 
@@ -1215,12 +1243,10 @@ function buyFunctionToggle(upgrade) {
 }
 
 function buySanta() {
-  if (Game.LeftBackground) {
-    Game.mouseX = 48;
-    Game.mouseY = Game.LeftBackground.canvas.height-48-24;
-    Game.Click = 1;
-    Game.UpdateSanta();
-    Game.Click = 0;
+  Game.specialTab = 'santa';
+  Game.UpgradeSanta();
+  if (Game.santaLevel + 1 >= Game.santaLevels.length) {
+    Game.ToggleSpecialMenu();
   }
 }
 
@@ -1489,13 +1515,13 @@ function shouldPopWrinklers() {
 }
 
 function autoFrenzyClick() {
-  if (Game.hasBuff('Click frenzy') > 0 && !FrozenCookies.autoFrenzyBot) {
+  if ((hasClickFrenzy() > 1 || Game.hasBuff('Cursed finger') > 0) && !FrozenCookies.autoFrenzyBot) {
     if (FrozenCookies.autoclickBot) {
       clearInterval(FrozenCookies.autoclickBot);
       FrozenCookies.autoclickBot = 0;
     }
     FrozenCookies.autoFrenzyBot = setInterval(function(){Game.ClickCookie();}, 1000 / FrozenCookies.frenzyClickSpeed);
-  } else if (Game.hasBuff('Click frenzy') == 0 && FrozenCookies.autoFrenzyBot) {
+  } else if (hasClickFrenzy() == 1 && FrozenCookies.autoFrenzyBot) {
     clearInterval(FrozenCookies.autoFrenzyBot);
     FrozenCookies.autoFrenzyBot = 0;
     if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
@@ -1526,7 +1552,8 @@ function autoCookie() {
   if (!FrozenCookies.processing && !Game.OnAscend && !Game.AscendTimer) {
     FrozenCookies.processing = true;
     var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s,w){return s + popValue(w.sucked);}, 0));
-    if (FrozenCookies.lastHCAmount < currentHCAmount) {
+
+    if (Math.floor(FrozenCookies.lastHCAmount) < Math.floor(currentHCAmount)) {
       var changeAmount = currentHCAmount - FrozenCookies.lastHCAmount;
       FrozenCookies.lastHCAmount = currentHCAmount;
       FrozenCookies.prevLastHCTime = FrozenCookies.lastHCTime;
@@ -1601,7 +1628,7 @@ function autoCookie() {
     if (FrozenCookies.autoBlacklistOff) {
       autoBlacklistOff();
     }
-    var currentFrenzy = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * (Game.hasBuff('Click frenzy') ? Game.buffs['Click frenzy'].multClick : 1);
+    var currentFrenzy = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * hasClickFrenzy();
     if (currentFrenzy != FrozenCookies.last_gc_state) {
       if (FrozenCookies.last_gc_state != 1 && currentFrenzy == 1) {
       	logEvent('GC', 'Frenzy ended, cookie production x1');
@@ -1619,7 +1646,7 @@ function autoCookie() {
           FrozenCookies.hc_gain_time = Date.now();
           FrozenCookies.hc_gain = 0;
         }
-	logEvent('GC', 'Starting ' + (Game.hasBuff('Click frenzy') ? 'Clicking ' : '') + 'Frenzy x' +  currentFrenzy);
+	logEvent('GC', 'Starting ' + ((hasClickFrenzy > 1) ? 'Clicking ' : '') + 'Frenzy x' +  currentFrenzy);
       }
       if (FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] == null) {
       	FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] = 0;
