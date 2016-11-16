@@ -5,21 +5,21 @@
 // @author         shinji257
 // @homepage       https://github.com/Icehawk78/FrozenCookies
 // @include        http://orteil.dashnet.org/cookieclicker/
-// @updateURL      http://icehawk78.github.io/FrozenCookies/fc_userscript_loader.js
-// @downloadURL    http://icehawk78.github.io/FrozenCookies/fc_userscript_loader.js
+// @updateURL      https://rawgithub.com/Icehawk78/FrozenCookies/master/fc_userscript_loader.js
+// @downloadURL    https://rawgithub.com/Icehawk78/FrozenCookies/master/fc_userscript_loader.js
+// @run-at         document-start
 // ==/UserScript==
 
-// Dev:       https://raw.github.com/Icehawk78/FrozenCookies/development/
-// Master:    https://raw.github.com/Icehawk78/FrozenCookies/master/
+// Dev:       https://www.github.com/Icehawk78/FrozenCookies/development/
+// Master:    https://www.github.com/Icehawk78/FrozenCookies/master/
 // Github.io: http://icehawk78.github.io/FrozenCookies/
 
 function LoadFrozenCookies() {
   var js = document.createElement('script');
   js.setAttribute('type', 'text/javascript');
   js.setAttribute('id', 'frozenCookieScript');
-  js.setAttribute('src', 'https://raw.github.com/Icehawk78/FrozenCookies/master/frozen_cookies.js');
+  js.setAttribute('src', 'https://rawgithub.com/Icehawk78/FrozenCookies/master/frozen_cookies.js');
   document.head.appendChild(js);
 }
-// It's not the best way but Chrome doesn't work with addEventListener... :(
-// Delay load by 5 seconds to allow the site to load itself first.)
-window.setTimeout(LoadFrozenCookies, 5000);
+
+window.addEventListener("load", LoadFrozenCookies, false);
