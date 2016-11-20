@@ -82,7 +82,7 @@ function setOverrides() {
   FrozenCookies.caches.upgrades = [];
   
   if (!blacklist[FrozenCookies.blacklist]) {
-    FrozenCookies.blacklist = 'none';
+    FrozenCookies.blacklist = 0;
   }
   Beautify = fcBeautify;
   Game.sayTime = function(time,detail) {return timeDisplay(time/Game.fps);}
