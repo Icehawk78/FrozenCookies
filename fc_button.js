@@ -379,6 +379,7 @@ function FCMenu() {
       return Game.oldUpdateMenu();
     }
     var currentCookies, maxCookies, isTarget, isMax, targetTxt, maxTxt,
+      currPrestige, resetPrestige, prestigeDifference,
       currHC, resetHC, cps, baseChosen, frenzyChosen, clickStr, buildTable,
       bankLucky, bankLuckyFrenzy, bankChain,
       menu = $('#menu').html('')
@@ -390,7 +391,7 @@ function FCMenu() {
       isChained = !(recommendation.id == chainRecommendation.id && recommendation.type == chainRecommendation.type),
       bankLevel = bestBank(chainRecommendation.efficiency),
       actualCps = Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed,
-      chocolateRecoup = (recommendation.type == 'upgrade' ? recommendation.cost : recommendation.cost * 0.425) / (recommendation.delta_cps * 21);
+      chocolateRecoup = (recommendation.type == 'upgrade' ? recommendation.cost : recommendation.cost * 0.425) / (recommendation.delta_cps * 20);
 
     subsection.append($('<div>').addClass('listing').html('<b>Next Purchase:</b> ' + recommendation.purchase.name));
     if (isChained) {
@@ -451,8 +452,11 @@ function FCMenu() {
     
     subsection = $('<div>').addClass('subsection');
     subsection.append($('<div>').addClass('title').html('Heavenly Chips Information'));
+    currPrestige = Game.prestige;
+    resetPrestige = Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue());
+    prestigeDifference = resetPrestige - currPrestige;
     currHC = Game.heavenlyChips;
-    resetHC = Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue());
+    resetHC = currHC + prestigeDifference;
     subsection.append($('<div>').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.heavenlyChips)));
     subsection.append($('<div>').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(resetHC)));
     subsection.append($('<div>').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
@@ -484,6 +488,9 @@ function FCMenu() {
     subsection.append($('<div>').addClass('listing').html('<b>Estimated Effective CPS:</b> ' + Beautify(effectiveCps())));
     if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
       subsection.append($('<div>').addClass('listing').html('<b>Chocolate Egg Value:</b> ' + Beautify(chocolateValue())));
+      if (!Game.hasAura('Earth Shatterer')) {
+        subsection.append($('<div>').addClass('listing').css('text-indent', '2em').html('<b>+ Earth Shatterer:</b> ' + Beautify(chocolateValue(null, true))));
+      }
     }
     if (liveWrinklers().length > 0) {
       subsection.append($('<div>').addClass('listing').html('<b>Wrinkler Value:</b> ' + Beautify(wrinklerValue())));

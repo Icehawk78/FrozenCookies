@@ -624,11 +624,21 @@ function calculateChainValue(bankAmount, cps, digit) {
   return 125 * Math.pow(9,(n-3)) * digit;
 }
 
-function chocolateValue(bankAmount) {
+function chocolateValue(bankAmount, earthShatter) {
   var value = 0;
   if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
     bankAmount = (bankAmount != null && bankAmount !== 0) ? bankAmount : Game.cookies;
-    value = 0.05 * (wrinklerValue() + bankAmount + Game.ObjectsById.reduce(function(s,b){return s + cumulativeBuildingCost(b.basePrice, 1, b.amount + 1) / 2},0));
+    var sellRatio = 0.5;
+    var highestBuilding = 0;
+    if (earthShatter == null) {
+      if (Game.hasAura('Earth Shatterer')) sellRatio = 0.85;
+    } else if (earthShatter) {
+      sellRatio = 0.85;
+      if (!Game.hasAura('Earth Shatterer')) {
+        for (var i in Game.Objects) {if (Game.Objects[i].amount>0) highestBuilding = Game.Objects[i];}
+      }
+    }
+    value = 0.05 * (wrinklerValue() + bankAmount + Game.ObjectsById.reduce(function(s,b){return s + cumulativeBuildingCost(b.basePrice, 1, (b == highestBuilding ? b.amount : b.amount + 1) - b.free) * sellRatio},0));
   }
   return value;
 }
@@ -691,7 +701,7 @@ function bestBank(minEfficiency) {
   var bankLevels = [0, luckyBank(), luckyFrenzyBank(), chainBank()].sort(function(a,b){return b-a;}).map(function(bank){
     return {'cost': bank, 'efficiency': cookieEfficiency(Game.cookies, bank)};
   }).filter(function(bank){
-    return (bank.efficiency <= minEfficiency) ? bank : null;
+    return (bank.efficiency >= 0 && bank.efficiency <= minEfficiency) ? bank : null;
   });
   return bankLevels[0];
 }
@@ -972,10 +982,21 @@ function defaultPurchase() {
 
 function totalDiscount(building) {                                                                                    
   var price = 1;
-  if (Game.Has('Season savings') && building) price *= 0.99;
-  if (Game.Has('Toy workshop') && !building) price *= 0.95;
-  if (Game.Has('Santa\'s dominion')) price *= (building ? 0.99 : 0.98);
-  if (Game.Has('Faberge egg')) price *= 0.99;
+  if (building) {
+    if (Game.Has('Season savings')) price*=0.99;
+    if (Game.Has('Santa\'s dominion')) price*=0.99;
+    if (Game.Has('Faberge egg')) price*=0.99;
+    if (Game.Has('Divine discount')) price*=0.99;
+    if (Game.hasAura('Fierce Hoarder')) price*=0.98;
+    if (Game.hasBuff('Everything must go')) price*=0.95;
+  } else {
+    if (Game.Has('Toy workshop')) price*=0.95;
+    if (Game.Has('Five-finger discount')) price*=Math.pow(0.99,Game.Objects['Cursor'].amount/100);
+    if (Game.Has('Santa\'s dominion')) price*=0.98;
+    if (Game.Has('Faberge egg')) price*=0.99;
+    if (Game.Has('Divine sales')) price*=0.99;
+    if (Game.hasAura('Master of the Armory')) price*=0.98;
+  }
   return price;
 }
 
@@ -1532,9 +1553,16 @@ function autoFrenzyClick() {
 
 function autoGSBuy() {
   if (Game.hasBuff('Click frenzy') > 0 || Game.hasBuff('Dragonflight') > 0) {
-    Game.Upgrades['Golden switch [off]'].buy();
+    if (Game.Upgrades['Golden switch [off]'].unlocked 
+        && !Game.Upgrades['Golden switch [off]'].bought) {
+      Game.Upgrades['Golden switch [off]'].buy();
+    }
   } else if (Game.hasBuff('Frenzy') == 0) {
-    Game.Upgrades['Golden switch [on]'].buy();
+    if (Game.Upgrades['Golden switch [on]'].unlocked
+        && !Game.Upgrades['Golden switch [on]'].bought) {
+      Game.CalculateGains(); // Ensure price is updated since Frenzy ended
+      Game.Upgrades['Golden switch [on]'].buy();
+    }
   }
 }
 

@@ -38,7 +38,7 @@ FrozenCookies.preferenceValues = {
   },
   'blacklist':{
     'hint':'Blacklist purchases from the efficiency calculations',
-    'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist', 'Grandmapocalypse Mode', 'No Buildings', 'No GS', 'No GS or Buildings'],
+    'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist', 'Grandmapocalypse Mode', 'No Buildings'],
     'default':0
   },
 /*  'timeTravelMethod':{
@@ -75,7 +75,7 @@ FrozenCookies.preferenceValues = {
   },
   'autoGS':{
     'hint':'Automatically turn on the Golden Switch during Dragonflight and Click Frenzy',
-    'display':['OFF','ON'],
+    'display':['Auto-Switch OFF','Auto-Switch ON'],
     'default':0
   }
 };
@@ -293,14 +293,6 @@ var blacklist = [
   },
   {
     'upgrades': [],
-    'buildings': true
-  },
-  {
-    'upgrades': [331, 332],
-    'buildings': []
-  },
-  {
-    'upgrades': [331, 332],
     'buildings': true
   }
 ];
