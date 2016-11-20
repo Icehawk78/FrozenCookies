@@ -39,6 +39,33 @@ What can Frozen Cookies do?
 What's new?
 -----------
 
+2016 Nov 19:
+
+- Update discount calc with new discounts
+- Fix problem with lucky bank targeting during wrath
+- Add Earth Shatterer option to Chocolate Egg calc and display
+- Fix 'HC After Reset' stat
+- Fix: Auto-GS waited for Frenzy to end but incurred 7x cost anyway
+- Removed 'No GS' blacklists
+- Added label to Auto-GS option
+- Auto-GS no longer cheats
+
+2016 Nov 13:
+
+- Fixed auto-buying of Santa upgrades
+- Fixed Lucky calc
+- Add support for new GC buffs
+- Internal Information: delta-CPS for Bank targets now compares to current bank
+- Golden Switch excluded from auto-buy (no blacklist necessary)
+
+2016 Aug 11:
+
+- Added Golden Switch blacklists
+
+2016 Jul 24:
+
+- Updated for Cookie Clicker 2.002
+
 2014 May 27:
 
 - Time to Recoup Chocolate stat added
