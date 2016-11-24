@@ -1,5 +1,5 @@
 // Global Variables
-var scriptElement = document.getElementById('frozenCookieScript') != null ?
+var scriptElement = document.getElementById('frozenCookieScript') !== null ?
 		document.getElementById('frozenCookieScript') : 
 		document.getElementById('modscript_frozen_cookies'),
 	baseUrl = scriptElement !== null ?
