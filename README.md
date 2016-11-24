@@ -15,7 +15,7 @@ How to use
 ## Userscript install
 
 0. If you don't already have it, install the required browser add-on. [Tampermonkey (Chrome)](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) or [Greasemonkey (Firefox)](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/)
-1. Go to http://userscripts.org/scripts/show/417095
+1. Go to https://rawgit.com/haerik/FrozenCookies/master/fc_userscript_loader.user.js
 2. Click the 'install' button in the upper right corner.
 3. Load up Cookie Clicker.
 
