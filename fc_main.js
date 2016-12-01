@@ -921,7 +921,7 @@ function upgradeStats(recalculate) {
         Game.elderWrath = existingWrath;
         var deltaCps = cpsNew - cpsOrig;
         var baseDeltaCps = baseCpsNew - baseCpsOrig;
-        var efficiency = (priceReduction > cost) ? 1 : purchaseEfficiency(cost, deltaCps, baseDeltaCps, cpsOrig)
+        var efficiency = (current.season) ? (current.season == "fools" ? 1e-254 : 1e-255) : (priceReduction > cost) ? 1 : purchaseEfficiency(cost, deltaCps, baseDeltaCps, cpsOrig);
         return {'id' : current.id, 'efficiency' : efficiency, 'base_delta_cps' : baseDeltaCps, 'delta_cps' : deltaCps, 'cost' : cost, 'purchase' : current, 'type' : 'upgrade'};
       }
     }).filter(function(a){return a;});
@@ -937,7 +937,7 @@ function isUnavailable(upgrade, upgradeBlacklist) {
   result = result || (upgradeBlacklist === true);
   result = result || _.contains(upgradeBlacklist, upgrade.id);
   result = result || (needed && _.find(needed, function(a){return a.type == "wrinklers"}) != null);
-  result = result || (upgrade.season && !haveAll(Game.season));
+  result = result || (upgrade.season && (!haveAll(Game.season) || (upgrade.season != "fools" && haveAll(upgrade.season))));
 
   if (upgrade.id == 331) {
     result = true; // blacklist golden switch from being used, until proper logic can be implemented
