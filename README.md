@@ -39,6 +39,10 @@ What can Frozen Cookies do?
 What's new?
 -----------
 
+2016 Dec 1:
+
+- New option: Default Season
+
 2016 Nov 19:
 
 - Update discount calc with new discounts
