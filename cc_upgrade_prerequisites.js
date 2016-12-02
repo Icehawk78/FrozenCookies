@@ -77,6 +77,11 @@ FrozenCookies.preferenceValues = {
     'hint':'Automatically turn on the Golden Switch during Dragonflight and Click Frenzy',
     'display':['Auto-Switch OFF','Auto-Switch ON'],
     'default':0
+  },
+  'defaultSeason':{
+    'hint':'Season to maintain when no others have needed upgrades',
+    'display':['Default Season: None','Default Season: Business Day','Default Season: Christmas','Default Season: Easter','Default Season: Halloween',"Default Season: Valentine's Day"],
+    'default':0
   }
 };
 
@@ -296,6 +301,8 @@ var blacklist = [
     'buildings': true
   }
 ];
+
+var seasons = ['','fools','christmas','easter','halloween','valentines'];
 
 var halloweenCookies = [134,135,136,137,138,139,140];
 var christmasCookies = [143,144,145,146,147,148,149];
