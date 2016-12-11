@@ -189,8 +189,8 @@ function drawCircles(t_d, x, y) {
       x: x + (maxRadius + 5), y:y + maxRadius + 5,
       radius: maxRadius - i_c*10,
       strokeWidth: 7,
-      start: 0,
-      end: (360 * o_draw.f_percent)
+      start: o_draw.reverse ? 360 - (360 * o_draw.f_percent) : 0,
+      end: o_draw.reverse? 360 : (360 * o_draw.f_percent)
     });
     if (o_draw.name)
     {
@@ -278,13 +278,15 @@ function updateTimers() {
       f_percent: gc_max_delay,
       c1: "rgba(255, 155, 0, 1)",
       name: "Golden Cookie Maximum (99%)",
-      display: timeDisplay((gc_max_delay * maxCookieTime()) / Game.fps)
+      display: timeDisplay((gc_max_delay * maxCookieTime()) / Game.fps),
+      reverse: true
     });
     t_draw.push({
       f_percent: gc_delay,
       c1: "rgba(255, 195, 0, 1)",
       name: "Golden Cookie Estimate (50%)",
       display: timeDisplay((gc_delay * maxCookieTime()) / Game.fps),
+      reverse: true,
       overlay: true
     });
     t_draw.push({
@@ -292,6 +294,7 @@ function updateTimers() {
       c1: "rgba(255, 235, 0, 1)",
       name: "Golden Cookie Minimum (1%)",
       display: timeDisplay((gc_min_delay * maxCookieTime()) / Game.fps),
+      reverse: true,
       overlay: true
 
     });
@@ -301,7 +304,8 @@ function updateTimers() {
       f_percent: frenzy_delay,
       c1: "rgba(255, 0, 0, 1)",
       name: "Frenzy (x" + Game.frenzyPower + ") Time",
-      display: timeDisplay(Game.frenzy/Game.fps)
+      display: timeDisplay(Game.frenzy/Game.fps),
+      reverse: true
     });
   }
   if (click_frenzy_delay>0) {
@@ -309,7 +313,8 @@ function updateTimers() {
       f_percent: click_frenzy_delay,
       c1: "rgba(0, 196, 255, 1)",
       name: "Click Frenzy Time",
-      display: timeDisplay(Game.clickFrenzy/Game.fps)
+      display: timeDisplay(Game.clickFrenzy/Game.fps),
+      reverse: true
     });
   }
   if (decimal_HC_complete>0) {
