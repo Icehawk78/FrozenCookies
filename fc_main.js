@@ -56,6 +56,7 @@ function setOverrides() {
   FrozenCookies.disabledPopups = true;
   FrozenCookies.trackedStats = [];
   FrozenCookies.lastGraphDraw = 0;
+  FrozenCookies.calculatedCpsByType = {};
   
   // Allow autoCookie to run
   FrozenCookies.processing = false;
@@ -348,7 +349,7 @@ document.addEventListener('keydown', function(event) {
       copyToClipboard(Game.WriteSave(true));
     }
     if (event.keyCode == 82) {
-      Game.Reset();
+      Game.Ascend();
     }
     if (event.keyCode == 83) {
       Game.WriteSave();
@@ -1131,7 +1132,7 @@ function buildingToggle(building, achievements) {
     achievements.forEach(function(won, index){
       var achievement = Game.AchievementsById[index];
       achievement.won = won;
-      if (won && achievement.hide < 3) {
+      if (won && achievement.pool !== 'shadow') {
         Game.AchievementsOwned += 1;
       }
     });
