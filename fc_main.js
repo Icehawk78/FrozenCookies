@@ -329,6 +329,7 @@ function getBuildingSpread () {
   return Game.ObjectsById.map(function(a){return a.amount;}).join('/')
 }
 
+// todo: add bind for autoascend
 // Press 'a' to toggle autobuy.
 // Press 'b' to pop up a copyable window with building spread. 
 // Press 'c' to toggle auto-GC
@@ -380,6 +381,23 @@ function updateSpeed(base) {
   var newSpeed = getSpeed(FrozenCookies[base]);
   if (newSpeed != FrozenCookies[base]) {
     FrozenCookies[base] = newSpeed;
+    updateLocalStorage();
+    FCStart();
+  }
+}
+
+function getAscendAmount(current) {
+  var newAmount = prompt('How many heavenly chips do you want to auto-ascend at?',current);
+  if (typeof(newAmount) == 'undefined' || newAmount == null || isNaN(Number(newAmount)) || Number(newAmount) < 0 || Number(newAmount) > 250) {
+    newAmount = current;
+  }
+  return Number(newAmount);
+}
+
+function updateAscendAmount(base) {
+  var newAmount = getAscendAmount(FrozenCookies[base]);
+  if (newAmount != FrozenCookies[base]) {
+    FrozenCookies[base] = newAmount;
     updateLocalStorage();
     FCStart();
   }
@@ -1644,6 +1662,14 @@ function autoCookie() {
       FrozenCookies.recalculateCaches = true;
       FrozenCookies.processing = false;
       itemBought = true;
+    }
+
+    // should work, if nothing goes wrong
+    if (FrozenCookies.autoAscend && !Game.OnAscend && !Game.AscendTimer) {
+      if (currentHCAmount >= Game.heavenlyChips) {
+        Game.ClosePrompt();
+        Game.Ascend(1);
+      }
     }
     
     // This apparently *has* to stay here, or else fast purchases will multi-click it.
