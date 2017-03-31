@@ -164,7 +164,7 @@ function scientificNotation(value) {
 */
 
 function scientificNotation(value) {
-  if (value === 0 || !Number.isFinite(value) || (Math.abs(value) > 1 && Math.abs(value) < 100)) {
+  if (value === 0 || !Number.isFinite(value) || (Math.abs(value) >= 1 && Math.abs(value) <= 1000)) {
     return value;
   }
   value = parseFloat(value);
@@ -1687,7 +1687,7 @@ function autoCookie() {
 
     // not the greatest way of doing it, but it works
     if (FrozenCookies.autoAscend && !Game.OnAscend && !Game.AscendTimer) {
-      if (parseInt(document.getElementById("chipsToAscend").innerHTML.split(' ')[0]) >= currentHCAmount) {
+      if (currentHCAmount >= parseInt(document.getElementById("chipsToAscend").innerHTML.split(' ')[0])) {
         Game.ClosePrompt();
         Game.Ascend(1);
         Game.ClosePrompt();
