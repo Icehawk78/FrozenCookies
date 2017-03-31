@@ -1698,7 +1698,7 @@ function autoCookie() {
         setTimeout(function() {
           Game.ClosePrompt();
           Game.Reincarnate(1);
-          document.getElementById("chipsToAscend").innerHTML = "0 heavenly chips";
+          updateAscendAmount(0);
         }, 5000);
       }
     }
