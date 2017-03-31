@@ -1687,11 +1687,13 @@ function autoCookie() {
 
     // not the greatest way of doing it, but it works
     if (FrozenCookies.autoAscend && !Game.OnAscend && !Game.AscendTimer) {
-      if (currentHCAmount >= parseInt(document.getElementById("chipsToAscend").innerHTML.split(' ')[0])) {
+      var currPrestige = Game.prestige;
+      var resetPrestige = Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue());
+      if (Game.heavenlyChips+(resetPrestige-currPrestige) >= parseInt(document.getElementById("chipsToAscend").innerHTML.split(' ')[0])) {
         Game.ClosePrompt();
         Game.Ascend(1);
-        Game.ClosePrompt();
         Game.Reincarnate();
+        Game.ClosePrompt();
       }
     }
     
