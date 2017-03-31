@@ -144,6 +144,7 @@ function formatEveryThirdPower(notations) {
   };
 }
 
+/*
 function scientificNotation(value) {
   if (value === 0 || !Number.isFinite(value) || (Math.abs(value) > 1 && Math.abs(value) < 100)) {
     return rawFormatter(value);
@@ -159,6 +160,13 @@ function scientificNotation(value) {
     output += '0';
   }
   return sign + output + '*10^' + exp;
+}
+*/
+
+function scientificNotation(value) {
+  value = value.toExponential();
+  value = value.toPrecision(2);
+  return value;
 }
 
 function rawFormatter(value) {
