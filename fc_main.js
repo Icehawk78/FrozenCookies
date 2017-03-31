@@ -1695,8 +1695,8 @@ function autoCookie() {
       if (Game.heavenlyChips+(resetPrestige-currPrestige) >= ascendChips && ascendChips > 0) {
         Game.ClosePrompt();
         Game.Ascend(1);
+        FrozenCookies.autoAscend = 0;
         setTimeout(function() {
-          FrozenCookies.autoAscend = 0;
           Game.ClosePrompt();
           Game.Reincarnate(1);
         }, 5000);
