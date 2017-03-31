@@ -27,6 +27,7 @@ function setOverrides() {
   // Separate because these are user-input values
   FrozenCookies.cookieClickSpeed = preferenceParse('cookieClickSpeed',0);
   FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed',0);
+  FrozenCookies.HCAscendAmount = preferenceParse('HCAscendAmount',0);
   
   // Becomes 0 almost immediately after user input, so default to 0
   FrozenCookies.timeTravelAmount = 0;
@@ -311,6 +312,7 @@ function updateLocalStorage() {
   
   localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
   localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
+  localStorage.HCAscendAmount = FrozenCookies.HCAscendAmount;
   localStorage.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
 //  localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
 //  localStorage.frenzyTime = FrozenCookies.gc_time;
