@@ -1692,6 +1692,7 @@ function autoCookie() {
       if (Game.heavenlyChips+(resetPrestige-currPrestige) >= parseInt(document.getElementById("chipsToAscend").innerHTML.split(' ')[0])) {
         Game.ClosePrompt();
         Game.Ascend(1);
+        sleep(5000);
         Game.ClosePrompt();
         Game.Reincarnate(1);
       }

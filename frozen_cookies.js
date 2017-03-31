@@ -58,6 +58,7 @@ function loadScript(id) {
 }
 
 function fcInit() {
+  document.getElementById("chipsToAscend").innerHTML = '0'; // prevents a TypeError upon initially loading the game
   var jquery = document.createElement('script');
   jquery.setAttribute('type', 'text/javascript');
   jquery.setAttribute('src', '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js');
