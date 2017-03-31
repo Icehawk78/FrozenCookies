@@ -165,7 +165,6 @@ function scientificNotation(value) {
 
 function scientificNotation(value) {
   value = value.toExponential();
-  value = value.toPrecision(2);
   return value;
 }
 
