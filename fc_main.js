@@ -1691,6 +1691,7 @@ function autoCookie() {
       var resetPrestige = Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue());
       var ascendChips = document.getElementById("chipsToAscend") ? parseInt(document.getElementById("chipsToAscend").innerHTML.split(' ')[0]) : 0;
       if (ascendChips == 0) {
+        sleep(5000);
         document.getElementById("chipsToAscend").innerHTML = "0";
       }
       if (Game.heavenlyChips+(resetPrestige-currPrestige) >= ascendChips) {
