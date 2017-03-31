@@ -165,9 +165,7 @@ function scientificNotation(value) {
 
 function scientificNotation(value) {
   value = parseFloat(value);
-  value = value.toFixed(2);
-  value = parseFloat(value);
-  value = value.toExponential();
+  value = value.toExponential(2);
   return value;
 }
 
