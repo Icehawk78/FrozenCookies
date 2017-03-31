@@ -1696,6 +1696,7 @@ function autoCookie() {
         Game.ClosePrompt();
         Game.Ascend(1);
         setTimeout(function() {
+          FrozenCookies["autoAscend"] = 0;
           Game.ClosePrompt();
           Game.Reincarnate(1);
         }, 5000);
