@@ -1698,6 +1698,7 @@ function autoCookie() {
         setTimeout(function() {
           Game.ClosePrompt();
           Game.Reincarnate(1);
+          ascendChips = 0;
           FrozenCookies.HCAscendAmount = 0;
           updateLocalStorage();
         }, 5000);
