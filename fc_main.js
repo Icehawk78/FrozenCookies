@@ -164,8 +164,12 @@ function scientificNotation(value) {
 */
 
 function scientificNotation(value) {
+  if (value === 0 || !Number.isFinite(value) || (Math.abs(value) > 1 && Math.abs(value) < 100)) {
+    return value;
+  }
   value = parseFloat(value);
   value = value.toExponential(2);
+  value = value.split('+').join('');
   return value;
 }
 
@@ -187,7 +191,11 @@ var numberFormatters = [
     ' octillion',
     ' nonillion',
     ' decillion',
-    ' undecillion'
+    ' undecillion',
+    ' duodecillion',
+    ' tredecillion',
+    ' quattuordecillion',
+    ' quindecillion'
   ]),
 
   formatEveryThirdPower([
@@ -202,7 +210,11 @@ var numberFormatters = [
     ' Oc',
     ' No',
     ' De',
-    ' Un'
+    ' UnD',
+    ' DoD',
+    ' TrD',
+    ' QaD',
+    ' QiD'
   ]),
 
   formatEveryThirdPower([
@@ -1673,11 +1685,13 @@ function autoCookie() {
       itemBought = true;
     }
 
-    // should work, if nothing goes wrong
+    // not the greatest way of doing it, but it works
     if (FrozenCookies.autoAscend && !Game.OnAscend && !Game.AscendTimer) {
-      if (currentHCAmount >= Game.heavenlyChips) {
+      if (parseInt(document.getElementById("chipsToAscend").innerHTML.split(' ')[0]) >= currentHCAmount) {
         Game.ClosePrompt();
         Game.Ascend(1);
+        Game.ClosePrompt();
+        Game.Reincarnate();
       }
     }
     

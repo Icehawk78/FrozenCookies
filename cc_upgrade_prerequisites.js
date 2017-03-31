@@ -5,7 +5,7 @@ FrozenCookies.preferenceValues = {
     'default':0
   },
   'autoAscend':{
-    'hint':'Automatically ascend when your heavenly chip count hits a certain number.\n(note: this will skip the upgrade screen; to purchase upgrades, ascend again)',
+    'hint':'Automatically ascend when your heavenly chip count hits a certain number.\n(note: this will skip the upgrade screen)',
     'display':["Autoascend OFF", "Autoascend ON"],
     'default':0,
     'extras':'<a class="option" id="chipsToAscend" onclick="updateAscendAmount(\'chipsToAscend\');">${chipsToAscend} heavenly chips</a>'
