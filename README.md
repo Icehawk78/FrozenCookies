@@ -21,7 +21,6 @@ How to use
 
 What can Frozen Cookies do?
 ---------------------------
-
  - Long number shortening. (convert 1,234,567,890 to 1.235 billion)
  - Calculates the most efficient* next purchase.
  - Optionally, will automatically buy that most efficient* next purchase.
@@ -38,6 +37,10 @@ What can Frozen Cookies do?
 
 What's new?
 -----------
+
+2017 Mar 31:
+- New option: Auto-ascension
+- Scientific notation changed a fair bit
 
 2016 Dec 1:
 
