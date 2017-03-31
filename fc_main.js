@@ -1689,7 +1689,11 @@ function autoCookie() {
     if (FrozenCookies.autoAscend && !Game.OnAscend && !Game.AscendTimer) {
       var currPrestige = Game.prestige;
       var resetPrestige = Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue());
-      if (Game.heavenlyChips+(resetPrestige-currPrestige) >= parseInt(document.getElementById("chipsToAscend").innerHTML.split(' ')[0])) {
+      var ascendChips = document.getElementById("chipsToAscend") ? parseInt(document.getElementById("chipsToAscend").innerHTML.split(' ')[0]) : 0;
+      if (ascendChips == 0) {
+        document.getElementById("chipsToAscend").innerHTML = "0";
+      }
+      if (Game.heavenlyChips+(resetPrestige-currPrestige) >= ascendChips) {
         Game.ClosePrompt();
         Game.Ascend(1);
         sleep(5000);
