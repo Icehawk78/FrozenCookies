@@ -1648,9 +1648,20 @@ function autoCookie() {
     if (FrozenCookies.timeTravelAmount) {
       doTimeTravel();
     }
-    if (FrozenCookies.autoWrinkler) {
+    if (FrozenCookies.autoWrinkler == 1) {
       var popCount = 0;
       var popList = shouldPopWrinklers();
+      _.filter(Game.wrinklers, function(w) {return _.contains(popList, w.id)}).forEach(function(w) {
+        w.hp = 0;
+        popCount += 1;
+      });
+      if (popCount > 0) {
+        logEvent('Wrinkler', 'Popped ' + popCount + ' wrinklers.');
+      }
+    }
+    if (FrozenCookies.autoWrinkler == 2) {
+      var popCount = 0;
+      var popList = Game.wrinklers;
       _.filter(Game.wrinklers, function(w) {return _.contains(popList, w.id)}).forEach(function(w) {
         w.hp = 0;
         popCount += 1;

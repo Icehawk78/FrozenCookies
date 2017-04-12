@@ -11,17 +11,17 @@ FrozenCookies.preferenceValues = {
     'extras':'<a class="option" id="chipsToAscend" onclick="updateAscendAmount(\'HCAscendAmount\');">${HCAscendAmount} heavenly chips</a>'
   },
   'autoGC':{
-    'hint':'Automatically click Golden Cookies when they appear',
+    'hint':'Automatically click Golden Cookies when they appear.',
     'display':["Autoclick GC OFF", "Autoclick GC ON"],
     'default':0
   },
   'autoWrinkler':{
-    'hint':'Automatically pop wrinklers efficiently (as fast as possible before you have all halloween cookies, then wait until a purchase)',
-    'display':['Autopop Wrinklers OFF', 'Autopop Wrinklers ON'],
+    'hint':'Automatically pop wrinklers efficiently or instantly.',
+    'display':['Autopop Wrinklers OFF', 'Autopop Wrinklers Efficiently', 'Autopop Wrinklers Instantly'],
     'default':0
   },
   'autoReindeer':{
-    'hint':'Automatically click reindeer',
+    'hint':'Automatically click reindeer.',
     'display':['Autoclick Reindeer OFF', 'Autoclick Reindeer ON'],
     'default':0
   },
@@ -38,12 +38,12 @@ FrozenCookies.preferenceValues = {
     'extras':'<a class="option" id="frenzyClickSpeed" onclick="updateSpeed(\'frenzyClickSpeed\');">${frenzyClickSpeed} clicks/sec</a>'
   },
   'autoBlacklistOff':{
-    'hint':'Automatically turns off a blacklist once the goal for that blacklist is achieved',
+    'hint':'Automatically turns off a blacklist once the goal for that blacklist is achieved.',
     'display':['Auto Blacklist OFF', 'Auto Blacklist ON'],
     'default':0
   },
   'blacklist':{
-    'hint':'Blacklist purchases from the efficiency calculations',
+    'hint':'Blacklist purchases from the efficiency calculations.',
     'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist', 'Grandmapocalypse Mode', 'No Buildings'],
     'default':0
   },

@@ -4,11 +4,11 @@ var scriptElement = document.getElementById('frozenCookieScript') !== null ?
 		document.getElementById('modscript_frozen_cookies'),
 	baseUrl = scriptElement !== null ?
 		scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '') :
-		'https://rawgit.com/memethyl/FrozenCookies/master',
+		'https://rawgit.com/memethyl/FrozenCookies/development',
 	FrozenCookies = {
 		'baseUrl': baseUrl,
 		'branch' : 'Beta-',
-		'version': '1.5'
+		'version': '1.5.2'
 	};
 
 // Load external libraries
