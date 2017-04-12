@@ -1662,9 +1662,11 @@ function autoCookie() {
     if (FrozenCookies.autoWrinkler == 2) {
       var popCount = 0;
       var popList = Game.wrinklers;
-      _.filter(Game.wrinklers, function(w) {return _.contains(popList, w.id)}).forEach(function(w) {
-        w.hp = 0;
-        popCount += 1;
+      popList.forEach(function(w){
+        if (w.close == true) {
+          w.hp = 0;
+          popCount += 1;
+        }
       });
       if (popCount > 0) {
         logEvent('Wrinkler', 'Popped ' + popCount + ' wrinklers.');
