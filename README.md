@@ -38,6 +38,12 @@ What can Frozen Cookies do?
 What's new?
 -----------
 
+2017 Apr 14:
+- New option: FPS modifier
+
+2017 Apr 12:
+- Wrinklers can now be popped efficiently or instantly
+
 2017 Mar 31:
 - New option: Auto-ascension
 - Scientific notation changed a fair bit
