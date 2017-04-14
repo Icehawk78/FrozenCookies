@@ -4,7 +4,7 @@ var scriptElement = document.getElementById('frozenCookieScript') !== null ?
 		document.getElementById('modscript_frozen_cookies'),
 	baseUrl = scriptElement !== null ?
 		scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '') :
-		'https://rawgit.com/memethyl/FrozenCookies/development',
+		'https://rawgit.com/memethyl/FrozenCookies/master',
 	FrozenCookies = {
 		'baseUrl': baseUrl,
 		'branch' : '',
