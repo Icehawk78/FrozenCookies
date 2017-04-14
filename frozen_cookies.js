@@ -7,8 +7,8 @@ var scriptElement = document.getElementById('frozenCookieScript') !== null ?
 		'https://rawgit.com/memethyl/FrozenCookies/development',
 	FrozenCookies = {
 		'baseUrl': baseUrl,
-		'branch' : 'Beta-',
-		'version': '1.5.2'
+		'branch' : '',
+		'version': '1.5.3'
 	};
 
 // Load external libraries

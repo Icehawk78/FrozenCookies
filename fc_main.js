@@ -1713,11 +1713,12 @@ function autoCookie() {
           Game.ClosePrompt();
           Game.Reincarnate(1);
         }, 5000);
+        FrozenCookies["autoAscend"] = 1;
       }
     }
 
-    if (parseInt(document.getElementById('fpsButton').innerHTML) != Game.fps) {
-      Game.fps = parseInt(document.getElementById('fpsButton').innerHTML);
+    if (parseInt(FrozenCookies["fpsModifier"]) != Game.fps) {
+      Game.fps = parseInt(FrozenCookies["fpsModifier"]);
     }
     
     // This apparently *has* to stay here, or else fast purchases will multi-click it.
