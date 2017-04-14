@@ -383,7 +383,7 @@ function FCMenu() {
       currHC, resetHC, cps, baseChosen, frenzyChosen, clickStr, buildTable,
       bankLucky, bankLuckyFrenzy, bankChain,
       menu = $('#menu').html('')
-        .append($('<div>').addClass('section').html('Frozen Cookies v ' + FrozenCookies.branch + '.' + FrozenCookies.version)),
+        .append($('<div>').addClass('section').html('Frozen Cookies v ' + FrozenCookies.version)),
       subsection = $('<div>').addClass('subsection')
         .append($('<div>').addClass('title').html('Autobuy Information')),
       recommendation = nextPurchase(),
