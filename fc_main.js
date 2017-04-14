@@ -1715,6 +1715,10 @@ function autoCookie() {
         }, 5000);
       }
     }
+
+    if (parseInt(document.getElementById('fpsButton').innerHTML) != Game.fps) {
+      Game.fps = parseInt(document.getElementById('fpsButton').innerHTML);
+    }
     
     // This apparently *has* to stay here, or else fast purchases will multi-click it.
     if (goldenCookieLife() && FrozenCookies.autoGC) {
