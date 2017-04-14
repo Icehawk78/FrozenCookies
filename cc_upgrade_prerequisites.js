@@ -67,7 +67,7 @@ FrozenCookies.preferenceValues = {
     'hint':'The frame rate at which the game runs. 60 is twice as fast, 15 is half as fast, etc. If you\'re not sure, keep this at 30.',
     'display':['24','25','30','48','50','60','72','90','100','120','144','200','240','300'],
     'default':2
-  }
+  },
   'logging':{
     'hint':'Display detailed logs in the javascript console.',
     'display':['Logging OFF', 'Logging ON'],
