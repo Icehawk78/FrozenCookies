@@ -1717,8 +1717,10 @@ function autoCookie() {
       }
     }
 
-    if (parseInt(document.getElementById('fpsModifierButton').innerHTML) != Game.fps) {
-      Game.fps = parseInt(document.getElementById('fpsModifierButton').innerHTML);
+    if (document.getElementById('fpsModifierButton')) {
+      if (parseInt(document.getElementById('fpsModifierButton').innerHTML) != Game.fps) {
+        Game.fps = parseInt(document.getElementById('fpsModifierButton').innerHTML);
+      }
     }
     
     // This apparently *has* to stay here, or else fast purchases will multi-click it.
