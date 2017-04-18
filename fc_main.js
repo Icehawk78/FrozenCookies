@@ -1700,11 +1700,10 @@ function autoCookie() {
       itemBought = true;
     }
 
-    // not the greatest way of doing it, but it works
     if (FrozenCookies.autoAscend && !Game.OnAscend && !Game.AscendTimer) {
       var currPrestige = Game.prestige;
       var resetPrestige = Game.HowMuchPrestige(Game.cookiesReset + Game.cookiesEarned + wrinklerValue() + chocolateValue());
-      var ascendChips = document.getElementById("chipsToAscend") ? parseInt(document.getElementById("chipsToAscend").innerHTML.split(' ')[0]) : 0;
+      var ascendChips = FrozenCookies.HCAscendAmount;
       if ((resetPrestige-currPrestige) >= ascendChips && ascendChips > 0) {
         Game.ClosePrompt();
         Game.Ascend(1);
@@ -1715,10 +1714,9 @@ function autoCookie() {
       }
     }
 
-    if (document.getElementById('fpsModifierButton')) {
-      if (parseInt(document.getElementById('fpsModifierButton').innerHTML) != Game.fps) {
-        Game.fps = parseInt(document.getElementById('fpsModifierButton').innerHTML);
-      }
+    var fps_amounts = ['24','25','30','48','50','60','72','90','100','120','144','200','240','300'];
+    if (parseInt(fps_amounts[FrozenCookies["fpsModifier"]]) != Game.fps) {
+      Game.fps = parseInt(fps_amounts[FrozenCookies["fpsModifier"]]);
     }
     
     // This apparently *has* to stay here, or else fast purchases will multi-click it.
