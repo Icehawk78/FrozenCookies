@@ -196,7 +196,7 @@ Upcoming features!
  - Add less terrible UI, including more detailed tooltips, and possible color/icon markers indicating relative efficiency of purchases.
  - Add the ability to set custom Golden Click ratio and Cookie Click ratio for more accurate valuation of Golden Cookie upgrades and Mouse upgrades.
  - Add a toggle to make timers utilise Effective CPS rather than Current CPS for "Time to Completion"
- - Other stuff? (If you're a visitor and have other ideas to be added, go here to let me know: https://github.com/Icehawk78/FrozenCookies/issues/new )
+ - Other stuff? (If you're a visitor and have other ideas to be added, go here to let me know: https://github.com/memethyl/FrozenCookies/issues/new )
 
 Efficiency? What's that?
 ========================
