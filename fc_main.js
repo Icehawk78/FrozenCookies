@@ -660,7 +660,7 @@ function chocolateValue(bankAmount, earthShatter) {
 
 function wrinklerValue() {
     return Game.wrinklers.reduce(function(s, w) {
-        return s + popValue(w.sucked);
+        return s + popValue(w);
     }, 0);
 }
 
@@ -1647,8 +1647,13 @@ function wrinklerMod(num) {
     return 1.1 * num * num * 0.05 * (Game.Has('Wrinklerspawn') ? 1.05 : 1) + (1 - 0.05 * num);
 }
 
-function popValue(sucked) {
-    return sucked * 1.1 * (Game.Has('Wrinklerspawn') ? 1.05 : 1);
+function popValue(w) {
+    var toSuck=1.1;
+    if (Game.Has('Sacrilegious corruption')) toSuck*=1.05;
+    if (w.type==1) toSuck*=3;//shiny wrinklers are an elusive, profitable breed
+    var sucked = w.sucked*toSuck;//cookie dough does weird things inside wrinkler digestive tracts
+    if (Game.Has('Wrinklerspawn')) sucked*=1.05;
+    return sucked;
 }
 
 function shouldPopWrinklers() {
@@ -1669,7 +1674,7 @@ function shouldPopWrinklers() {
                 var futureWrinklers = living.length - (current.ids.length + 1);
                 if (current.total < nextRecNeeded && effectiveCps(delay, Game.elderWrath, futureWrinklers) + nextRecCps > effectiveCps()) {
                     current.ids.push(w.id);
-                    current.total += popValue(w.sucked);
+                    current.total += popValue(w);
                 }
                 return current;
             }, {
