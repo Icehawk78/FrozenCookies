@@ -8,14 +8,14 @@ How to use
 
 ## Bookmarklet install
 
-1. Paste the *contents* (not the url) of https://rawgit.com/memethyl/FrozenCookies/master/fc_bookmarklet_loader.js into a bookmark.
+1. Paste the *contents* (not the url) of https://rawgit.com/Lordshinjo/FrozenCookies/master/fc_bookmarklet_loader.js into a bookmark.
 2. Load up Cookie Clicker.
 3. Load the recently created bookmark.
 
 ## Userscript install
 
 0. If you don't already have it, install the required browser add-on. [Tampermonkey (Chrome)](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) or [Greasemonkey (Firefox)](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/)
-1. Go to https://rawgit.com/memethyl/FrozenCookies/master/fc_userscript_loader.user.js
+1. Go to https://rawgit.com/Lordshinjo/FrozenCookies/master/fc_bookmarklet_loader.js
 2. Click the 'install' button in the upper right corner.
 3. Load up Cookie Clicker.
 
@@ -32,7 +32,7 @@ What can Frozen Cookies do?
  - Calculates far more building/upgrade efficiency information that any person ever wants to know, and displays it in a not extremely user friendly manner.
  - Automatically updates to the most recent version upon load. Regardless of if that version is better or not.
  - Might not eat all of your cookies.
- 
+
  *Note: Not guaranteed to actually be the most efficient purchase. Just the most efficient that I currently know of.
 
 What's new?
@@ -196,7 +196,7 @@ Upcoming features!
  - Add less terrible UI, including more detailed tooltips, and possible color/icon markers indicating relative efficiency of purchases.
  - Add the ability to set custom Golden Click ratio and Cookie Click ratio for more accurate valuation of Golden Cookie upgrades and Mouse upgrades.
  - Add a toggle to make timers utilise Effective CPS rather than Current CPS for "Time to Completion"
- - Other stuff? (If you're a visitor and have other ideas to be added, go here to let me know: https://github.com/memethyl/FrozenCookies/issues/new )
+ - Other stuff? (If you're a visitor and have other ideas to be added, go here to let me know: https://github.com/Lordshinjo/FrozenCookies/issues/new )
 
 Efficiency? What's that?
 ========================
@@ -206,13 +206,13 @@ Frozen Cookies uses a custom tweaked Efficiency calculation to determine what th
                cost         cost
     1.15 * ----------- + ---------
            current cps   delta cps
-           
+
 This originated from the assertion that, for any purchases A and B, purchase A is superior if and only if the following inequality is true:
 
     a.cost     b.cost       b.cost     a.cost
     ------ + -----------  < ------ + -----------
      CPS     a.CPS + CPS     CPS     b.CPS + CPS
-     
+
 Initially, this was just simplified down to (cost/cps + cost/Δ cps), but thanks to a number of repeated simulations by Vandalite, it was found that adding a modifier to the (cost/cps) section very slightly increased the optimal build speed, as can be seen here:
 
 ![Cookie Monster uses the more naïve (cost/Δ CPS) formula, which is far less efficient than either of the Frozen Cookie efficiency algorithms.](http://i.imgur.com/BvVRadm.png)
@@ -270,15 +270,15 @@ Other Information
  - **Frenzy CPS**: This is how many cookies you create every second, when a Frenzy is active. (Marked with (*) when this is the current CPS.)
  - **Estimated Effective CPS**: This is an estimate (over time) of roughly how many cookies you create every second, when including the effects of clicking Golden Cookies. This will currently be the same as the Base CPS if Autoclick GC is turned off.
  - **Game Started**: How long it's been since the most recent reset.
- 
+
 Internal Information
 --------------------
-This is actually a table of literally every purchase that Frozen Cookies is currently considering buying. 
+This is actually a table of literally every purchase that Frozen Cookies is currently considering buying.
  - **Efficiency**: The calculated Efficiency value of that purchase. This returns Infinity if the Δ CPS is negative. Smaller numbers are better.
  - **Cost**: The cost of either the individual purchase, or the entire chain, for chained upgrades.
  - **Δ CPS**: The full CPS change that buying this purchase would have. Includes estimated Golden Cookie CPS changes, meaning that it may be negative (especially for Elder Covenant.)
- 
- 
+
+
 Known Issues
 ============
 
@@ -287,7 +287,7 @@ Known Issues
  - ~~Currently will not buy or recommend buying chains of buildings in order to unlock an upgrade that, itself, might be the most efficient purchase even when combined with the cost of the prerequisite buildings.~~
  - Reports of people buying upgrades and having the cost deducted, but the purchase reverted has been noted. This is difficult to reproduce and *may* have already been fixed, but that is not currently guaranteed. Recommend saving before making any large upgrade purchases, just in case.
  - Possibly other things?
- 
+
 Contact Us!
 ===========
 

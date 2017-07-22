@@ -1,26 +1,21 @@
 // ==UserScript==
 // @name           Frozen Cookies
 // @version        github-latest
-// @description    Userscript to load Frozen Cookies written by Icehawk78, forked by haerik
-// @author         shinji257
-// @homepage       https://github.com/Icehawk78/FrozenCookies
+// @description    Userscript to load Frozen Cookies written by Icehawk78, forked by Lordshinjo
+// @author         Lordshinjo
+// @homepage       https://github.com/Lordshinjo/FrozenCookies
 // @include        http://orteil.dashnet.org/cookieclicker/
-// @updateURL      https://rawgithub.com/haerik/FrozenCookies/master/fc_userscript_loader.js
-// @downloadURL    https://rawgithub.com/haerik/FrozenCookies/master/fc_userscript_loader.js
+// @updateURL      https://rawgithub.com/Lordshinjo/FrozenCookies/master/fc_userscript_loader.js
+// @downloadURL    https://rawgithub.com/Lordshinjo/FrozenCookies/master/fc_userscript_loader.js
 // @run-at         document-start
 // ==/UserScript==
 
-// Dev:       https://raw.github.com/Icehawk78/FrozenCookies/development/
-// Master:    https://raw.github.com/Icehawk78/FrozenCookies/master/
-// Github.io: http://icehawk78.github.io/FrozenCookies/
-// Change URL to point to haerik's fork... remove download/update urls...
+// Dev:       https://raw.github.com/Lordshinjo/FrozenCookies/development/
+// Master:    https://raw.github.com/Lordshinjo/FrozenCookies/master/
+// Github.io: http://lordshinjo.github.io/FrozenCookies/
 
 function LoadFrozenCookies() {
-  var js = document.createElement('script');
-  js.setAttribute('type', 'text/javascript');
-  js.setAttribute('id', 'frozenCookieScript');
-  js.setAttribute('src', 'https://rawgithub.com/memethyl/FrozenCookies/master/frozen_cookies.js');
-  document.head.appendChild(js);
+    Game.LoadMod('https://rawgit.com/Lordshinjo/FrozenCookies/master/frozen_cookies.js');
 }
 
 window.addEventListener("load", LoadFrozenCookies, false);
