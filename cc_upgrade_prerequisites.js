@@ -102,7 +102,7 @@ function buildUpgradeList() {
     var res = /if\s?\(this\.amount>=(\d+)\)\s?Game\.Unlock\((.+?)\);/.exec(matched);
     var template = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
     template[b.id] += eval(res[1]);
-    
+
     return Game.Upgrades[eval(res[2])] ? {id: Game.Upgrades[eval(res[2])].id, buildings: template, upgrades: []} : eval(res[2]).map(function(u){return {id: Game.Upgrades[u].id, buildings: template, upgrades: []}});
   })})));
 }
@@ -127,6 +127,7 @@ var upgradeJson = [
   {'id':44,'buildings':[0,50,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':110,'buildings':[0,100,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':192,'buildings':[0,200,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
+  {'id':307,'buildings':[0,250,0,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
 
   {'id':10,'buildings':[0,0,1,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':11,'buildings':[0,0,1,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
@@ -134,6 +135,7 @@ var upgradeJson = [
   {'id':45,'buildings':[0,0,50,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':111,'buildings':[0,0,100,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':193,'buildings':[0,0,200,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
+  {'id':308,'buildings':[0,0,250,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
 
   {'id':16,'buildings':[0,0,0,1,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':17,'buildings':[0,0,0,1,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
@@ -141,6 +143,7 @@ var upgradeJson = [
   {'id':47,'buildings':[0,0,0,50,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':113,'buildings':[0,0,0,100,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':195,'buildings':[0,0,0,200,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
+  {'id':309,'buildings':[0,0,0,250,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
 
   {'id':13,'buildings':[0,0,0,0,1,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':14,'buildings':[0,0,0,0,1,0,0,0,0,0,0,0,0,0],'upgrades':[]},
@@ -148,6 +151,7 @@ var upgradeJson = [
   {'id':46,'buildings':[0,0,0,0,50,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':112,'buildings':[0,0,0,0,100,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':194,'buildings':[0,0,0,0,200,0,0,0,0,0,0,0,0,0],'upgrades':[]},
+  {'id':310,'buildings':[0,0,0,0,250,0,0,0,0,0,0,0,0,0],'upgrades':[]},
 
   {'id':232,'buildings':[0,0,0,0,0,1,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':233,'buildings':[0,0,0,0,0,1,0,0,0,0,0,0,0,0],'upgrades':[]},
@@ -155,6 +159,7 @@ var upgradeJson = [
   {'id':235,'buildings':[0,0,0,0,0,50,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':236,'buildings':[0,0,0,0,0,100,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':237,'buildings':[0,0,0,0,0,200,0,0,0,0,0,0,0,0],'upgrades':[]},
+  {'id':311,'buildings':[0,0,0,0,0,250,0,0,0,0,0,0,0,0],'upgrades':[]},
 
   {'id':238,'buildings':[0,0,0,0,0,0,1,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':239,'buildings':[0,0,0,0,0,0,1,0,0,0,0,0,0,0],'upgrades':[]},
@@ -162,6 +167,7 @@ var upgradeJson = [
   {'id':241,'buildings':[0,0,0,0,0,0,50,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':242,'buildings':[0,0,0,0,0,0,100,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':243,'buildings':[0,0,0,0,0,0,200,0,0,0,0,0,0,0],'upgrades':[]},
+  {'id':312,'buildings':[0,0,0,0,0,0,250,0,0,0,0,0,0,0],'upgrades':[]},
 
   {'id':244,'buildings':[0,0,0,0,0,0,0,1,0,0,0,0,0,0],'upgrades':[]},
   {'id':245,'buildings':[0,0,0,0,0,0,0,1,0,0,0,0,0,0],'upgrades':[]},
@@ -169,6 +175,7 @@ var upgradeJson = [
   {'id':247,'buildings':[0,0,0,0,0,0,0,50,0,0,0,0,0,0],'upgrades':[]},
   {'id':248,'buildings':[0,0,0,0,0,0,0,100,0,0,0,0,0,0],'upgrades':[]},
   {'id':249,'buildings':[0,0,0,0,0,0,0,200,0,0,0,0,0,0],'upgrades':[]},
+  {'id':313,'buildings':[0,0,0,0,0,0,0,250,0,0,0,0,0,0],'upgrades':[]},
 
   {'id':19,'buildings':[0,0,0,0,0,0,0,0,1,0,0,0,0,0],'upgrades':[]},
   {'id':20,'buildings':[0,0,0,0,0,0,0,0,1,0,0,0,0,0],'upgrades':[]},
@@ -176,6 +183,7 @@ var upgradeJson = [
   {'id':48,'buildings':[0,0,0,0,0,0,0,0,50,0,0,0,0,0],'upgrades':[]},
   {'id':114,'buildings':[0,0,0,0,0,0,0,0,100,0,0,0,0,0],'upgrades':[]},
   {'id':196,'buildings':[0,0,0,0,0,0,0,0,200,0,0,0,0,0],'upgrades':[]},
+  {'id':314,'buildings':[0,0,0,0,0,0,0,0,250,0,0,0,0,0],'upgrades':[]},
 
   {'id':22,'buildings':[0,0,0,0,0,0,0,0,0,1,0,0,0,0],'upgrades':[]},
   {'id':23,'buildings':[0,0,0,0,0,0,0,0,0,1,0,0,0,0],'upgrades':[]},
@@ -183,6 +191,7 @@ var upgradeJson = [
   {'id':49,'buildings':[0,0,0,0,0,0,0,0,0,50,0,0,0,0],'upgrades':[]},
   {'id':115,'buildings':[0,0,0,0,0,0,0,0,0,100,0,0,0,0],'upgrades':[]},
   {'id':197,'buildings':[0,0,0,0,0,0,0,0,0,200,0,0,0,0],'upgrades':[]},
+  {'id':315,'buildings':[0,0,0,0,0,0,0,0,0,250,0,0,0,0],'upgrades':[]},
 
   {'id':25,'buildings':[0,0,0,0,0,0,0,0,0,0,1,0,0,0],'upgrades':[]},
   {'id':26,'buildings':[0,0,0,0,0,0,0,0,0,0,1,0,0,0],'upgrades':[]},
@@ -190,6 +199,7 @@ var upgradeJson = [
   {'id':50,'buildings':[0,0,0,0,0,0,0,0,0,0,50,0,0,0],'upgrades':[]},
   {'id':116,'buildings':[0,0,0,0,0,0,0,0,0,0,100,0,0,0],'upgrades':[]},
   {'id':198,'buildings':[0,0,0,0,0,0,0,0,0,0,200,0,0,0],'upgrades':[]},
+  {'id':316,'buildings':[0,0,0,0,0,0,0,0,0,0,250,0,0,0],'upgrades':[]},
 
   {'id':28,'buildings':[0,0,0,0,0,0,0,0,0,0,0,1,0,0],'upgrades':[]},
   {'id':29,'buildings':[0,0,0,0,0,0,0,0,0,0,0,1,0,0],'upgrades':[]},
@@ -197,6 +207,7 @@ var upgradeJson = [
   {'id':51,'buildings':[0,0,0,0,0,0,0,0,0,0,0,50,0,0],'upgrades':[]},
   {'id':117,'buildings':[0,0,0,0,0,0,0,0,0,0,0,100,0,0],'upgrades':[]},
   {'id':199,'buildings':[0,0,0,0,0,0,0,0,0,0,0,200,0,0],'upgrades':[]},
+  {'id':317,'buildings':[0,0,0,0,0,0,0,0,0,0,0,250,0,0],'upgrades':[]},
 
   {'id':99,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,1,0],'upgrades':[]},
   {'id':100,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,1,0],'upgrades':[]},
@@ -204,6 +215,7 @@ var upgradeJson = [
   {'id':102,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,50,0],'upgrades':[]},
   {'id':118,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,100,0],'upgrades':[]},
   {'id':200,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,200,0],'upgrades':[]},
+  {'id':318,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,250,0],'upgrades':[]},
 
   {'id':175,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,0,1],'upgrades':[]},
   {'id':176,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,0,1],'upgrades':[]},
@@ -211,7 +223,8 @@ var upgradeJson = [
   {'id':178,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,0,50],'upgrades':[]},
   {'id':179,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,0,100],'upgrades':[]},
   {'id':201,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,0,200],'upgrades':[]},
-  
+  {'id':319,'buildings':[0,0,0,0,0,0,0,0,0,0,0,0,0,250],'upgrades':[]},
+
   {'id':57,'buildings':[0,1,15,0,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':58,'buildings':[0,1,0,15,0,0,0,0,0,0,0,0,0,0],'upgrades':[]},
   {'id':59,'buildings':[0,1,0,0,15,0,0,0,0,0,0,0,0,0],'upgrades':[]},
@@ -224,7 +237,7 @@ var upgradeJson = [
   {'id':250,'buildings':[0,1,0,0,0,0,0,0,0,0,0,15,0,0],'upgrades':[]},
   {'id':251,'buildings':[0,1,0,0,0,0,0,0,0,0,0,0,15,0],'upgrades':[]},
   {'id':252,'buildings':[0,1,0,0,0,0,0,0,0,0,0,0,0,15],'upgrades':[]},
-  
+
   {'id':64,'buildings':[0,6,0,0,0,0,0,0,0,0,0],'upgrades':[57,58,59,60,61,62,63]},
   {'id':65,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[64]},
   {'id':66,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[65]},
@@ -239,12 +252,12 @@ var upgradeJson = [
   {'id':75,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[73]},
   {'id':84,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[73]},
   {'id':85,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[73]},
-  
+
   {'id':130,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[129]},
   {'id':131,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[130]},
   {'id':132,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[131]},
   {'id':133,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[132]},
-  
+
   {'id':152,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[182]},
   {'id':153,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[152],'santa':1},
   {'id':154,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[152],'santa':1},
@@ -261,11 +274,11 @@ var upgradeJson = [
   {'id':165,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[152],'santa':1},
   {'id':166,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[152],'santa':1},
   {'id':168,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[152],'santa':14},
-  
+
   {'id':182,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[181]},
   {'id':183,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[181]},
   {'id':184,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[181]},
-  
+
   {'id':134,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183], 'wrinklers':1},
   {'id':135,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183], 'wrinklers':1},
   {'id':136,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183], 'wrinklers':1},
@@ -273,7 +286,7 @@ var upgradeJson = [
   {'id':138,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183], 'wrinklers':1},
   {'id':139,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183], 'wrinklers':1},
   {'id':140,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[69,183], 'wrinklers':1},
-  
+
   {'id':143,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[182]},
   {'id':144,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[182]},
   {'id':145,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[182]},
@@ -281,7 +294,7 @@ var upgradeJson = [
   {'id':147,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[182]},
   {'id':148,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[182]},
   {'id':149,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[182]},
-  
+
   {'id':169,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[184]},
   {'id':170,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[169,184]},
   {'id':171,'buildings':[0,0,0,0,0,0,0,0,0,0,0],'upgrades':[170,184]},
