@@ -219,34 +219,39 @@ function drawCircles(t_d, x, y) {
 }
 
 function hasBuildingSpecialBuff() {
-    if(Game.hasBuff('High-five') > 0) { return Game.hasBuff('High-five'); }
-    if(Game.hasBuff('Slap to the face') > 0) { return Game.hasBuff('Slap to the face'); }
-    if(Game.hasBuff('Congregation') > 0) { return Game.hasBuff('Congregation'); }
-    if(Game.hasBuff('Senility') > 0) { return Game.hasBuff('Senility'); }
-    if(Game.hasBuff('Luxuriant harvest') > 0) { return Game.hasBuff('Luxuriant harvest'); }
-    if(Game.hasBuff('Locusts') > 0) { return Game.hasBuff('Locusts'); }
-    if(Game.hasBuff('Ore vein') > 0) { return Game.hasBuff('Ore vein'); }
-    if(Game.hasBuff('Cave-in') > 0) { return Game.hasBuff('Cave-in'); }
-    if(Game.hasBuff('Oiled-up') > 0) { return Game.hasBuff('Oiled-up'); }
-    if(Game.hasBuff('Jammed machinery') > 0) { return Game.hasBuff('Jammed machinery'); }
-    if(Game.hasBuff('Juicy profits') > 0) { return Game.hasBuff('Juicy profits'); }
-    if(Game.hasBuff('Recession') > 0) { return Game.hasBuff('Recession'); }
-    if(Game.hasBuff('Fervent adoration') > 0) { return Game.hasBuff('Fervent adoration'); }
-    if(Game.hasBuff('Crisis of faith') > 0) { return Game.hasBuff('Crisis of faith'); }
-    if(Game.hasBuff('Manabloom') > 0) { return Game.hasBuff('Manabloom'); }
-    if(Game.hasBuff('Magivores') > 0) { return Game.hasBuff('Magivores'); }
-    if(Game.hasBuff('Delicious lifeforms') > 0) { return Game.hasBuff('Delicious lifeforms'); }
-    if(Game.hasBuff('Black holes') > 0) { return Game.hasBuff('Black holes'); }
-    if(Game.hasBuff('Breakthrough') > 0) { return Game.hasBuff('Breakthrough'); }
-    if(Game.hasBuff('Lab disaster') > 0) { return Game.hasBuff('Lab disaster'); }
-    if(Game.hasBuff('Righteous cataclysm') > 0) { return Game.hasBuff('Righteous cataclysm'); }
-    if(Game.hasBuff('Dimensional calamity') > 0) { return Game.hasBuff('Dimensional calamity'); }
-    if(Game.hasBuff('Golden ages') > 0) { return Game.hasBuff('Golden ages'); }
-    if(Game.hasBuff('Time jam') > 0) { return Game.hasBuff('Time jam'); }
-    if(Game.hasBuff('Extra cycles') > 0) { return Game.hasBuff('Extra cycles'); }
-    if(Game.hasBuff('Predictable tragedy') > 0) { return Game.hasBuff('Predictable tragedy'); }
-    if(Game.hasBuff('Solar flare') > 0) { return Game.hasBuff('Solar flare'); }
-    if(Game.hasBuff('Eclipse') > 0) { return Game.hasBuff('Eclipse'); }
+    if(Game.hasBuff('High-five')) { return buffDuration('High-five'); }
+    if(Game.hasBuff('Slap to the face')) { return buffDuration('Slap to the face'); }
+    if(Game.hasBuff('Congregation')) { return buffDuration('Congregation'); }
+    if(Game.hasBuff('Senility')) { return buffDuration('Senility'); }
+    if(Game.hasBuff('Luxuriant harvest')) { return buffDuration('Luxuriant harvest'); }
+    if(Game.hasBuff('Locusts')) { return buffDuration('Locusts'); }
+    if(Game.hasBuff('Ore vein')) { return buffDuration('Ore vein'); }
+    if(Game.hasBuff('Cave-in')) { return buffDuration('Cave-in'); }
+    if(Game.hasBuff('Oiled-up')) { return buffDuration('Oiled-up'); }
+    if(Game.hasBuff('Jammed machinery')) { return buffDuration('Jammed machinery'); }
+    if(Game.hasBuff('Juicy profits')) { return buffDuration('Juicy profits'); }
+    if(Game.hasBuff('Recession')) { return buffDuration('Recession'); }
+    if(Game.hasBuff('Fervent adoration')) { return buffDuration('Fervent adoration'); }
+    if(Game.hasBuff('Crisis of faith')) { return buffDuration('Crisis of faith'); }
+    if(Game.hasBuff('Manabloom')) { return buffDuration('Manabloom'); }
+    if(Game.hasBuff('Magivores')) { return buffDuration('Magivores'); }
+    if(Game.hasBuff('Delicious lifeforms')) { return buffDuration('Delicious lifeforms'); }
+    if(Game.hasBuff('Black holes')) { return buffDuration('Black holes'); }
+    if(Game.hasBuff('Breakthrough')) { return buffDuration('Breakthrough'); }
+    if(Game.hasBuff('Lab disaster')) { return buffDuration('Lab disaster'); }
+    if(Game.hasBuff('Righteous cataclysm')) { return buffDuration('Righteous cataclysm'); }
+    if(Game.hasBuff('Dimensional calamity')) { return buffDuration('Dimensional calamity'); }
+    if(Game.hasBuff('Golden ages')) { return buffDuration('Golden ages'); }
+    if(Game.hasBuff('Time jam')) { return buffDuration('Time jam'); }
+    if(Game.hasBuff('Extra cycles')) { return buffDuration('Extra cycles'); }
+    if(Game.hasBuff('Predictable tragedy')) { return buffDuration('Predictable tragedy'); }
+    if(Game.hasBuff('Solar flare')) { return buffDuration('Solar flare'); }
+    if(Game.hasBuff('Eclipse')) { return buffDuration('Eclipse'); }
+}
+
+function buffDuration(buffName) {
+    var buff = Game.hasBuff(buffName);
+    return buff ? buff.time : 0;
 }
 
 function updateTimers() {
@@ -255,10 +260,10 @@ function updateTimers() {
         gc_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.5) - Game.shimmerTypes.golden.time) / maxCookieTime(),
         gc_max_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.99) - Game.shimmerTypes.golden.time) / maxCookieTime(),
         gc_min_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.01) - Game.shimmerTypes.golden.time) / maxCookieTime(),
-        frenzy_delay = Game.hasBuff('Frenzy') / maxCookieTime(),
-        click_frenzy_delay = Game.hasBuff('Click frenzy') / maxCookieTime(),
+        frenzy_delay = buffDuration('Frenzy') / maxCookieTime(),
+        click_frenzy_delay = buffDuration('Click frenzy') / maxCookieTime(),
         bulding_special_delay = hasBuildingSpecialBuff() / maxCookieTime(),
-        cookie_storm_delay = Game.hasBuff('Cookie storm') / maxCookieTime(),
+        cookie_storm_delay = buffDuration('Cookie storm') / maxCookieTime(),
         decimal_HC_complete = (Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)%1),
         bankTotal = delayAmount(),
         purchaseTotal = nextPurchase().cost,
@@ -344,7 +349,7 @@ function updateTimers() {
             f_percent: frenzy_delay,
             c1: "rgba(255, 0, 0, 1)",
             name: "Frenzy (x" + Game.buffs['Frenzy'].multCpS + ") Time",
-            display: timeDisplay(Game.hasBuff('Frenzy')/Game.fps)
+            display: timeDisplay(buffDuration('Frenzy')/Game.fps)
         });
     }
     if (click_frenzy_delay>0) {
@@ -352,7 +357,7 @@ function updateTimers() {
             f_percent: click_frenzy_delay,
             c1: "rgba(0, 196, 255, 1)",
             name: "Click Frenzy Time",
-            display: timeDisplay(Game.hasBuff('Click frenzy')/Game.fps)
+            display: timeDisplay(buffDuration('Click frenzy')/Game.fps)
         });
     }
     if (bulding_special_delay > 0) {
@@ -368,7 +373,7 @@ function updateTimers() {
             f_percent: cookie_storm_delay,
             c1: "rgba(0, 196, 255, 1)",
             name: "Cookie Storm Time",
-            display: timeDisplay(Game.hasBuff('Cookie storm')/Game.fps)
+            display: timeDisplay(buffDuration('Cookie storm')/Game.fps)
         });
     }
     if (decimal_HC_complete>0) {

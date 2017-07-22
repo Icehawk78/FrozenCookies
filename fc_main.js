@@ -500,7 +500,7 @@ function baseCps() {
 
 function baseClickingCps(clickSpeed) {
     var clickFrenzyMod = hasClickFrenzy();
-    var frenzyMod = (Game.hasBuff('Frenzy') > 0) ? Game.buffs['Frenzy'].multCpS : 1;
+    var frenzyMod = Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1;
     var cpc = Game.mouseCps() / (clickFrenzyMod * frenzyMod);
     return clickSpeed * cpc;
 }
@@ -1688,13 +1688,13 @@ function shouldPopWrinklers() {
 }
 
 function autoFrenzyClick() {
-    if ((hasClickFrenzy() > 1 || Game.hasBuff('Cursed finger') > 0) && !FrozenCookies.autoFrenzyBot) {
+    if ((hasClickFrenzy() > 1 || Game.hasBuff('Cursed finger')) && !FrozenCookies.autoFrenzyBot) {
         if (FrozenCookies.autoclickBot) {
             clearInterval(FrozenCookies.autoclickBot);
             FrozenCookies.autoclickBot = 0;
         }
         FrozenCookies.autoFrenzyBot = setInterval(fcClickCookie, 1000 / FrozenCookies.frenzyClickSpeed);
-    } else if (hasClickFrenzy() == 1 && Game.hasBuff('Cursed finger') == 0 && FrozenCookies.autoFrenzyBot) {
+    } else if (hasClickFrenzy() == 1 && !Game.hasBuff('Cursed finger') && FrozenCookies.autoFrenzyBot) {
         clearInterval(FrozenCookies.autoFrenzyBot);
         FrozenCookies.autoFrenzyBot = 0;
         if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
@@ -1704,12 +1704,12 @@ function autoFrenzyClick() {
 }
 
 function autoGSBuy() {
-    if (Game.hasBuff('Click frenzy') > 0 || Game.hasBuff('Dragonflight') > 0) {
+    if (Game.hasBuff('Click frenzy') || Game.hasBuff('Dragonflight')) {
         if (Game.Upgrades['Golden switch [off]'].unlocked &&
             !Game.Upgrades['Golden switch [off]'].bought) {
             Game.Upgrades['Golden switch [off]'].buy();
         }
-    } else if (Game.hasBuff('Frenzy') == 0) {
+    } else if (!Game.hasBuff('Frenzy')) {
         if (Game.Upgrades['Golden switch [on]'].unlocked &&
             !Game.Upgrades['Golden switch [on]'].bought) {
             Game.CalculateGains(); // Ensure price is updated since Frenzy ended
