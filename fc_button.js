@@ -155,9 +155,19 @@ function drawCircles(t_d, x, y) {
     i_c = 0;
     i_tc = 0;
     t_b = ['rgba(170, 170, 170, 1)','rgba(187, 187, 187, 1)','rgba(204, 204, 204, 1)','rgba(221, 221, 221, 1)','rgba(238, 238, 238, 1)','rgba(255, 255, 255, 1)'];
-    maxWidth = Math.max.apply(null,t_d.map(function(o){return (o.name) ? c.measureText({fontSize: "12px", fontFamily: "Arial", maxWidth:c.width, text: (o.name + (o.display ? ": "+o.display : ""))}).width : 250;}));
-    maxHeight = t_d.map(function(o){return (o.name) ? c.measureText({fontSize: "12px", fontFamily: "Arial", maxWidth:c.width, text: (o.name + (o.display ? ": "+o.display : ""))}).height : 250;})
-                                         .reduce(function(sum,item){return sum+item;},0);
+    var maxText = _.max(t_d.map(function(o) {
+        return o.name ? o.name + (o.display ? ': ' + o.display : '') : '';
+    }), function(str) {
+        return str.length;
+    });
+    var maxMeasure = c.measureText({
+        fontSize: "12px",
+        fontFamily: "Arial",
+        maxWidth: c.width,
+        text: maxText
+    });
+    maxWidth = maxMeasure.width;
+    maxHeight = maxMeasure.height * t_d.length;
     c.drawRect({
         fillStyle: 'rgba(153, 153, 153, 0.6)',
         x: x + maxRadius * 2 + maxWidth / 2 + 35, y: y + maxRadius + 5,
