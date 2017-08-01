@@ -254,9 +254,7 @@ function fcReset() {
     FrozenCookies.frenzyTimes = {};
     FrozenCookies.last_gc_state = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * hasClickFrenzy();
     FrozenCookies.last_gc_time = Date.now();
-    FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s, w) {
-        return s + popValue(w.sucked);
-    }, 0));
+    FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + wrinklerValue());
     FrozenCookies.lastHCTime = Date.now();
     FrozenCookies.maxHCPercent = 0;
     FrozenCookies.prevLastHCTime = Date.now();
@@ -353,9 +351,8 @@ document.addEventListener('keydown', function(event) {
             Game.WriteSave();
         }
         if (event.keyCode == 87) {
-            Game.Notify('Wrinkler Info', 'Popping all wrinklers will give you ' + Beautify(Game.wrinklers.reduce(function(s, w) {
-                return s + popValue(w.sucked);
-            }, 0)) + ' cookies. <input type="button" value="Click here to pop all wrinklers" onclick="Game.CollectWrinklers()"></input>', [19, 8], 7);
+            Game.Notify('Wrinkler Info', 'Popping all wrinklers will give you ' + Beautify(wrinklerValue())
+            + ' cookies. <input type="button" value="Click here to pop all wrinklers" onclick="Game.CollectWrinklers()"></input>', [19, 8], 7);
         }
     }
 });
@@ -663,7 +660,7 @@ function chocolateValue(bankAmount, earthShatter) {
 
 function wrinklerValue() {
     return Game.wrinklers.reduce(function(s, w) {
-        return s + popValue(w.sucked);
+        return s + popValue(w);
     }, 0);
 }
 
@@ -1404,9 +1401,7 @@ function saveStats(fromGraph) {
         time: Date.now() - Game.startDate,
         baseCps: baseCps(),
         effectiveCps: effectiveCps(),
-        hc: Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s, w) {
-            return s + popValue(w.sucked);
-        }, 0))
+        hc: Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + wrinklerValue())
     });
     if ($('#statGraphContainer').length > 0 && !$('#statGraphContainer').is(':hidden') && !fromGraph) {
         viewStatGraphs();
@@ -1652,8 +1647,13 @@ function wrinklerMod(num) {
     return 1.1 * num * num * 0.05 * (Game.Has('Wrinklerspawn') ? 1.05 : 1) + (1 - 0.05 * num);
 }
 
-function popValue(sucked) {
-    return sucked * 1.1 * (Game.Has('Wrinklerspawn') ? 1.05 : 1);
+function popValue(w) {
+    var toSuck=1.1;
+    if (Game.Has('Sacrilegious corruption')) toSuck*=1.05;
+    if (w.type==1) toSuck*=3;//shiny wrinklers are an elusive, profitable breed
+    var sucked = w.sucked*toSuck;//cookie dough does weird things inside wrinkler digestive tracts
+    if (Game.Has('Wrinklerspawn')) sucked*=1.05;
+    return sucked;
 }
 
 function shouldPopWrinklers() {
@@ -1674,7 +1674,7 @@ function shouldPopWrinklers() {
                 var futureWrinklers = living.length - (current.ids.length + 1);
                 if (current.total < nextRecNeeded && effectiveCps(delay, Game.elderWrath, futureWrinklers) + nextRecCps > effectiveCps()) {
                     current.ids.push(w.id);
-                    current.total += popValue(w.sucked);
+                    current.total += popValue(w);
                 }
                 return current;
             }, {
@@ -1745,9 +1745,7 @@ function fcClickCookie() {
 function autoCookie() {
     if (!FrozenCookies.processing && !Game.OnAscend && !Game.AscendTimer) {
         FrozenCookies.processing = true;
-        var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + Game.wrinklers.reduce(function(s, w) {
-            return s + popValue(w.sucked);
-        }, 0));
+        var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + wrinklerValue());
 
         if (Math.floor(FrozenCookies.lastHCAmount) < Math.floor(currentHCAmount)) {
             var changeAmount = currentHCAmount - FrozenCookies.lastHCAmount;
