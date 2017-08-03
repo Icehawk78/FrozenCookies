@@ -219,34 +219,21 @@ function drawCircles(t_d, x, y) {
 }
 
 function hasBuildingSpecialBuff() {
-    if(Game.hasBuff('High-five')) { return buffDuration('High-five'); }
-    if(Game.hasBuff('Slap to the face')) { return buffDuration('Slap to the face'); }
-    if(Game.hasBuff('Congregation')) { return buffDuration('Congregation'); }
-    if(Game.hasBuff('Senility')) { return buffDuration('Senility'); }
-    if(Game.hasBuff('Luxuriant harvest')) { return buffDuration('Luxuriant harvest'); }
-    if(Game.hasBuff('Locusts')) { return buffDuration('Locusts'); }
-    if(Game.hasBuff('Ore vein')) { return buffDuration('Ore vein'); }
-    if(Game.hasBuff('Cave-in')) { return buffDuration('Cave-in'); }
-    if(Game.hasBuff('Oiled-up')) { return buffDuration('Oiled-up'); }
-    if(Game.hasBuff('Jammed machinery')) { return buffDuration('Jammed machinery'); }
-    if(Game.hasBuff('Juicy profits')) { return buffDuration('Juicy profits'); }
-    if(Game.hasBuff('Recession')) { return buffDuration('Recession'); }
-    if(Game.hasBuff('Fervent adoration')) { return buffDuration('Fervent adoration'); }
-    if(Game.hasBuff('Crisis of faith')) { return buffDuration('Crisis of faith'); }
-    if(Game.hasBuff('Manabloom')) { return buffDuration('Manabloom'); }
-    if(Game.hasBuff('Magivores')) { return buffDuration('Magivores'); }
-    if(Game.hasBuff('Delicious lifeforms')) { return buffDuration('Delicious lifeforms'); }
-    if(Game.hasBuff('Black holes')) { return buffDuration('Black holes'); }
-    if(Game.hasBuff('Breakthrough')) { return buffDuration('Breakthrough'); }
-    if(Game.hasBuff('Lab disaster')) { return buffDuration('Lab disaster'); }
-    if(Game.hasBuff('Righteous cataclysm')) { return buffDuration('Righteous cataclysm'); }
-    if(Game.hasBuff('Dimensional calamity')) { return buffDuration('Dimensional calamity'); }
-    if(Game.hasBuff('Golden ages')) { return buffDuration('Golden ages'); }
-    if(Game.hasBuff('Time jam')) { return buffDuration('Time jam'); }
-    if(Game.hasBuff('Extra cycles')) { return buffDuration('Extra cycles'); }
-    if(Game.hasBuff('Predictable tragedy')) { return buffDuration('Predictable tragedy'); }
-    if(Game.hasBuff('Solar flare')) { return buffDuration('Solar flare'); }
-    if(Game.hasBuff('Eclipse')) { return buffDuration('Eclipse'); }
+    for (var i in Game.buffs) {
+        if (Game.buffs[i].type && (Game.buffs[i].type.name == 'building buff' || Game.buffs[i].type.name == 'building debuff')) {
+            return Game.buffs[i].time;
+        }
+    }
+    return 0;
+}
+
+function buildingSpecialBuffValue() {
+    for (var i in Game.buffs) {
+        if (Game.buffs[i].type && (Game.buffs[i].type.name == 'building buff' || Game.buffs[i].type.name == 'building debuff')) {
+            return Game.buffs[i].multCpS;
+        }
+    }
+    return 0;
 }
 
 function buffDuration(buffName) {
@@ -260,9 +247,14 @@ function updateTimers() {
         gc_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.5) - Game.shimmerTypes.golden.time) / maxCookieTime(),
         gc_max_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.99) - Game.shimmerTypes.golden.time) / maxCookieTime(),
         gc_min_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.01) - Game.shimmerTypes.golden.time) / maxCookieTime(),
+        clot_delay = buffDuration('Clot') / maxCookieTime(),
+        elder_frenzy_delay = buffDuration('Elder frenzy') / maxCookieTime(),
         frenzy_delay = buffDuration('Frenzy') / maxCookieTime(),
+        dragon_harvest_delay = buffDuration('Dragon Harvest') / maxCookieTime(),
         click_frenzy_delay = buffDuration('Click frenzy') / maxCookieTime(),
-        bulding_special_delay = hasBuildingSpecialBuff() / maxCookieTime(),
+        dragonflight_delay = buffDuration('Dragonflight') / maxCookieTime(),
+        cursed_finger_delay = buffDuration('Cursed finger') / maxCookieTime(),
+        building_special_delay = hasBuildingSpecialBuff() / maxCookieTime(),
         cookie_storm_delay = buffDuration('Cookie storm') / maxCookieTime(),
         decimal_HC_complete = (Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)%1),
         bankTotal = delayAmount(),
@@ -321,7 +313,7 @@ function updateTimers() {
             });
         }
     }
-    if (gc_delay>0) {
+    if (gc_delay > 0) {
         t_draw.push({
             f_percent: gc_max_delay,
             c1: "rgba(255, 155, 0, 1)",
@@ -344,7 +336,23 @@ function updateTimers() {
 
         });
     }
-    if (frenzy_delay>0) {
+    if (clot_delay > 0) {
+        t_draw.push({
+            f_percent: clot_delay,
+            c1: "rgba(193, 98, 3, 1)",
+            name: "Clot (x" + Game.buffs['Clot'].multCpS + ") Time",
+            display: timeDisplay(buffDuration('Clot')/Game.fps)
+        });
+    }
+    if (elder_frenzy_delay > 0) {
+        t_draw.push({
+            f_percent: elder_frenzy_delay,
+            c1: "rgba(79, 0, 7, 1)",
+            name: "Elder Frenzy (x" + Game.buffs['Elder frenzy'].multCpS + ") Time",
+            display: timeDisplay(buffDuration('Elder frenzy')/Game.fps)
+        });
+    }
+    if (frenzy_delay > 0) {
         t_draw.push({
             f_percent: frenzy_delay,
             c1: "rgba(255, 0, 0, 1)",
@@ -352,19 +360,43 @@ function updateTimers() {
             display: timeDisplay(buffDuration('Frenzy')/Game.fps)
         });
     }
-    if (click_frenzy_delay>0) {
+    if (dragon_harvest_delay > 0) {
+        t_draw.push({
+            f_percent: dragon_harvest_delay,
+            c1: "rgba(206, 180, 49, 1)",
+            name: "Dragon Harvest (x" + Game.buffs['Dragon Harvest'].multCpS + ") Time",
+            display: timeDisplay(buffDuration('Dragon Harvest')/Game.fps)
+        });
+    }
+    if (click_frenzy_delay > 0) {
         t_draw.push({
             f_percent: click_frenzy_delay,
             c1: "rgba(0, 196, 255, 1)",
-            name: "Click Frenzy Time",
+            name: "Click Frenzy (x" + Game.buffs['Click frenzy'].multClick + ") Time",
             display: timeDisplay(buffDuration('Click frenzy')/Game.fps)
         });
     }
-    if (bulding_special_delay > 0) {
+    if (dragonflight_delay > 0) {
         t_draw.push({
-            f_percent: bulding_special_delay,
+            f_percent: dragonflight_delay,
+            c1: "rgba(183, 206, 49, 1)",
+            name: "Dragonflight (x" + Game.buffs['Dragonflight'].multClick + ") Time",
+            display: timeDisplay(buffDuration('Dragonflight')/Game.fps)
+        });
+    }
+    if (cursed_finger_delay > 0) {
+        t_draw.push({
+            f_percent: cursed_finger_delay,
+            c1: "rgba(23, 79, 1, 1)",
+            name: "Cursed Finger Time",
+            display: timeDisplay(buffDuration('Cursed finger')/Game.fps)
+        });
+    }
+    if (building_special_delay > 0) {
+        t_draw.push({
+            f_percent: building_special_delay,
             c1: "rgba(0, 196, 255, 1)",
-            name: "Building Special Time",
+            name: "Building Special (x" + buildingSpecialBuffValue() + ") Time",
             display: timeDisplay(hasBuildingSpecialBuff()/Game.fps)
         });
     }
