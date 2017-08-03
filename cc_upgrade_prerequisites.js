@@ -89,6 +89,11 @@ FrozenCookies.preferenceValues = {
         'display':['Auto-Switch OFF','Auto-Switch ON'],
         'default':0
     },
+    'autoGodzamok':{
+        'hint':'Automatically sell all cursors during Dragonflight and Click Frenzy if you worship Godzamok',
+        'display':['Auto-Godzamok OFF','Auto-Godzamok ON'],
+        'default':0
+    },
     'defaultSeason':{
         'hint':'Season to maintain when no others have needed upgrades',
         'display':['Default Season: None','Default Season: Business Day','Default Season: Christmas','Default Season: Easter','Default Season: Halloween',"Default Season: Valentine's Day"],

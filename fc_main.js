@@ -46,7 +46,7 @@ function setOverrides() {
     // Set default values for calculations
     FrozenCookies.hc_gain = 0;
     FrozenCookies.hc_gain_time = Date.now();
-    FrozenCookies.last_gc_state = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * hasClickFrenzy();
+    FrozenCookies.last_gc_state = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * clickBuffBonus();
     FrozenCookies.last_gc_time = Date.now();
     FrozenCookies.lastCPS = Game.cookiesPs;
     FrozenCookies.lastBaseCPS = Game.cookiesPs;
@@ -252,7 +252,7 @@ function fcReset() {
     }
     Game.oldReset();
     FrozenCookies.frenzyTimes = {};
-    FrozenCookies.last_gc_state = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * hasClickFrenzy();
+    FrozenCookies.last_gc_state = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * clickBuffBonus();
     FrozenCookies.last_gc_time = Date.now();
     FrozenCookies.lastHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + wrinklerValue());
     FrozenCookies.lastHCTime = Date.now();
@@ -474,12 +474,19 @@ function probabilitySpan(listType, start, endProbability) {
     return _.sortedIndex(getProbabilityList(listType), (startProbability + endProbability - startProbability * endProbability));
 }
 
-function hasClickFrenzy() {
+function clickBuffBonus() {
     var ret = 1
     for (var i in Game.buffs) {
-        if (typeof Game.buffs[i].multClick != 'undefined') ret *= Game.buffs[i].multClick;
+        // Devastation, Godzamok's buff, is too variable
+        if (typeof Game.buffs[i].multClick != 'undefined' && Game.buffs[i].name != 'Devastation') {
+            ret *= Game.buffs[i].multClick;
+        }
     }
     return ret;
+}
+
+function hasClickBuff() {
+    return Game.hasBuff('Cursed finger') || clickBuffBonus() > 1;
 }
 
 function baseCps() {
@@ -496,7 +503,7 @@ function baseCps() {
 }
 
 function baseClickingCps(clickSpeed) {
-    var clickFrenzyMod = hasClickFrenzy();
+    var clickFrenzyMod = clickBuffBonus();
     var frenzyMod = Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1;
     var cpc = Game.mouseCps() / (clickFrenzyMod * frenzyMod);
     return clickSpeed * cpc;
@@ -573,7 +580,7 @@ function cookieStats(bankAmount, wrathValue, wrinklerCount) {
     var clickCps = baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
     var frenzyCps = FrozenCookies.autoFrenzy ? baseClickingCps(FrozenCookies.autoFrenzy * FrozenCookies.frenzyClickSpeed) : clickCps;
     var luckyMod = Game.Has('Get lucky') ? 2 : 1;
-    var clickFrenzyMod = hasClickFrenzy();
+    var clickFrenzyMod = clickBuffBonus();
     wrathValue = wrathValue != null ? wrathValue : Game.elderWrath;
     wrinklerCount = wrinklerCount != null ? wrinklerCount : (wrathValue ? 10 : 0);
     var wrinkler = wrinklerMod(wrinklerCount);
@@ -1688,13 +1695,13 @@ function shouldPopWrinklers() {
 }
 
 function autoFrenzyClick() {
-    if ((hasClickFrenzy() > 1 || Game.hasBuff('Cursed finger')) && !FrozenCookies.autoFrenzyBot) {
+    if (hasClickBuff() && !FrozenCookies.autoFrenzyBot) {
         if (FrozenCookies.autoclickBot) {
             clearInterval(FrozenCookies.autoclickBot);
             FrozenCookies.autoclickBot = 0;
         }
         FrozenCookies.autoFrenzyBot = setInterval(fcClickCookie, 1000 / FrozenCookies.frenzyClickSpeed);
-    } else if (hasClickFrenzy() == 1 && !Game.hasBuff('Cursed finger') && FrozenCookies.autoFrenzyBot) {
+    } else if (!hasClickBuff() && FrozenCookies.autoFrenzyBot) {
         clearInterval(FrozenCookies.autoFrenzyBot);
         FrozenCookies.autoFrenzyBot = 0;
         if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
@@ -1704,7 +1711,7 @@ function autoFrenzyClick() {
 }
 
 function autoGSBuy() {
-    if (Game.hasBuff('Click frenzy') || Game.hasBuff('Dragonflight')) {
+    if (hasClickBuff()) {
         if (Game.Upgrades['Golden switch [off]'].unlocked &&
             !Game.Upgrades['Golden switch [off]'].bought) {
             Game.Upgrades['Golden switch [off]'].buy();
@@ -1715,6 +1722,12 @@ function autoGSBuy() {
             Game.CalculateGains(); // Ensure price is updated since Frenzy ended
             Game.Upgrades['Golden switch [on]'].buy();
         }
+    }
+}
+
+function autoGodzamokAction() {
+    if (Game.hasGod('ruin') && Game.Objects['Cursor'].amount > 10 && hasClickBuff()) {
+        Game.Objects['Cursor'].sell(Game.Objects['Cursor'].amount);
     }
 }
 
@@ -1856,7 +1869,7 @@ function autoCookie() {
         if (FrozenCookies.autoBlacklistOff) {
             autoBlacklistOff();
         }
-        var currentFrenzy = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * hasClickFrenzy();
+        var currentFrenzy = (Game.hasBuff('Frenzy') ? Game.buffs['Frenzy'].multCpS : 1) * clickBuffBonus();
         if (currentFrenzy != FrozenCookies.last_gc_state) {
             if (FrozenCookies.last_gc_state != 1 && currentFrenzy == 1) {
                 logEvent('GC', 'Frenzy ended, cookie production x1');
@@ -1874,7 +1887,7 @@ function autoCookie() {
                     FrozenCookies.hc_gain_time = Date.now();
                     FrozenCookies.hc_gain = 0;
                 }
-                logEvent('GC', 'Starting ' + ((hasClickFrenzy > 1) ? 'Clicking ' : '') + 'Frenzy x' + currentFrenzy);
+                logEvent('GC', 'Starting ' + (hasClickBuff() ? 'Clicking ' : '') + 'Frenzy x' + currentFrenzy);
             }
             if (FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] == null) {
                 FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] = 0;
@@ -1914,6 +1927,11 @@ function FCStart() {
         FrozenCookies.autoGSBot = 0;
     }
 
+    if (FrozenCookies.autoGodzamokBot) {
+        clearInterval(FrozenCookies.autoGodzamokBot);
+        FrozenCookies.autoGodzamokBot = 0;
+    }
+
     //  if (!FrozenCookies.saveWrinklers && localStorage.wrinklers) {
     //    delete localStorage.wrinklers;
     //  }
@@ -1944,6 +1962,10 @@ function FCStart() {
 
     if (FrozenCookies.autoGS) {
         FrozenCookies.autoGSBot = setInterval(autoGSBuy, FrozenCookies.frequency)
+    }
+
+    if (FrozenCookies.autoGodzamok) {
+        FrozenCookies.autoGodzamokBot = setInterval(autoGodzamokAction, FrozenCookies.frequency)
     }
 
     if (statSpeed(FrozenCookies.trackStats) > 0) {
