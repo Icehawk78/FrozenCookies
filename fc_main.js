@@ -1124,9 +1124,7 @@ function upgradePrereqCost(upgrade, full) {
     if (upgrade.unlocked) {
         return cost;
     }
-    var prereqs = _.find(upgradeJson, function(a) {
-        return a.id == upgrade.id;
-    });
+    var prereqs = upgradeJson[upgrade.id];
     if (prereqs) {
         cost += prereqs.buildings.reduce(function(sum, item, index) {
             var building = Game.ObjectsById[index];
@@ -1154,9 +1152,7 @@ function unfinishedUpgradePrereqs(upgrade) {
         return null;
     }
     var needed = [];
-    var prereqs = _.find(upgradeJson, function(a) {
-        return a.id == upgrade.id;
-    });
+    var prereqs = upgradeJson[upgrade.id];
     if (prereqs) {
         prereqs.buildings.forEach(function(a, b) {
             if (a && Game.ObjectsById[b].amount < a) {
@@ -1208,9 +1204,7 @@ function upgradeToggle(upgrade, achievements, reverseFunctions) {
     if (!achievements) {
         reverseFunctions = {};
         if (!upgrade.unlocked) {
-            var prereqs = _.find(upgradeJson, function(a) {
-                return a.id == upgrade.id;
-            });
+            var prereqs = upgradeJson[upgrade.id];
             if (prereqs) {
                 reverseFunctions.prereqBuildings = [];
                 prereqs.buildings.forEach(function(a, b) {
