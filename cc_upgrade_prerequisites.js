@@ -20,6 +20,11 @@ FrozenCookies.preferenceValues = {
         'display':['Autopop Wrinklers OFF', 'Autopop Wrinklers Efficiently', 'Autopop Wrinklers Instantly'],
         'default':0
     },
+    'autoSL':{
+        'hint':'Automatically harvest sugar lumps when ripe.',
+        'display':["Autoharvest SL OFF", "Autoharvest SL ON"],
+        'default':0
+    },
     'autoReindeer':{
         'hint':'Automatically click reindeer.',
         'display':['Autoclick Reindeer OFF', 'Autoclick Reindeer ON'],
@@ -90,8 +95,8 @@ FrozenCookies.preferenceValues = {
         'default':0
     },
     'autoGodzamok':{
-        'hint':'Automatically sell all cursors during Dragonflight and Click Frenzy if you worship Godzamok',
-        'display':['Auto-Godzamok OFF','Auto-Godzamok ON'],
+        'hint':'Automatically sell all cursors during Dragonflight and Click Frenzy if you worship Godzamok ("Sane" prevents rapid buy/sell spam)',
+        'display':['Auto-Godzamok OFF','Auto-Godzamok ON','Auto-Godzamok ON (Sane)'],
         'default':0
     },
     'defaultSeason':{
