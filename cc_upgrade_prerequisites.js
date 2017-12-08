@@ -20,6 +20,11 @@ FrozenCookies.preferenceValues = {
         'display':['Autopop Wrinklers OFF', 'Autopop Wrinklers Efficiently', 'Autopop Wrinklers Instantly'],
         'default':0
     },
+    'autoSL':{
+        'hint':'Automatically harvest sugar lumps when ripe.',
+        'display':["Autoharvest SL OFF", "Autoharvest SL ON"],
+        'default':0
+    },
     'autoReindeer':{
         'hint':'Automatically click reindeer.',
         'display':['Autoclick Reindeer OFF', 'Autoclick Reindeer ON'],
