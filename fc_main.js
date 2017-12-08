@@ -1773,6 +1773,13 @@ function autoCookie() {
         if (FrozenCookies.timeTravelAmount) {
             doTimeTravel();
         }
+        if (FrozenCookies.autoSL) {
+             var started = Game.lumpT;
+             var ripeAge = Game.lumpRipeAge;
+             if ((Date.now() - started) >= ripeAge) {
+                 Game.clickLump();
+             }
+        }
         if (FrozenCookies.autoWrinkler == 1) {
             var popCount = 0;
             var popList = shouldPopWrinklers();
