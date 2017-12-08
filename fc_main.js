@@ -1721,7 +1721,7 @@ function autoGSBuy() {
 
 function autoGodzamokAction() {
     //Now won't trigger until current Devastation buff expires (i.e. won't rapidly buy & sell cursors throughout Godzamok duration)
-    if (Game.hasGod('ruin') && Game.Objects['Cursor'].amount > 10 && !Game.hasbuff('Devastation') && hasClickBuff()) {
+    if (Game.hasGod('ruin') && Game.Objects['Cursor'].amount > 10 && !Game.hasBuff('Devastation') && hasClickBuff()) {
         Game.Objects['Cursor'].sell(Game.Objects['Cursor'].amount);
     }
 }
