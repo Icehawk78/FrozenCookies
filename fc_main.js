@@ -1569,7 +1569,7 @@ function fcWin(what) {
             if (Game.Achievements[what].won == 0) {
                 var achname=Game.Achievements[what].shortName?Game.Achievements[what].shortName:Game.Achievements[what].name;
                 Game.Achievements[what].won = 1;
-                logEvent(what + 'achievement set to 1');
+                logEvent(Game.Achievements[what].name + ' won set to ' + Game.Achievements[what].won);
                 if (!FrozenCookies.disabledPopups) {
                     logEvent('Achievement', 'Achievement unlocked :<br>' + Game.Achievements[what].name + '<br> ', true);
                 }
