@@ -1564,6 +1564,7 @@ function doTimeTravel() {
 }
 
 function fcWin(what) {
+    logEvent('fcWin Called')
     if (typeof what === 'string') {
         if (Game.Achievements[what]) {
             if (Game.Achievements[what].won == 0) {
@@ -1572,11 +1573,9 @@ function fcWin(what) {
                 if (!FrozenCookies.disabledPopups) {
                     logEvent('Achievement', 'Achievement unlocked :<br>' + Game.Achievements[what].name + '<br> ', true);
                 }
-                if (FrozenCookies.showAchievements) {
-                    Game.Notify('Achievement unlocked','<div class="title" style="font-size:18px;margin-top:-2px;">'+achname+'</div>',Game.Achievements[what].icon);
-                    logEvent('SHOW ACHIEVEMENTS GOES ONCE')
-                    logEvent(achname)
-                }
+                //if (FrozenCookies.showAchievements) {
+                //    Game.Notify('Achievement unlocked','<div class="title" style="font-size:18px;margin-top:-2px;">'+achname+'</div>',Game.Achievements[what].icon);
+                //}
                 if (Game.Achievements[what].pool != 'shadow') {
                     Game.AchievementsOwned++;
                 }
