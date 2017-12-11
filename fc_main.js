@@ -1562,14 +1562,14 @@ function doTimeTravel() {
       }
     */
 }
-
+//Why the hell is fcWin being called so often? It seems to be getting called repeatedly on the CPS achievements, which should only happen when you actually win them?
 function fcWin(what) {
     if (typeof what === 'string') {
         if (Game.Achievements[what]) {
             if (Game.Achievements[what].won == 0) {
                 var achname=Game.Achievements[what].shortName?Game.Achievements[what].shortName:Game.Achievements[what].name;
                 Game.Achievements[what].won = 1;
-                logEvent(what + 'achievement set to 1')
+                logEvent(what + 'achievement set to 1');
                 if (!FrozenCookies.disabledPopups) {
                     logEvent('Achievement', 'Achievement unlocked :<br>' + Game.Achievements[what].name + '<br> ', true);
                 }
@@ -1583,6 +1583,7 @@ function fcWin(what) {
             }
         }
     } else {
+        logEvent('fcWin Else condition');
         for (var i in what) {
             Game.Win(what[i]);
         }
