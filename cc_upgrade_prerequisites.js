@@ -87,7 +87,8 @@ FrozenCookies.preferenceValues = {
     'showAchievements':{
         'hint':'Show achievement popups',
         'display':['Achievement Popups OFF','Achievement Popups ON'],
-        'default':0,
+        'default':0
+    },
     'numberDisplay':{
         'hint':'Change how numbers are shortened',
         'display':["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (6.3e12)"],
