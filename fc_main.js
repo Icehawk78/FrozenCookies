@@ -1564,7 +1564,7 @@ function doTimeTravel() {
 }
 
 function fcWin(what) {
-    logEvent('fcWin Called', what)
+    logEvent('fcWin Called' + what)
     if (typeof what === 'string') {
         if (Game.Achievements[what]) {
             if (Game.Achievements[what].won == 0) {
