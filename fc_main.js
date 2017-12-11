@@ -1573,6 +1573,7 @@ function fcWin(what) {
                 }
                 if (FrozenCookies.showAchievements) {
                     Game.Notify('Achievement unlocked','<div class="title" style="font-size:18px;margin-top:-2px;">'+name+'</div>',Game.Achievements[what].icon);
+                }
                 if (Game.Achievements[what].pool != 'shadow') {
                     Game.AchievementsOwned++;
                 }
