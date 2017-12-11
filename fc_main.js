@@ -1570,7 +1570,10 @@ function fcWin(what) {
             if (Game.Achievements[what].won == 0) {
                 var achname=Game.Achievements[what].shortName?Game.Achievements[what].shortName:Game.Achievements[what].name;
                 Game.Achievements[what].won = 1;
-                
+                //This happens a ton of times on CPS achievements; it seems like they would be CHECKED for, but a degbug message placed
+                //here gets repeatedly called seeming to indicate that the achievements.won value is 1, even though the achievement isn't
+                //being unlocked. This also means that placing a function to log the achievement spams out messages. Are the Achievement.won
+                //values being turned off before the game checks again? There must be some reason Game.Win is replaced with fcWin
                 if (!FrozenCookies.disabledPopups) {
                     logEvent('Achievement', 'Achievement unlocked :<br>' + Game.Achievements[what].name + '<br> ', true);
                 }
