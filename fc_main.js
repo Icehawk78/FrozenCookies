@@ -102,7 +102,7 @@ function setOverrides() {
     //  if (FrozenCookies.saveWrinklers && localStorage.wrinklers) {
     //    Game.wrinklers = JSON.parse(localStorage.wrinklers);
     //  }
-    Game.Win = fcWin;
+    if (!FrozenCookies.showAchievements) Game.Win = fcWin;
     Game.oldBackground = Game.DrawBackground;
     Game.DrawBackground = function() {
         Game.oldBackground();
@@ -1562,14 +1562,15 @@ function doTimeTravel() {
       }
     */
 }
-//Why the hell is fcWin being called so often? It seems to be getting called repeatedly on the CPS achievements, which should only happen when you actually win them?
+//Why the hell is fcWin being called so often? It seems to be getting called repeatedly on the CPS achievements, 
+//which should only happen when you actually win them?
 function fcWin(what) {
     if (typeof what === 'string') {
         if (Game.Achievements[what]) {
             if (Game.Achievements[what].won == 0) {
                 var achname=Game.Achievements[what].shortName?Game.Achievements[what].shortName:Game.Achievements[what].name;
                 Game.Achievements[what].won = 1;
-                logEvent(Game.Achievements[what].name + ' won set to ' + Game.Achievements[what].won);
+                
                 if (!FrozenCookies.disabledPopups) {
                     logEvent('Achievement', 'Achievement unlocked :<br>' + Game.Achievements[what].name + '<br> ', true);
                 }
