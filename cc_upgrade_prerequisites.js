@@ -85,7 +85,7 @@ FrozenCookies.preferenceValues = {
         'extras':'<a class="option" id="viewStats" onclick="viewStatGraphs();">View Stat Graphs</a>'
     },
     'showAchievements':{
-        'hint':'Show achievement popups',
+        'hint':'Show achievement popups (Kind of broken early game)',
         'display':['Achievement Popups OFF','Achievement Popups ON'],
         'default':0
     },
