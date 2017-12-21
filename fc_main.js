@@ -1988,6 +1988,10 @@ function FCStart() {
     if (FrozenCookies.autoGodzamok) {
         FrozenCookies.autoGodzamokBot = setInterval(autoGodzamokAction, FrozenCookies.frequency)
     }
+    
+    if(FrozenCookies.autoSpell) {
+        setInterval(autoCast, FrozenCookies.frequency)
+    }
 
     if (statSpeed(FrozenCookies.trackStats) > 0) {
         FrozenCookies.statBot = setInterval(saveStats, statSpeed(FrozenCookies.trackStats));
