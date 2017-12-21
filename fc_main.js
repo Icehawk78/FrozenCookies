@@ -448,6 +448,12 @@ function autoCast() {
             case 3:
                 document.getElementById('grimoireSpell3').click();
                 break;
+            case 4:
+                if(cpsBonus() >= 7) document.getElementById('grimoireSpell0').click();
+                break;
+            case 5:
+                if(cpsBonus() >= 7) document.getElementById('grimoireSpell1').click();
+                break;
         }
     }
 }
@@ -498,6 +504,16 @@ function clickBuffBonus() {
         // Devastation, Godzamok's buff, is too variable
         if (typeof Game.buffs[i].multClick != 'undefined' && Game.buffs[i].name != 'Devastation') {
             ret *= Game.buffs[i].multClick;
+        }
+    }
+    return ret;
+}
+
+function cpsBonus() {
+    var ret = 1
+    for (var i in Game.buffs) {
+        if (typeof Game.buffs[i].multCpS != 'undefined') {
+            ret *= Game.buffs[i].multCpS;
         }
     }
     return ret;
