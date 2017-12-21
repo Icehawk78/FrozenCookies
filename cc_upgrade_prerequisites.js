@@ -106,7 +106,7 @@ FrozenCookies.preferenceValues = {
     },
     'autoSpell':{
         'hint':'Automatically cast selected spell when your mana is full.',
-        'display':["Auto Cast OFF","Cojure Baked Goods","Force the Hand of Fate","Spontaneous Edifice"],
+        'display':["Auto Cast OFF","Cojure Baked Goods","Force the Hand of Fate","Spontaneous Edifice","Conjure Baked Goods (Frenzy)","Force the Hand of Fate (Frenzy)"],
         'default':0
     },
     'defaultSeason':{
