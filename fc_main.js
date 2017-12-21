@@ -435,10 +435,19 @@ function toggleFrozen(setting) {
 }
 
 function autoCast() {
-    var spells = [M.spells[0], M.spells[1], M.spells[3] ]; //conjure baked goods, hand of fate, and spontaneous edifice, respectively
-    if (FrozenCookies.autoSpell) {
-        if (M.magic == M.magicM) {
-            M.castSpell(spells[FrozenCookies.autoSpell -1])
+    if (document.getElementById('grimoireBarFull').style.width == '100%') {
+        switch (FrozenCookies.autoSpell) {
+            cast 0:
+                break;
+            case 1: 
+                document.getElementById('grimoireSpell0').click();
+                break;
+            case 2:
+                document.getElementById('grimoireSpell1').click();
+                break;
+            case 3:
+                document.getElementById('grimoireSpell3').click();
+                break;
         }
     }
 }
