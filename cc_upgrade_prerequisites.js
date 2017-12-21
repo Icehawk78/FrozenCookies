@@ -104,6 +104,11 @@ FrozenCookies.preferenceValues = {
         'display':['Auto-Godzamok OFF','Auto-Godzamok ON','Auto-Godzamok ON (Sane)'],
         'default':0
     },
+    'autoSpell':{
+        'hint':'Automatically cast selected spell when your mana is full.',
+        'display':["OFF","Cojure Baked Goods","Force the Hand of Fate","Spontaneous Edifice"],
+        'default':0
+    }
     'defaultSeason':{
         'hint':'Season to maintain when no others have needed upgrades',
         'display':['Default Season: None','Default Season: Business Day','Default Season: Christmas','Default Season: Easter','Default Season: Halloween',"Default Season: Valentine's Day"],
