@@ -437,7 +437,7 @@ function toggleFrozen(setting) {
 function autoCast() {
     if (document.getElementById('grimoireBarFull').style.width == '100%') {
         switch (FrozenCookies.autoSpell) {
-            cast 0:
+            case 0:
                 break;
             case 1: 
                 document.getElementById('grimoireSpell0').click();
