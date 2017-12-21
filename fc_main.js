@@ -434,6 +434,15 @@ function toggleFrozen(setting) {
     FCStart();
 }
 
+function autoCast() {
+    var spells = [M.spells[0], M.spells[1], M.spells[3] ]; //conjure baked goods, hand of fate, and spontaneous edifice, respectively
+    if (FrozenCookies.autoSpell) {
+        if (M.magic == M.magicM) {
+            M.castSpell(spells[FrozenCookies.autoSpell -1])
+        }
+    }
+}
+
 function autoBlacklistOff() {
     switch (FrozenCookies.blacklist) {
         case 1:
