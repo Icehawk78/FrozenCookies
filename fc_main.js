@@ -2015,7 +2015,7 @@ function FCStart() {
     }
     
     if(FrozenCookies.autoSpell) {
-        setInterval(autoCast, FrozenCookies.frequency)
+        setInterval(autoCast, FrozenCookies.frequency*10)
     }
 
     if (statSpeed(FrozenCookies.trackStats) > 0) {
