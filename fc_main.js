@@ -27,7 +27,7 @@ function setOverrides() {
     FrozenCookies.cookieClickSpeed = preferenceParse('cookieClickSpeed', 0);
     FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed', 0);
     FrozenCookies.HCAscendAmount = preferenceParse('HCAscendAmount', 0);
-    FrozenCookies.minCpSMult = preferenceParse('minCpSMult', 0);
+    FrozenCookies.minCpSMult = preferenceParse('minCpSMult', 1);
 
     // Becomes 0 almost immediately after user input, so default to 0
     FrozenCookies.timeTravelAmount = 0;
@@ -380,7 +380,7 @@ function updateSpeed(base) {
 }
 
 function getCpSMultMin(current) {
-    var newMin = prompt('What CpS multiplier should trigger Auto Casting (e.g. "7" will trigger when you have full mana and a Frenzy [but not if you also have a clot])?', current);
+    var newMin = prompt('What CpS multiplier should trigger Auto Casting (e.g. "7" will trigger when you have full mana and a Frenzy, "1" prevents triggering during a clot, etc.)?', current);
     if (typeof(newMin) == 'undefined' || newMin == null || isNaN(Number(newMin)) || Number(newMin) < 0) {
         newMin = current;
     }
