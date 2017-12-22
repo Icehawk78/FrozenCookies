@@ -459,10 +459,10 @@ function autoCast() {
             case 0:
                 break;
             case 1: 
-                if(cpsBonus() >= minCpSMult) document.getElementById('grimoireSpell0').click();
+                if(cpsBonus() >= FrozenCookies.minCpSMult) document.getElementById('grimoireSpell0').click();
                 break;
             case 2:
-                if(cpsBonus() >= minCpSMult) document.getElementById('grimoireSpell1').click();
+                if(cpsBonus() >= FrozenCookies.minCpSMult) document.getElementById('grimoireSpell1').click();
                 break;
             case 3:
                 document.getElementById('grimoireSpell3').click();
