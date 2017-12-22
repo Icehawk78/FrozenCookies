@@ -379,6 +379,24 @@ function updateSpeed(base) {
     }
 }
 
+function getCpSMultMin(current) {
+    current = 0;
+    var newMin = prompt('What CpS multiplier should trigger Auto Casting (e.g. '7' will trigger when you have full mana and a Frenzy [but not if you also have a clot])?', current);
+    if (typeof(newMin) == 'undefined' || newAmount == null || isNaN(Number(newAmount)) || Number(newAmount) < 0) {
+        newMin = current;
+    }
+    return Number(newMin);
+}
+
+function updateCpSMultMin(base) {
+    var newMin = getCpSMultMin(FrozenCookies[base]);
+    if (newMin != FrozenCookies[base]) {
+        FrozenCookies[base] = newMin;
+        updateLocalStorage();
+        FCStart();
+    }
+}
+
 function getAscendAmount(current) {
     current = 0;
     var newAmount = prompt('How many heavenly chips do you want to auto-ascend at?', current);
