@@ -102,7 +102,7 @@ function setOverrides() {
     //  if (FrozenCookies.saveWrinklers && localStorage.wrinklers) {
     //    Game.wrinklers = JSON.parse(localStorage.wrinklers);
     //  }
-    if (!FrozenCookies.showAchievements) Game.Win = fcWin;
+    Game.Win = fcWin;
     Game.oldBackground = Game.DrawBackground;
     Game.DrawBackground = function() {
         Game.oldBackground();
