@@ -382,7 +382,7 @@ function updateSpeed(base) {
 function getCpSMultMin(current) {
     current = 0;
     var newMin = prompt('What CpS multiplier should trigger Auto Casting (e.g. "7" will trigger when you have full mana and a Frenzy [but not if you also have a clot])?', current);
-    if (typeof(newMin) == 'undefined' || newAmount == null || isNaN(Number(newAmount)) || Number(newAmount) < 0) {
+    if (typeof(newMin) == 'undefined' || newMin == null || isNaN(Number(newMin)) || Number(newMin) < 0) {
         newMin = current;
     }
     return Number(newMin);
