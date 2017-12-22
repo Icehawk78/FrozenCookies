@@ -112,7 +112,7 @@ FrozenCookies.preferenceValues = {
         'hint':'Automatically cast selected spell when your mana is full.',
         'display':["Auto Cast OFF","Cojure Baked Goods","Force the Hand of Fate","Spontaneous Edifice"],
         'default':0,
-        'extras':'<a class="option" id="minCpSMult" onclick="updateSpeed(\'minCpSMult\');">x${minCpSMult} minimum Frenzy</a>'
+        'extras':'<a class="option" id="minCpSMult" onclick="updateCpSMultMin(\'minCpSMult\');">x${minCpSMult} minimum Frenzy</a>'
     },
     'defaultSeason':{
         'hint':'Season to maintain when no others have needed upgrades',
