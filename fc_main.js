@@ -27,6 +27,7 @@ function setOverrides() {
     FrozenCookies.cookieClickSpeed = preferenceParse('cookieClickSpeed', 0);
     FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed', 0);
     FrozenCookies.HCAscendAmount = preferenceParse('HCAscendAmount', 0);
+    FrozenCookies.minCpSMult = preferenceParse('minCpSMult', 0);
 
     // Becomes 0 almost immediately after user input, so default to 0
     FrozenCookies.timeTravelAmount = 0;
@@ -440,19 +441,13 @@ function autoCast() {
             case 0:
                 break;
             case 1: 
-                document.getElementById('grimoireSpell0').click();
+                if(cpsBonus() >= minCpSMult) document.getElementById('grimoireSpell0').click();
                 break;
             case 2:
-                document.getElementById('grimoireSpell1').click();
+                if(cpsBonus() >= minCpSMult) document.getElementById('grimoireSpell1').click();
                 break;
             case 3:
                 document.getElementById('grimoireSpell3').click();
-                break;
-            case 4:
-                if(cpsBonus() >= 7) document.getElementById('grimoireSpell0').click();
-                break;
-            case 5:
-                if(cpsBonus() >= 7) document.getElementById('grimoireSpell1').click();
                 break;
         }
     }
