@@ -480,7 +480,7 @@ function autoCast() {
 }
 
 function mostExpensive() {
-    if (Game.Objects['Chancemaker'].amount >= 400) return 4.1300226e40;
+    if (Game.Objects['Chancemaker'].amount >= 399) return 4.1300226e40;
     var highestCost = 0 
     for (var i in Game.Objects) {
         if (i.amount < 400) {
