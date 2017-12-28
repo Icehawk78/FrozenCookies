@@ -467,12 +467,14 @@ function autoCast() {
                 var exit = 0;
                 for (var i in Game.Objects) {
                     if (i.amount < 400) {
+                        console.log("Casting SE");
                         document.getElementById('grimoireSpell3').click();
                         exit = 1;
                         break;
                     }
                 }
                 if (!exit) {
+                    console.log('Exit = ' + exit);
                     console.log('Selling Chancemaker');
                     Game.Objects['Chancemaker'].sell(1);
                     document.getElementById('grimoireSpell3').click();
