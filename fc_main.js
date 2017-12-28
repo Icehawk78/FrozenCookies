@@ -471,7 +471,9 @@ function autoCast() {
                             return;
                         }
                     }
-                    while (Game.Objects['Chancemaker'].amount >= 400) Game.Objects['Chancemaker'].sell(1);
+                    while (Game.Objects['Chancemaker'].amount >= 400) {
+                        Game.Objects['Chancemaker'].sell(1);
+                        logEvent('Store', 'Sold 1 Chancemaker for ' + Beautify(Game.Objects['Chancemaker'].price*1.15*.85))
                     document.getElementById('grimoireSpell3').click();
                 }
                 return;
