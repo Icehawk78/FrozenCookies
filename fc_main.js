@@ -925,6 +925,13 @@ function recommendationList(recalculate) {
                 }
             }
         }
+        if (FrozenCookies.autoSpell && Game.Objects['Wizard tower'].amount >= 517) {
+            for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
+                if (FrozenCookies.caches.recommendationList[i].id == 7) {
+                    FrozenCookies.caches.recommendationList.splice(i , 1);
+                }
+            }
+        }
         if (FrozenCookies.pastemode) {
             FrozenCookies.caches.recommendationList.reverse();
         }
