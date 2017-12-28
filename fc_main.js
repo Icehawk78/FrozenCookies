@@ -918,6 +918,13 @@ function recommendationList(recalculate) {
             .sort(function(a, b) {
                 return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
             }));
+        if (FrozenCookies.autoSpell == 3 && Game.Objects['Chancemaker'].amount >= 399) {
+            for (var i = 0, i < FrozenCookies.caches.recommendationList.length, i++) {
+                if (FrozenCookies.caches.recommendationList[i].id == 14) {
+                    FrozenCookies.caches.recommendationList.splice(i , 1);
+                }
+            }
+        }
         if (FrozenCookies.pastemode) {
             FrozenCookies.caches.recommendationList.reverse();
         }
