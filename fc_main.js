@@ -464,21 +464,14 @@ function autoCast() {
                 if(cpsBonus() >= FrozenCookies.minCpSMult) document.getElementById('grimoireSpell1').click();
                 break;
             case 3:
-                var exit = 0;
                 for (var i in Game.Objects) {
                     if (i.amount < 400) {
-                        console.log("Casting SE");
                         document.getElementById('grimoireSpell3').click();
-                        exit = 1;
-                        break;
+                        return;
                     }
                 }
-                if (!exit) {
-                    console.log('Exit = ' + exit);
-                    console.log('Selling Chancemaker');
-                    Game.Objects['Chancemaker'].sell(1);
-                    document.getElementById('grimoireSpell3').click();
-                }
+                while (Game.Objects['Chancemaker'].amount >= 400) Game.Objects['Chancemaker'].sell(1);
+                document.getElementById('grimoireSpell3').click();
                 break;
         }
     }
@@ -1878,8 +1871,17 @@ function autoCookie() {
         }
 
         var itemBought = false;
-
-        if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
+        var mostExpensive = 0
+        
+        for (var i in Game.Objects) {
+            if (i.amount < 400) {
+                if (i.price > mostExpensive) mostExpensive = i.price;
+            }
+        }
+        
+        if (mostExpensive == 0) mostExpensive = 4.1300226e40
+        
+        if (FrozenCookies.autoBuy && (Game.cookies >= mostExpensive || !(FrozenCookies.AutoSpell == 3) && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
             //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
             recommendation.time = Date.now() - Game.startDate;
             //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
