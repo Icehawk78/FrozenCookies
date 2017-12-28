@@ -473,6 +473,7 @@ function autoCast() {
                     }
                 }
                 if (!exit) {
+                    console.log('Selling Chancemaker');
                     Game.Objects['Chancemaker'].sell(1);
                     document.getElementById('grimoireSpell3').click();
                 }
