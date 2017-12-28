@@ -464,19 +464,32 @@ function autoCast() {
                 if(cpsBonus() >= FrozenCookies.minCpSMult) document.getElementById('grimoireSpell1').click();
                 return;
             case 3:
-                for (var i in Game.Objects) {
-                    if (i.amount < 400) {
-                        document.getElementById('grimoireSpell3').click();
-                        return;
+                if (Game.cookies >= FrozenCookies.mostExpensive()/2) {    
+                    for (var i in Game.Objects) {
+                        if (i.amount < 400) {
+                            document.getElementById('grimoireSpell3').click();
+                            return;
+                        }
                     }
+                    while (Game.Objects['Chancemaker'].amount >= 400) Game.Objects['Chancemaker'].sell(1);
+                    document.getElementById('grimoireSpell3').click();
                 }
-                while (Game.Objects['Chancemaker'].amount >= 400) Game.Objects['Chancemaker'].sell(1);
-                document.getElementById('grimoireSpell3').click();
-                break;
+                return;
         }
     }
 }
 
+function mostExpensive() {
+    if (Game.Objects['Chancemaker'].amount >= 400) return 4.1300226e40;
+    var highestCost = 0 
+    for (var i in Game.Objects) {
+        if (i.amount < 400) {
+            if (i.price > highestCost) highestCost = i.price;
+        }
+    }
+    return highestCost;
+}
+    
 function autoBlacklistOff() {
     switch (FrozenCookies.blacklist) {
         case 1:
@@ -1871,17 +1884,8 @@ function autoCookie() {
         }
 
         var itemBought = false;
-        var mostExpensive = 0
         
-        for (var i in Game.Objects) {
-            if (i.amount < 400) {
-                if (i.price > mostExpensive) mostExpensive = i.price;
-            }
-        }
-        
-        if (mostExpensive == 0) mostExpensive = 4.1300226e40;
-        
-        if (FrozenCookies.autoBuy && (Game.cookies >= mostExpensive || !(FrozenCookies.autoSpell == 3)) && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
+        if (FrozenCookies.autoBuy && (Game.cookies >= FrozenCookies.mostExpensive()/2 || !(FrozenCookies.autoSpell == 3)) && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
             //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
             recommendation.time = Date.now() - Game.startDate;
             //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
