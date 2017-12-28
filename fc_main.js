@@ -456,13 +456,13 @@ function autoCast() {
     if (document.getElementById('grimoireBarFull').style.width == '100%') {
         switch (FrozenCookies.autoSpell) {
             case 0:
-                break;
+                return;
             case 1: 
                 if(cpsBonus() >= FrozenCookies.minCpSMult) document.getElementById('grimoireSpell0').click();
-                break;
+                return;
             case 2:
                 if(cpsBonus() >= FrozenCookies.minCpSMult) document.getElementById('grimoireSpell1').click();
-                break;
+                return;
             case 3:
                 for (var i in Game.Objects) {
                     if (i.amount < 400) {
@@ -1879,7 +1879,7 @@ function autoCookie() {
             }
         }
         
-        if (mostExpensive == 0) mostExpensive = 4.1300226e40
+        if (mostExpensive == 0) mostExpensive = 4.1300226e40;
         
         if (FrozenCookies.autoBuy && (Game.cookies >= mostExpensive || !(FrozenCookies.AutoSpell == 3)) && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
             //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
