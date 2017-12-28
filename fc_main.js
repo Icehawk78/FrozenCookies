@@ -464,7 +464,18 @@ function autoCast() {
                 if(cpsBonus() >= FrozenCookies.minCpSMult) document.getElementById('grimoireSpell1').click();
                 break;
             case 3:
-                document.getElementById('grimoireSpell3').click();
+                var exit = 0;
+                for (var i in Game.Objects) {
+                    if (i.amount < 400) {
+                        document.getElementById('grimoireSpell3').click();
+                        exit = 1;
+                        break;
+                    }
+                }
+                if (!exit) {
+                    Game.Objects['Chancemaker'].sell(1);
+                    document.getElementById('grimoireSpell3').click();
+                }
                 break;
         }
     }
