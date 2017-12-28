@@ -464,7 +464,7 @@ function autoCast() {
                 if(cpsBonus() >= FrozenCookies.minCpSMult) document.getElementById('grimoireSpell1').click();
                 return;
             case 3:
-                if (Game.cookies >= FrozenCookies.mostExpensive()/2) {    
+                if (Game.cookies >= mostExpensive()/2) {    
                     for (var i in Game.Objects) {
                         if (i.amount < 400) {
                             document.getElementById('grimoireSpell3').click();
@@ -1885,7 +1885,7 @@ function autoCookie() {
 
         var itemBought = false;
         
-        if (FrozenCookies.autoBuy && (Game.cookies >= FrozenCookies.mostExpensive()/2 || !(FrozenCookies.autoSpell == 3)) && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
+        if (FrozenCookies.autoBuy && (Game.cookies >= mostExpensive()/2 || !(FrozenCookies.autoSpell == 3)) && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
             //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
             recommendation.time = Date.now() - Game.startDate;
             //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
