@@ -466,7 +466,7 @@ function autoCast() {
             case 3:
                 if (Game.cookies >= mostExpensive()/2) {    
                     for (var i in Game.Objects) {
-                        if (i.amount < 400) {
+                        if (Game.Objects[i].amount < 400) {
                             document.getElementById('grimoireSpell3').click();
                             return;
                         }
@@ -486,8 +486,8 @@ function mostExpensive() {
     if (Game.Objects['Chancemaker'].amount >= 399) return 4.1300226e40;
     var highestCost = 0 
     for (var i in Game.Objects) {
-        if (i.amount < 400) {
-            if (i.price > highestCost) highestCost = i.price;
+        if (Game.Objects[i].amount < 400) {
+            if (i.price > highestCost) highestCost = Game.Objects[i].price;
         }
     }
     return highestCost;
