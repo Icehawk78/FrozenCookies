@@ -478,6 +478,9 @@ function autoCast() {
                     document.getElementById('grimoireSpell3').click();
                 }
                 return;
+            case 4:
+                document.getElementById('grimoireSpell4').click();
+                return;
         }
     }
 }
