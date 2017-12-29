@@ -487,7 +487,7 @@ function mostExpensive() {
     var highestCost = 0 
     for (var i in Game.Objects) {
         if (Game.Objects[i].amount < 400) {
-            if (i.price > highestCost) highestCost = Game.Objects[i].price;
+            if (Game.Objects[i].price > highestCost) highestCost = Game.Objects[i].price;
         }
     }
     return highestCost;
