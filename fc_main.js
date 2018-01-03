@@ -1910,8 +1910,13 @@ function autoCookie() {
         }
 
         var itemBought = false;
+        //SEMinimum is floor on banked cookies after purchase when SE autocast is on. This makes sure you maintain half the normal cost
+        //of the most expensive building even if Everything Must Go is active, which would normally lower your floor by 5%
+        var SEMinimum = Game.hasBuff('everything must go') ? (mostExpensive() * (100/95))/2 : mostExpensive()/2;
         
-        if (FrozenCookies.autoBuy && ((Game.cookies >= mostExpensive()/2 + delay + recommendation.cost) || !(FrozenCookies.autoSpell == 3)) && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
+        //Autobuy iff: Autobuy is on && next purchase won't put you below half your most expensive SE building (if SE autocast is on)
+        // & have cookies for the purchase recommendation & the purchase is finitely efficient, or pastemode is on
+        if (FrozenCookies.autoBuy && ((Game.cookies >= SEMinimum + delay + recommendation.cost) || !(FrozenCookies.autoSpell == 3)) && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
             //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
             recommendation.time = Date.now() - Game.startDate;
             //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
