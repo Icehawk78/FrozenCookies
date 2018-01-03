@@ -1822,7 +1822,9 @@ function autoGSBuy() {
 function autoGodzamokAction() {
     //Now has option to not trigger until current Devastation buff expires (i.e. won't rapidly buy & sell cursors throughout Godzamok duration)
     if (Game.hasGod('ruin') && Game.Objects['Cursor'].amount > 10 && (!Game.hasBuff('Devastation') || FrozenCookies.autoGodzamok == 1) && hasClickBuff()) {
+        var count = Game.Objects['Cursor'].amount;
         Game.Objects['Cursor'].sell(Game.Objects['Cursor'].amount);
+        if (FrozenCookies.autoGodzamok == 2) Game.Objects['Cursor'].buy(count);
     }
 }
 
@@ -1909,7 +1911,7 @@ function autoCookie() {
 
         var itemBought = false;
         
-        if (FrozenCookies.autoBuy && (Game.cookies >= mostExpensive()/2 + delay + recommendation.cost || !(FrozenCookies.autoSpell == 3)) && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
+        if (FrozenCookies.autoBuy && ((Game.cookies >= mostExpensive()/2 + delay + recommendation.cost) || !(FrozenCookies.autoSpell == 3)) && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
             //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
             recommendation.time = Date.now() - Game.startDate;
             //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
