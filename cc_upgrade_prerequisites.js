@@ -115,7 +115,7 @@ FrozenCookies.preferenceValues = {
         'extras':'<a class="option" id="minCpSMult" onclick="updateCpSMultMin(\'minCpSMult\');">x${minCpSMult} minimum Frenzy</a>'
     },
     'holdSEBank':{
-        'hint':'Maintain a bank equal to half the cost of your most expensive building under 400, to enable Spontaneous Edifice (if AutoCast is set to SE, this will already happen and this setting does nothing).',
+        'hint':'Maintain a bank for Spontaneous Edifice (already enabled if Auto Casting SE).',
         'display':["SE Bank OFF","SE Bank ON"],
         'default':0,
     },
