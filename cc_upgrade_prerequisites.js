@@ -114,6 +114,11 @@ FrozenCookies.preferenceValues = {
         'default':0,
         'extras':'<a class="option" id="minCpSMult" onclick="updateCpSMultMin(\'minCpSMult\');">x${minCpSMult} minimum Frenzy</a>'
     },
+    'holdSEBank':{
+        'hint':'Maintain a bank equal to half the cost of your most expensive building under 400, to enable Spontaneous Edifice (if AutoCast is set to SE, this will already happen and this setting does nothing).',
+        'display':["SE Bank OFF","SE Bank ON"],
+        'default':0,
+    },
     'defaultSeason':{
         'hint':'Season to maintain when no others have needed upgrades',
         'display':['Default Season: None','Default Season: Business Day','Default Season: Christmas','Default Season: Easter','Default Season: Halloween',"Default Season: Valentine's Day"],
