@@ -928,6 +928,7 @@ function recommendationList(recalculate) {
             .sort(function(a, b) {
                 return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
             }));
+        //If autocasting Spontaneous Edifice, don't buy any Chancemakers after 399
         if (FrozenCookies.autoSpell == 3 && Game.Objects['Chancemaker'].amount >= 399) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 14) {
@@ -935,6 +936,7 @@ function recommendationList(recalculate) {
                 }
             }
         }
+        //Stop buying wizard towers at 100 mana if using AutoSpell
         if (FrozenCookies.autoSpell && Game.Objects['Wizard tower'].amount >= 517) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 7) {
@@ -1914,9 +1916,9 @@ function autoCookie() {
         //of the most expensive building even if Everything Must Go is active, which would normally lower your floor by 5%
         var SEMinimum = Game.hasBuff('everything must go') ? (mostExpensive() * (100/95))/2 : mostExpensive()/2;
         
-        //Autobuy iff: Autobuy is on && next purchase won't put you below half your most expensive SE building (if SE autocast is on)
+        //Autobuy iff: Autobuy is on && next purchase won't put you below half your most expensive SE building (if SE autocast/SE bank maintenance is on)
         // & have cookies for the purchase recommendation & the purchase is finitely efficient, or pastemode is on
-        if (FrozenCookies.autoBuy && ((Game.cookies >= SEMinimum + delay + recommendation.cost) || !(FrozenCookies.autoSpell == 3)) && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
+        if (FrozenCookies.autoBuy && ((Game.cookies >= SEMinimum + delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))) && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
             //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
             recommendation.time = Date.now() - Game.startDate;
             //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
