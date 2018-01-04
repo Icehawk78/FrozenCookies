@@ -502,12 +502,12 @@ function autoRigidel() {
                 swapIn(prev, 0) //put the old one back
             }
         case 1: //Rigidel is already in diamond slot
-            if(timeToRipe < 40) {
+            if(timeToRipe < 60) {
                 rigiSell();
                 Game.clickLump();
             }
         case 2: //Rigidel in Ruby slot,
-            if(timeToRipe < (2/3)) {
+            if(timeToRipe < 40) {
                 rigiSell();
                 Game.clickLump();
             }
