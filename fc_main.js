@@ -497,26 +497,26 @@ function autoRigidel() {
     var orderLvl = Game.hasGod('order') ? Game.hasGod('order') : 0;
     switch (orderLvl) {
         case 0: //Rigidel isn't in a slot
-            if (T.swaps < 2) return; //Don't do anything if we can't swap Rigidel in and back out
+            if (T.swaps < 2 || (T.swaps == 1 && T.slot[0] == -1) ) return; //Don't do anything if we can't swap Rigidel in
             if (timeToRipe < 60) {
                 var prev = T.slot[0] //cache whatever god you have equipped
                 swapIn(10,0); //swap in rigidel
                 rigiSell(); //Meet the %10 condition
                 Game.clickLump(); //harvest the ripe lump, AutoSL probably covers this but this should avoid issues with autoBuy going first and disrupting Rigidel
-                swapIn(prev, 0) //put the old one back
+                if (prev != -1) swapIn(prev, 0); //put the old one back
             }
         case 1: //Rigidel is already in diamond slot
-            if(timeToRipe < 60) {
+            if(timeToRipe < 60 && Game.BuildingsOwned%10) {
                 rigiSell();
                 Game.clickLump();
             }
         case 2: //Rigidel in Ruby slot,
-            if(timeToRipe < 40) {
+            if(timeToRipe < 40 && Game.BuildingsOwned%10) {
                 rigiSell();
                 Game.clickLump();
             }
         case 3: //Rigidel in Jade slot
-            if (timeToRipe < 20) {
+            if (timeToRipe < 20 && Game.BuildingsOwned%10) {
                 rigiSell();
                 Game.clickLump();
             }
@@ -1964,6 +1964,7 @@ function autoCookie() {
                  Game.clickLump();
              }
         }
+        if (FrozenCookies.autoSL == 2) autoRigidel;
         if (FrozenCookies.autoWrinkler == 1) {
             var popCount = 0;
             var popList = shouldPopWrinklers();
@@ -2161,10 +2162,6 @@ function FCStart() {
     
     if(FrozenCookies.autoSpell) {
         setInterval(autoCast, FrozenCookies.frequency*10)
-    }
-    
-    if(FrozenCookies.autoRigidel) {
-        setInterval(autoRigidel, FrozenCookies.frequency)
     }
 
     if (statSpeed(FrozenCookies.trackStats) > 0) {
