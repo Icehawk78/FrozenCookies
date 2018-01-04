@@ -490,8 +490,8 @@ function swapIn(godId, targetSlot) { //mostly code copied from minigamePantheon.
 
 function autoRigidel() {
     var timeToRipe = (Game.lumpRipeAge - (Date.now() - Game.lumpT))/60000; //Minutes until sugar lump ripens
-    var T = Game.Objects['Temple'].minigame;
-    switch (Game.hasGod('order')) {
+    var orderLvl = Game.hasGod('order') ? Game.hasGod('order') : 0;
+    switch (orderLvl) {
         case 0: //Rigidel isn't in a slot
             console.log('Autorigidel activated, case 0');
             if (T.swaps < 2) return; //Don't do anything if we can't swap Rigidel in and back out
