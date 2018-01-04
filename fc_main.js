@@ -457,8 +457,12 @@ var M = Game.Objects['Wizard tower'].minigame;
 
 function rigiSell() {
     //Sell enough cursors to enable Rigidels effect
-    Game.Objects['Cursor'].sell(Game.BuildingsOwned%10)
+    if (Game.BuildingsOwned%10) Game.Objects['Cursor'].sell(Game.BuildingsOwned%10);
     return;
+}
+
+function lumpIn(mins) { //For debugging, set minutes until next lump is *ripe*
+    Game.lumpT = Date.now() - Game.lumpRipeAge + (60000*mins)
 }
 
 function swapIn(godId, targetSlot) { //mostly code copied from minigamePantheon.js, tweaked to avoid references to "dragging"
