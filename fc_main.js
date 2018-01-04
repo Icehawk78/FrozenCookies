@@ -452,24 +452,95 @@ function toggleFrozen(setting) {
     FCStart();
 }
 
+var T = Game.Objects['Temple'].minigame;
+var M = Game.Objects['Wizard tower'].minigame;
+
+function rigiSell() {
+    //Sell enough cursors to enable Rigidels effect
+    Game.Objects['Cursor'].sell(Game.BuildingsOwned%10)
+    return;
+}
+
+function swapIn(godId, targetSlot) { //mostly code copied from minigamePantheon.js, tweaked to avoid references to "dragging"
+    if (T.swaps == 0) return;
+    T.useSwap(1);
+    T.lastSwapT = 0;
+    var div  = l('templeGod' + godId);
+    var prev = T.slot[targetSlot] //id of God currently in slot
+    if (prev != -1) { //when something's in there already
+        prev = T.godsById[prev]; //prev becomes god object
+        var prevDiv = l('templeGod' + prev.id);
+        if (T.godsById[godId].slot != -1) l('templeSlot' + T.godsById[godId].slot).appendChild(prevDiv);
+        else {
+            var other = l('templeGodPlaceholder'+(prev.id));
+            other.parentNode.insertBefore(prevDiv, other);
+        }
+    }
+    l('templeSlot' + targetSlot).appendChild(l('templeGod' + godId));
+    T.slotGod(T.godsById[godId], targetSlot);
+    
+    PlaySound('snd/tick.mp3');
+    PlaySound('snd/spirit.mp3');
+         
+    var rect=l('templeGod' + godId).getBoundingClientRect();
+    Game.SparkleAt((rect.left+rect.right)/2,(rect.top+rect.bottom)/2-24);
+}
+
+
+
+function autoRigidel() {
+    var timeToRipe = (Game.lumpRipeAge - (Date.now() - Game.lumpT))/60000; //Minutes until sugar lump ripens
+    var T = Game.Objects['Temple'].minigame;
+    switch (Game.hasGod('order')) {
+        case 0: //Rigidel isn't in a slot
+            if (T.swaps < 2) return; //Don't do anything if we can't swap Rigidel in and back out
+            if (timeToRipe < 60) {
+                var prev = T.slot[0] //cache whatever god you have equipped
+                swapIn(10,0); //swap in rigidel
+                rigiSell(); //Meet the %10 condition
+                Game.clickLump(); //harvest the ripe lump, AutoSL probably covers this but this should avoid issues with autoBuy going first and disrupting Rigidel
+                swapIn(prev, 0) //put the old one back
+            }
+        case 1: //Rigidel is already in diamond slot
+            if(timeToRipe < 40) {
+                rigiSell();
+                Game.clickLump();
+            }
+        case 2: //Rigidel in Ruby slot,
+            if(timeToRipe < (2/3)) {
+                rigiSell();
+                Game.clickLump();
+            }
+        case 3: //Rigidel in Jade slot
+            if (timeToRipe < 20) {
+                rigiSell();
+                Game.clickLump();
+            }
+    }
+}
+                
+            
+            
+        
+        
 function autoCast() {
-    if (document.getElementById('grimoireBarFull').style.width == '100%') {
+    if (M.magic == M.magicM) {
         switch (FrozenCookies.autoSpell) {
             case 0:
                 return;
             case 1: 
-                if(cpsBonus() >= FrozenCookies.minCpSMult) document.getElementById('grimoireSpell0').click();
+                if(cpsBonus() >= FrozenCookies.minCpSMult) M.castSpell(M.spellsById[0]);
                 logEvent('AutoSpell', 'Cast Conjure Baked Goods');
                 return;
             case 2:
-                if(cpsBonus() >= FrozenCookies.minCpSMult) document.getElementById('grimoireSpell1').click();
+                if(cpsBonus() >= FrozenCookies.minCpSMult) M.castSpell(M.spellsById[1]);
                 logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                 return;
             case 3:
                 if (Game.cookies >= mostExpensive()/2) {    
                     for (var i in Game.Objects) {
                         if (Game.Objects[i].amount < 400) {
-                            document.getElementById('grimoireSpell3').click();
+                            M.castSpell(M.spellsById[3]);
                             return;
                         }
                     }
@@ -482,7 +553,7 @@ function autoCast() {
                 }
                 return;
             case 4:
-                document.getElementById('grimoireSpell4').click();
+                M.castSpell(M.spellsById[4]);
                 logEvent('AutoSpell', 'Cast Haggler\'s Charm');
                 return;
         }
@@ -2081,6 +2152,10 @@ function FCStart() {
     
     if(FrozenCookies.autoSpell) {
         setInterval(autoCast, FrozenCookies.frequency*10)
+    }
+    
+    if(FrozenCookies.autoRigidel) {
+        setInterval(autoRigidel, FrozenCookies.frequency)
     }
 
     if (statSpeed(FrozenCookies.trackStats) > 0) {
