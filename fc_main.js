@@ -1964,7 +1964,7 @@ function autoCookie() {
                  Game.clickLump();
              }
         }
-        if (FrozenCookies.autoSL == 2) autoRigidel;
+        if (FrozenCookies.autoSL == 2) autoRigidel();
         if (FrozenCookies.autoWrinkler == 1) {
             var popCount = 0;
             var popList = shouldPopWrinklers();
