@@ -22,12 +22,7 @@ FrozenCookies.preferenceValues = {
     },
     'autoSL':{
         'hint':'Automatically harvest sugar lumps when ripe.',
-        'display':["Autoharvest SL OFF", "Autoharvest SL ON"],
-        'default':0
-    },
-    'autoRigidel':{
-        'hint':'Automatically equip Rigidel & sell cursors to activate aura when lumps are almost ripe.',
-        'display':["Auto Rigidel OFF", "Auto Rigidel ON"],
+        'display':["Autoharvest SL OFF", "Autoharvest SL ON", "Autoharvest SL ON + Auto Rigidel"],
         'default':0
     },
     'autoReindeer':{
