@@ -493,10 +493,8 @@ function autoRigidel() {
     var orderLvl = Game.hasGod('order') ? Game.hasGod('order') : 0;
     switch (orderLvl) {
         case 0: //Rigidel isn't in a slot
-            console.log('Autorigidel activated, case 0');
             if (T.swaps < 2) return; //Don't do anything if we can't swap Rigidel in and back out
             if (timeToRipe < 60) {
-                console.log('Autorigidel trying to so the swap function');
                 var prev = T.slot[0] //cache whatever god you have equipped
                 swapIn(10,0); //swap in rigidel
                 rigiSell(); //Meet the %10 condition
