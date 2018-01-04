@@ -21,8 +21,8 @@ FrozenCookies.preferenceValues = {
         'default':0
     },
     'autoSL':{
-        'hint':'Automatically harvest sugar lumps when ripe.',
-        'display':["Autoharvest SL OFF", "Autoharvest SL ON"],
+        'hint':'Automatically harvest sugar lumps when ripe, with option to automatically swap in Rigidel.',
+        'display':["Autoharvest SL OFF", "Autoharvest SL ON", "Autoharvest SL ON + Auto Rigidel"],
         'default':0
     },
     'autoReindeer':{
