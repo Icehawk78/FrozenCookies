@@ -529,18 +529,23 @@ function autoCast() {
             case 0:
                 return;
             case 1: 
-                if(cpsBonus() >= FrozenCookies.minCpSMult) M.castSpell(M.spellsById[0]);
-                logEvent('AutoSpell', 'Cast Conjure Baked Goods');
+                if(cpsBonus() >= FrozenCookies.minCpSMult) {
+                    M.castSpell(M.spellsById[0]);
+                    logEvent('AutoSpell', 'Cast Conjure Baked Goods');
+                }
                 return;
             case 2:
-                if(cpsBonus() >= FrozenCookies.minCpSMult) M.castSpell(M.spellsById[1]);
-                logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+                if(cpsBonus() >= FrozenCookies.minCpSMult) {
+                    M.castSpell(M.spellsById[1]);
+                    logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+                }
                 return;
             case 3:
                 if (Game.cookies >= mostExpensive()/2) {    
                     for (var i in Game.Objects) {
                         if (Game.Objects[i].amount < 400) {
                             M.castSpell(M.spellsById[3]);
+                            logEvent('AutoSpell', 'Cast Spontaneous Edifice');
                             return;
                         }
                     }
@@ -548,7 +553,7 @@ function autoCast() {
                         Game.Objects['Chancemaker'].sell(1);
                         logEvent('Store', 'Sold 1 Chancemaker for ' + Beautify(Game.Objects['Chancemaker'].price*1.15*.85))
                     }
-                    document.getElementById('grimoireSpell3').click();
+                    M.castSpell(M.spellsById[3]);
                     logEvent('AutoSpell', 'Cast Spontaneous Edifice');
                 }
                 return;
