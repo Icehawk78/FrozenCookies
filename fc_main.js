@@ -532,7 +532,7 @@ function autoRigidel() {
         
         
 function autoCast() {
-    if (!Game.Objects['Wizard tower'].minigame) return;
+    if (!M) return; //Just leave if you don't have grimoire
     if (M.magic == M.magicM) {
         switch (FrozenCookies.autoSpell) {
             case 0:
@@ -1917,6 +1917,7 @@ function autoGSBuy() {
 }
 
 function autoGodzamokAction() {
+    if (!T) return; //Just leave if Pantheon isn't here yet
     //Now has option to not trigger until current Devastation buff expires (i.e. won't rapidly buy & sell cursors throughout Godzamok duration)
     if (Game.hasGod('ruin') && Game.Objects['Cursor'].amount > 10 && (!Game.hasBuff('Devastation') || FrozenCookies.autoGodzamok == 1) && hasClickBuff()) {
         var count = Game.Objects['Cursor'].amount;
