@@ -903,7 +903,7 @@ function bestBank(minEfficiency) {
     }
     return {
         'cost': edifice,
-        'efficiency': 0
+        'efficiency': 1
     };
 }
 
