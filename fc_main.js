@@ -848,6 +848,9 @@ function estimatedTimeRemaining(cookies) {
     return timeDisplay(cookies / effectiveCps());
 }
 
+function edificeBank() {
+    return Game.hasBuff('everything must go') ? (mostExpensive() * (100/95))/2 : mostExpensive()/2;
+}
 function luckyBank() {
     return baseCps() * 60 * 100;
 }
@@ -884,7 +887,8 @@ function cookieEfficiency(startingPoint, bankAmount) {
 
 function bestBank(minEfficiency) {
     var results = {};
-    var bankLevels = [0, luckyBank(), luckyFrenzyBank(), chainBank()].sort(function(a, b) {
+    var edifice = ((FrozenCookies.autoSpell == 3 || FrozenCookies.holdSEBank) ?  edificeBank() : 0);
+    var bankLevels = [0, luckyBank(), luckyFrenzyBank(), edifice].sort(function(a, b) {
         return b - a;
     }).map(function(bank) {
         return {
@@ -1997,13 +2001,9 @@ function autoCookie() {
         }
 
         var itemBought = false;
-        //SEMinimum is floor on banked cookies after purchase when SE autocast is on. This makes sure you maintain half the normal cost
-        //of the most expensive building even if Everything Must Go is active, which would normally lower your floor by 5%
-        var SEMinimum = Game.hasBuff('everything must go') ? (mostExpensive() * (100/95))/2 : mostExpensive()/2;
         
-        //Autobuy iff: Autobuy is on && next purchase won't put you below half your most expensive SE building (if SE autocast/SE bank maintenance is on)
-        // & have cookies for the purchase recommendation & the purchase is finitely efficient, or pastemode is on
-        if (FrozenCookies.autoBuy && ((Game.cookies >= SEMinimum + delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))) && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
+        //var seConditions = (Game.cookies >= delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))); //true == good on SE bank or don't care about it
+        if (FrozenCookies.autoBuy && ((Game.cookies >= delay + recommendation.cost) || recommendation.purchase.name == "Elder Pledge" || recommendation.efficiency < 1) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
             //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
             recommendation.time = Date.now() - Game.startDate;
             //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
