@@ -888,7 +888,7 @@ function cookieEfficiency(startingPoint, bankAmount) {
 function bestBank(minEfficiency) {
     var results = {};
     var edifice = ((FrozenCookies.autoSpell == 3 || FrozenCookies.holdSEBank) ?  edificeBank() : 0);
-    var bankLevels = [0, luckyBank(), luckyFrenzyBank(), edifice].sort(function(a, b) {
+    var bankLevels = [0, luckyBank(), luckyFrenzyBank()].sort(function(a, b) {
         return b - a;
     }).map(function(bank) {
         return {
@@ -898,7 +898,13 @@ function bestBank(minEfficiency) {
     }).filter(function(bank) {
         return (bank.efficiency >= 0 && bank.efficiency <= minEfficiency) ? bank : null;
     });
-    return bankLevels[0];
+    if (bankLevels[0].cost > edifice) {
+        return bankLevels[0];
+    }
+    return {
+        'cost': edifice,
+        'efficiency': 0
+    };
 }
 
 function weightedCookieValue(useCurrent) {
