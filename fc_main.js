@@ -532,6 +532,7 @@ function autoRigidel() {
         
         
 function autoCast() {
+    if (!Game.Objects['Wizard tower'].minigame) return;
     if (M.magic == M.magicM) {
         switch (FrozenCookies.autoSpell) {
             case 0:
