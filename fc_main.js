@@ -1920,10 +1920,10 @@ function autoGSBuy() {
 function autoGodzamokAction() {
     if (!T) return; //Just leave if Pantheon isn't here yet
     //Now has option to not trigger until current Devastation buff expires (i.e. won't rapidly buy & sell cursors throughout Godzamok duration)
-    if (Game.hasGod('ruin') && Game.Objects['Cursor'].amount > 10 && (!Game.hasBuff('Devastation') || FrozenCookies.autoGodzamok == 1) && hasClickBuff()) {
+    if (Game.hasGod('ruin') && Game.Objects['Cursor'].amount > 10 && (!Game.hasBuff('Devastation') || FrozenCookies.autoGodzamok == 1 || FrozenCookies.autoGodzamok == 3) && hasClickBuff()) {
         var count = Game.Objects['Cursor'].amount;
-        Game.Objects['Cursor'].sell(Game.Objects['Cursor'].amount);
-        if (FrozenCookies.autoGodzamok == 2) Game.Objects['Cursor'].buy(count);
+        Game.Objects['Cursor'].sell(count);
+        if (FrozenCookies.autoGodzamok > 1) Game.Objects['Cursor'].buy(count);
     }
 }
 
