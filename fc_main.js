@@ -493,6 +493,7 @@ function swapIn(godId, targetSlot) { //mostly code copied from minigamePantheon.
 
 
 function autoRigidel() {
+    if (!T) return; //Exit if pantheon doesnt even exist
     var timeToRipe = (Game.lumpRipeAge - (Date.now() - Game.lumpT))/60000; //Minutes until sugar lump ripens
     var orderLvl = Game.hasGod('order') ? Game.hasGod('order') : 0;
     switch (orderLvl) {
@@ -1951,6 +1952,7 @@ function fcClickCookie() {
 }
 
 function autoCookie() {
+    console.log('autocookie called');
     if (!FrozenCookies.processing && !Game.OnAscend && !Game.AscendTimer) {
         FrozenCookies.processing = true;
         var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + wrinklerValue());
