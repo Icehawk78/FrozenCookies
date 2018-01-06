@@ -493,6 +493,7 @@ function swapIn(godId, targetSlot) { //mostly code copied from minigamePantheon.
 
 
 function autoRigidel() {
+    if (!T) return; //Exit if pantheon doesnt even exist
     var timeToRipe = (Game.lumpRipeAge - (Date.now() - Game.lumpT))/60000; //Minutes until sugar lump ripens
     var orderLvl = Game.hasGod('order') ? Game.hasGod('order') : 0;
     switch (orderLvl) {
@@ -532,6 +533,7 @@ function autoRigidel() {
         
         
 function autoCast() {
+    if (!M) return; //Just leave if you don't have grimoire
     if (M.magic == M.magicM) {
         switch (FrozenCookies.autoSpell) {
             case 0:
@@ -1916,6 +1918,7 @@ function autoGSBuy() {
 }
 
 function autoGodzamokAction() {
+    if (!T) return; //Just leave if Pantheon isn't here yet
     //Now has option to not trigger until current Devastation buff expires (i.e. won't rapidly buy & sell cursors throughout Godzamok duration)
     if (Game.hasGod('ruin') && Game.Objects['Cursor'].amount > 10 && (!Game.hasBuff('Devastation') || FrozenCookies.autoGodzamok == 1) && hasClickBuff()) {
         var count = Game.Objects['Cursor'].amount;
@@ -1949,6 +1952,7 @@ function fcClickCookie() {
 }
 
 function autoCookie() {
+    //console.log('autocookie called');
     if (!FrozenCookies.processing && !Game.OnAscend && !Game.AscendTimer) {
         FrozenCookies.processing = true;
         var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + wrinklerValue());
@@ -2011,6 +2015,7 @@ function autoCookie() {
         //var seConditions = (Game.cookies >= delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))); //true == good on SE bank or don't care about it
         if (FrozenCookies.autoBuy && ((Game.cookies >= delay + recommendation.cost) || recommendation.purchase.name == "Elder Pledge") && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
             //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
+            //console.log('something should get bought');
             recommendation.time = Date.now() - Game.startDate;
             //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
             recommendation.purchase.clickFunction = null;
