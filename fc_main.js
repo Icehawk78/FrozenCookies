@@ -559,7 +559,7 @@ function autoCast() {
                 //If you don't have any chancemakers yet, or can't cast SE, just give up.
                 if (Game.Objects['Chancemaker'].amount == 0 || M.magicM < Math.floor(SE.costMin + SE.costPercent*M.magicM)) return;
                 //If we have over 400 CM, always going to sell down to 399. If you don't have half a Chancemaker in bank, sell one
-                while (Game.Objects['Chancemaker'].amount >= 400 || Game.cookies < Game.Objects['Chancemaker'].price) {
+                while (Game.Objects['Chancemaker'].amount >= 400 || Game.cookies < Game.Objects['Chancemaker'].price/2) {
                    Game.Objects['Chancemaker'].sell(1);
                    logEvent('Store', 'Sold 1 Chancemaker for ' + Beautify(Game.Objects['Chancemaker'].price*1.15*.85));
                 }
