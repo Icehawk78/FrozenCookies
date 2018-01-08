@@ -538,52 +538,42 @@ function autoCast() {
         switch (FrozenCookies.autoSpell) {
             case 0:
                 return;
-            case 1: 
+            case 1:
+                var CBG = M.spellsById[0];
+                if (M.magicM < Math.floor(CBG.costMin + CBG.costPercent*M.magicM)) return;
                 if(cpsBonus() >= FrozenCookies.minCpSMult) {
-                    M.castSpell(M.spellsById[0]);
+                    M.castSpell(CBG);
                     logEvent('AutoSpell', 'Cast Conjure Baked Goods');
                 }
                 return;
             case 2:
+                var FTHOF = M.spellsById[1];
+                if (M.magicM < Math.floor(FTHOF.costMin + FTHOF.costPercent*M.magicM)) return;
                 if(cpsBonus() >= FrozenCookies.minCpSMult) {
-                    M.castSpell(M.spellsById[1]);
+                    M.castSpell(FTHOF);
                     logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                 }
                 return;
             case 3:
-                if (Game.cookies >= mostExpensive()/2) {    
-                    for (var i in Game.Objects) {
-                        if (Game.Objects[i].amount < 400) {
-                            M.castSpell(M.spellsById[3]);
-                            logEvent('AutoSpell', 'Cast Spontaneous Edifice');
-                            return;
-                        }
-                    }
-                    while (Game.Objects['Chancemaker'].amount >= 400) {
-                        Game.Objects['Chancemaker'].sell(1);
-                        logEvent('Store', 'Sold 1 Chancemaker for ' + Beautify(Game.Objects['Chancemaker'].price*1.15*.85))
-                    }
-                    M.castSpell(M.spellsById[3]);
-                    logEvent('AutoSpell', 'Cast Spontaneous Edifice');
+                var SE = M.spellsById[3];
+                //If you don't have any chancemakers yet, or can't cast SE, just give up.
+                if (Game.Objects['Chancemaker'].amount == 0 || M.magicM < Math.floor(SE.costMin + SE.costPercent*M.magicM)) return;
+                //If we have over 400 CM, always going to sell down to 399. If you don't have half a Chancemaker in bank, sell one
+                while (Game.Objects['Chancemaker'].amount >= 400 || Game.cookies < Game.Objects['Chancemaker'].price/2) {
+                   Game.Objects['Chancemaker'].sell(1);
+                   logEvent('Store', 'Sold 1 Chancemaker for ' + Beautify(Game.Objects['Chancemaker'].price*1.15*.85));
                 }
+                M.castSpell(SE);
+                logEvent('AutoSpell', 'Cast Spontaneous Edifice');
                 return;
             case 4:
-                M.castSpell(M.spellsById[4]);
+                var hagC = M.spellsById[4];
+                if (M.magicM < Math.floor(hagC.costMin + hagC.costPercent*M.magicM)) return;
+                M.castSpell(hagC);
                 logEvent('AutoSpell', 'Cast Haggler\'s Charm');
                 return;
         }
     }
-}
-
-function mostExpensive() {
-    if (Game.Objects['Chancemaker'].amount >= 399) return 4.1300226e40;
-    var highestCost = 0 
-    for (var i in Game.Objects) {
-        if (Game.Objects[i].amount < 400) {
-            if (Game.Objects[i].price > highestCost) highestCost = Game.Objects[i].price;
-        }
-    }
-    return highestCost;
 }
     
 function autoBlacklistOff() {
@@ -851,7 +841,8 @@ function estimatedTimeRemaining(cookies) {
 }
 
 function edificeBank() {
-    return Game.hasBuff('everything must go') ? (mostExpensive() * (100/95))/2 : mostExpensive()/2;
+    var cmCost = Game.Objects['Chancemaker'].price;
+    return Game.hasBuff('everything must go') ? (cmCost * (100/95))/2 : cmCost/2;
 }
 function luckyBank() {
     return baseCps() * 60 * 100;
