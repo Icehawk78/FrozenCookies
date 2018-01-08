@@ -840,7 +840,13 @@ function estimatedTimeRemaining(cookies) {
     return timeDisplay(cookies / effectiveCps());
 }
 
+function canCastSE() {
+    if (M.magicM >= 80 && Game.Objects['Chancemaker'].amount > 0) return 1;
+    return 0;
+}
+
 function edificeBank() {
+    if (!canCastSE) return 0;
     var cmCost = Game.Objects['Chancemaker'].price;
     return Game.hasBuff('everything must go') ? (cmCost * (100/95))/2 : cmCost/2;
 }
