@@ -575,17 +575,6 @@ function autoCast() {
         }
     }
 }
-
-function mostExpensive() {
-    if (Game.Objects['Chancemaker'].amount >= 399) return 4.1300226e40;
-    var highestCost = 0 
-    for (var i in Game.Objects) {
-        if (Game.Objects[i].amount < 400) {
-            if (Game.Objects[i].price > highestCost) highestCost = Game.Objects[i].price;
-        }
-    }
-    return highestCost;
-}
     
 function autoBlacklistOff() {
     switch (FrozenCookies.blacklist) {
@@ -852,7 +841,8 @@ function estimatedTimeRemaining(cookies) {
 }
 
 function edificeBank() {
-    return Game.hasBuff('everything must go') ? (mostExpensive() * (100/95))/2 : mostExpensive()/2;
+    var cmCost = Game.Objects['Chancemaker'].price;
+    return Game.hasBuff('everything must go') ? (cmCost * (100/95))/2 : cmCost/2;
 }
 function luckyBank() {
     return baseCps() * 60 * 100;
