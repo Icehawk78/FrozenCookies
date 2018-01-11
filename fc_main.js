@@ -1848,7 +1848,7 @@ function popValue(w) {
 
 function shouldPopWrinklers() {
     var toPop = [];
-    var living = liveWrinklers();
+    var living = (FrozenCookies.shinyPop == 0) ? liveWrinklers() : liveWrinklers.filter( v => v.type == 0);
     if (living.length > 0) {
         if ((Game.season == 'halloween' || Game.season == 'easter') && !haveAll(Game.season)) {
             toPop = living.map(function(w) {
@@ -1856,9 +1856,10 @@ function shouldPopWrinklers() {
             });
         } else {
             var delay = delayAmount();
+            var wrinklerList = (FrozenCookies.shinyPop == 0) ? Game.wrinklers.filter(v => v.type == 0) : Game.wrinklers;
             var nextRecNeeded = nextPurchase().cost + delay - Game.cookies;
             var nextRecCps = nextPurchase().delta_cps;
-            var wrinklersNeeded = Game.wrinklers.sort(function(w1, w2) {
+            var wrinklersNeeded = wrinklerList.sort(function(w1, w2) {
                 return w1.sucked < w2.sucked
             }).reduce(function(current, w) {
                 var futureWrinklers = living.length - (current.ids.length + 1);
