@@ -1955,7 +1955,7 @@ function autoCookie() {
                 setTimeout(function() {
                     Game.ClosePrompt();
                     Game.Reincarnate(1);
-                }, 5000);
+                },10000);
             }
         }
 
