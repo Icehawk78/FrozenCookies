@@ -10,6 +10,11 @@ FrozenCookies.preferenceValues = {
         'default':0,
         'extras':'<a class="option" id="chipsToAscend" onclick="updateAscendAmount(\'HCAscendAmount\');">${HCAscendAmount} heavenly chips</a>'
     },
+    'autoBulk':{
+        'hint':'Automatically set buildings to be bought in bulk after reincarnation.',
+        'display':['Auto Bulkbuy OFF', 'Auto Bulkbuy x10', 'Auto Bulkbuy x100'],
+        'default':0
+    },
     'autoGC':{
         'hint':'Automatically click Golden Cookies when they appear.',
         'display':["Autoclick GC OFF", "Autoclick GC ON"],
