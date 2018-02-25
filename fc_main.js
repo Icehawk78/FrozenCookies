@@ -452,52 +452,128 @@ function toggleFrozen(setting) {
     FCStart();
 }
 
+var T = Game.Objects['Temple'].minigame;
+var M = Game.Objects['Wizard tower'].minigame;
+
+function rigiSell() {
+    //Sell enough cursors to enable Rigidels effect
+    if (Game.BuildingsOwned%10) Game.Objects['Cursor'].sell(Game.BuildingsOwned%10);
+    return;
+}
+
+function lumpIn(mins) { //For debugging, set minutes until next lump is *ripe*
+    Game.lumpT = Date.now() - Game.lumpRipeAge + (60000*mins)
+}
+
+function swapIn(godId, targetSlot) { //mostly code copied from minigamePantheon.js, tweaked to avoid references to "dragging"
+    if (T.swaps == 0) return;
+    T.useSwap(1);
+    T.lastSwapT = 0;
+    var div  = l('templeGod' + godId);
+    var prev = T.slot[targetSlot] //id of God currently in slot
+    if (prev != -1) { //when something's in there already
+        prev = T.godsById[prev]; //prev becomes god object
+        var prevDiv = l('templeGod' + prev.id);
+        if (T.godsById[godId].slot != -1) l('templeSlot' + T.godsById[godId].slot).appendChild(prevDiv);
+        else {
+            var other = l('templeGodPlaceholder'+(prev.id));
+            other.parentNode.insertBefore(prevDiv, other);
+        }
+    }
+    l('templeSlot' + targetSlot).appendChild(l('templeGod' + godId));
+    T.slotGod(T.godsById[godId], targetSlot);
+    
+    PlaySound('snd/tick.mp3');
+    PlaySound('snd/spirit.mp3');
+         
+    var rect=l('templeGod' + godId).getBoundingClientRect();
+    Game.SparkleAt((rect.left+rect.right)/2,(rect.top+rect.bottom)/2-24);
+}
+
+
+
+function autoRigidel() {
+    if (!T) return; //Exit if pantheon doesnt even exist
+    var timeToRipe = (Game.lumpRipeAge - (Date.now() - Game.lumpT))/60000; //Minutes until sugar lump ripens
+    var orderLvl = Game.hasGod('order') ? Game.hasGod('order') : 0;
+    switch (orderLvl) {
+        case 0: //Rigidel isn't in a slot
+            if (T.swaps < 2 || (T.swaps == 1 && T.slot[0] == -1) ) return; //Don't do anything if we can't swap Rigidel in
+            if (timeToRipe < 60) {
+                var prev = T.slot[0] //cache whatever god you have equipped
+                swapIn(10,0); //swap in rigidel
+                Game.computeLumpTimes();
+                rigiSell(); //Meet the %10 condition
+                Game.clickLump(); //harvest the ripe lump, AutoSL probably covers this but this should avoid issues with autoBuy going first and disrupting Rigidel
+                if (prev != -1) swapIn(prev, 0); //put the old one back
+            }
+        case 1: //Rigidel is already in diamond slot
+            if(timeToRipe < 60 && Game.BuildingsOwned%10) {
+                rigiSell();
+                Game.computeLumpTimes();
+                Game.clickLump();
+            }
+        case 2: //Rigidel in Ruby slot,
+            if(timeToRipe < 40 && Game.BuildingsOwned%10) {
+                rigiSell();
+                Game.computeLumpTimes();
+                Game.clickLump();
+            }
+        case 3: //Rigidel in Jade slot
+            if (timeToRipe < 20 && Game.BuildingsOwned%10) {
+                rigiSell();
+                Game.computeLumpTimes();
+                Game.clickLump();
+            }
+    }
+}
+                
+            
+            
+        
+        
 function autoCast() {
-    if (document.getElementById('grimoireBarFull').style.width == '100%') {
+    if (!M) return; //Just leave if you don't have grimoire
+    if (M.magic == M.magicM) {
         switch (FrozenCookies.autoSpell) {
             case 0:
                 return;
-            case 1: 
-                if(cpsBonus() >= FrozenCookies.minCpSMult) document.getElementById('grimoireSpell0').click();
-                logEvent('AutoSpell', 'Cast Conjure Baked Goods');
-                return;
-            case 2:
-                if(cpsBonus() >= FrozenCookies.minCpSMult) document.getElementById('grimoireSpell1').click();
-                logEvent('AutoSpell', 'Cast Force the Hand of Fate');
-                return;
-            case 3:
-                if (Game.cookies >= mostExpensive()/2) {    
-                    for (var i in Game.Objects) {
-                        if (Game.Objects[i].amount < 400) {
-                            document.getElementById('grimoireSpell3').click();
-                            return;
-                        }
-                    }
-                    while (Game.Objects['Chancemaker'].amount >= 400) {
-                        Game.Objects['Chancemaker'].sell(1);
-                        logEvent('Store', 'Sold 1 Chancemaker for ' + Beautify(Game.Objects['Chancemaker'].price*1.15*.85))
-                    }
-                    document.getElementById('grimoireSpell3').click();
-                    logEvent('AutoSpell', 'Cast Spontaneous Edifice');
+            case 1:
+                var CBG = M.spellsById[0];
+                if (M.magicM < Math.floor(CBG.costMin + CBG.costPercent*M.magicM)) return;
+                if(cpsBonus() >= FrozenCookies.minCpSMult) {
+                    M.castSpell(CBG);
+                    logEvent('AutoSpell', 'Cast Conjure Baked Goods');
                 }
                 return;
+            case 2:
+                var FTHOF = M.spellsById[1];
+                if (M.magicM < Math.floor(FTHOF.costMin + FTHOF.costPercent*M.magicM)) return;
+                if(cpsBonus() >= FrozenCookies.minCpSMult) {
+                    M.castSpell(FTHOF);
+                    logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+                }
+                return;
+            case 3:
+                var SE = M.spellsById[3];
+                //If you don't have any chancemakers yet, or can't cast SE, just give up.
+                if (Game.Objects['Chancemaker'].amount == 0 || M.magicM < Math.floor(SE.costMin + SE.costPercent*M.magicM)) return;
+                //If we have over 400 CM, always going to sell down to 399. If you don't have half a Chancemaker in bank, sell one
+                while (Game.Objects['Chancemaker'].amount >= 400 || Game.cookies < Game.Objects['Chancemaker'].price/2) {
+                   Game.Objects['Chancemaker'].sell(1);
+                   logEvent('Store', 'Sold 1 Chancemaker for ' + Beautify(Game.Objects['Chancemaker'].price*1.15*.85));
+                }
+                M.castSpell(SE);
+                logEvent('AutoSpell', 'Cast Spontaneous Edifice');
+                return;
             case 4:
-                document.getElementById('grimoireSpell4').click();
+                var hagC = M.spellsById[4];
+                if (M.magicM < Math.floor(hagC.costMin + hagC.costPercent*M.magicM)) return;
+                M.castSpell(hagC);
                 logEvent('AutoSpell', 'Cast Haggler\'s Charm');
                 return;
         }
     }
-}
-
-function mostExpensive() {
-    if (Game.Objects['Chancemaker'].amount >= 399) return 4.1300226e40;
-    var highestCost = 0 
-    for (var i in Game.Objects) {
-        if (Game.Objects[i].amount < 400) {
-            if (Game.Objects[i].price > highestCost) highestCost = Game.Objects[i].price;
-        }
-    }
-    return highestCost;
 }
     
 function autoBlacklistOff() {
@@ -764,6 +840,16 @@ function estimatedTimeRemaining(cookies) {
     return timeDisplay(cookies / effectiveCps());
 }
 
+function canCastSE() {
+    if (M.magicM >= 80 && Game.Objects['Chancemaker'].amount > 0) return 1;
+    return 0;
+}
+
+function edificeBank() {
+    if (!canCastSE) return 0;
+    var cmCost = Game.Objects['Chancemaker'].price;
+    return Game.hasBuff('everything must go') ? (cmCost * (100/95))/2 : cmCost/2;
+}
 function luckyBank() {
     return baseCps() * 60 * 100;
 }
@@ -800,7 +886,8 @@ function cookieEfficiency(startingPoint, bankAmount) {
 
 function bestBank(minEfficiency) {
     var results = {};
-    var bankLevels = [0, luckyBank(), luckyFrenzyBank(), chainBank()].sort(function(a, b) {
+    var edifice = ((FrozenCookies.autoSpell == 3 || FrozenCookies.holdSEBank) ?  edificeBank() : 0);
+    var bankLevels = [0, luckyBank(), luckyFrenzyBank()].sort(function(a, b) {
         return b - a;
     }).map(function(bank) {
         return {
@@ -810,7 +897,13 @@ function bestBank(minEfficiency) {
     }).filter(function(bank) {
         return (bank.efficiency >= 0 && bank.efficiency <= minEfficiency) ? bank : null;
     });
-    return bankLevels[0];
+    if (bankLevels[0].cost > edifice) {
+        return bankLevels[0];
+    }
+    return {
+        'cost': edifice,
+        'efficiency': 1
+    };
 }
 
 function weightedCookieValue(useCurrent) {
@@ -928,6 +1021,7 @@ function recommendationList(recalculate) {
             .sort(function(a, b) {
                 return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
             }));
+        //If autocasting Spontaneous Edifice, don't buy any Chancemakers after 399
         if (FrozenCookies.autoSpell == 3 && Game.Objects['Chancemaker'].amount >= 399) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 14) {
@@ -935,7 +1029,8 @@ function recommendationList(recalculate) {
                 }
             }
         }
-        if (FrozenCookies.autoSpell && Game.Objects['Wizard tower'].amount >= 517) {
+        //Stop buying wizard towers at 100 mana if using AutoSpell
+        if (FrozenCookies.autoSpell && M.magicM >= 100) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 7) {
                     FrozenCookies.caches.recommendationList.splice(i , 1);
@@ -1820,9 +1915,12 @@ function autoGSBuy() {
 }
 
 function autoGodzamokAction() {
+    if (!T) return; //Just leave if Pantheon isn't here yet
     //Now has option to not trigger until current Devastation buff expires (i.e. won't rapidly buy & sell cursors throughout Godzamok duration)
-    if (Game.hasGod('ruin') && Game.Objects['Cursor'].amount > 10 && (!Game.hasBuff('Devastation') || FrozenCookies.autoGodzamok == 1) && hasClickBuff()) {
-        Game.Objects['Cursor'].sell(Game.Objects['Cursor'].amount);
+    if (Game.hasGod('ruin') && Game.Objects['Cursor'].amount > 10 && (!Game.hasBuff('Devastation') || FrozenCookies.autoGodzamok == 1 || FrozenCookies.autoGodzamok == 3) && hasClickBuff()) {
+        var count = Game.Objects['Cursor'].amount;
+        Game.Objects['Cursor'].sell(count);
+        if (FrozenCookies.autoGodzamok > 1) Game.Objects['Cursor'].buy(count);
     }
 }
 
@@ -1851,6 +1949,7 @@ function fcClickCookie() {
 }
 
 function autoCookie() {
+    //console.log('autocookie called');
     if (!FrozenCookies.processing && !Game.OnAscend && !Game.AscendTimer) {
         FrozenCookies.processing = true;
         var currentHCAmount = Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset + wrinklerValue());
@@ -1880,6 +1979,7 @@ function autoCookie() {
                  Game.clickLump();
              }
         }
+        if (FrozenCookies.autoSL == 2) autoRigidel();
         if (FrozenCookies.autoWrinkler == 1) {
             var popCount = 0;
             var popList = shouldPopWrinklers();
@@ -1909,19 +2009,10 @@ function autoCookie() {
 
         var itemBought = false;
         
-        //Automatically buy in bulk if setting turned on
-        if (FrozenCookies.autoBulk != 0){
-            if (FrozenCookies.autoBulk == 1){ //Buy x10
-                document.getElementById('storeBulk10').click();
-            }
-            if (FrozenCookies.autoBulk == 2){ //Buy x100
-                document.getElementById('storeBulk100').click();
-            }
-        }
-         
-        
-        if (FrozenCookies.autoBuy && (Game.cookies >= mostExpensive()/2 + delay + recommendation.cost || !(FrozenCookies.autoSpell == 3)) && (Game.cookies >= delay + recommendation.cost) && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
+        //var seConditions = (Game.cookies >= delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))); //true == good on SE bank or don't care about it
+        if (FrozenCookies.autoBuy && ((Game.cookies >= delay + recommendation.cost) || recommendation.purchase.name == "Elder Pledge") && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
             //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
+            //console.log('something should get bought');
             recommendation.time = Date.now() - Game.startDate;
             //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
             recommendation.purchase.clickFunction = null;
@@ -1955,7 +2046,7 @@ function autoCookie() {
                 setTimeout(function() {
                     Game.ClosePrompt();
                     Game.Reincarnate(1);
-                },10000);
+                }, 5000);
             }
         }
 
