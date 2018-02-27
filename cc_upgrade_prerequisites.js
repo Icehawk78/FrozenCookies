@@ -113,6 +113,12 @@ FrozenCookies.preferenceValues = {
         'display':['Auto-Godzamok OFF','Auto-Godzamok ON','Auto-Godzamok ON (Sane)','Auto-Godzamok (REALLY INSANE)'],
         'default':0
     },
+    'cursorLimit':{
+        'hint':'Limit max number of cursors to keep Godzamok useful.',
+        'display':['Cursor Limit ON','Cursor Limit OFF'],
+        'default':0,
+        'extras':'<a class="option" id="cursorMax" onclick="updateSpeed(\'cursorMax\');">${cursorMax} cursors</a>'
+    },
     'autoSpell':{
         'hint':'Automatically cast selected spell when your mana is full.',
         'display':["Auto Cast OFF","Cojure Baked Goods","Force the Hand of Fate","Spontaneous Edifice","Haggler's Charm (cheapest)"],

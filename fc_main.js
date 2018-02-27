@@ -28,6 +28,7 @@ function setOverrides() {
     FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed', 0);
     FrozenCookies.HCAscendAmount = preferenceParse('HCAscendAmount', 0);
     FrozenCookies.minCpSMult = preferenceParse('minCpSMult', 1);
+    FrozenCookies.cursorMax = preferenceParse('cursorMax', 0);
 
     // Becomes 0 almost immediately after user input, so default to 0
     FrozenCookies.timeTravelAmount = 0;
@@ -281,6 +282,8 @@ function updateLocalStorage() {
     localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
     localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
     localStorage.HCAscendAmount = FrozenCookies.HCAscendAmount;
+    localStorage.cursorMax = FrozenCookies.cursorMax;
+    localStorage.minCpSMult = FrozenCookies.minCpSMult;
     localStorage.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
     //  localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
     //  localStorage.frenzyTime = FrozenCookies.gc_time;
@@ -409,6 +412,23 @@ function updateAscendAmount(base) {
     var newAmount = getAscendAmount(FrozenCookies[base]);
     if (newAmount != FrozenCookies[base]) {
         FrozenCookies[base] = newAmount;
+        updateLocalStorage();
+        FCStart();
+    }
+}
+
+function getCursorMax(current) {
+    var newMax = prompt('How many Cursors should Autobuy stop at?', current);
+    if (typeof(newMax) == 'undefined' || newMax == null || isNaN(Number(newMax)) || Number(newMax < 0)) {
+        newMax = current;
+    }
+    return Number(newMax);
+}
+
+function updateCursorMax(base) {
+    var newMax = getCursorMax(FrozenCookies[base]);
+    if (newMax != FrozenCookies[base]) {
+        FrozenCookies[base] = newMax;
         updateLocalStorage();
         FCStart();
     }
