@@ -1505,7 +1505,7 @@ function buildingToggle(building, achievements) {
 }
 
 function buyFunctionToggle(upgrade) {
-    if (upgrade.id==452) return null;
+    if (upgrade && upgrade.id==452) return null;
     if (upgrade && !upgrade.length) {
         if (!upgrade.buyFunction) {
             return null;
