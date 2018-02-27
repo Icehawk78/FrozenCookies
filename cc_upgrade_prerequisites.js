@@ -20,6 +20,11 @@ FrozenCookies.preferenceValues = {
         'display':['Autopop Wrinklers OFF', 'Autopop Wrinklers Efficiently', 'Autopop Wrinklers Instantly'],
         'default':0
     },
+    'shinyPop':{
+        'hint':'Protect the endangered Shiny Wrinkler from being auomatically popped.',
+        'display':['Save Shiny Wrinklers ON', 'Save Shiny Wrinklers OFF'],
+        'default':0
+    },
     'autoSL':{
         'hint':'Automatically harvest sugar lumps when ripe, with option to automatically swap in Rigidel.',
         'display':["Autoharvest SL OFF", "Autoharvest SL ON", "Autoharvest SL ON + Auto Rigidel"],
@@ -107,6 +112,12 @@ FrozenCookies.preferenceValues = {
         'hint':'Automatically sell all cursors during Dragonflight and Click Frenzy if you worship Godzamok ("Sane" prevents rapid buy/sell spam)',
         'display':['Auto-Godzamok OFF','Auto-Godzamok ON','Auto-Godzamok ON (Sane)','Auto-Godzamok (REALLY INSANE)'],
         'default':0
+    },
+    'cursorLimit':{
+        'hint':'Limit max number of cursors to keep Godzamok useful.',
+        'display':['Cursor Limit OFF','Cursor Limit ON'],
+        'default':0,
+        'extras':'<a class="option" id="cursorMax" onclick="updateCursorMax(\'cursorMax\');">${cursorMax} cursors</a>'
     },
     'autoSpell':{
         'hint':'Automatically cast selected spell when your mana is full.',
