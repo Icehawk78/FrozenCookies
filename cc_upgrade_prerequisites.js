@@ -115,9 +115,9 @@ FrozenCookies.preferenceValues = {
     },
     'cursorLimit':{
         'hint':'Limit max number of cursors to keep Godzamok useful.',
-        'display':['Cursor Limit ON','Cursor Limit OFF'],
+        'display':['Cursor Limit OFF','Cursor Limit ON'],
         'default':0,
-        'extras':'<a class="option" id="cursorMax" onclick="updateSpeed(\'cursorMax\');">${cursorMax} cursors</a>'
+        'extras':'<a class="option" id="cursorMax" onclick="updateCursorMax(\'cursorMax\');">${cursorMax} cursors</a>'
     },
     'autoSpell':{
         'hint':'Automatically cast selected spell when your mana is full.',

@@ -1051,6 +1051,14 @@ function recommendationList(recalculate) {
                 }
             }
         }
+        //Stop buying Cursors if at set limit
+        if (FrozenCookies.cursorLimit && Game.Objects['Cursor'].amount >= FrozenCookies.cursorMax) {
+            for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
+                if FrozenCookies.caches.recommendationList[i].id == 1) {
+                    FrozenCookies.caches.recommendationList.splice(i, 1);
+                }
+            }
+        }
         if (FrozenCookies.pastemode) {
             FrozenCookies.caches.recommendationList.reverse();
         }
