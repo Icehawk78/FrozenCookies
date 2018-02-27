@@ -1505,6 +1505,7 @@ function buildingToggle(building, achievements) {
 }
 
 function buyFunctionToggle(upgrade) {
+    if upgrade.name='Sugar frenzy' return null;
     if (upgrade && !upgrade.length) {
         if (!upgrade.buyFunction) {
             return null;
