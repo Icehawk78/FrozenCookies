@@ -11,54 +11,54 @@ FrozenCookies.preferenceValues = {
         'extras':'<a class="option" id="chipsToAscend" onclick="updateAscendAmount(\'HCAscendAmount\');">${HCAscendAmount} heavenly chips</a>'
     },
     'autoBulk':{
-        'hint':'Automatically set buildings to be bought in bulk after reincarnation.',
+        'hint':'Automatically set buildings to be bought in bulk after reincarnation',
         'display':['Auto Bulkbuy OFF', 'Auto Bulkbuy x10', 'Auto Bulkbuy x100'],
         'default':0
     },
     'autoGC':{
-        'hint':'Automatically click Golden Cookies when they appear.',
+        'hint':'Automatically click Golden Cookies when they appear',
         'display':["Autoclick GC OFF", "Autoclick GC ON"],
         'default':0
     },
     'autoWrinkler':{
-        'hint':'Automatically pop wrinklers efficiently or instantly.',
+        'hint':'Automatically pop wrinklers efficiently or instantly',
         'display':['Autopop Wrinklers OFF', 'Autopop Wrinklers Efficiently', 'Autopop Wrinklers Instantly'],
         'default':0
     },
     'shinyPop':{
-        'hint':'Protect the endangered Shiny Wrinkler from being auomatically popped.',
+        'hint':'Protect the endangered Shiny Wrinkler from being auomatically popped',
         'display':['Save Shiny Wrinklers ON', 'Save Shiny Wrinklers OFF'],
         'default':0
     },
     'autoSL':{
-        'hint':'Automatically harvest sugar lumps when ripe, with option to automatically swap in Rigidel.',
+        'hint':'Automatically harvest sugar lumps when ripe, with option to automatically swap in Rigidel',
         'display':["Autoharvest SL OFF", "Autoharvest SL ON", "Autoharvest SL ON + Auto Rigidel"],
         'default':0
     },
     'autoReindeer':{
-        'hint':'Automatically click reindeer.',
+        'hint':'Automatically click reindeer',
         'display':['Autoclick Reindeer OFF', 'Autoclick Reindeer ON'],
         'default':0
     },
     'autoClick':{
-        'hint':'Click the large cookie.',
+        'hint':'Click the large cookie',
         'display':['Autoclick OFF', 'Autoclick ON'],
         'default':0,
         'extras':'<a class="option" id="cookieClickSpeed" onclick="updateSpeed(\'cookieClickSpeed\');">${cookieClickSpeed} clicks/sec</a>'
     },
     'autoFrenzy':{
-        'hint':'Click the large cookie during Clicking Frenzies.',
+        'hint':'Click the large cookie during Clicking Frenzies',
         'display':['Autofrenzy OFF', 'Autofrenzy ON'],
         'default':0,
         'extras':'<a class="option" id="frenzyClickSpeed" onclick="updateSpeed(\'frenzyClickSpeed\');">${frenzyClickSpeed} clicks/sec</a>'
     },
     'autoBlacklistOff':{
-        'hint':'Automatically turns off a blacklist once the goal for that blacklist is achieved.',
+        'hint':'Automatically turns off a blacklist once the goal for that blacklist is achieved',
         'display':['Auto Blacklist OFF', 'Auto Blacklist ON'],
         'default':0
     },
     'blacklist':{
-        'hint':'Blacklist purchases from the efficiency calculations.',
+        'hint':'Blacklist purchases from the efficiency calculations',
         'display':['No Blacklist', 'Speedrun Blacklist', 'Hardcore Blacklist', 'Grandmapocalypse Mode', 'No Buildings'],
         'default':0
     },
@@ -79,17 +79,17 @@ FrozenCookies.preferenceValues = {
         'default':1
     },
     'fpsModifier':{
-        'hint':'The frame rate at which the game runs. 60 is twice as fast, 15 is half as fast, etc. If you\'re not sure, keep this at 30.',
+        'hint':'The frame rate at which the game runs. 60 is twice as fast, 15 is half as fast, etc. If you\'re not sure, keep this at 30',
         'display':['24','25','30','48','50','60','72','90','100','120','144','200','240','300'],
         'default':2
     },
     'logging':{
-        'hint':'Display detailed logs in the javascript console.',
+        'hint':'Display detailed logs in the javascript console',
         'display':['Logging OFF', 'Logging ON'],
         'default':1
     },
     'trackStats':{
-        'hint':'Track your CPS/HC earned over time during a single session to enable graphing. This may end up being *extremely* memory-intensive.',
+        'hint':'Track your CPS/HC earned over time during a single session to enable graphing. This may end up being *extremely* memory-intensive',
         'display':['Tracking OFF', 'Every 60s', 'Every 30m', 'Every 1h', 'Every 24h', 'On upgrades', 'Smart Timing'],
         'default':0,
         'extras':'<a class="option" id="viewStats" onclick="viewStatGraphs();">View Stat Graphs</a>'
@@ -119,24 +119,24 @@ FrozenCookies.preferenceValues = {
         'default':0
     },
     'cursorLimit':{
-        'hint':'Limit max number of cursors to keep Godzamok useful.',
+        'hint':'Limit max number of cursors to keep Godzamok useful',
         'display':['Cursor Limit OFF','Cursor Limit ON'],
         'default':0,
         'extras':'<a class="option" id="cursorMax" onclick="updateCursorMax(\'cursorMax\');">${cursorMax} cursors</a>'
     },
     'autoSpell':{
-        'hint':'Automatically cast selected spell when your mana is full.',
+        'hint':'Automatically cast selected spell when your mana is full',
         'display':["Auto Cast OFF","Cojure Baked Goods","Force the Hand of Fate","Spontaneous Edifice","Haggler's Charm (cheapest)"],
         'default':0,
         'extras':'<a class="option" id="minCpSMult" onclick="updateCpSMultMin(\'minCpSMult\');">x${minCpSMult} minimum Frenzy</a>'
     },
     'holdSEBank':{
-        'hint':'Maintain a bank for Spontaneous Edifice (already enabled if Auto Casting SE).',
+        'hint':'Maintain a bank for Spontaneous Edifice (already enabled if Auto Casting SE)',
         'display':["SE Bank OFF","SE Bank ON"],
         'default':0,
     },
     'towerLimit':{
-        'hint':'Stop Autobuying Wizard Towers at 100 Max Mana, for spellcasting efficiency.',
+        'hint':'Stop Autobuying Wizard Towers at 100 Max Mana, for spellcasting efficiency',
         'display':['Wizard Tower Cap OFF','Wizard Tower Cap ON'],
         'default':0,
     },
