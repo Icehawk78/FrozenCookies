@@ -28,7 +28,7 @@ function setOverrides() {
     FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed', 0);
     FrozenCookies.HCAscendAmount = preferenceParse('HCAscendAmount', 0);
     FrozenCookies.minCpSMult = preferenceParse('minCpSMult', 1);
-    FrozenCookies.cursorMax = preferenceParse('cursorMax', 0);
+    FrozenCookies.cursorMax = preferenceParse('cursorMax', 500);
 
     // Becomes 0 almost immediately after user input, so default to 0
     FrozenCookies.timeTravelAmount = 0;
