@@ -135,7 +135,7 @@ FrozenCookies.preferenceValues = {
         'display':["SE Bank OFF","SE Bank ON"],
         'default':0,
     },
-    'towerLimtit':{
+    'towerLimit':{
         'hint':'Stop Autobuying Wizard Towers at 100 Max Mana, for spellcasting efficiency.',
         'display':['Wizard Tower Cap OFF','Wizard Tower Cap ON'],
         'default':0,
