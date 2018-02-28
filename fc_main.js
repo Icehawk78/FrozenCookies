@@ -1050,7 +1050,7 @@ function recommendationList(recalculate) {
             }
         }
         //Stop buying wizard towers at 100 mana if using AutoSpell
-        if (FrozenCookies.autoSpell && FrozenCookies.towerLimit && M.magicM >= 100) {
+        if (FrozenCookies.towerLimit && M.magicM >= 100) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 7) {
                     FrozenCookies.caches.recommendationList.splice(i , 1);
