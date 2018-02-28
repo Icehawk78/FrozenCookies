@@ -1042,15 +1042,15 @@ function recommendationList(recalculate) {
                 return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
             }));
         //If autocasting Spontaneous Edifice, don't buy any Chancemakers after 399
-        if (FrozenCookies.autoSpell == 3 && Game.Objects['Chancemaker'].amount >= 399) {
+        if (M && FrozenCookies.autoSpell == 3 && Game.Objects['Chancemaker'].amount >= 399) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 14) {
                     FrozenCookies.caches.recommendationList.splice(i , 1);
                 }
             }
         }
-        //Stop buying wizard towers at 100 mana if using AutoSpell
-        if (FrozenCookies.towerLimit && M.magicM >= 100) {
+        //Stop buying wizard towers at 100 mana if enabled
+        if (M && FrozenCookies.towerLimit && M.magicM >= 100) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 7) {
                     FrozenCookies.caches.recommendationList.splice(i , 1);
