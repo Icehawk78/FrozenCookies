@@ -37,6 +37,15 @@ What can Frozen Cookies do?
 
 What's new?
 -----------
+2018 Mar 2:
+-Updated to work in patch 2.0045
+-Auto Sugar Lump harvesting
+-More auto-Godzamok behavior options
+-Auto Spell Casting (Conj. Baked Goods, Force the Hand of Fate, Spontaneous Edifice, and Haggler's Charm [the fastest to spam for spell achievements])
+-Wizard Tower purchase limit toggle to stay at 100 mana
+-Auto Sugar Lump Harvesting
+-Cursor Autobuy limit option to keep Godzamok efficient at very high cursor counts
+-Auto bulk purchase on reincarnation (option to automatically buy in 10s or 100s after reincarnation to speed up early run
 
 2017 Apr 14:
 - New option: FPS modifier
