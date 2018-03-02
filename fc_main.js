@@ -1883,7 +1883,7 @@ function popValue(w) {
 
 function shouldPopWrinklers() {
     var toPop = [];
-    var living = (FrozenCookies.shinyPop == 0) ? liveWrinklers() : liveWrinklers.filter( v => v.type == 0);
+    var living = liveWrinklers();
     if (living.length > 0) {
         if ((Game.season == 'halloween' || Game.season == 'easter') && !haveAll(Game.season)) {
             toPop = living.map(function(w) {
