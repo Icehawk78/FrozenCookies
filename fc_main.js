@@ -145,6 +145,7 @@ function scientificNotation(value) {
     return value;
 }
 
+/*
 var numberFormatters = [
     rawFormatter,
     formatEveryThirdPower([
@@ -197,7 +198,7 @@ var numberFormatters = [
     ]),
     scientificNotation
 ];
-
+*/
 function fcBeautify(value) {
     var negative = (value < 0);
     value = Math.abs(value);
