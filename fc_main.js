@@ -92,7 +92,7 @@ function setOverrides() {
     if (!blacklist[FrozenCookies.blacklist]) {
         FrozenCookies.blacklist = 0;
     }
-    Beautify = fcBeautify;
+    //Beautify = fcBeautify;
     Game.sayTime = function(time, detail) {
         return timeDisplay(time / Game.fps);
     }
