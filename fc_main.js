@@ -1069,8 +1069,8 @@ function recommendationList(recalculate) {
                 }
             }
         }
-        //Stop buying wizard towers at 100 mana if enabled
-        if (M && FrozenCookies.towerLimit && M.magicM >= 100) {
+        //Stop buying wizard towers at max Mana if enabled
+        if (M && FrozenCookies.towerLimit && M.magicM >= FrozenCookies.manaMax) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 7) {
                     FrozenCookies.caches.recommendationList.splice(i , 1);
