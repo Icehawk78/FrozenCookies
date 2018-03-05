@@ -137,9 +137,10 @@ FrozenCookies.preferenceValues = {
         'default':0,
     },
     'towerLimit':{
-        'hint':'Stop Autobuying Wizard Towers at 100 Max Mana, for spellcasting efficiency',
+        'hint':'Stop Autobuying Wizard Towers at selected Max Mana, for spellcasting efficiency',
         'display':['Wizard Tower Cap OFF','Wizard Tower Cap ON'],
         'default':0,
+        'extras':'<a class="option" id="manaMax" onclick="updateManaMax(\'manaMax\');">${manaMax} max Mana</a>'
     },
     'defaultSeason':{
         'hint':'Season to maintain when no others have needed upgrades',
