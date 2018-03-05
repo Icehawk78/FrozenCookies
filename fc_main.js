@@ -29,6 +29,7 @@ function setOverrides() {
     FrozenCookies.HCAscendAmount = preferenceParse('HCAscendAmount', 0);
     FrozenCookies.minCpSMult = preferenceParse('minCpSMult', 1);
     FrozenCookies.cursorMax = preferenceParse('cursorMax', 500);
+    FrozenCookies.manaMax = preferenceParse('nanaMax', 100);
 
     // Becomes 0 almost immediately after user input, so default to 0
     FrozenCookies.timeTravelAmount = 0;
@@ -291,6 +292,7 @@ function updateLocalStorage() {
     localStorage.lastHCAmount = FrozenCookies.lastHCAmount;
     localStorage.maxHCPercent = FrozenCookies.maxHCPercent;
     localStorage.lastHCTime = FrozenCookies.lastHCTime;
+    localStorage.manaMax = FrozenCookies.manaMax;
     localStorage.prevLastHCTime = FrozenCookies.prevLastHCTime;
 }
 
@@ -413,6 +415,23 @@ function updateAscendAmount(base) {
     var newAmount = getAscendAmount(FrozenCookies[base]);
     if (newAmount != FrozenCookies[base]) {
         FrozenCookies[base] = newAmount;
+        updateLocalStorage();
+        FCStart();
+    }
+}
+
+function getManaMax(current) {
+    var newMax = prompt('Set maximum mana: ', current);
+    if (typeof(newMax) == 'undefined' || newMax == null || isNaN(Number(newMax)) || Number(newMax < 0)) {
+        newMax = current;
+    }
+    return Number(newMax);
+}
+
+function updateManaMax(base) {
+    var newMax = getManaMax(FrozenCookies[base]);
+    if (newMax != FrozenCookies[base]) {
+        FrozenCookies[base] = newMax;
         updateLocalStorage();
         FCStart();
     }
