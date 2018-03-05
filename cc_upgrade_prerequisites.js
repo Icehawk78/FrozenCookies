@@ -105,7 +105,7 @@ FrozenCookies.preferenceValues = {
     */
     
     'numberDisplay':{
-        'hint':'Change how numbers are shortened',
+        'hint':'Change how numbers are shortened (CURRENTLY NOT WORKING)',
         'display':["Raw Numbers","Full Word (million, billion)","Initials (M, B)","SI Units (M, G, T)", "Scientific Notation (6.3e12)"],
         'default':1
     },
