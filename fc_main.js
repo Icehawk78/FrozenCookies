@@ -1955,7 +1955,7 @@ function autoGSBuy() {
             !Game.Upgrades['Golden switch [off]'].bought) {
             Game.Upgrades['Golden switch [off]'].buy();
         }
-    } else if (!Game.hasBuff('Frenzy')) {
+    } else if (cpsBonus() <= 1) {
         if (Game.Upgrades['Golden switch [on]'].unlocked &&
             !Game.Upgrades['Golden switch [on]'].bought) {
             Game.CalculateGains(); // Ensure price is updated since Frenzy ended
