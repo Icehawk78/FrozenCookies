@@ -417,7 +417,7 @@ function updateTimers() {
         });
     }
     height = $('#backgroundLeftCanvas').height() - 140;
-    drawCircles(t_draw, 20, height);
+    drawCircles(t_draw, 50, height);
 }
 
 function FCMenu() {
