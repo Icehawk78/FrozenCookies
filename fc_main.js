@@ -1250,6 +1250,18 @@ function isUnavailable(upgrade, upgradeBlacklist) {
     if (upgrade.id == 331) {
         result = true; // blacklist golden switch from being used, until proper logic can be implemented
     }
+    
+    if (upgrade.id == 333) {
+        result = true; // blacklist milk selector from being used
+    }
+    
+    if (upgrade.id == 414) {
+        result = true; // blacklist background selector from being used
+    }
+
+    if (upgrade.id == 361) {
+        result = true; // blacklist golden cookie sound selector from being used
+    }
 
     return result;
 }
