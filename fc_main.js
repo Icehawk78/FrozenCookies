@@ -93,7 +93,7 @@ function setOverrides() {
     if (!blacklist[FrozenCookies.blacklist]) {
         FrozenCookies.blacklist = 0;
     }
-    //Beautify = fcBeautify;
+    Beautify = fcBeautify;
     Game.sayTime = function(time, detail) {
         return timeDisplay(time / Game.fps);
     }
@@ -146,7 +146,7 @@ function scientificNotation(value) {
     return value;
 }
 
-/*
+
 var numberFormatters = [
     rawFormatter,
     formatEveryThirdPower([
@@ -165,7 +165,30 @@ var numberFormatters = [
         ' duodecillion',
         ' tredecillion',
         ' quattuordecillion',
-        ' quindecillion'
+        ' quindecillion',
+        ' sexdecillion',
+        ' septendecillion',
+        ' novemdecillion',
+        ' vigintillion',
+        ' unvigintillion',
+        ' duovigintillion',
+        ' trevigintillion',
+        ' quattuorvigintillion',
+        ' quinvigintillion',
+        ' sexvigintillion',
+        ' septenvigintillion',
+        ' octovigintillion',
+        ' novemvigintillion',
+        ' trigintillion',
+        ' untrigintillion',
+        ' duotrigintillion',
+        ' tretrigintillion',
+        ' quattuortrigintillion',
+        ' quintrigintillion',
+        ' sextrigintillion',
+        ' septentrigintillion',
+        ' octotrigintillion',
+        ' novemtrigintillion'
     ]),
 
     formatEveryThirdPower([
@@ -184,7 +207,31 @@ var numberFormatters = [
         ' DoD',
         ' TrD',
         ' QaD',
-        ' QiD'
+        ' QiD',
+        ' SxD',
+        ' SpD',
+        ' OcD',
+        ' NoD',
+        ' Vg',
+        ' UnV',
+        ' DoV',
+        ' TrV',
+        ' QaV',
+        ' QiV',
+        ' SxV',
+        ' SpV',
+        ' OcV',
+        ' NoV',
+        ' Tg',
+        ' UnT',
+        ' DoT',
+        ' TrT',
+        ' QaT',
+        ' QiT',
+        ' SxT',
+        ' SpT',
+        ' OcT',
+        ' NoT'
     ]),
 
     formatEveryThirdPower([
@@ -199,7 +246,7 @@ var numberFormatters = [
     ]),
     scientificNotation
 ];
-*/
+
 function fcBeautify(value) {
     var negative = (value < 0);
     value = Math.abs(value);
