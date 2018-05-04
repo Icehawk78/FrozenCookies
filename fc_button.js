@@ -11,7 +11,7 @@ $('#logButton').hide();
 $('<style type="text/css">')
     .html(
     '#fcEfficiencyTable {width: 100%;}' +
-    '#fcButton {top: 0px; right: 0px; padding-top: 12px; font-size: 90%; background-position: -100px 0px;}' +
+    '#fcButton {top: 0px; right: 0px; padding-top: 12px; font-size: 90%; background-position: -96px 0px;}' +
     '.worst {border-width:1px; border-style:solid; border-color:#330000;}' +
     '.bad {border-width:1px; border-style:solid; border-color:#660033;}' +
     '.average {border-width:1px; border-style:solid; border-color:#663399;}' +
@@ -417,7 +417,7 @@ function updateTimers() {
         });
     }
     height = $('#backgroundLeftCanvas').height() - 140;
-    drawCircles(t_draw, 70, height);
+    drawCircles(t_draw, 20, height);
 }
 
 function FCMenu() {
