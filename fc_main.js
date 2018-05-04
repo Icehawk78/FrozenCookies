@@ -168,6 +168,7 @@ var numberFormatters = [
         ' quindecillion',
         ' sexdecillion',
         ' septendecillion',
+        ' octodecillion',
         ' novemdecillion',
         ' vigintillion',
         ' unvigintillion',
