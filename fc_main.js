@@ -1310,6 +1310,14 @@ function isUnavailable(upgrade, upgradeBlacklist) {
     if (upgrade.id == 361) {
         result = true; // blacklist golden cookie sound selector from being used
     }
+    
+    if (upgrade.id == 452) {
+        result = true; // blacklist sugar frenzy from being used
+    }
+
+    if (upgrade.id == 227) {
+        result = true; // blacklist chocolate egg from being used
+    }
 
     return result;
 }
