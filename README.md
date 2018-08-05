@@ -37,6 +37,9 @@ What can Frozen Cookies do?
 
 What's new?
 -----------
+2018 Aug 4
+- Automatically blacklists Sugar Frenzy and Chocolate Egg
+
 2018 Mar 2:
 - Updated to work in patch 2.0045
 - More auto-Godzamok behavior options
