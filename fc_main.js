@@ -954,12 +954,12 @@ function chainBank() {
 }
 
 function harvestBank() {
-    if(!setHarvestBank) return 0;
+    if(!FrozenCookies.setHarvestBank) return 0;
     
     var harvestMinutes = 0;
     var harvestMaxPercent = 0;
     
-    switch(setHarvestBank){
+    switch(FrozenCookies.setHarvestBank){
         case 'Bakeberry':
             harvestMinutes = 30;
             harvestMaxPercent = 0.03;
