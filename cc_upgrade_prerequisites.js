@@ -142,9 +142,14 @@ FrozenCookies.preferenceValues = {
         'default':0,
         'extras':'<a class="option" id="manaMax" onclick="updateManaMax(\'manaMax\');">${manaMax} max Mana</a>'
     },
-    'setHarvestBank':{
+    'setHarvestBankPlant':{
         'hint':'Choose the plant you are going to harvest repeatedly to gain their maximum profit.',
         'display':['No harvesting Bank','Bakeberry Bank','Chocoroot Bank','White Chocoroot Bank','Queenbeet Bank','Duketater Bank'],
+        'default':0
+    },
+    'setHarvestBankType':{
+        'hint':'Choose a scenario that you want for harvesting to calculate the needed Bank (no effect is no plant was selected above).',
+        'display':['No minimum multiplier','Frenzy','Building special','Frenzy + Building special'],
         'default':0
     },
     'defaultSeason':{
