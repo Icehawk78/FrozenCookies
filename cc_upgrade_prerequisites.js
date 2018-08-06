@@ -144,7 +144,7 @@ FrozenCookies.preferenceValues = {
     },
     'setHarvestBank':{
         'hint':'Choose the plant you are going to harvest repeatedly to gain their maximum profit.',
-        'display':['Bakeberry','Chocoroot','White Chocoroot','Queenbeet','Duketater'],
+        'display':['No harvesting Bank','Bakeberry','Chocoroot','White Chocoroot','Queenbeet','Duketater'],
         'default':0
     },
     'defaultSeason':{
