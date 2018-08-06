@@ -953,6 +953,25 @@ function chainBank() {
     //  return baseCps() * 60 * 60 * 6 * 4;
 }
 
+function bakeberryBank() {
+    var buildingMult = Math.max(Game.Objects['Cursor'].amount,
+                                Game.Objects['Farm'].amount,
+                                Game.Objects['Mine'].amount,
+                                Game.Objects['Factory'].amount,
+                                Game.Objects['Bank'].amount,
+                                Game.Objects['Temple'].amount,
+                                Game.Objects['Wizard tower'].amount,
+                                Game.Objects['Shipment'].amount,
+                                Game.Objects['Alchemy lab'].amount,
+                                Game.Objects['Portal'].amount,
+                                Game.Objects['Time machine'].amount,
+                                Game.Objects['Antimatter condenser'].amount,
+                                Game.Objects['Prism'].amount,
+                                Game.Objects['Chancemaker'].amount);
+    
+    return baseCps() * 60 * 30 * 7 * buildingMult / 10 / 0.03;
+}
+
 function cookieEfficiency(startingPoint, bankAmount) {
     var results = Number.MAX_VALUE;
     var currentValue = cookieValue(startingPoint);
@@ -975,7 +994,7 @@ function cookieEfficiency(startingPoint, bankAmount) {
 function bestBank(minEfficiency) {
     var results = {};
     var edifice = ((FrozenCookies.autoSpell == 3 || FrozenCookies.holdSEBank) ?  edificeBank() : 0);
-    var bankLevels = [0, luckyBank(), luckyFrenzyBank()].sort(function(a, b) {
+    var bankLevels = [0, luckyBank(), luckyFrenzyBank(), bakeberryBank()].sort(function(a, b) {
         return b - a;
     }).map(function(bank) {
         return {
