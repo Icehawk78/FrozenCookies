@@ -958,37 +958,37 @@ function harvestBank() {
     
     var harvestMinutes = 0;
     var harvestMaxPercent = 0;
-    var bankName = "";
+    var FrozenCookies.bankName = "";
     
     switch(FrozenCookies.setHarvestBank){
         case 1:
             harvestMinutes = 30;
             harvestMaxPercent = 0.03;
-            bankName = "Bakeberry Bank";
+            FrozenCookies.bankName = "Bakeberry Bank";
             break;
             
         case 2:
             harvestMinutes = 3;
             harvestMaxPercent = 0.03;
-            bankName = "Chocoroot Bank";
+            FrozenCookies.bankName = "Chocoroot Bank";
             break;
             
         case 3:
             harvestMinutes = 3;
             harvestMaxPercent = 0.03;
-            bankName = "White Chocoroot Bank";
+            FrozenCookies.bankName = "White Chocoroot Bank";
             break;
             
         case 4:
             harvestMinutes = 60;
             harvestMaxPercent = 0.06;
-            bankName = "Queenbeet Bank";
+            FrozenCookies.bankName = "Queenbeet Bank";
             break;
             
         case 5:
             harvestMinutes = 120;
             harvestMaxPercent = 0.08;
-            bankName = "Duketater Bank";
+            FrozenCookies.bankName = "Duketater Bank";
             break;
     }
     
