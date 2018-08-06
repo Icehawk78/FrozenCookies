@@ -298,7 +298,7 @@ function updateTimers() {
         maxColor = (Game.cookies >= bankTotal) ? 'rgba(252, 212, 0, 1)' : 'rgba(201, 169, 0, 1)';
         t_draw.push({
             f_percent: bankMax,
-            name: !FrozenCookies.setHarvestBank ? "Max Bank" : FrozenCookies.bankName,
+            name: !FrozenCookies.setHarvestBank ? "Max Bank" : switch(FrozenCookies.setHarvestBank){case 1: "Bakeberry Bank"; break;},
             display: Beautify(bankTotal),
             c1: maxColor,
             overlay: true
