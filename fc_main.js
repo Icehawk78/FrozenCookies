@@ -954,7 +954,7 @@ function chainBank() {
 }
 
 function harvestBank() {
-    !setHarvestBank return null;
+    if(!setHarvestBank) return null;
     
     var harvestMinutes = 0;
     var harvestMaxPercent = 0;
