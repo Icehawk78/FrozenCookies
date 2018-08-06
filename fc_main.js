@@ -984,21 +984,25 @@ function harvestBank() {
         case 2:
             harvestMinutes = 3;
             harvestMaxPercent = 0.03;
+			alert(baseCps() * 60 * harvestMinutes * 7 * buildingMult / 10 / harvestMaxPercent);
             break;
             
         case 3:
             harvestMinutes = 3;
             harvestMaxPercent = 0.03;
+			alert(baseCps() * 60 * harvestMinutes * 7 * buildingMult / 10 / harvestMaxPercent);
             break;
             
         case 4:
             harvestMinutes = 60;
             harvestMaxPercent = 0.06;
+			alert(baseCps() * 60 * harvestMinutes * 7 * buildingMult / 10 / harvestMaxPercent);
             break;
             
         case 5:
             harvestMinutes = 120;
             harvestMaxPercent = 0.08;
+			alert(baseCps() * 60 * harvestMinutes * 7 * buildingMult / 10 / harvestMaxPercent);
             break;
     }
     
