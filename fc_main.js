@@ -954,27 +954,35 @@ function chainBank() {
 }
 
 function harvestBank() {
-    if(!FrozenCookies.setHarvestBank) return 0;
+    if(!FrozenCookies.setHarvestBankPlant) return 0;
     
     var harvestMinutes = 0;
     var harvestMaxPercent = 0;
+    var harvestFrenzy = 1;
+    var harvestBuilding = 1;
     
-    var buildingMult = Math.max(Game.Objects['Cursor'].amount,
-                                Game.Objects['Farm'].amount,
-                                Game.Objects['Mine'].amount,
-                                Game.Objects['Factory'].amount,
-                                Game.Objects['Bank'].amount,
-                                Game.Objects['Temple'].amount,
-                                Game.Objects['Wizard tower'].amount,
-                                Game.Objects['Shipment'].amount,
-                                Game.Objects['Alchemy lab'].amount,
-                                Game.Objects['Portal'].amount,
-                                Game.Objects['Time machine'].amount,
-                                Game.Objects['Antimatter condenser'].amount,
-                                Game.Objects['Prism'].amount,
-                                Game.Objects['Chancemaker'].amount);
+    if(FrozenCookies.setHarvestBankType == 1 || FrozenCookies.setHarvestBankType == 3){
+        harvestFrenzy = 7;
+    }
+	
+    if(FrozenCookies.setHarvestBankType == 2 || FrozenCookies.setHarvestBankType == 3){
+	harvestBuilding = Math.max(Game.Objects['Cursor'].amount,
+                                   Game.Objects['Farm'].amount,
+                                   Game.Objects['Mine'].amount,
+                                   Game.Objects['Factory'].amount,
+                                   Game.Objects['Bank'].amount,
+                                   Game.Objects['Temple'].amount,
+                                   Game.Objects['Wizard tower'].amount,
+                                   Game.Objects['Shipment'].amount,
+                                   Game.Objects['Alchemy lab'].amount,
+                                   Game.Objects['Portal'].amount,
+                                   Game.Objects['Time machine'].amount,
+                                   Game.Objects['Antimatter condenser'].amount,
+                                   Game.Objects['Prism'].amount,
+                                   Game.Objects['Chancemaker'].amount);
+    }
     
-    switch(FrozenCookies.setHarvestBank){
+    switch(FrozenCookies.setHarvestBankPlant){
         case 1:
             harvestMinutes = 30;
             harvestMaxPercent = 0.03;
@@ -1001,7 +1009,7 @@ function harvestBank() {
 	break;
     }
     
-    return baseCps() * 60 * harvestMinutes * 7 * buildingMult / 10 / harvestMaxPercent;
+    return baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / 10 / harvestMaxPercent;
 }
 
 function cookieEfficiency(startingPoint, bankAmount) {
