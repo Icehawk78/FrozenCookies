@@ -142,11 +142,11 @@ FrozenCookies.preferenceValues = {
         'default':0,
         'extras':'<a class="option" id="manaMax" onclick="updateManaMax(\'manaMax\');">${manaMax} max Mana</a>'
     },
-    /*'setHarvestBank':{
+    'setHarvestBank':{
         'hint':'Choose the plant you are going to harvest repeatedly to gain their maximum profit.',
         'display':['Bakeberry','Chocoroot','White Chocoroot','Queenbeet','Duketater'],
         'default':0
-    },*/
+    },
     'defaultSeason':{
         'hint':'Season to maintain when no others have needed upgrades',
         'display':['Default Season: None','Default Season: Business Day','Default Season: Christmas','Default Season: Easter','Default Season: Halloween',"Default Season: Valentine's Day"],
