@@ -953,7 +953,39 @@ function chainBank() {
     //  return baseCps() * 60 * 60 * 6 * 4;
 }
 
-function bakeberryBank() {
+function harvestBank() {
+    !setHarvestBank return null;
+    
+    var harvestMinutes = 0;
+    var harvestMaxPercent = 0;
+    
+    switch(setHarvestBank){
+        case 'Bakeberry':
+            harvestMinutes = 30;
+            harvestMaxPercent = 0.03;
+            break;
+            
+        case 'Chocoroot':
+            harvestMinutes = 3;
+            harvestMaxPercent = 0.03;
+            break;
+            
+        case 'White Chocoroot':
+            harvestMinutes = 3;
+            harvestMaxPercent = 0.03;
+            break;
+            
+        case 'Queenbeet':
+            harvestMinutes = 60;
+            harvestMaxPercent = 0.06;
+            break;
+            
+        case 'Duketater':
+            harvestMinutes = 120;
+            harvestMaxPercent = 0.08;
+            break;
+    }
+    
     var buildingMult = Math.max(Game.Objects['Cursor'].amount,
                                 Game.Objects['Farm'].amount,
                                 Game.Objects['Mine'].amount,
@@ -969,7 +1001,7 @@ function bakeberryBank() {
                                 Game.Objects['Prism'].amount,
                                 Game.Objects['Chancemaker'].amount);
     
-    return baseCps() * 60 * 30 * 7 * buildingMult / 10 / 0.03;
+    return baseCps() * 60 * harvestMinutes * 7 * buildingMult / 10 / harvestMaxPercent;
 }
 
 function cookieEfficiency(startingPoint, bankAmount) {
@@ -994,7 +1026,7 @@ function cookieEfficiency(startingPoint, bankAmount) {
 function bestBank(minEfficiency) {
     var results = {};
     var edifice = ((FrozenCookies.autoSpell == 3 || FrozenCookies.holdSEBank) ?  edificeBank() : 0);
-    var bankLevels = [0, luckyBank(), luckyFrenzyBank(), bakeberryBank()].sort(function(a, b) {
+    var bankLevels = [0, luckyBank(), luckyFrenzyBank(), harvestBank()].sort(function(a, b) {
         return b - a;
     }).map(function(bank) {
         return {
