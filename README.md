@@ -37,6 +37,9 @@ What can Frozen Cookies do?
 
 What's new?
 -----------
+2018 Aug 6
+- New option "Harvest Bank" to select a higher Bank than for Frenzy/Clicking Frenzy if you want to get the maximum return from harvesting Bakeberries, Chocoroots, White Chocoroots, Queenbeets or Duketaters
+
 2018 Aug 4
 - Automatically blacklists Sugar Frenzy and Chocolate Egg
 
