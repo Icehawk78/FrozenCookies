@@ -300,15 +300,15 @@ function updateTimers() {
             f_percent: bankMax,
             name: !FrozenCookies.setHarvestBank
                     ? "Max Bank"
-                    : FrozenCookies.setHarvestBank = 1
+                    : FrozenCookies.setHarvestBank == 1
                         ? "Bakeberry Bank"
-                    : FrozenCookies.setHarvestBank = 2
+                    : FrozenCookies.setHarvestBank == 2
                         ? "Chocoroot Bank"
-                    : FrozenCookies.setHarvestBank = 3
+                    : FrozenCookies.setHarvestBank == 3
                         ? "White Chocoroot Bank"
-                    : FrozenCookies.setHarvestBank = 4
+                    : FrozenCookies.setHarvestBank == 4
                         ? "Queenbeet Bank"
-                    : FrozenCookies.setHarvestBank = 5
+                    : FrozenCookies.setHarvestBank == 5
                         ? "Duketater Bank",
             display: Beautify(bankTotal),
             c1: maxColor,
