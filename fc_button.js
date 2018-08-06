@@ -298,8 +298,7 @@ function updateTimers() {
         maxColor = (Game.cookies >= bankTotal) ? 'rgba(252, 212, 0, 1)' : 'rgba(201, 169, 0, 1)';
         t_draw.push({
             f_percent: bankMax,
-            //name: !setHarvestBank ? "Max Bank" : setHarvestBank.concat(" Bank"),
-            name: "TestBank",
+            name: !FrozenCookies.setHarvestBank ? "Max Bank" : rozenCookies.setHarvestBank.concat(" Bank"),
             display: Beautify(bankTotal),
             c1: maxColor,
             overlay: true
