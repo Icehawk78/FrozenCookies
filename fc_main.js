@@ -959,10 +959,26 @@ function harvestBank() {
     var harvestMinutes = 0;
     var harvestMaxPercent = 0;
     
+    var buildingMult = Math.max(Game.Objects['Cursor'].amount,
+                                Game.Objects['Farm'].amount,
+                                Game.Objects['Mine'].amount,
+                                Game.Objects['Factory'].amount,
+                                Game.Objects['Bank'].amount,
+                                Game.Objects['Temple'].amount,
+                                Game.Objects['Wizard tower'].amount,
+                                Game.Objects['Shipment'].amount,
+                                Game.Objects['Alchemy lab'].amount,
+                                Game.Objects['Portal'].amount,
+                                Game.Objects['Time machine'].amount,
+                                Game.Objects['Antimatter condenser'].amount,
+                                Game.Objects['Prism'].amount,
+                                Game.Objects['Chancemaker'].amount);
+    
     switch(FrozenCookies.setHarvestBank){
         case 1:
             harvestMinutes = 30;
             harvestMaxPercent = 0.03;
+			alert(baseCps() * 60 * harvestMinutes * 7 * buildingMult / 10 / harvestMaxPercent);
             break;
             
         case 2:
@@ -985,21 +1001,6 @@ function harvestBank() {
             harvestMaxPercent = 0.08;
             break;
     }
-    
-    var buildingMult = Math.max(Game.Objects['Cursor'].amount,
-                                Game.Objects['Farm'].amount,
-                                Game.Objects['Mine'].amount,
-                                Game.Objects['Factory'].amount,
-                                Game.Objects['Bank'].amount,
-                                Game.Objects['Temple'].amount,
-                                Game.Objects['Wizard tower'].amount,
-                                Game.Objects['Shipment'].amount,
-                                Game.Objects['Alchemy lab'].amount,
-                                Game.Objects['Portal'].amount,
-                                Game.Objects['Time machine'].amount,
-                                Game.Objects['Antimatter condenser'].amount,
-                                Game.Objects['Prism'].amount,
-                                Game.Objects['Chancemaker'].amount);
     
     return baseCps() * 60 * harvestMinutes * 7 * buildingMult / 10 / harvestMaxPercent;
 }
