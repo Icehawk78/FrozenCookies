@@ -1005,7 +1005,7 @@ function harvestBank() {
 	    harvestBuilding *= harvestBuildingArray[i];
 	}    
     }
-alert(baseCps());
+
     switch(FrozenCookies.setHarvestBankPlant){
         case 1:
             harvestMinutes = 30;
@@ -1043,7 +1043,7 @@ alert(baseCps());
 	break;
     }
     
-alert(baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / harvestMaxPercent);
+//alert(baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / harvestMaxPercent);
     return baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / harvestMaxPercent;
 }
 
