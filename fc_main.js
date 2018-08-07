@@ -1042,8 +1042,7 @@ function harvestBank() {
             harvestMaxPercent = 0.03;
 	break;
     }
-    
-alert(baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / harvestMaxPercent);
+
     return baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / harvestMaxPercent;
 }
 
