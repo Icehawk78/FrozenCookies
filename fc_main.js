@@ -1043,7 +1043,7 @@ function harvestBank() {
 	break;
     }
     
-//alert(baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / harvestMaxPercent);
+alert(baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / harvestMaxPercent);
     return baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / harvestMaxPercent;
 }
 
