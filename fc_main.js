@@ -1004,7 +1004,7 @@ function harvestBank() {
 	    harvestBuilding *= harvestBuildingArray[i];
 	}    
     }
-    
+    alert(FrozenCookies.maxSpecials);
     switch(FrozenCookies.setHarvestBankPlant){
         case 1:
             harvestMinutes = 30;
