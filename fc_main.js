@@ -1007,6 +1007,16 @@ function harvestBank() {
             harvestMinutes = 120;
             harvestMaxPercent = 0.08;
 	break;
+            
+        case 6:
+            harvestMinutes = 1;
+            harvestMaxPercent = 0.01;
+	break;
+            
+        case 7:
+            harvestMinutes = 5;
+            harvestMaxPercent = 0.03;
+	break;
     }
     
     return baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / 10 / harvestMaxPercent;
