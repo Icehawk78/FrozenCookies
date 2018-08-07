@@ -986,6 +986,7 @@ function harvestBank() {
 	
     if(FrozenCookies.setHarvestBankType == 2 || FrozenCookies.setHarvestBankType == 3){
 	var harvestBuildingArray = [Game.Objects['Cursor'].amount/10,
+                           	    Game.Objects['Grandma'].amount/10,
                            	    Game.Objects['Farm'].amount/10,
                            	    Game.Objects['Mine'].amount/10,
                            	    Game.Objects['Factory'].amount/10,
