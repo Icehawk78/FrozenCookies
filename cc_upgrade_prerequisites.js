@@ -150,8 +150,8 @@ FrozenCookies.preferenceValues = {
     'setHarvestBankType':{
         'hint':'Choose a scenario that you want for harvesting to calculate the needed Bank (no effect if no plant was selected above).',
         'display':['No minimum multiplier','Frenzy','Building special','Frenzy + Building special'],
-        'default':0
-        'extras':'<a class="option" id="maxSpecials" onclick="updateMaxSpecials(\'maxSpecials\');">${maxSpecials} stacked Building specials</a>'
+        'default':0,
+        'extras':'<a class="option" id="maxSpecials" onclick="updateMaxSpecials(\'maxSpecials\');">max ${maxSpecials} stacked Building specials</a>'
     },
     'defaultSeason':{
         'hint':'Season to maintain when no others have needed upgrades',
