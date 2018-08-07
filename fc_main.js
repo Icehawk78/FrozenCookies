@@ -1001,7 +1001,7 @@ function harvestBank() {
                            	    Game.Objects['Prism'].amount/10,
                            	    Game.Objects['Chancemaker'].amount/10];
 	harvestBuildingArray.sort(function(a, b){return b-a});
-	for(i=0;i<FrozenCookies.maxSpecials;i++){
+	for(var buildingLoop = 0; buildingLoop < FrozenCookies.maxSpecials ; buildingLoop++){
 	    harvestBuilding *= harvestBuildingArray[i];
 	}    
     }
