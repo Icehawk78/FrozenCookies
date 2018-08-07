@@ -29,7 +29,8 @@ function setOverrides() {
     FrozenCookies.HCAscendAmount = preferenceParse('HCAscendAmount', 0);
     FrozenCookies.minCpSMult = preferenceParse('minCpSMult', 1);
     FrozenCookies.cursorMax = preferenceParse('cursorMax', 500);
-    FrozenCookies.manaMax = preferenceParse('nanaMax', 100);
+    FrozenCookies.manaMax = preferenceParse('manaMax', 100);
+    FrozenCookies.maxSpecials = preferenceParse('maxSpecials', 1);
 
     // Becomes 0 almost immediately after user input, so default to 0
     FrozenCookies.timeTravelAmount = 0;
@@ -341,6 +342,7 @@ function updateLocalStorage() {
     localStorage.maxHCPercent = FrozenCookies.maxHCPercent;
     localStorage.lastHCTime = FrozenCookies.lastHCTime;
     localStorage.manaMax = FrozenCookies.manaMax;
+    localStorage.maxSpecials = FrozenCookies.maxSpecials;
     localStorage.prevLastHCTime = FrozenCookies.prevLastHCTime;
 }
 
@@ -480,6 +482,23 @@ function updateManaMax(base) {
     var newMax = getManaMax(FrozenCookies[base]);
     if (newMax != FrozenCookies[base]) {
         FrozenCookies[base] = newMax;
+        updateLocalStorage();
+        FCStart();
+    }
+}
+
+function getMaxSpecials(current) {
+    var newSpecials = prompt('Set maximum amount of stacked Building specials: ', current);
+    if (typeof(newSpecials) == 'undefined' || newSpecials == null || isNaN(Number(newSpecials)) || Number(newSpecials < 0)) {
+        newSpecials = current;
+    }
+    return Number(newSpecials);
+}
+
+function updateMaxSpecials(base) {
+    var newSpecials = getMaxSpecials(FrozenCookies[base]);
+    if (newSpecials != FrozenCookies[base]) {
+        FrozenCookies[base] = newSpecials;
         updateLocalStorage();
         FCStart();
     }
@@ -966,20 +985,24 @@ function harvestBank() {
     }
 	
     if(FrozenCookies.setHarvestBankType == 2 || FrozenCookies.setHarvestBankType == 3){
-	harvestBuilding = Math.max(Game.Objects['Cursor'].amount,
-                                   Game.Objects['Farm'].amount,
-                                   Game.Objects['Mine'].amount,
-                                   Game.Objects['Factory'].amount,
-                                   Game.Objects['Bank'].amount,
-                                   Game.Objects['Temple'].amount,
-                                   Game.Objects['Wizard tower'].amount,
-                                   Game.Objects['Shipment'].amount,
-                                   Game.Objects['Alchemy lab'].amount,
-                                   Game.Objects['Portal'].amount,
-                                   Game.Objects['Time machine'].amount,
-                                   Game.Objects['Antimatter condenser'].amount,
-                                   Game.Objects['Prism'].amount,
-                                   Game.Objects['Chancemaker'].amount);
+	var harvestBuildingArray = [Game.Objects['Cursor'].amount/10,
+                           	    Game.Objects['Farm'].amount/10,
+                           	    Game.Objects['Mine'].amount/10,
+                           	    Game.Objects['Factory'].amount/10,
+                           	    Game.Objects['Bank'].amount/10,
+                           	    Game.Objects['Temple'].amount/10,
+                           	    Game.Objects['Wizard tower'].amount/10,
+                           	    Game.Objects['Shipment'].amount/10,
+                           	    Game.Objects['Alchemy lab'].amount/10,
+                           	    Game.Objects['Portal'].amount/10,
+                           	    Game.Objects['Time machine'].amount/10,
+                           	    Game.Objects['Antimatter condenser'].amount/10,
+                           	    Game.Objects['Prism'].amount/10,
+                           	    Game.Objects['Chancemaker'].amount/10];
+	harvestBuildingArray.sort(function(a, b){return b-a});
+	for(i=0;i<FrozenCookies.maxSpecials;i++){
+	    harvestBuilding *= harvestBuildingArray[i];
+	}    
     }
     
     switch(FrozenCookies.setHarvestBankPlant){
@@ -1019,7 +1042,7 @@ function harvestBank() {
 	break;
     }
     
-    return baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / 10 / harvestMaxPercent;
+    return baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / harvestMaxPercent;
 }
 
 function cookieEfficiency(startingPoint, bankAmount) {
