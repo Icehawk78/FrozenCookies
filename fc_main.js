@@ -975,11 +975,11 @@ function chainBank() {
 function harvestBank() {
     if(!FrozenCookies.setHarvestBankPlant) return 0;
     
-    var harvestMinutes = 0;
-    var harvestMaxPercent = 0;
-    var harvestFrenzy = 1;
-    var harvestBuilding = 1;
-    var harvestPlant = '';
+    FrozenCookies.harvestMinutes = 0;
+    FrozenCookies.harvestMaxPercent = 0;
+    FrozenCookies.harvestFrenzy = 1;
+    FrozenCookies.harvestBuilding = 1;
+    FrozenCookies.harvestPlant = '';
 	
     if(FrozenCookies.setHarvestBankType == 1 || FrozenCookies.setHarvestBankType == 3){
         harvestFrenzy = 7;
@@ -1005,51 +1005,51 @@ function harvestBank() {
 	harvestBuildingArray.sort(function(a, b){return b-a});
 	    
 	for(var buildingLoop = 0; buildingLoop < FrozenCookies.maxSpecials ; buildingLoop++){
-	    harvestBuilding *= harvestBuildingArray[buildingLoop];
+	    FrozenCookies.harvestBuilding *= harvestBuildingArray[buildingLoop];
 	}    
     }
 
     switch(FrozenCookies.setHarvestBankPlant){
         case 1:
-	    harvestPlant = 'Bakeberry';
-            harvestMinutes = 30;
-            harvestMaxPercent = 0.03;
+	    FrozenCookies.harvestPlant = 'Bakeberry';
+            FrozenCookies.harvestMinutes = 30;
+            FrozenCookies.harvestMaxPercent = 0.03;
 	break;
             
         case 2:
-	    harvestPlant = 'Chocoroot';
-            harvestMinutes = 3;
-            harvestMaxPercent = 0.03;
+	    FrozenCookies.harvestPlant = 'Chocoroot';
+            FrozenCookies.harvestMinutes = 3;
+            FrozenCookies.harvestMaxPercent = 0.03;
 	break;
             
         case 3:
-	    harvestPlant = 'White Chocoroot';
-            harvestMinutes = 3;
-            harvestMaxPercent = 0.03;
+	    FrozenCookies.harvestPlant = 'White Chocoroot';
+            FrozenCookies.harvestMinutes = 3;
+            FrozenCookies.harvestMaxPercent = 0.03;
 	break;
             
         case 4:
-	    harvestPlant = 'Queenbeet';
-            harvestMinutes = 60;
-            harvestMaxPercent = 0.06;
+	    FrozenCookies.harvestPlant = 'Queenbeet';
+            FrozenCookies.harvestMinutes = 60;
+            FrozenCookies.harvestMaxPercent = 0.06;
 	break;
             
         case 5:
-	    harvestPlant = 'Duketater';
-            harvestMinutes = 120;
-            harvestMaxPercent = 0.08;
+	    FrozenCookies.harvestPlant = 'Duketater';
+            FrozenCookies.harvestMinutes = 120;
+            FrozenCookies.harvestMaxPercent = 0.08;
 	break;
             
         case 6:
-	    harvestPlant = 'Crumbspore';
-            harvestMinutes = 1;
-            harvestMaxPercent = 0.01;
+	    FrozenCookies.harvestPlant = 'Crumbspore';
+            FrozenCookies.harvestMinutes = 1;
+            FrozenCookies.harvestMaxPercent = 0.01;
 	break;
             
         case 7:
-	    harvestPlant = 'Doughshroom';
-            harvestMinutes = 5;
-            harvestMaxPercent = 0.03;
+	    FrozenCookies.harvestPlant = 'Doughshroom';
+            FrozenCookies.harvestMinutes = 5;
+            FrozenCookies.harvestMaxPercent = 0.03;
 	break;
     }
     
@@ -1057,7 +1057,7 @@ function harvestBank() {
 	FrozenCookies.maxSpecials = 1;
     }
 
-    return baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / Math.pow(10, FrozenCookies.maxSpecials) / harvestMaxPercent;
+    return baseCps() * 60 * FrozenCookies.harvestMinutes * FrozenCookies.harvestFrenzy * FrozenCookies.harvestBuilding / Math.pow(10, FrozenCookies.maxSpecials) / FrozenCookies.harvestMaxPercent;
 }
 
 function cookieEfficiency(startingPoint, bankAmount) {
