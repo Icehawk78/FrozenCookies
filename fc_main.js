@@ -985,7 +985,7 @@ function harvestBank() {
     }
 	
     if(FrozenCookies.setHarvestBankType == 2 || FrozenCookies.setHarvestBankType == 3){
-	var harvestBuildingArray = [Game.Objects['Cursor'].amount/10,
+	harvestBuilding = Math.max(Game.Objects['Cursor'].amount/10,
                            	    Game.Objects['Grandma'].amount/10,
                            	    Game.Objects['Farm'].amount/10,
                            	    Game.Objects['Mine'].amount/10,
@@ -999,11 +999,12 @@ function harvestBank() {
                            	    Game.Objects['Time machine'].amount/10,
                            	    Game.Objects['Antimatter condenser'].amount/10,
                            	    Game.Objects['Prism'].amount/10,
-                           	    Game.Objects['Chancemaker'].amount/10];
-	harvestBuildingArray.sort(function(a, b){return b-a});
+                           	    Game.Objects['Chancemaker'].amount/10);
+	    
+	/*harvestBuildingArray.sort(function(a, b){return b-a});
 	for(var buildingLoop = 0; buildingLoop < FrozenCookies.maxSpecials ; buildingLoop++){
 	    harvestBuilding *= harvestBuildingArray[i];
-	}    
+	} */   
     }
 
     switch(FrozenCookies.setHarvestBankPlant){
