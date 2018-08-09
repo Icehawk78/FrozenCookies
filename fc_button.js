@@ -524,15 +524,17 @@ function FCMenu() {
         menu.append(subsection);
 
         // Harvesting
-		if (FrozenCookies.setHarvestBankPlant){
-			subsection = $('<div>').addClass('subsection');
-			subsection.append($('<div>').addClass('title').html('Harvesting Information'));
-			subsection.append($('<div>').addClass('listing').html('<b>Base CPS:</b> ' + Beautify(baseCps())));
-			subsection.append($('<div>').addClass('listing').html('<b>Plant to harvest:</b> ' + FrozenCookies.harvestPlant));
-			subsection.append($('<div>').addClass('listing').html('<b>Minutes of CpS:</b> ' + FrozenCookies.harvestMinutes));
-			subsection.append($('<div>').addClass('listing').html('<b>Percent of Bank:</b> ' + FrozenCookies.harvestMaxPercent*100));
-			menu.append(subsection);
-		}
+	if (FrozenCookies.setHarvestBankPlant){
+	    subsection = $('<div>').addClass('subsection');
+	    subsection.append($('<div>').addClass('title').html('Harvesting Information'));
+	    subsection.append($('<div>').addClass('listing').html('<b>Base CPS:</b> ' + Beautify(baseCps())));
+	    subsection.append($('<div>').addClass('listing').html('<b>Plant to harvest:</b> ' + FrozenCookies.harvestPlant));
+	    subsection.append($('<div>').addClass('listing').html('<b>Minutes of CpS:</b> ' + FrozenCookies.harvestMinutes + 'min'));
+	    subsection.append($('<div>').addClass('listing').html('<b>Max percent of Bank:</b> ' + FrozenCookies.harvestMaxPercent*100 + '%'));
+	    subsection.append($('<div>').addClass('listing').html('<b>Single ' + FrozenCookies.harvestPlant + ' harvesting:</b> ' + baseCps() * 60 * FrozenCookies.harvestMinutes * FrozenCookies.harvestFrenzy * FrozenCookies.harvestBuilding / Math.pow(10, FrozenCookies.maxSpecials)));
+	    subsection.append($('<div>').addClass('listing').html('<b>Full garden harvesting:</b> ' + 36 * baseCps() * 60 * FrozenCookies.harvestMinutes * FrozenCookies.harvestFrenzy * FrozenCookies.harvestBuilding / Math.pow(10, FrozenCookies.maxSpecials)));
+	    menu.append(subsection);
+	}
 		
         // Other Information
         subsection = $('<div>').addClass('subsection');
