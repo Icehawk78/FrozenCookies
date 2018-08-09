@@ -1003,7 +1003,10 @@ function harvestBank() {
 	    
 	harvestBuildingArray.sort(function(a, b){return b-a});
 	for(var buildingLoop = 0; buildingLoop < FrozenCookies.maxSpecials ; buildingLoop++){
+		alert(harvestBuilding);
+		alert(harvestBuildingArray[i];
 	    harvestBuilding *= harvestBuildingArray[i];
+		alert(harvestBuilding);
 	}    
     }
 
