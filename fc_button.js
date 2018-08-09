@@ -528,9 +528,9 @@ function FCMenu() {
 			subsection = $('<div>').addClass('subsection');
 			subsection.append($('<div>').addClass('title').html('Harvesting Information'));
 			subsection.append($('<div>').addClass('listing').html('<b>Base CPS:</b> ' + Beautify(baseCps())));
-			subsection.append($('<div>').addClass('listing').html('<b>Plant to harvest:</b> ' + Beautify(FrozenCookies.setHarvestBankPlant)));
-			subsection.append($('<div>').addClass('listing').html('<b>Minutes of CpS:</b> ' + Beautify(FrozenCookies.harvestMinutes)));
-			subsection.append($('<div>').addClass('listing').html('<b>Percent of Bank:</b> ' + Beautify(FrozenCookies.harvestMaxPercent*100)));
+			subsection.append($('<div>').addClass('listing').html('<b>Plant to harvest:</b> ' + FrozenCookies.harvestPlant));
+			subsection.append($('<div>').addClass('listing').html('<b>Minutes of CpS:</b> ' + FrozenCookies.harvestMinutes));
+			subsection.append($('<div>').addClass('listing').html('<b>Percent of Bank:</b> ' + FrozenCookies.harvestMaxPercent*100));
 			menu.append(subsection);
 		}
 		
