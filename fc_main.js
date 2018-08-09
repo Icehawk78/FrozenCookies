@@ -488,7 +488,7 @@ function updateManaMax(base) {
 }
 
 function getMaxSpecials(current) {
-    var newSpecials = prompt('Set maximum amount of stacked Building specials: ', current);
+    var newSpecials = prompt('Set amount of stacked Building specials for Harvest Bank: ', current);
     if (typeof(newSpecials) == 'undefined' || newSpecials == null || isNaN(Number(newSpecials)) || Number(newSpecials < 0)) {
         newSpecials = current;
     }
