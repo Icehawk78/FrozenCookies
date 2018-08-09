@@ -523,6 +523,17 @@ function FCMenu() {
         }
         menu.append(subsection);
 
+        // Harvesting
+		if (FrozenCookies.setHarvestBankPlant){
+			subsection = $('<div>').addClass('subsection');
+			subsection.append($('<div>').addClass('title').html('Harvesting Information'));
+			subsection.append($('<div>').addClass('listing').html('<b>Base CPS:</b> ' + Beautify(baseCps())));
+			subsection.append($('<div>').addClass('listing').html('<b>Plant to harvest:</b> ' + Beautify(FrozenCookies.setHarvestBankPlant)));
+			subsection.append($('<div>').addClass('listing').html('<b>Minutes of CpS:</b> ' + Beautify(FrozenCookies.harvestMinutes)));
+			subsection.append($('<div>').addClass('listing').html('<b>Percent of Bank:</b> ' + Beautify(FrozenCookies.harvestMaxPercent*100)));
+			menu.append(subsection);
+		}
+		
         // Other Information
         subsection = $('<div>').addClass('subsection');
         subsection.append($('<div>').addClass('title').html('Other Information'));
@@ -530,8 +541,6 @@ function FCMenu() {
         baseChosen = (Game.hasBuff('Frenzy')) ? '' : ' (*)';
         frenzyChosen = (Game.hasBuff('Frenzy')) ? ' (*)' : '';
         clickStr = (FrozenCookies.autoClick) ? ' + Autoclick' : '';
-        subsection.append($('<div>').addClass('listing').html('<b>Base CPS :</b> ' + Beautify(baseCps())));
-        subsection.append($('<div>').addClass('listing').html('<b>Cookies per second:</b> ' + Beautify(Game.cookiesPs)));
         subsection.append($('<div>').addClass('listing').html('<b>Base CPS' + clickStr + baseChosen + ':</b> ' + Beautify(cps)));
         subsection.append($('<div>').addClass('listing').html('<b>Frenzy CPS' + clickStr + frenzyChosen + ':</b> ' + Beautify(cps * 7)));
         subsection.append($('<div>').addClass('listing').html('<b>Estimated Effective CPS:</b> ' + Beautify(effectiveCps())));
