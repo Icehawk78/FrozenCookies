@@ -530,6 +530,8 @@ function FCMenu() {
         baseChosen = (Game.hasBuff('Frenzy')) ? '' : ' (*)';
         frenzyChosen = (Game.hasBuff('Frenzy')) ? ' (*)' : '';
         clickStr = (FrozenCookies.autoClick) ? ' + Autoclick' : '';
+        subsection.append($('<div>').addClass('listing').html('<b>Base CPS :</b> ' + Beautify(baseCps())));
+        subsection.append($('<div>').addClass('listing').html('<b>Cookies per second:</b> ' + Beautify(Game.cookiesPs)));
         subsection.append($('<div>').addClass('listing').html('<b>Base CPS' + clickStr + baseChosen + ':</b> ' + Beautify(cps)));
         subsection.append($('<div>').addClass('listing').html('<b>Frenzy CPS' + clickStr + frenzyChosen + ':</b> ' + Beautify(cps * 7)));
         subsection.append($('<div>').addClass('listing').html('<b>Estimated Effective CPS:</b> ' + Beautify(effectiveCps())));
