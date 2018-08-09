@@ -982,7 +982,7 @@ function harvestBank() {
     FrozenCookies.harvestPlant = '';
 	
     if(FrozenCookies.setHarvestBankType == 1 || FrozenCookies.setHarvestBankType == 3){
-        harvestFrenzy = 7;
+        FrozenCookies.harvestFrenzy = 7;
     }
 	
     if(FrozenCookies.setHarvestBankType == 2 || FrozenCookies.setHarvestBankType == 3){
