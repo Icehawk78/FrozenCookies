@@ -530,12 +530,6 @@ function FCMenu() {
         baseChosen = (Game.hasBuff('Frenzy')) ? '' : ' (*)';
         frenzyChosen = (Game.hasBuff('Frenzy')) ? ' (*)' : '';
         clickStr = (FrozenCookies.autoClick) ? ' + Autoclick' : '';
-        subsection.append($('<div>').addClass('listing').html('<b>Bank Total:</b> ' + Beautify(delayAmount())));
-        subsection.append($('<div>').addClass('listing').html('<b>Harvest Bank Plant:</b> ' + Beautify(FrozenCookies.setHarvestBankPlant)));
-        subsection.append($('<div>').addClass('listing').html('<b>Harvest Bank Type:</b> ' + Beautify(FrozenCookies.setHarvestBankType)));
-        subsection.append($('<div>').addClass('listing').html('<b>Bakeberry harvest (Frenzy + Building):</b> ' + Beautify(baseCps()*60*30*7*Game.Objects['Grandma'].amount/10)));
-        subsection.append($('<div>').addClass('listing').html('<b>Cookies per second:</b> ' + Beautify(Game.cookiesPs)));
-        subsection.append($('<div>').addClass('listing').html('<b>Base CPS:</b> ' + Beautify(baseCps())));
         subsection.append($('<div>').addClass('listing').html('<b>Base CPS' + clickStr + baseChosen + ':</b> ' + Beautify(cps)));
         subsection.append($('<div>').addClass('listing').html('<b>Frenzy CPS' + clickStr + frenzyChosen + ':</b> ' + Beautify(cps * 7)));
         subsection.append($('<div>').addClass('listing').html('<b>Estimated Effective CPS:</b> ' + Beautify(effectiveCps())));
@@ -548,6 +542,13 @@ function FCMenu() {
         if (liveWrinklers().length > 0) {
             subsection.append($('<div>').addClass('listing').html('<b>Wrinkler Value:</b> ' + Beautify(wrinklerValue())));
         }
+        subsection.append($('<div>').addClass('listing').html('<b>Bank Total:</b> ' + Beautify(delayAmount())));
+        subsection.append($('<div>').addClass('listing').html('<b>Bakeberry harvest (Frenzy + Building):</b> ' + Beautify(baseCps()*60*30*7*Game.Objects['Grandma'].amount/10)));
+        subsection.append($('<div>').addClass('listing').html('<b>Cookies per second:</b> ' + Beautify(Game.cookiesPs)));
+        subsection.append($('<div>').addClass('listing').html('<b>Base CPS:</b> ' + Beautify(baseCps())));
+        subsection.append($('<div>').addClass('listing').html('<b>Harvest Bank Plant:</b> ' + Beautify(FrozenCookies.setHarvestBankPlant)));
+        subsection.append($('<div>').addClass('listing').html('<b>Harvest Bank Type:</b> ' + Beautify(FrozenCookies.setHarvestBankType)));
+        subsection.append($('<div>').addClass('listing').html('<b>Harvest Bank:</b> ' + Beautify(harvestBank())));
         menu.append(subsection);
 
 
