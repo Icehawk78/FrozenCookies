@@ -979,31 +979,32 @@ function harvestBank() {
     var harvestMaxPercent = 0;
     var harvestFrenzy = 1;
     var harvestBuilding = 1;
-    
+	
     if(FrozenCookies.setHarvestBankType == 1 || FrozenCookies.setHarvestBankType == 3){
         harvestFrenzy = 7;
     }
 	
     if(FrozenCookies.setHarvestBankType == 2 || FrozenCookies.setHarvestBankType == 3){
-	var harvestBuildingArray = [Game.Objects['Cursor'].amount/10,
-                           	    Game.Objects['Grandma'].amount/10,
-                           	    Game.Objects['Farm'].amount/10,
-                           	    Game.Objects['Mine'].amount/10,
-                           	    Game.Objects['Factory'].amount/10,
-                           	    Game.Objects['Bank'].amount/10,
-                           	    Game.Objects['Temple'].amount/10,
-                           	    Game.Objects['Wizard tower'].amount/10,
-                           	    Game.Objects['Shipment'].amount/10,
-                           	    Game.Objects['Alchemy lab'].amount/10,
-                           	    Game.Objects['Portal'].amount/10,
-                           	    Game.Objects['Time machine'].amount/10,
-                           	    Game.Objects['Antimatter condenser'].amount/10,
-                           	    Game.Objects['Prism'].amount/10,
-                           	    Game.Objects['Chancemaker'].amount/10];
+	var harvestBuildingArray = [Game.Objects['Cursor'].amount,
+                           	    Game.Objects['Grandma'].amount,
+                           	    Game.Objects['Farm'].amount,
+                           	    Game.Objects['Mine'].amount,
+                           	    Game.Objects['Factory'].amount,
+                           	    Game.Objects['Bank'].amount,
+                           	    Game.Objects['Temple'].amount,
+                           	    Game.Objects['Wizard tower'].amount,
+                           	    Game.Objects['Shipment'].amount,
+                           	    Game.Objects['Alchemy lab'].amount,
+                           	    Game.Objects['Portal'].amount,
+                           	    Game.Objects['Time machine'].amount,
+                           	    Game.Objects['Antimatter condenser'].amount,
+                           	    Game.Objects['Prism'].amount,
+                           	    Game.Objects['Chancemaker'].amount];
 	    
 	harvestBuildingArray.sort(function(a, b){return b-a});
+	    
 	for(var buildingLoop = 0; buildingLoop < FrozenCookies.maxSpecials ; buildingLoop++){
-	    harvestBuilding *= harvestBuildingArray[i];
+	    harvestBuilding *= harvestBuildingArray[buildingLoop];
 	}    
     }
 
@@ -1043,8 +1044,12 @@ function harvestBank() {
             harvestMaxPercent = 0.03;
 	break;
     }
+    
+    if(FrozenCookies.maxSpecials == 0){
+	FrozenCookies.maxSpecials = 1;
+    }
 
-    return baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / harvestMaxPercent;
+    return baseCps() * 60 * harvestMinutes * harvestFrenzy * harvestBuilding / Math.pow(10, FrozenCookies.maxSpecials) / harvestMaxPercent;
 }
 
 function cookieEfficiency(startingPoint, bankAmount) {
