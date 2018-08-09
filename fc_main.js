@@ -1069,13 +1069,12 @@ function cookieEfficiency(startingPoint, bankAmount) {
 function bestBank(minEfficiency) {
     var results = {};
     var edifice = ((FrozenCookies.autoSpell == 3 || FrozenCookies.holdSEBank) ?  edificeBank() : 0);
+    if (FrozenCookies.setHarvestBankPlant){
+	harvestBank();
+    }
     var bankLevels = [0, luckyBank(), luckyFrenzyBank(), harvestBank()].sort(function(a, b) {
         return b - a;
-    })
-    if (FrozenCookies.setHarvestBankPlant){
-	return bankLevels[0];
-    }
-    bankLevels.map(function(bank) {
+    }).map(function(bank) {
         return {
             'cost': bank,
             'efficiency': cookieEfficiency(Game.cookies, bank)
