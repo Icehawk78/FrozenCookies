@@ -979,6 +979,7 @@ function harvestBank() {
     var harvestMaxPercent = 0;
     var harvestFrenzy = 1;
     var harvestBuilding = 1;
+    var harvestPlant = '';
 	
     if(FrozenCookies.setHarvestBankType == 1 || FrozenCookies.setHarvestBankType == 3){
         harvestFrenzy = 7;
@@ -1010,36 +1011,43 @@ function harvestBank() {
 
     switch(FrozenCookies.setHarvestBankPlant){
         case 1:
+	    harvestPlant = 'Bakeberry';
             harvestMinutes = 30;
             harvestMaxPercent = 0.03;
 	break;
             
         case 2:
+	    harvestPlant = 'Chocoroot';
             harvestMinutes = 3;
             harvestMaxPercent = 0.03;
 	break;
             
         case 3:
+	    harvestPlant = 'White Chocoroot';
             harvestMinutes = 3;
             harvestMaxPercent = 0.03;
 	break;
             
         case 4:
+	    harvestPlant = 'Queenbeet';
             harvestMinutes = 60;
             harvestMaxPercent = 0.06;
 	break;
             
         case 5:
+	    harvestPlant = 'Duketater';
             harvestMinutes = 120;
             harvestMaxPercent = 0.08;
 	break;
             
         case 6:
+	    harvestPlant = 'Crumbspore';
             harvestMinutes = 1;
             harvestMaxPercent = 0.01;
 	break;
             
         case 7:
+	    harvestPlant = 'Doughshroom';
             harvestMinutes = 5;
             harvestMaxPercent = 0.03;
 	break;
