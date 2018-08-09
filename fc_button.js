@@ -549,6 +549,8 @@ function FCMenu() {
         subsection.append($('<div>').addClass('listing').html('<b>Harvest Bank Plant:</b> ' + Beautify(FrozenCookies.setHarvestBankPlant)));
         subsection.append($('<div>').addClass('listing').html('<b>Harvest Bank Type:</b> ' + Beautify(FrozenCookies.setHarvestBankType)));
         subsection.append($('<div>').addClass('listing').html('<b>Harvest Bank:</b> ' + Beautify(harvestBank())));
+        subsection.append($('<div>').addClass('listing').html('<b>Grandmas:</b> ' + Beautify(Game.Objects['Grandma'].amount)));
+        subsection.append($('<div>').addClass('listing').html('<b>Grandma Multiplier:</b> ' + Beautify(Game.Objects['Grandma'].amount/10)));
         menu.append(subsection);
 
 
