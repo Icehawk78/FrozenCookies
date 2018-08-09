@@ -531,6 +531,7 @@ function FCMenu() {
         frenzyChosen = (Game.hasBuff('Frenzy')) ? ' (*)' : '';
         clickStr = (FrozenCookies.autoClick) ? ' + Autoclick' : '';
         subsection.append($('<div>').addClass('listing').html('<b>Bakeberry harvest (Frenzy + Building):</b> ' + Beautify(baseCps()*60*30*7*Game.Objects['Grandma'].amount/10)));
+        subsection.append($('<div>').addClass('listing').html('<b>Cookies per second:</b> ' + Beautify(Game.cookiesPs)));
         subsection.append($('<div>').addClass('listing').html('<b>Base CPS:</b> ' + Beautify(baseCps())));
         subsection.append($('<div>').addClass('listing').html('<b>Base CPS' + clickStr + baseChosen + ':</b> ' + Beautify(cps)));
         subsection.append($('<div>').addClass('listing').html('<b>Frenzy CPS' + clickStr + frenzyChosen + ':</b> ' + Beautify(cps * 7)));
