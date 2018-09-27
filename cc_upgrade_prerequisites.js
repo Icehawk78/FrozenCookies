@@ -423,7 +423,7 @@ var upgradeJson = {
     497: {'buildings': [500,500,500,500,500,500,500,500,500,500,500,500,500,500,500], 'upgrades': []},
 
     // Grandmapocalypse research
-    64: {'buildings': [0,7], 'upgrades': [57,58,59,250,251,252,60,61,62,63,103,180,415]},
+    64: {'buildings': [0,6], 'upgrades': [57,58,59,250,251,252,60]}, //,61,62,63,103,180,415]},
     65: {'buildings': [], 'upgrades': [64]},
     66: {'buildings': [], 'upgrades': [65]},
     67: {'buildings': [], 'upgrades': [66]},
