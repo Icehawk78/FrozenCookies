@@ -115,7 +115,7 @@ FrozenCookies.preferenceValues = {
         'default':0
     },
     'autoGodzamok':{
-        'hint':'Automatically sell all cursors during Dragonflight and Click Frenzy if you worship Godzamok ("Sane" prevents rapid buy/sell spam)',
+        'hint':'Automatically sell all cursors and farms (except one) during Dragonflight and Click Frenzy if you worship Godzamok ("Sane" prevents rapid buy/sell spam)',
         'display':['Auto-Godzamok OFF','Auto-Godzamok ON','Auto-Godzamok ON (Sane)','Auto-Godzamok (REALLY INSANE)'],
         'default':0
     },
@@ -124,6 +124,12 @@ FrozenCookies.preferenceValues = {
         'display':['Cursor Limit OFF','Cursor Limit ON'],
         'default':0,
         'extras':'<a class="option" id="cursorMax" onclick="updateCursorMax(\'cursorMax\');">${cursorMax} cursors</a>'
+    },
+    'farmLimit':{
+        'hint':'Limit max number of farms to keep Godzamok useful',
+        'display':['Farm Limit OFF','Farm Limit ON'],
+        'default':0,
+        'extras':'<a class="option" id="farmMax" onclick="updateFarmMax(\'farmMax\');">${farmMax} farms</a>'
     },
     'autoSpell':{
         'hint':'Automatically cast selected spell when your mana is full',
