@@ -2178,7 +2178,7 @@ function autoGodzamokAction() {
     //added Farms to autoGodzamok selling. 1 farm always left to prevent garden from disappearing
 	if (Game.hasGod('ruin') && Game.Objects['Cursor'].amount > 10 && Game.Objects['Farm'].amount > 10 && (!Game.hasBuff('Devastation') || FrozenCookies.autoGodzamok == 1 || FrozenCookies.autoGodzamok == 3) && hasClickBuff()) {
         var count = Game.Objects['Cursor'].amount;
-	var count2 = Game.Objects['Farm-1'].amount;
+	var count2 = Game.Objects['Farm'].amount-1;
         Game.Objects['Cursor'].sell(count);
 	Game.Objects['Farm'].sell(count2);
         if (FrozenCookies.autoGodzamok > 1) Game.Objects['Cursor'].buy(count);
