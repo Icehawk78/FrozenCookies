@@ -4,7 +4,7 @@ var scriptElement = document.getElementById('frozenCookieScript') !== null ?
     document.getElementById('modscript_frozen_cookies');
 var baseUrl = scriptElement !== null ?
     scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '') :
-    'https://cdn.jsdelivr.net/gh/Mtarnuhal/FrozenCookies@9994735c95fe6e0dd0122eed9382b137fe6150c4/';
+    'https://rawgit.com/Mtarnuhal/FrozenCookies/master/';
 var FrozenCookies = {
     'baseUrl': baseUrl,
     'branch': '',
