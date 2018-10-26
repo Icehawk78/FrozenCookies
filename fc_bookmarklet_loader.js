@@ -1,5 +1,5 @@
 javascript:(
     function () {
-        Game.LoadMod('https://rawgit.com/kisslab69/FrozenCookies/master/frozen_cookies.js');
+        Game.LoadMod('https://rawgit.com/Mtarnuhal/FrozenCookies/master/frozen_cookies.js');
     }()
 );
