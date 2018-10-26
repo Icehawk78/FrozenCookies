@@ -29,6 +29,7 @@ function setOverrides() {
     FrozenCookies.HCAscendAmount = preferenceParse('HCAscendAmount', 0);
     FrozenCookies.minCpSMult = preferenceParse('minCpSMult', 1);
     FrozenCookies.cursorMax = preferenceParse('cursorMax', 500);
+    FrozenCookies.farmMax = preferenceParse('farmMax', 500);
     FrozenCookies.manaMax = preferenceParse('manaMax', 100);
     FrozenCookies.maxSpecials = preferenceParse('maxSpecials', 1);
 
@@ -334,6 +335,7 @@ function updateLocalStorage() {
     localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
     localStorage.HCAscendAmount = FrozenCookies.HCAscendAmount;
     localStorage.cursorMax = FrozenCookies.cursorMax;
+    localStorage.farmMax = FrozenCookies.farmMax;
     localStorage.minCpSMult = FrozenCookies.minCpSMult;
     localStorage.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
     //  localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
@@ -516,6 +518,23 @@ function updateCursorMax(base) {
     var newMax = getCursorMax(FrozenCookies[base]);
     if (newMax != FrozenCookies[base]) {
         FrozenCookies[base] = newMax;
+        updateLocalStorage();
+        FCStart();
+    }
+}
+
+function getFarmMax(current) {
+    var newMax2 = prompt('How many Farms should Autobuy stop at?', current);
+    if (typeof(newMax2) == 'undefined' || newMax2 == null || isNaN(Number(newMax2)) || Number(newMax2 < 0)) {
+        newMax2 = current;
+    }
+    return Number(newMax2);
+}
+
+function updateFarmMax(base) {
+    var newMax2 = getFarmMax(FrozenCookies[base]);
+    if (newMax2 != FrozenCookies[base]) {
+        FrozenCookies[base] = newMax2;
         updateLocalStorage();
         FCStart();
     }
@@ -1238,6 +1257,14 @@ function recommendationList(recalculate) {
         if (FrozenCookies.cursorLimit && Game.Objects['Cursor'].amount >= FrozenCookies.cursorMax) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 0) {
+                    FrozenCookies.caches.recommendationList.splice(i, 1);
+                }
+            }
+        }
+	//Stop buying Farms if at set limit
+        if (FrozenCookies.farmLimit && Game.Objects['Farm'].amount >= FrozenCookies.farmMax) {
+            for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
+                if (FrozenCookies.caches.recommendationList[i].id == 2) {
                     FrozenCookies.caches.recommendationList.splice(i, 1);
                 }
             }
@@ -2148,10 +2175,14 @@ function autoGSBuy() {
 function autoGodzamokAction() {
     if (!T) return; //Just leave if Pantheon isn't here yet
     //Now has option to not trigger until current Devastation buff expires (i.e. won't rapidly buy & sell cursors throughout Godzamok duration)
-    if (Game.hasGod('ruin') && Game.Objects['Cursor'].amount > 10 && (!Game.hasBuff('Devastation') || FrozenCookies.autoGodzamok == 1 || FrozenCookies.autoGodzamok == 3) && hasClickBuff()) {
+    //added Farms to autoGodzamok selling. 1 farm always left to prevent garden from disappearing
+	if (Game.hasGod('ruin') && Game.Objects['Cursor'].amount > 10 && Game.Objects['Farm'].amount > 10 && (!Game.hasBuff('Devastation') || FrozenCookies.autoGodzamok == 1 || FrozenCookies.autoGodzamok == 3) && hasClickBuff()) {
         var count = Game.Objects['Cursor'].amount;
+	var count2 = Game.Objects['Farm-1'].amount;
         Game.Objects['Cursor'].sell(count);
+	Game.Objects['Farm'].sell(count2);
         if (FrozenCookies.autoGodzamok > 1) Game.Objects['Cursor'].buy(count);
+	if (FrozenCookies.autoGodzamok > 1) Game.Objects['Farm'].buy(count2);
     }
 }
 
