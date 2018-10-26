@@ -663,12 +663,14 @@ function autoCast() {
                 return;
             case 3:
                 var SE = M.spellsById[3];
-                //If you don't have any chancemakers yet, or can't cast SE, just give up.
-                if (Game.Objects['Chancemaker'].amount == 0 || M.magicM < Math.floor(SE.costMin + SE.costPercent*M.magicM)) return;
+		//Chancemaker replaced by new Fractal engine	
+                //If you don't have any Fractal engine yet, or can't cast SE, just give up.
+                if (Game.Objects['Fractal engine'].amount == 0 || M.magicM < Math.floor(SE.costMin + SE.costPercent*M.magicM)) return;
                 //If we have over 400 CM, always going to sell down to 399. If you don't have half a Chancemaker in bank, sell one
-                while (Game.Objects['Chancemaker'].amount >= 400 || Game.cookies < Game.Objects['Chancemaker'].price/2) {
-                   Game.Objects['Chancemaker'].sell(1);
-                   logEvent('Store', 'Sold 1 Chancemaker for ' + Beautify(Game.Objects['Chancemaker'].price*1.15*.85));
+                while (Game.Objects['Fractal engine'].amount >= 400 || Game.cookies < Game.Objects['Fractal engine'].price/2) {
+                   Game.Objects['Fractal engine'].sell(1);
+		//log event calculation outdated. sell return was reduced from .85 with earth shatterer to .5
+                   logEvent('Store', 'Sold 1 Fractal engine for ' + Beautify(Game.Objects['Fractal engine'].price*1.15*.50));
                 }
                 M.castSpell(SE);
                 logEvent('AutoSpell', 'Cast Spontaneous Edifice');
@@ -948,13 +950,13 @@ function estimatedTimeRemaining(cookies) {
 }
 
 function canCastSE() {
-    if (M.magicM >= 80 && Game.Objects['Chancemaker'].amount > 0) return 1;
+    if (M.magicM >= 80 && Game.Objects['Fractal engine'].amount > 0) return 1;
     return 0;
 }
 
 function edificeBank() {
     if (!canCastSE) return 0;
-    var cmCost = Game.Objects['Chancemaker'].price;
+    var cmCost = Game.Objects['Fractal engine'].price;
     return Game.hasBuff('everything must go') ? (cmCost * (100/95))/2 : cmCost/2;
 }
 function luckyBank() {
@@ -1001,7 +1003,7 @@ function harvestBank() {
                            	    Game.Objects['Antimatter condenser'].amount,
                            	    Game.Objects['Prism'].amount,
                            	    Game.Objects['Chancemaker'].amount];
-	    
+	    			    Game.Objects['Fractal engine'].amount];
 	harvestBuildingArray.sort(function(a, b){return b-a});
 	    
 	for(var buildingLoop = 0; buildingLoop < FrozenCookies.maxSpecials ; buildingLoop++){
@@ -1216,8 +1218,8 @@ function recommendationList(recalculate) {
             .sort(function(a, b) {
                 return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
             }));
-        //If autocasting Spontaneous Edifice, don't buy any Chancemakers after 399
-        if (M && FrozenCookies.autoSpell == 3 && Game.Objects['Chancemaker'].amount >= 399) {
+        //If autocasting Spontaneous Edifice, don't buy any Fractal engine after 399
+        if (M && FrozenCookies.autoSpell == 3 && Game.Objects['Fractal engine'].amount >= 399) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
                 if (FrozenCookies.caches.recommendationList[i].id == 14) {
                     FrozenCookies.caches.recommendationList.splice(i , 1);
