@@ -8,14 +8,14 @@ How to use
 
 ## Bookmarklet install
 
-1. Paste the *contents* (not the url) of https://rawgit.com/hnns88/FrozenCookies/master/fc_bookmarklet_loader.js into a bookmark.
+1. Paste the *contents* (not the url) of https://mtarnuhal.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark.
 2. Load up Cookie Clicker.
 3. Load the recently created bookmark.
 
 ## Userscript install
 
 0. If you don't already have it, install the required browser add-on. [Tampermonkey (Chrome)](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) or [Greasemonkey (Firefox)](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/)
-1. Go to https://rawgit.com/hnns88/FrozenCookies/master/fc_userscript_loader.user.js
+1. Go to https://mtarnuhal.github.io/FrozenCookies/fc_userscript_loader.user.js
 2. Click the 'install' button in the upper right corner.
 3. Load up Cookie Clicker.
 
@@ -37,6 +37,12 @@ What can Frozen Cookies do?
 
 What's new?
 -----------
+2018 Oct 27
+- Added Shimmering veil blacklists
+- Updated SE auto cast strategy to use new fractal engine instead of chancemaker.
+- Added farms to godzamok sold buildings as they contribute barely synergy. sells all farms except 1 for the garden. added a new option to limit farms just like cursors
+- Added Fractal engine reletaded upgrade values
+
 2018 Aug 6
 - New "Harvest Bank" option to select a higher Bank than for Frenzy/Clicking Frenzy if you want to get the maximum return from harvesting Bakeberries, Chocoroots, White Chocoroots, Queenbeets or Duketaters
 - Scenario selection for harvesting
