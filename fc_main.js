@@ -2181,8 +2181,10 @@ function autoGodzamokAction() {
 	var count2 = Game.Objects['Farm'].amount-1;
         Game.Objects['Cursor'].sell(count);
 	Game.Objects['Farm'].sell(count2);
-        if (FrozenCookies.autoGodzamok > 1) Game.Objects['Cursor'].buy(count);
-	if (FrozenCookies.autoGodzamok > 1) Game.Objects['Farm'].buy(count2);
+        if (FrozenCookies.autoGodzamok > 1) {
+		Game.Objects['Cursor'].buy(count);
+		Game.Objects['Farm'].buy(count2);
+	}
     }
 }
 
