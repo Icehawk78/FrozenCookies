@@ -5,8 +5,8 @@
 // @author         Lordshinjo
 // @homepage       https://github.com/Mtarnuhal/FrozenCookies
 // @include        http://orteil.dashnet.org/cookieclicker/
-// @updateURL      https://cdn.jsdelivr.net/gh/Mtarnuhal/FrozenCookies@9994735c95fe6e0dd0122eed9382b137fe6150c4/fc_userscript_loader.user.js
-// @downloadURL    https://cdn.jsdelivr.net/gh/Mtarnuhal/FrozenCookies@9994735c95fe6e0dd0122eed9382b137fe6150c4/fc_userscript_loader.user.js
+// @updateURL      https://mtarnuhal.github.io/FrozenCookies//fc_userscript_loader.user.js
+// @downloadURL    https://mtarnuhal.github.io/FrozenCookies//fc_userscript_loader.user.js
 // @run-at         document-start
 // ==/UserScript==
 
@@ -15,7 +15,7 @@
 // Github.io: http://lordshinjo.github.io/FrozenCookies/
 
 function LoadFrozenCookies() {
-    Game.LoadMod('https://cdn.jsdelivr.net/gh/Mtarnuhal/FrozenCookies@9994735c95fe6e0dd0122eed9382b137fe6150c4/frozen_cookies.js');
+    Game.LoadMod('https://mtarnuhal.github.io/FrozenCookies/frozen_cookies.js');
 }
 
 window.addEventListener("load", LoadFrozenCookies, false);
