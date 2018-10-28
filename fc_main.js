@@ -1052,7 +1052,7 @@ function harvestBank() {
         case 4:
 	    FrozenCookies.harvestPlant = 'Queenbeet';
             FrozenCookies.harvestMinutes = 60;
-            FrozenCookies.harvestMaxPercent = 0.06;
+            FrozenCookies.harvestMaxPercent = 0.04;
 	break;
             
         case 5:
