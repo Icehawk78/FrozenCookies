@@ -926,12 +926,12 @@ function chocolateValue(bankAmount, earthShatter) {
     var value = 0;
     if (Game.HasUnlocked('Chocolate egg') && !Game.Has('Chocolate egg')) {
         bankAmount = (bankAmount != null && bankAmount !== 0) ? bankAmount : Game.cookies;
-        var sellRatio = 0.5;
+        var sellRatio = 0.25;
         var highestBuilding = 0;
         if (earthShatter == null) {
-            if (Game.hasAura('Earth Shatterer')) sellRatio = 0.85;
+            if (Game.hasAura('Earth Shatterer')) sellRatio = 0.5;
         } else if (earthShatter) {
-            sellRatio = 0.85;
+            sellRatio = 0.5;
             if (!Game.hasAura('Earth Shatterer')) {
                 for (var i in Game.Objects) {
                     if (Game.Objects[i].amount > 0) highestBuilding = Game.Objects[i];
