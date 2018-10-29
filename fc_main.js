@@ -931,7 +931,7 @@ function chocolateValue(bankAmount, earthShatter) {
         if (earthShatter == null) {
             if (Game.hasAura('Earth Shatterer')) sellRatio = 0.5;
         } else if (earthShatter) {
-            sellRatio = 0.85;
+            sellRatio = 0.5;
             if (!Game.hasAura('Earth Shatterer')) {
                 for (var i in Game.Objects) {
                     if (Game.Objects[i].amount > 0) highestBuilding = Game.Objects[i];
