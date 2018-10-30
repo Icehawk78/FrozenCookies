@@ -2119,7 +2119,7 @@ function shouldPopWrinklers() {
             });
         } else {
             var delay = delayAmount();
-            var wrinklerList = (FrozenCookies.shinyPop == 0) ? Game.wrinklers.filter(v => v.type == 0) : Game.wrinklers;
+            var wrinklerList = (FrozenCookies.shinyPop == 0) ? Game.wrinklers.filter(v >= v.type == 0) : Game.wrinklers;
             var nextRecNeeded = nextPurchase().cost + delay - Game.cookies;
             var nextRecCps = nextPurchase().delta_cps;
             var wrinklersNeeded = wrinklerList.sort(function(w1, w2) {
