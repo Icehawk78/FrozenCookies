@@ -256,7 +256,7 @@ function updateTimers() {
         cursed_finger_delay = buffDuration('Cursed finger') / maxCookieTime(),
         building_special_delay = hasBuildingSpecialBuff() / maxCookieTime(),
         cookie_storm_delay = buffDuration('Cookie storm') / maxCookieTime(),
-        decimal_HC_complete = (Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)%1),
+        // useless decimal_HC_complete = (Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)%1),
         bankTotal = delayAmount(),
         purchaseTotal = nextPurchase().cost,
         bankCompletion = bankTotal ? (Math.min(Game.cookies, bankTotal)) / bankTotal : 0,
@@ -408,14 +408,6 @@ function updateTimers() {
             display: timeDisplay(buffDuration('Cookie storm')/Game.fps)
         });
     }
-    if (decimal_HC_complete>0) {
-        t_draw.push({
-            f_percent: decimal_HC_complete,
-            c1: "rgba(55, 169, 230, 1)",
-            name: "HC Completion",
-            display: (Math.round(decimal_HC_complete*10000)/100)+"%"
-        });
-    }
     height = $('#backgroundLeftCanvas').height() - 140;
     drawCircles(t_draw, 20, height);
 }
@@ -506,20 +498,17 @@ function FCMenu() {
         resetHC = currHC + prestigeDifference;
         subsection.append($('<div>').addClass('listing').html('<b>HC Now:</b> ' + Beautify(Game.heavenlyChips)));
         subsection.append($('<div>').addClass('listing').html('<b>HC After Reset:</b> ' + Beautify(resetHC)));
-        subsection.append($('<div>').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
-        subsection.append($('<div>').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
+        //useless, vanilla bar displays it anyway. subsection.append($('<div>').addClass('listing').html('<b>Cookies to next HC:</b> ' + Beautify(nextHC(true))));
+        //might be usefull on first and second ancesion. subsection.append($('<div>').addClass('listing').html('<b>Estimated time to next HC:</b> ' + nextHC()));
         if (currHC < resetHC) {
-            subsection.append($('<div>').addClass('listing').html('<b>Time since last HC:</b> ' + timeDisplay((Date.now() - FrozenCookies.lastHCTime)/1000)));
-            if (FrozenCookies.lastHCAmount - 1 >= currHC) {
-                subsection.append($('<div>').addClass('listing').html('<b>Time to get last HC:</b> ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000)));
-            }
+            //subsection.append($('<div>').addClass('listing').html('<b>Time since last HC:</b> ' + timeDisplay((Date.now() - FrozenCookies.lastHCTime)/1000)));
+            //if (FrozenCookies.lastHCAmount - 1 >= currHC) {
+            //    subsection.append($('<div>').addClass('listing').html('<b>Time to get last HC:</b> ' + timeDisplay((FrozenCookies.lastHCTime - FrozenCookies.prevLastHCTime)/1000)));
+            //}
             if (FrozenCookies.maxHCPercent > 0) {
                 subsection.append($('<div>').addClass('listing').html('<b>Max HC Gain/hr:</b> ' + Beautify(FrozenCookies.maxHCPercent)));
             }
             subsection.append($('<div>').addClass('listing').html('<b>Average HC Gain/hr:</b> ' + Beautify(60 * 60 * (FrozenCookies.lastHCAmount - currHC)/((FrozenCookies.lastHCTime - Game.startDate)/1000))));
-            if (FrozenCookies.lastHCAmount - 1 >= currHC) {
-                subsection.append($('<div>').addClass('listing').html('<b>Previous Average HC Gain/hr:</b> ' + Beautify(60 * 60 *(FrozenCookies.lastHCAmount - 1 - currHC)/((FrozenCookies.prevLastHCTime - Game.startDate)/1000))));
-            }
         }
         menu.append(subsection);
 
