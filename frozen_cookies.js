@@ -29,6 +29,7 @@ var script_list = [
     FrozenCookies.baseUrl + '/cc_upgrade_prerequisites.js',
     FrozenCookies.baseUrl + '/fc_main.js',
     FrozenCookies.baseUrl + '/fc_button.js'
+    FrozenCookies.baseUrl + '/fc_spellpredict.js'
 ]
 
 FrozenCookies.loadInterval = setInterval(function() {
