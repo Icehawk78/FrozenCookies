@@ -2388,25 +2388,25 @@ function FCStart() {
 
     if (FrozenCookies.cookieBot) {
         clearInterval(FrozenCookies.cookieBot);
-        FrozenCookies.cookieBot = 10;
+        FrozenCookies.cookieBot = 0;
     }
     if (FrozenCookies.autoclickBot) {
         clearInterval(FrozenCookies.autoclickBot);
-        FrozenCookies.autoclickBot = 10;
+        FrozenCookies.autoclickBot = 0;
     }
     if (FrozenCookies.statBot) {
         clearInterval(FrozenCookies.statBot);
-        FrozenCookies.statBot = 10;
+        FrozenCookies.statBot = 0;
     }
 
     if (FrozenCookies.autoGSBot) {
         clearInterval(FrozenCookies.autoGSBot);
-        FrozenCookies.autoGSBot = 10;
+        FrozenCookies.autoGSBot = 0;
     }
 
     if (FrozenCookies.autoGodzamokBot) {
         clearInterval(FrozenCookies.autoGodzamokBot);
-        FrozenCookies.autoGodzamokBot = 10;
+        FrozenCookies.autoGodzamokBot = 0;
     }
 
     //  if (!FrozenCookies.saveWrinklers && localStorage.wrinklers) {
@@ -2425,9 +2425,9 @@ function FCStart() {
         FrozenCookies.cookieBot = setTimeout(autoCookie, FrozenCookies.frequency);
     }
 
-    //  if (FrozenCookies.autoGC) {
-    //    FrozenCookies.goldenCookieBot = setInterval(autoGoldenCookie, FrozenCookies.frequency);
-    //  }
+    if (FrozenCookies.autoGC) {
+        FrozenCookies.goldenCookieBot = setInterval(autoGoldenCookie, FrozenCookies.frequency);
+    }
 
     if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
         FrozenCookies.autoclickBot = setInterval(fcClickCookie, 1000 / FrozenCookies.cookieClickSpeed);
