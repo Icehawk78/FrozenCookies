@@ -2388,25 +2388,25 @@ function FCStart() {
 
     if (FrozenCookies.cookieBot) {
         clearInterval(FrozenCookies.cookieBot);
-        FrozenCookies.cookieBot = 0;
+        FrozenCookies.cookieBot = 10;
     }
     if (FrozenCookies.autoclickBot) {
         clearInterval(FrozenCookies.autoclickBot);
-        FrozenCookies.autoclickBot = 0;
+        FrozenCookies.autoclickBot = 10;
     }
     if (FrozenCookies.statBot) {
         clearInterval(FrozenCookies.statBot);
-        FrozenCookies.statBot = 0;
+        FrozenCookies.statBot = 10;
     }
 
     if (FrozenCookies.autoGSBot) {
         clearInterval(FrozenCookies.autoGSBot);
-        FrozenCookies.autoGSBot = 0;
+        FrozenCookies.autoGSBot = 10;
     }
 
     if (FrozenCookies.autoGodzamokBot) {
         clearInterval(FrozenCookies.autoGodzamokBot);
-        FrozenCookies.autoGodzamokBot = 0;
+        FrozenCookies.autoGodzamokBot = 10;
     }
 
     //  if (!FrozenCookies.saveWrinklers && localStorage.wrinklers) {
