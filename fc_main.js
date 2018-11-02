@@ -2425,9 +2425,9 @@ function FCStart() {
         FrozenCookies.cookieBot = setTimeout(autoCookie, FrozenCookies.frequency);
     }
 
-    if (FrozenCookies.autoGC) {
+    /*if (FrozenCookies.autoGC) {
         FrozenCookies.goldenCookieBot = setInterval(autoGoldenCookie, FrozenCookies.frequency);
-    }
+    }*/
 
     if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
         FrozenCookies.autoclickBot = setInterval(fcClickCookie, 1000 / FrozenCookies.cookieClickSpeed);
