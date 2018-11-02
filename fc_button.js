@@ -413,12 +413,10 @@ function updateTimers() {
 }
 
 function FCMenu() {
-    /*Game.UpdateMenu = function() {
+    	Game.UpdateMenu = function() {
         if (Game.onMenu !== 'fc_menu') {
             return Game.oldUpdateMenu();
-        }*/
-	Game.UpdateMenu();
-	
+        }
         var currentCookies, maxCookies, isTarget, isMax, targetTxt, maxTxt,
             currPrestige, resetPrestige, prestigeDifference,
             currHC, resetHC, cps, baseChosen, frenzyChosen, clickStr, buildTable,
