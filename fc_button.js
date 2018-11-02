@@ -142,7 +142,7 @@ Game.RebuildStore(true);
 Game.RebuildUpgrades(true);
 */
 
-Game.oldUpdateMenu = Game.UpdateMenu();
+Game.oldUpdateMenu = Game.UpdateMenu;
 
 function drawCircles(t_d, x, y) {
     var maxRadius, heightOffset, i_c, i_tc, t_b, maxWidth, maxHeight, s_t,
