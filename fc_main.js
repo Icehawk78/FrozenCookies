@@ -1240,7 +1240,7 @@ function recommendationList(recalculate) {
         //If autocasting Spontaneous Edifice, don't buy any Fractal engine after 399
         if (M && FrozenCookies.autoSpell == 3 && Game.Objects['Fractal engine'].amount >= 399) {
             for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
-                if (FrozenCookies.caches.recommendationList[i].id == 14) {
+                if (FrozenCookies.caches.recommendationList[i].id == 15) {
                     FrozenCookies.caches.recommendationList.splice(i , 1);
                 }
             }
