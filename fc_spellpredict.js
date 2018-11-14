@@ -4,7 +4,7 @@
 // @match        http://orteil.dashnet.org/cookieclicker/
 // @source       https://www.reddit.com/r/CookieClicker/comments/6v2lz3/predict_next_hands_of_faith/
 
-function() {
+(function() {
     if(Game.ObjectsById[7].minigameLoaded){
         var lookup = setInterval(function() {
             if (typeof Game.ready !== 'undefined' && Game.ready) {
@@ -22,7 +22,7 @@ function() {
             }
         }, 1000);
     }
-}
+})();
 
 
 nextSpell = function(i) {
