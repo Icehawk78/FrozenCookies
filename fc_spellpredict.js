@@ -1,37 +1,35 @@
-// ==UserScript==
 // @name         Cookie Clicker Predict Spell
-// @namespace    http://tampermonkey.net/
 // @version      0.1
 // @author       Random Reddit Guy (SamNosliw, 3pLm1zf1rMD_Xkeo6XHl)
 // @match        http://orteil.dashnet.org/cookieclicker/
-// @grant        none
-// ==/UserScript==
-//source: https://www.reddit.com/r/CookieClicker/comments/6v2lz3/predict_next_hands_of_faith/
+// @source       https://www.reddit.com/r/CookieClicker/comments/6v2lz3/predict_next_hands_of_faith/
 
-(function() {
-    var lookup = setInterval(function() {
-        if (typeof Game.ready !== 'undefined' && Game.ready) {
-            var CastSpell = document.getElementById("grimoireSpell1");
-            CastSpell.onmouseover = function(){
-                Game.tooltip.dynamic=1;
-                Game.tooltip.draw(this, Game.ObjectsById[7].minigame.spellTooltip(1)()
-                                  + '<div class="line"></div><div class="description">'
-                                  + '<b>First Spell:</b> ' + nextSpell(0) + '<br />'
-                                  + '<b>Second Spell:</b> ' + nextSpell(1) + '<br />'
-                                  + '<b>Third Spell:</b> ' + nextSpell(2) + '<br />'
-                                  + '<b>Fourth Spell:</b> ' + nextSpell(3) +'</div>','this');
-                Game.tooltip.wobble();};
-            clearInterval(lookup);
-        }
-    }, 1000);
-})();
+function() {
+    if(Game.ObjectsById[7].minigameLoaded){
+        var lookup = setInterval(function() {
+            if (typeof Game.ready !== 'undefined' && Game.ready) {
+                var CastSpell = document.getElementById("grimoireSpell1");
+                CastSpell.onmouseover = function(){
+                    Game.tooltip.dynamic=1;
+                    Game.tooltip.draw(this, Game.ObjectsById[7].minigame.spellTooltip(1)()
+                                      + '<div class="line"></div><div class="description">'
+                                      + '<b>First Spell:</b> ' + nextSpell(0) + '<br />'
+                                      + '<b>Second Spell:</b> ' + nextSpell(1) + '<br />'
+                                      + '<b>Third Spell:</b> ' + nextSpell(2) + '<br />'
+                                      + '<b>Fourth Spell:</b> ' + nextSpell(3) +'</div>','this');
+                    Game.tooltip.wobble();};
+                clearInterval(lookup);
+            }
+        }, 1000);
+    }
+}
 
 
-(nextSpell = function(i) {
+nextSpell = function(i) {
     season=Game.season;
     var obj = obj || {};
     M = Game.ObjectsById[7].minigame;
-    spell = M.spellsById[2];
+    spell = M.spellsById[1];
     var failChance = M.getFailChance(spell);
     if (typeof obj.failChanceSet !== 'undefined') failChance = obj.failChanceSet;
     if (typeof obj.failChanceAdd !== 'undefined') failChance += obj.failChanceAdd;
@@ -59,4 +57,4 @@
     ret = choose(choices);
     Math.seedrandom();
     return '<small>' + ret + '</b></small>';
-});
+}
