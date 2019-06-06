@@ -417,6 +417,13 @@ function FCMenu() {
         if (Game.onMenu !== 'fc_menu') {
             return Game.oldUpdateMenu();
         }
+	if (!Game.callingMenu) {
+          Game.callingMenu = true
+          setTimeout(() => {
+            Game.callingMenu = false
+            Game.UpdateMenu()
+          }, 1000)
+        }
         var currentCookies, maxCookies, isTarget, isMax, targetTxt, maxTxt,
             currPrestige, resetPrestige, prestigeDifference,
             currHC, resetHC, cps, baseChosen, frenzyChosen, clickStr, buildTable,
