@@ -146,10 +146,10 @@ Game.oldUpdateMenu = Game.UpdateMenu;
 
 function drawCircles(t_d, x, y) {
     var maxRadius, heightOffset, i_c, i_tc, t_b, maxWidth, maxHeight, s_t,
-        c = $('#backgroundLeftCanvas');
+	c = $('#backgroundLeftCanvas');
     if (typeof(c.measureText) != "function") {
         return;
-    }
+	}
     maxRadius = 10 + 10*t_d.reduce(function(sum,item){return (item.overlay) ? sum : sum + 1;},0);
     heightOffset = maxRadius + 5 - (15 * (t_d.length - 1) / 2);
     i_c = 0;
@@ -157,52 +157,55 @@ function drawCircles(t_d, x, y) {
     t_b = ['rgba(170, 170, 170, 1)','rgba(187, 187, 187, 1)','rgba(204, 204, 204, 1)','rgba(221, 221, 221, 1)','rgba(238, 238, 238, 1)','rgba(255, 255, 255, 1)'];
     var maxText = _.max(t_d.map(function(o) {
         return o.name ? o.name + (o.display ? ': ' + o.display : '') : '';
-    }), function(str) {
+		}), function(str) {
         return str.length;
-    });
+	});
     var maxMeasure = c.measureText({
         fontSize: "12px",
         fontFamily: "Arial",
         maxWidth: c.width,
         text: maxText
-    });
+	});
     maxWidth = maxMeasure.width;
     maxHeight = maxMeasure.height * t_d.length;
-    c.drawRect({
+    if (FrozenCookies.fancyui%2==1) c.drawRect({
         fillStyle: 'rgba(153, 153, 153, 0.6)',
         x: x + maxRadius * 2 + maxWidth / 2 + 35, y: y + maxRadius + 5,
         width: maxWidth + 20, height: maxHeight + 20
-    });
-
+	});
+	
     t_d.forEach( function(o_draw) {
         if (o_draw.overlay)
         {
             i_c--;
-        }
+		}
         else
-        {
+        { if (FrozenCookies.fancyui > 1) {
             c.drawArc({
                 strokeStyle: t_b[i_c%t_b.length],
                 strokeWidth: 10,
                 x: x + (maxRadius + 5), y:y + maxRadius + 5,
                 radius: maxRadius - i_c*10
-            });
+			});
             c.drawArc({
                 strokeStyle: t_b[(i_c+2)%t_b.length],
                 strokeWidth: 1,
                 x: x + (maxRadius + 5), y:y + maxRadius + 5,
                 radius: maxRadius - 5 - (i_c)*10
-            });
+			});
+		}
         }
-        c.drawArc({
-            strokeStyle: o_draw.c1,
-            x: x + (maxRadius + 5), y:y + maxRadius + 5,
-            radius: maxRadius - i_c*10,
-            strokeWidth: 7,
-            start: 0,
-            end: (360 * o_draw.f_percent)
-        });
-        if (o_draw.name)
+        if (FrozenCookies.fancyui > 1) {
+			c.drawArc({
+				strokeStyle: o_draw.c1,
+				x: x + (maxRadius + 5), y:y + maxRadius + 5,
+				radius: maxRadius - i_c*10,
+				strokeWidth: 7,
+				start: 0,
+				end: (360 * o_draw.f_percent)
+			});
+		}
+        if ((FrozenCookies.fancyui%2==1) && o_draw.name)
         {
             s_t = o_draw.name + (o_draw.display ? ": "+o_draw.display : "");
             c.drawText({
@@ -211,12 +214,13 @@ function drawCircles(t_d, x, y) {
                 fillStyle: o_draw.c1,
                 x: x + maxRadius * 2 + maxWidth / 2 + 35, y: y + heightOffset+15*i_tc,
                 text: s_t
-            });
+			});
             i_tc++;
-        }
+		}
         i_c++;
-    });
+	});
 }
+
 
 function hasBuildingSpecialBuff() {
     for (var i in Game.buffs) {

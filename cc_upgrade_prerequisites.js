@@ -168,7 +168,12 @@ FrozenCookies.preferenceValues = {
         'hint':'Season to maintain when no others have needed upgrades',
         'display':['Default Season: None','Default Season: Business Day','Default Season: Christmas','Default Season: Easter','Default Season: Halloween',"Default Season: Valentine's Day"],
         'default':0
-    }
+    },
+    'fancyui':{
+        'hint':'As these graphics are very slow, enable it here.',
+        'display':['No graphic','Textbox only','Wheel only','Full graphics'],
+        'default':0
+    } 
 };
 
 // Unused, for now:
