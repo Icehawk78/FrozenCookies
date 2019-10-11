@@ -653,11 +653,13 @@ function autoRigidel() {
             }
     }
 }
-                
-            
-            
-        
-        
+
+function autoTicker(){
+	if (Game.TickerEffect && Game.TickerEffect.type=='fortune'){
+		Game.tickerL.click();
+	}
+}
+   
 function autoCast() {
     if (!M) return; //Just leave if you don't have grimoire
     if (M.magic == M.magicM) {
@@ -2447,6 +2449,10 @@ function FCStart() {
     
     if(FrozenCookies.autoSpell) {
         setInterval(autoCast, FrozenCookies.frequency*10)
+    }
+	
+	if(FrozenCookies.autoFortune) {
+        setInterval(autoTicker, FrozenCookies.frequency*10)
     }
 
     if (statSpeed(FrozenCookies.trackStats) > 0) {
