@@ -137,10 +137,15 @@ FrozenCookies.preferenceValues = {
         'default':0,
         'extras':'<a class="option" id="minCpSMult" onclick="updateCpSMultMin(\'minCpSMult\');">x${minCpSMult} minimum Frenzy</a>'
     },
+    'autoFortune':{
+        'hint':'Automatically click the news ticker when Fortune News appears',
+        'display':["Auto Fortune OFF","Auto Fortune ON"],
+        'default':0
+    },
     'holdSEBank':{
         'hint':'Maintain a bank for Spontaneous Edifice (already enabled if Auto Casting SE)',
         'display':["SE Bank OFF","SE Bank ON"],
-        'default':0,
+        'default':0
     },
     'towerLimit':{
         'hint':'Stop Autobuying Wizard Towers at selected Max Mana, for spellcasting efficiency',
