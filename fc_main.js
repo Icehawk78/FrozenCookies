@@ -2174,19 +2174,33 @@ function autoGSBuy() {
     }
 }
 
-function autoGodzamokAction() {
+function autoGodzamokAction()
+{
     if (!T) return; //Just leave if Pantheon isn't here yet
     //Now has option to not trigger until current Devastation buff expires (i.e. won't rapidly buy & sell cursors throughout Godzamok duration)
     //added Farms to autoGodzamok selling. 1 farm always left to prevent garden from disappearing
-	if (Game.hasGod('ruin') && Game.Objects['Cursor'].amount > 10 && Game.Objects['Farm'].amount > 10 && (!Game.hasBuff('Devastation') || FrozenCookies.autoGodzamok == 1 || FrozenCookies.autoGodzamok == 3) && hasClickBuff()) {
-        var count = Game.Objects['Cursor'].amount;
-	var count2 = Game.Objects['Farm'].amount-1;
-        Game.Objects['Cursor'].sell(count);
-	Game.Objects['Farm'].sell(count2);
-        if (FrozenCookies.autoGodzamok > 1) {
-		Game.Objects['Cursor'].buy(count);
-		Game.Objects['Farm'].buy(count2);
-	}
+    if (Game.hasGod('ruin') && (!Game.hasBuff('Devastation')) && hasClickBuff())
+    {
+	    if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Cursor'].amount >= 10)
+		{
+			var count = Game.Objects['Cursor'].amount; 	
+			Game.Objects['Cursor'].sell(count); 
+		}
+        if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount >= 10)
+		{
+			var count2 = Game.Objects['Farm'].amount-1; 	
+			Game.Objects['Farm'].sell(count2); 
+		}
+		
+        if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Cursor'].amount < 10) 
+		{
+			Game.Objects['Cursor'].buy(count);
+		}
+		
+        if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount < 10) 
+		{
+			Game.Objects['Farm'].buy(count2);
+		}
     }
 }
 
