@@ -715,7 +715,7 @@ function autoBlacklistOff() {
             FrozenCookies.blacklist = (Game.cookiesEarned >= 1000000000) ? 0 : 2;
             break;
         case 3:
-            FrozenCookies.blacklist = (haveAll('halloween') && haveAll('valentines')) ? 0 : 3;
+            FrozenCookies.blacklist = (haveAll('halloween') && haveAll('easter')) ? 0 : 3;
             break;
     }
 }
