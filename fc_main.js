@@ -2201,15 +2201,14 @@ function autoGodzamokAction()
 		{
 			var count = Game.Objects['Cursor'].amount; 	
 			Game.Objects['Cursor'].sell(count); 
-			logEvent("AutoGodzamok","Sold "+count+" cursors");
 		}
         if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount >= 10)
 		{
 			var count2 = Game.Objects['Farm'].amount-1; 	
 			Game.Objects['Farm'].sell(count2); 
-			logEvent("AutoGodzamok","Sold "+count2+" farms");
 		}
-		
+		logEvent("AutoGodzamok","Sold "+count+" cursors and "+count2+" farms");
+
         if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Cursor'].amount < 10) 
 		{
 			//Game.Objects['Cursor'].buy(count);
