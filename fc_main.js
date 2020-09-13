@@ -2174,22 +2174,6 @@ function autoGSBuy() {
     }
 }
 
-function safeBuy(bldg,count)
-{
-	var wasSell = false;
-	
-	if (Game.buyMode==-1) 
-	{
-		wasSell = true;
-		document.getElementById('storeBulkBuy').click();
-		bldg.buy(count);
-		document.getElementById('storeBulkSell').click();
-	} else {
-		bldg.buy(count);
-	}
-	
-}
-
 function autoGodzamokAction()
 {
     if (!T) return; //Just leave if Pantheon isn't here yet
@@ -2211,14 +2195,24 @@ function autoGodzamokAction()
 
         if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Cursor'].amount < 10) 
 		{
+<<<<<<< HEAD
+			//Game.Objects['Cursor'].buy(count);
 			safeBuy(Game.Objects['Cursor'],count);
 			logEvent("AutoGodzamok","Re-bought "+count+" cursors");
+=======
+			Game.Objects['Cursor'].buy(count);
+>>>>>>> parent of 94767cd... Update fc_main.js
 		}
 		
         if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount < 10) 
 		{
+<<<<<<< HEAD
+			//Game.Objects['Farm'].buy(count2);
 			safeBuy(Game.Objects['Farm'],count2);
 			logEvent("AutoGodzamok","Re-bought "+count2+" farms");
+=======
+			Game.Objects['Farm'].buy(count2);
+>>>>>>> parent of 94767cd... Update fc_main.js
 		}
     }
 }
@@ -2326,9 +2320,8 @@ function autoCookie() {
             recommendation.purchase.clickFunction = null;
             disabledPopups = false;
             //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
-            //recommendation.purchase.buy();
-            if (recommendation.type=='upgrade') {recommendation.purchase.buy();} else {safeBuy(recommendation.purchase);} //safebuy building
-			FrozenCookies.autobuyCount += 1;
+            recommendation.purchase.buy();
+            FrozenCookies.autobuyCount += 1;
             if (FrozenCookies.trackStats == 5 && recommendation.type == 'upgrade') {
                 saveStats();
             } else if (FrozenCookies.trackStats == 6) {
