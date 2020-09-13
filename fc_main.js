@@ -2174,17 +2174,6 @@ function autoGSBuy() {
     }
 }
 
-function safeBuy(bldg,count)
-{
-	if (Game.buyMode==-1) 
-	{
-		document.getElementById('storeBulkBuy').click();
-		bldg.buy(count);
-		document.getElementById('storeBulkSell').click();
-	} else {
-		bldg.buy(count);
-	}
-}
 
 function autoGodzamokAction()
 {
@@ -2203,13 +2192,14 @@ function autoGodzamokAction()
 			var count2 = Game.Objects['Farm'].amount-1; 	
 			Game.Objects['Farm'].sell(count2); 
 		}
+		
         if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Cursor'].amount < 10) 
 		{
-			safeBuy(Game.Objects['Cursor'],count);
+			Game.Objects['Cursor'].buy(count);
 		}
 		if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount < 10) 
 		{
-			safeBuy(Game.Objects['Farm'],count2);
+			Game.Objects['Farm'].buy(count2);
 		}
     }
 }
@@ -2317,9 +2307,8 @@ function autoCookie() {
             recommendation.purchase.clickFunction = null;
             disabledPopups = false;
             //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
-            //recommendation.purchase.buy();
-            if (recommendation.type != 'building') {recommendation.purchase.buy();} else {safeBuy(recommendation.purchase);} //safebuy building
-			FrozenCookies.autobuyCount += 1;
+            recommendation.purchase.buy();
+            FrozenCookies.autobuyCount += 1;
             if (FrozenCookies.trackStats == 5 && recommendation.type == 'upgrade') {
                 saveStats();
             } else if (FrozenCookies.trackStats == 6) {
