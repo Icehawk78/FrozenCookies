@@ -2211,14 +2211,12 @@ function autoGodzamokAction()
 
         if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Cursor'].amount < 10) 
 		{
-			//Game.Objects['Cursor'].buy(count);
 			safeBuy(Game.Objects['Cursor'],count);
 			logEvent("AutoGodzamok","Re-bought "+count+" cursors");
 		}
 		
         if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount < 10) 
 		{
-			//Game.Objects['Farm'].buy(count2);
 			safeBuy(Game.Objects['Farm'],count2);
 			logEvent("AutoGodzamok","Re-bought "+count2+" farms");
 		}
