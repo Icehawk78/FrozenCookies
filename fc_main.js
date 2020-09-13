@@ -2191,28 +2191,15 @@ function autoGodzamokAction()
 			var count2 = Game.Objects['Farm'].amount-1; 	
 			Game.Objects['Farm'].sell(count2); 
 		}
-		logEvent("AutoGodzamok","Sold "+count+" cursors and "+count2+" farms");
-
+		
         if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Cursor'].amount < 10) 
 		{
-<<<<<<< HEAD
-			//Game.Objects['Cursor'].buy(count);
-			safeBuy(Game.Objects['Cursor'],count);
-			logEvent("AutoGodzamok","Re-bought "+count+" cursors");
-=======
 			Game.Objects['Cursor'].buy(count);
->>>>>>> parent of 94767cd... Update fc_main.js
 		}
 		
         if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount < 10) 
 		{
-<<<<<<< HEAD
-			//Game.Objects['Farm'].buy(count2);
-			safeBuy(Game.Objects['Farm'],count2);
-			logEvent("AutoGodzamok","Re-bought "+count2+" farms");
-=======
 			Game.Objects['Farm'].buy(count2);
->>>>>>> parent of 94767cd... Update fc_main.js
 		}
     }
 }
