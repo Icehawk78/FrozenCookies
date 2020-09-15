@@ -201,6 +201,7 @@ var upgradeJson = {
     109: {'buildings': [300], 'upgrades': []},
     188: {'buildings': [350], 'upgrades': []},
     189: {'buildings': [400], 'upgrades': []},
+    660: {'buildings': [450], 'upgrades': []},
 
     // Grandma tiered upgrades
     7: {'buildings': [0,1], 'upgrades': []},
@@ -214,6 +215,7 @@ var upgradeJson = {
     428: {'buildings': [0,300], 'upgrades': []},
     480: {'buildings': [0,350], 'upgrades': []},
     506: {'buildings': [0,400], 'upgrades': []},
+    662: {'buildings': [0,450], 'upgrades': []},
     
     // Farm tiered upgrades
     10: {'buildings': [0,0,1], 'upgrades': []},
@@ -227,6 +229,7 @@ var upgradeJson = {
     429: {'buildings': [0,0,300], 'upgrades': []},
     481: {'buildings': [0,0,350], 'upgrades': []},
     507: {'buildings': [0,0,400], 'upgrades': []},
+    663: {'buildings': [0,0,450], 'upgrades': []},
     
     // Mine tiered upgrades
     16: {'buildings': [0,0,0,1], 'upgrades': []},
@@ -240,6 +243,7 @@ var upgradeJson = {
     430: {'buildings': [0,0,0,300], 'upgrades': []},
     482: {'buildings': [0,0,0,350], 'upgrades': []},
     508: {'buildings': [0,0,0,400], 'upgrades': []},
+    664: {'buildings': [0,0,0,450], 'upgrades': []},
     
     // Factory tiered upgrades
     13: {'buildings': [0,0,0,0,1], 'upgrades': []},
@@ -253,6 +257,7 @@ var upgradeJson = {
     431: {'buildings': [0,0,0,0,300], 'upgrades': []},
     483: {'buildings': [0,0,0,0,350], 'upgrades': []},
     509: {'buildings': [0,0,0,0,400], 'upgrades': []},
+    665: {'buildings': [0,0,0,0,450], 'upgrades': []},
     
     // Bank tiered upgrades
     232: {'buildings': [0,0,0,0,0,1], 'upgrades': []},
@@ -266,6 +271,7 @@ var upgradeJson = {
     432: {'buildings': [0,0,0,0,0,300], 'upgrades': []},
     484: {'buildings': [0,0,0,0,0,350], 'upgrades': []},
     510: {'buildings': [0,0,0,0,0,400], 'upgrades': []},
+    666: {'buildings': [0,0,0,0,0,450], 'upgrades': []},
     
     // Temple tiered upgrades
     238: {'buildings': [0,0,0,0,0,0,1], 'upgrades': []},
@@ -279,6 +285,7 @@ var upgradeJson = {
     433: {'buildings': [0,0,0,0,0,0,300], 'upgrades': []},
     485: {'buildings': [0,0,0,0,0,0,350], 'upgrades': []},
     511: {'buildings': [0,0,0,0,0,0,400], 'upgrades': []},
+    667: {'buildings': [0,0,0,0,0,0,450], 'upgrades': []},
     
     // Wizard Tower tiered upgrades
     244: {'buildings': [0,0,0,0,0,0,0,1], 'upgrades': []},
@@ -292,6 +299,7 @@ var upgradeJson = {
     434: {'buildings': [0,0,0,0,0,0,0,300], 'upgrades': []},
     486: {'buildings': [0,0,0,0,0,0,0,350], 'upgrades': []},
     512: {'buildings': [0,0,0,0,0,0,0,400], 'upgrades': []},
+    668: {'buildings': [0,0,0,0,0,0,0,450], 'upgrades': []},
 
     // Shipment tiered upgrades
     19: {'buildings': [0,0,0,0,0,0,0,0,1], 'upgrades': []},
@@ -305,6 +313,7 @@ var upgradeJson = {
     435: {'buildings': [0,0,0,0,0,0,0,0,300], 'upgrades': []},
     487: {'buildings': [0,0,0,0,0,0,0,0,350], 'upgrades': []},
     513: {'buildings': [0,0,0,0,0,0,0,0,400], 'upgrades': []},
+    669: {'buildings': [0,0,0,0,0,0,0,0,450], 'upgrades': []},
 
     // Alchemy lab tiered upgrades
     22: {'buildings': [0,0,0,0,0,0,0,0,0,1], 'upgrades': []},
@@ -318,6 +327,7 @@ var upgradeJson = {
     436: {'buildings': [0,0,0,0,0,0,0,0,0,300], 'upgrades': []},
     488: {'buildings': [0,0,0,0,0,0,0,0,0,350], 'upgrades': []},
     514: {'buildings': [0,0,0,0,0,0,0,0,0,400], 'upgrades': []},
+    670: {'buildings': [0,0,0,0,0,0,0,0,0,450], 'upgrades': []},
 
     // Portal tiered upgrades
     25: {'buildings': [0,0,0,0,0,0,0,0,0,0,1], 'upgrades': []},
@@ -331,6 +341,7 @@ var upgradeJson = {
     437: {'buildings': [0,0,0,0,0,0,0,0,0,0,300], 'upgrades': []},
     489: {'buildings': [0,0,0,0,0,0,0,0,0,0,350], 'upgrades': []},
     515: {'buildings': [0,0,0,0,0,0,0,0,0,0,400], 'upgrades': []},
+    671: {'buildings': [0,0,0,0,0,0,0,0,0,0,450], 'upgrades': []},
 
     // Time machine tiered upgrades
     28: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,1], 'upgrades': []},
@@ -344,6 +355,7 @@ var upgradeJson = {
     438: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,300], 'upgrades': []},
     490: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,350], 'upgrades': []},
     516: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,400], 'upgrades': []},
+    672: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,450], 'upgrades': []},
 
     // Antimatter condenser tiered upgrades
     99: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,1], 'upgrades': []},
@@ -357,6 +369,7 @@ var upgradeJson = {
     439: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,300], 'upgrades': []},
     491: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,350], 'upgrades': []},
     517: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,400], 'upgrades': []},
+    673: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,450], 'upgrades': []},
 
     // Prism tiered upgrades
     175: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,1], 'upgrades': []},
@@ -370,6 +383,7 @@ var upgradeJson = {
     440: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,300], 'upgrades': []},
     492: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,350], 'upgrades': []},
     518: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,400], 'upgrades': []},
+    674: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,450], 'upgrades': []},
 
     // Chancemaker tiered upgrades
     416: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], 'upgrades': []},
@@ -383,6 +397,7 @@ var upgradeJson = {
     441: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,300], 'upgrades': []},
     493: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,350], 'upgrades': []},
     519: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,400], 'upgrades': []},
+    675: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,450], 'upgrades': []},
 
     // Fractal Engine tiered upgrades
     522: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], 'upgrades': []},
@@ -396,6 +411,21 @@ var upgradeJson = {
     530: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,300], 'upgrades': []},
     531: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,350], 'upgrades': []},
     532: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,400], 'upgrades': []},
+    676: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,450], 'upgrades': []},
+    
+    // Javascript Console tiered upgrades
+    594: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], 'upgrades': []},
+    595: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5], 'upgrades': []},
+    596: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,25], 'upgrades': []},
+    597: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,50], 'upgrades': []},
+    598: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,100], 'upgrades': []},
+    599: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,150], 'upgrades': []},
+    600: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,200], 'upgrades': []},
+    601: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,250], 'upgrades': []},
+    602: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,300], 'upgrades': []},
+    603: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,350], 'upgrades': []},
+    604: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,400], 'upgrades': []},
+    677: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,450], 'upgrades': []},
     
     // Grandma upgrades
     57: {'buildings': [0,1,15], 'upgrades': []},
@@ -412,6 +442,7 @@ var upgradeJson = {
     252: {'buildings': [0,1,0,0,0,0,0,0,0,0,0,0,0,15], 'upgrades': []},
     415: {'buildings': [0,1,0,0,0,0,0,0,0,0,0,0,0,0,15], 'upgrades': []},
     521: {'buildings': [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,15], 'upgrades': []},
+    593: {'buildings': [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15], 'upgrades': []},
 
     
     // Synergies
@@ -443,17 +474,20 @@ var upgradeJson = {
     443: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,75,0,75], 'upgrades': [394]},
     533: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,15,0,15], 'upgrades': [393]},
     534: {'buildings': [75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75], 'upgrades': [394]},
+    605: {'buildings': [0,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15], 'upgrades': [393]},
+    606: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,75], 'upgrades': [394]},
 
     // Reward cookies
-    334: {'buildings': [100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100], 'upgrades': []},
-    335: {'buildings': [150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150], 'upgrades': []},
-    336: {'buildings': [200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200], 'upgrades': []},
-    337: {'buildings': [250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250], 'upgrades': []},
-    400: {'buildings': [300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300], 'upgrades': []},
-    477: {'buildings': [350,350,350,350,350,350,350,350,350,350,350,350,350,350,350,350], 'upgrades': []},
-    478: {'buildings': [400,400,400,400,400,400,400,400,400,400,400,400,400,400,400,400], 'upgrades': []},
-    479: {'buildings': [450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450], 'upgrades': []},
-    497: {'buildings': [500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500], 'upgrades': []},
+    334: {'buildings': [100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100], 'upgrades': []},
+    335: {'buildings': [150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150], 'upgrades': []},
+    336: {'buildings': [200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200], 'upgrades': []},
+    337: {'buildings': [250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250,250], 'upgrades': []},
+    400: {'buildings': [300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300,300], 'upgrades': []},
+    477: {'buildings': [350,350,350,350,350,350,350,350,350,350,350,350,350,350,350,350,350], 'upgrades': []},
+    478: {'buildings': [400,400,400,400,400,400,400,400,400,400,400,400,400,400,400,400,400], 'upgrades': []},
+    479: {'buildings': [450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450,450], 'upgrades': []},
+    497: {'buildings': [500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500,500], 'upgrades': []},
+    659: {'buildings': [550,550,550,550,550,550,550,550,550,550,550,550,550,550,550,550,550], 'upgrades': []},
 
     // Grandmapocalypse research
     64: {'buildings': [0,6], 'upgrades': [57,58,59,250,251,252,60]}, //,61,62,63,103,180,415]},
@@ -548,7 +582,8 @@ var upgradeJson = {
     171: {'buildings': [], 'upgrades': [170,184]},
     172: {'buildings': [], 'upgrades': [171,184]},
     173: {'buildings': [], 'upgrades': [172,184]},
-    174: {'buildings': [], 'upgrades': [173,184]}
+    174: {'buildings': [], 'upgrades': [173,184]},
+    645: {'buildings': [], 'upgrades': [174,184]}
 };
 
 var blacklist = [
