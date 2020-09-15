@@ -2174,6 +2174,18 @@ function autoGSBuy() {
     }
 }
 
+function safeBuy(bldg,count) { 
+	// If store is in Sell mode, Game.Objects[].buy will sell the building!
+	if (Game.buyMode == -1) 
+	{
+		document.getElementById('storeBulkBuy').click();
+		bldg.buy(count);
+		document.getElementById('storeBulkSell').click();
+	} else {
+		bldg.buy(count);
+	}
+}
+
 function autoGodzamokAction()
 {
     if (!T) return; //Just leave if Pantheon isn't here yet
@@ -2194,12 +2206,11 @@ function autoGodzamokAction()
 		
         if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Cursor'].amount < 10) 
 		{
-			Game.Objects['Cursor'].buy(count);
+			safeBuy(Game.Objects['Cursor'],count);
 		}
-		
-        if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount < 10) 
+		if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount < 10) 
 		{
-			Game.Objects['Farm'].buy(count2);
+			safeBuy(Game.Objects['Farm'],count2);
 		}
     }
 }
@@ -2305,6 +2316,7 @@ function autoCookie() {
             recommendation.time = Date.now() - Game.startDate;
             //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
             recommendation.purchase.clickFunction = null;
+			if (recommendation.type == 'building') { safeBuy(recommendation.purchase); } else { recommendation.purchase.buy(); }
             disabledPopups = false;
             //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
             recommendation.purchase.buy();
