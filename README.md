@@ -37,6 +37,9 @@ What can Frozen Cookies do?
 
 What's new?
 -----------
+2020 Sept 15
+- Add function to make sure game is in buymode when autobuying
+
 2018 Oct 27
 - Added Shimmering veil blacklists
 - Updated SE auto cast strategy to use new fractal engine instead of chancemaker.
