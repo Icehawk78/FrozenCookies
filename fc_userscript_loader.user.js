@@ -5,6 +5,7 @@
 // @author         Lordshinjo
 // @homepage       https://github.com/Mtarnuhal/FrozenCookies
 // @include        http://orteil.dashnet.org/cookieclicker/
+// @include        https://orteil.dashnet.org/cookieclicker/
 // @updateURL      https://mtarnuhal.github.io/FrozenCookies/fc_userscript_loader.user.js
 // @downloadURL    https://mtarnuhal.github.io/FrozenCookies/fc_userscript_loader.user.js
 // @run-at         document-start
