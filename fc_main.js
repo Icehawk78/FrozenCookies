@@ -2362,7 +2362,7 @@ function autoCookie() {
             }
         }
 
-	var fps_amounts = ['24', '30', '48', '60', '72', '88', '100', '120', '144', '200', '240', '300', '5', '10', '15'];
+	var fps_amounts = ['15', '24', '30', '48', '60', '72', '88', '100', '120', '144', '200', '240', '300', '5', '10'];
         if (parseInt(fps_amounts[FrozenCookies["fpsModifier"]]) != Game.fps) {
             Game.fps = parseInt(fps_amounts[FrozenCookies["fpsModifier"]]);
         }
