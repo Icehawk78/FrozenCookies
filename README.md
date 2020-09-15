@@ -39,6 +39,7 @@ What's new?
 -----------
 2020 Sept 15
 - Add function to make sure game is in buymode when autobuying
+- Fixed achievement not showing.
 
 2018 Oct 27
 - Added Shimmering veil blacklists
