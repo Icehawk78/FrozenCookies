@@ -2327,10 +2327,9 @@ function autoCookie() {
             recommendation.time = Date.now() - Game.startDate;
             //      full_history.push(recommendation);  // Probably leaky, maybe laggy?
             recommendation.purchase.clickFunction = null;
-			if (recommendation.type == 'building') { safeBuy(recommendation.purchase); } else { recommendation.purchase.buy(); }
             disabledPopups = false;
             //      console.log(purchase.name + ': ' + Beautify(recommendation.efficiency) + ',' + Beautify(recommendation.delta_cps));
-            recommendation.purchase.buy();
+            if (recommendation.type == 'building') { safeBuy(recommendation.purchase); } else { recommendation.purchase.buy(); }
             FrozenCookies.autobuyCount += 1;
             if (FrozenCookies.trackStats == 5 && recommendation.type == 'upgrade') {
                 saveStats();
