@@ -286,7 +286,7 @@ function updateTimers() {
         t_draw.push({
             f_percent: chainCompletion,
             c1: 'rgba(51, 51, 51, 1)',
-            name: "Chain Completion Time",
+            name: "Chain Completion Time (" + chainPurchase.name + ")",
             display: timeDisplay(divCps(Math.max(chainTotal + bankTotal - Game.cookies - chainFinished,0), actualCps))
         });
     }
@@ -294,7 +294,7 @@ function updateTimers() {
         t_draw.push({
             f_percent: purchaseCompletion,
             c1: 'rgba(17, 17, 17, 1)',
-            name: "Purchase Completion Time",
+            name: "Purchase Completion Time (" + nextPurchase().purchase.name + ")",
             display: timeDisplay(divCps(Math.max(purchaseTotal + bankTotal - Game.cookies,0), actualCps))
         });
     }
