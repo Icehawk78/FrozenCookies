@@ -37,6 +37,16 @@ What can Frozen Cookies do?
 
 What's new?
 -----------
+
+2020 Sept 28
+ - Version  1.8.0
+ - Move preferences to their own file
+ - Rearange preferences into sections
+ - Reword preferences for consistency
+ - Fix autoCast() to correctly consider CPS
+ - Update autoCast SE to javascript console
+ - Display next purchase and chain name in timers
+
 2020 Sept 15
 - Add function to make sure game is in buymode when autobuying
 - Fixed achievement not showing.
