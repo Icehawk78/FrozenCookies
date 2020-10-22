@@ -623,7 +623,7 @@ function swapIn(godId, targetSlot) { //mostly code copied from minigamePantheon.
 
 function autoRigidel() {
     if (!T) return; //Exit if pantheon doesnt even exist
-    var timeToRipe = (Game.lumpRipeAge - (Date.now() - Game.lumpT))/60000; //Minutes until sugar lump ripens
+    var timeToRipe = (Math.ceil(Game.lumpRipeAge) - (Date.now() - Game.lumpT))/60000; //Minutes until sugar lump ripens
     var orderLvl = Game.hasGod('order') ? Game.hasGod('order') : 0;
     switch (orderLvl) {
         case 0: //Rigidel isn't in a slot
@@ -2170,43 +2170,45 @@ function autoGSBuy() {
 
 function safeBuy(bldg,count) { 
 	// If store is in Sell mode, Game.Objects[].buy will sell the building!
-	if (Game.buyMode == -1) 
-	{
-		document.getElementById('storeBulkBuy').click();
+	if (Game.buyMode == -1)  {
+		Game.buyMode = 1;
 		bldg.buy(count);
-		document.getElementById('storeBulkSell').click();
+		Game.buyMode = -1
 	} else {
 		bldg.buy(count);
 	}
 }
 
-function autoGodzamokAction()
-{
-    if (!T) return; //Just leave if Pantheon isn't here yet
-    //Now has option to not trigger until current Devastation buff expires (i.e. won't rapidly buy & sell cursors throughout Godzamok duration)
-    //added Farms to autoGodzamok selling. 1 farm always left to prevent garden from disappearing
-    if (Game.hasGod('ruin') && (!Game.hasBuff('Devastation')) && hasClickBuff())
-    {
-	    if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Cursor'].amount >= 10)
-		{
-			var count = Game.Objects['Cursor'].amount; 	
-			Game.Objects['Cursor'].sell(count); 
+function autoGodzamokAction() {
+	if ( T && FrozenCookies.autoGodzamok ) { // if Pantheon is here and autoGodzamok is set
+		if ( Game.hasGod('ruin') && ( Game.Objects['Cursor'].amount > 10 || Game.Objects['Farm'].amount > 10 ) ) {
+			var countC = Game.Objects['Cursor'].amount;
+			var countF = Game.Objects['Farm'].amount-1;
+
+			//Automatically sell all cursors and farms (except one) during Dragonflight and Click Frenzy if you worship Godzamok and prevent rapid buy/sell spam
+			if ( ( FrozenCookies.autoGodzamok >= 1 ) && hasClickBuff() && !Game.hasBuff('Devastation') ) {
+				Game.Objects['Cursor'].sell( countC );
+				Game.Objects['Farm'].sell( countF );
+
+				if ( FrozenCookies.autoBuy == 1 ) {
+					if ( ( FrozenCookies.cursorLimit ) && countC > FrozenCookies.cursorMax ) {
+						safeBuy( Game.Objects['Cursor'], FrozenCookies.cursorMax );
+						logEvent( "AutoGodzamok", "Bought " + FrozenCookies.cursorMax + " cursors" );
+					} else {
+						safeBuy( Game.Objects['Cursor'], countC );
+						logEvent( "AutoGodzamok", "Bought " + countC + " cursors" );
+					}
+					if ( ( FrozenCookies.farmLimit ) && countF > ( FrozenCookies.farmMax - 1 ) )  {
+						safeBuy( Game.Objects['Farm'], FrozenCookies.farmMax - 1 );
+						logEvent( "AutoGodzamok", "Bought " + ( FrozenCookies.farmMax - 1 ) + " farms" );
+					} else {
+						safeBuy( Game.Objects['Farm'], countF );
+						logEvent( "AutoGodzamok", "Bought " + countF + " farms" );
+					}
+				}
+			}
 		}
-        if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount >= 10)
-		{
-			var count2 = Game.Objects['Farm'].amount-1; 	
-			Game.Objects['Farm'].sell(count2); 
-		}
-		
-        if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Cursor'].amount < 10) 
-		{
-			safeBuy(Game.Objects['Cursor'],count);
-		}
-		if ((FrozenCookies.autoGodzamok >= 1) && Game.Objects['Farm'].amount < 10) 
-		{
-			safeBuy(Game.Objects['Farm'],count2);
-		}
-    }
+	}
 }
 
 function goldenCookieLife() {
@@ -2259,7 +2261,7 @@ function autoCookie() {
         }
         if (FrozenCookies.autoSL) {
              var started = Game.lumpT;
-             var ripeAge = Game.lumpRipeAge;
+             var ripeAge = Math.ceil(Game.lumpRipeAge);
              if ((Date.now() - started) >= ripeAge) {
                  Game.clickLump();
              }
