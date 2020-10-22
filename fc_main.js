@@ -102,7 +102,8 @@ function setOverrides() {
     Game.sayTime = function(time, detail) {
         return timeDisplay(time / Game.fps);
     }
-    Game.oldReset = Game.Reset;
+    Game.tooltip.oldDraw = Game.tooltip.draw;
+    Game.tooltip.draw = fcDraw; Game.oldReset = Game.Reset;
     Game.oldWriteSave = Game.WriteSave;
     Game.oldLoadSave = Game.LoadSave;
     Game.Reset = fcReset;
@@ -297,6 +298,15 @@ function timeDisplay(seconds) {
     seconds %= 60;
     seconds = (seconds > 0) ? seconds + 's' : '';
     return (days + hours + minutes + seconds).trim();
+}
+
+function fcDraw(from, text, origin) {
+    if (typeof(text) == "string") {
+        if (text.includes('Devastation')) {
+            text = text.replace(/\+\d+\%/,"+" + Math.round((Game.hasBuff('Devastation').multClick - 1) * 100) + "%")
+        }
+    }
+    Game.tooltip.oldDraw(from, text, origin);
 }
 
 function fcReset() {
