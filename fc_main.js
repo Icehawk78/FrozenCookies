@@ -1246,53 +1246,20 @@ function purchaseEfficiency(price, deltaCps, baseDeltaCps, currentCps) {
 
 function recommendationList(recalculate) {
     if (recalculate) {
-	FrozenCookies.showAchievements=false;
+        FrozenCookies.showAchievements = false;
         FrozenCookies.caches.recommendationList = addScores(
             upgradeStats(recalculate)
-            .concat(buildingStats(recalculate))
-            .concat(santaStats())
-            .sort(function(a, b) {
-                return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
+                .concat(buildingStats(recalculate))
+                .concat(santaStats())
+                .sort(function (a, b) {
+                    return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
             }));
-        //If autocasting Spontaneous Edifice, don't buy any Javascript console after 399
-        if (M && FrozenCookies.autoSpell == 3 && Game.Objects['Javascript console'].amount >= 399) {
-            for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
-                if (FrozenCookies.caches.recommendationList[i].id == 15) {
-                    FrozenCookies.caches.recommendationList.splice(i , 1);
-                }
-            }
-        }
-        //Stop buying wizard towers at max Mana if enabled
-        if (M && FrozenCookies.towerLimit && M.magicM >= FrozenCookies.manaMax) {
-            for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
-                if (FrozenCookies.caches.recommendationList[i].id == 7) {
-                    FrozenCookies.caches.recommendationList.splice(i , 1);
-                }
-            }
-        }
-        //Stop buying Cursors if at set limit
-        if (FrozenCookies.cursorLimit && Game.Objects['Cursor'].amount >= FrozenCookies.cursorMax) {
-            for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
-                if (FrozenCookies.caches.recommendationList[i].id == 0) {
-                    FrozenCookies.caches.recommendationList.splice(i, 1);
-                }
-            }
-        }
-	//Stop buying Farms if at set limit
-        if (FrozenCookies.farmLimit && Game.Objects['Farm'].amount >= FrozenCookies.farmMax) {
-            for (var i = 0; i < FrozenCookies.caches.recommendationList.length; i++) {
-                if (FrozenCookies.caches.recommendationList[i].id == 2) {
-                    FrozenCookies.caches.recommendationList.splice(i, 1);
-                }
-            }
-        }
         if (FrozenCookies.pastemode) {
             FrozenCookies.caches.recommendationList.reverse();
         }
-	FrozenCookies.showAchievements=true;
+        FrozenCookies.showAchievements = true;
     }
     return FrozenCookies.caches.recommendationList;
-    //  return upgradeStats(recalculate).concat(buildingStats(recalculate)).sort(function(a,b){return (a.efficiency - b.efficiency)});
 }
 
 function addScores(recommendations) {
@@ -1361,38 +1328,56 @@ function nextChainedPurchase(recalculate) {
 
 function buildingStats(recalculate) {
     if (recalculate) {
-	FrozenCookies.showAchievements=false;
-        var buildingBlacklist = blacklist[FrozenCookies.blacklist].buildings;
-        var currentBank = bestBank(0).cost;
-        FrozenCookies.caches.buildings = Game.ObjectsById.map(function(current, index) {
-            if (buildingBlacklist === true || _.contains(buildingBlacklist, current.id)) {
-                return null;
+        if (blacklist[FrozenCookies.blacklist].buildings === true) {
+            FrozenCookies.caches.buildings = [];
+        } else {
+            var buildingBlacklist = Array.from(blacklist[FrozenCookies.blacklist].buildings);
+            //If autocasting Spontaneous Edifice, don't buy any Javascript console after 399
+            if (M && FrozenCookies.autoSpell == 3 && Game.Objects['Javascript console'].amount >= 399) {
+                buildingBlacklist.push(16);
             }
-            var baseCpsOrig = baseCps();
-            var cpsOrig = effectiveCps(Math.min(Game.cookies, currentBank)); // baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
-            var existingAchievements = Game.AchievementsById.map(function(item, i) {
-                return item.won
+            //Stop buying wizard towers at max Mana if enabled
+            if (M && FrozenCookies.towerLimit && M.magicM >= FrozenCookies.manaMax) {
+                buildingBlacklist.push(7);
+            }
+            //Stop buying Cursors if at set limit
+            if (FrozenCookies.cursorLimit && Game.Objects['Cursor'].amount >= FrozenCookies.cursorMax) {
+                buildingBlacklist.push(0);
+            }
+            //Stop buying Farms if at set limit
+            if (FrozenCookies.farmLimit && Game.Objects['Farm'].amount >= FrozenCookies.farmMax) {
+                buildingBlacklist.push(2);
+            }
+            FrozenCookies.caches.buildings = Game.ObjectsById.map(function (current, index) {
+                if (_.contains(buildingBlacklist, current.id)) {
+                    return null;
+                }
+                var currentBank = bestBank(0).cost;
+                var baseCpsOrig = baseCps();
+                var cpsOrig = effectiveCps(Math.min(Game.cookies, currentBank)); // baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
+                var existingAchievements = Game.AchievementsById.map(function (item, i) {
+                    return item.won
+                });
+                buildingToggle(current);
+                var baseCpsNew = baseCps();
+                var cpsNew = effectiveCps(currentBank); // baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
+                buildingToggle(current, existingAchievements);
+                var deltaCps = cpsNew - cpsOrig;
+                var baseDeltaCps = baseCpsNew - baseCpsOrig;
+                var efficiency = purchaseEfficiency(current.getPrice(), deltaCps, baseDeltaCps, cpsOrig)
+                return {
+                    'id': current.id,
+                    'efficiency': efficiency,
+                    'base_delta_cps': baseDeltaCps,
+                    'delta_cps': deltaCps,
+                    'cost': current.getPrice(),
+                    'purchase': current,
+                    'type': 'building'
+                };
+            }).filter(function (a) {
+                return a;
             });
-            buildingToggle(current);
-            var baseCpsNew = baseCps();
-            var cpsNew = effectiveCps(currentBank); // baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
-            buildingToggle(current, existingAchievements);
-            var deltaCps = cpsNew - cpsOrig;
-            var baseDeltaCps = baseCpsNew - baseCpsOrig;
-            var efficiency = purchaseEfficiency(current.getPrice(), deltaCps, baseDeltaCps, cpsOrig)
-            return {
-                'id': current.id,
-                'efficiency': efficiency,
-                'base_delta_cps': baseDeltaCps,
-                'delta_cps': deltaCps,
-                'cost': current.getPrice(),
-                'purchase': current,
-                'type': 'building'
-            };
-        }).filter(function(a) {
-            return a;
-        });
-	FrozenCookies.showAchievements=true;
+        }
     }
     return FrozenCookies.caches.buildings;
 }
