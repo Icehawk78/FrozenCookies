@@ -38,6 +38,15 @@ What can Frozen Cookies do?
 What's new?
 -----------
 
+2020 Oct 26
+ - Version 1.9.0
+ - Fix Autoascend number entry. ([Issue #49](https://github.com/Mtarnuhal/FrozenCookies/pull/49))
+ - Fix recommendation list to show accurate efficiency percentages even when auto-buy excludes the purchase of some buildings (like when they've hit their max). ([Issue #47](https://github.com/Mtarnuhal/FrozenCookies/pull/47))
+ - Simplified autoGodzamok: Now just on or off. When on, it will wait until Dragonflight or Click Frenzy and sell all the cursors and farms to get the Devastation buff. Then, if auto-buy is turned on, it will immediately buy the buildings back (stopping at the max for those buildings if a max has been set).
+ - Fix auto-harvest of sugar lump. ([Issue #18](https://github.com/Mtarnuhal/FrozenCookies/pull/18))
+ - Show correct buff value on Devastation tooltip, even if additional buildings have been sold after the buff has started. ([Issue #46](https://github.com/Mtarnuhal/FrozenCookies/pull/46))
+ - Other minor fixes
+
 2020 Sept 28
  - Version  1.8.0
  - Move preferences to their own file
