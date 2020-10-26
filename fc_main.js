@@ -468,7 +468,6 @@ function updateCpSMultMin(base) {
 }
 
 function getAscendAmount(current) {
-    current = 0;
     var newAmount = prompt('How many heavenly chips do you want to auto-ascend at?', current);
     if (typeof(newAmount) == 'undefined' || newAmount == null || isNaN(Number(newAmount)) || Number(newAmount) < 0) {
         newAmount = current;
