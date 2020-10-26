@@ -1246,21 +1246,20 @@ function purchaseEfficiency(price, deltaCps, baseDeltaCps, currentCps) {
 
 function recommendationList(recalculate) {
     if (recalculate) {
-	FrozenCookies.showAchievements=false;
+        FrozenCookies.showAchievements = false;
         FrozenCookies.caches.recommendationList = addScores(
             upgradeStats(recalculate)
-            .concat(buildingStats(recalculate))
-            .concat(santaStats())
-            .sort(function(a, b) {
-                return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
+                .concat(buildingStats(recalculate))
+                .concat(santaStats())
+                .sort(function (a, b) {
+                    return a.efficiency != b.efficiency ? a.efficiency - b.efficiency : (a.delta_cps != b.delta_cps ? b.delta_cps - a.delta_cps : a.cost - b.cost);
             }));
         if (FrozenCookies.pastemode) {
             FrozenCookies.caches.recommendationList.reverse();
         }
-	FrozenCookies.showAchievements=true;
+        FrozenCookies.showAchievements = true;
     }
     return FrozenCookies.caches.recommendationList;
-    //  return upgradeStats(recalculate).concat(buildingStats(recalculate)).sort(function(a,b){return (a.efficiency - b.efficiency)});
 }
 
 function addScores(recommendations) {
