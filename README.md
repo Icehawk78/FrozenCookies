@@ -38,6 +38,16 @@ What can Frozen Cookies do?
 What's new?
 -----------
 
+2020 Oct 26
+ - Version 1.9.0
+ - Fix autoAscend number entry. ([Issue #49](https://github.com/Mtarnuhal/FrozenCookies/pull/49))
+ - Fix recommendation list to show accurate efficiency percentages even when AutoBuy excludes the purchase of some buildings (like when they've hit their max). ([Issue #47](https://github.com/Mtarnuhal/FrozenCookies/pull/47))
+ - Simplified Auto-Godzamok: Now just on or off. When on, it will wait until Dragonflight or Click Frenzy and sell all the cursors and farms to get the Devastation buff. Then, if AutoBuy is turned on, it will immediately buy the buildings back (stopping at the max for those buildings if a max has been set).
+ - Fix autoharvest of sugar lump. ([Issue #18](https://github.com/Mtarnuhal/FrozenCookies/pull/18))
+ - Show correct buff value on Devastation tooltip, even if additional buildings have been sold after the buff has started. ([Issue #46](https://github.com/Mtarnuhal/FrozenCookies/pull/46))
+ - Fix Auto Bulkbuy to only actually kick in after a reincarnation instead of all the time.
+ - Other minor fixes
+
 2020 Sept 28
  - Version  1.8.0
  - Move preferences to their own file
@@ -54,8 +64,8 @@ What's new?
 2018 Oct 27
 - Added Shimmering veil blacklists
 - Updated SE auto cast strategy to use new fractal engine instead of chancemaker.
-- Added farms to godzamok sold buildings as they contribute barely synergy. sells all farms except 1 for the garden. added a new option to limit farms just like cursors
-- Added Fractal engine reletaded upgrade values
+- Added farms to godzamok sold buildings as they contribute barely synergy. Sells all farms except 1 for the garden. Added a new option to limit farms just like cursors
+- Added Fractal engine related upgrade values
 
 2018 Aug 6
 - New "Harvest Bank" option to select a higher Bank than for Frenzy/Clicking Frenzy if you want to get the maximum return from harvesting Bakeberries, Chocoroots, White Chocoroots, Queenbeets or Duketaters
