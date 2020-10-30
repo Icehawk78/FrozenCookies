@@ -1,8 +1,8 @@
 FrozenCookies.preferenceValues = {
 
     // clicking options
-    'clickingOptions':{
-        'hint':'Auto clicking options:'
+    'clickingOptions': {
+        'hint': 'Auto clicking options:'
     },
     'autoClick': {
         'hint': 'Click the large cookie',
@@ -33,12 +33,12 @@ FrozenCookies.preferenceValues = {
     },
 
     // autobuy options
-    'buyingOptions':{
-        'hint':'Auto buying options:'
+    'buyingOptions': {
+        'hint': 'Auto buying options:'
     },
     'autoBuy': {
         'hint': 'Automatically buy the most efficient building when you\'ve met its cost',
-        'display': ["Autobuy OFF", "Autobuy ON"],
+        'display': ["AutoBuy OFF", "AutoBuy ON"],
         'default': 0
     },
     'autoBulk': {
@@ -60,13 +60,13 @@ FrozenCookies.preferenceValues = {
         'hint': 'Limit max number of cursors to keep Godzamok useful',
         'display': ['Cursor Limit OFF', 'Cursor Limit ON'],
         'default': 0,
-        'extras': '<a class="option" id="cursorMax" onclick="updateCursorMax(\'cursorMax\');">${cursorMax} cursors</a>'
+        'extras': '<a class="option" id="cursorMax" onclick="updateCursorMax(\'cursorMax\');">${cursorMax} Cursors</a>'
     },
     'farmLimit': {
         'hint': 'Limit max number of farms to keep Godzamok useful',
         'display': ['Farm Limit OFF', 'Farm Limit ON'],
         'default': 0,
-        'extras': '<a class="option" id="farmMax" onclick="updateFarmMax(\'farmMax\');">${farmMax} farms</a>'
+        'extras': '<a class="option" id="farmMax" onclick="updateFarmMax(\'farmMax\');">${farmMax} Farms</a>'
     },
     'towerLimit': {
         'hint': 'Stop autobuying Wizard Towers at selected Max Mana, for spellcasting efficiency',
@@ -81,11 +81,11 @@ FrozenCookies.preferenceValues = {
     },
 
     // other auto options
-    'autoOtherOptions':{
-        'hint':'Other automatic actions:'
+    'autoOtherOptions': {
+        'hint': 'Other automatic actions:'
     },
     'autoAscend': {
-        'hint': 'Automatically ascend when your heavenly chip count hits a certain number. (Note:  this will skip the upgrade screen)',
+        'hint': 'Automatically ascend when your heavenly chip count hits a certain number. (Note: this will skip the upgrade screen)',
         'display': ["Autoascend OFF", "Autoascend ON"],
         'default': 0,
         'extras': '<a class="option" id="chipsToAscend" onclick="updateAscendAmount(\'HCAscendAmount\');">${HCAscendAmount} heavenly chips</a>'
@@ -112,18 +112,18 @@ FrozenCookies.preferenceValues = {
     },
     'autoSpell': {
         'hint': 'Automatically cast selected spell when your mana is full',
-        'display': ["Auto Cast OFF","Auto Cast CONJURE BAKED GOODS", "Auto Cast FORCE THE HAND OF FATE","Auto Cast SPONTANEOUS EDIFICE","Auto Cast HAGGLER'S CHARM (cheapest)"],
+        'display': ["Auto Cast OFF", "Auto Cast CONJURE BAKED GOODS", "Auto Cast FORCE THE HAND OF FATE", "Auto Cast SPONTANEOUS EDIFICE", "Auto Cast HAGGLER'S CHARM (cheapest)"],
         'default': 0,
         'extras': '<a class="option" id="minCpSMult" onclick="updateCpSMultMin(\'minCpSMult\');">x${minCpSMult} minimum Frenzy</a>'
     },
 
     //Display options
-    'displayOptions':{
-        'hint':'Display options:'
+    'displayOptions': {
+        'hint': 'Display options:'
     },
     'numberDisplay': {
         'hint': 'Change how numbers are shortened',
-        'display': ["Number Display RAW", "Number Display FULL (million, billion)", "Number Display INITIALS (M, B)","Number Display SI UNITS (M, G, T)", "Number Display SCIENTIFIC (6.3e12)"],
+        'display': ["Number Display RAW", "Number Display FULL (million, billion)", "Number Display INITIALS (M, B)", "Number Display SI UNITS (M, G, T)", "Number Display SCIENTIFIC (6.3e12)"],
         'default': 1
     },
     'fancyui': {
@@ -133,8 +133,8 @@ FrozenCookies.preferenceValues = {
     },
 
     //Other options
-    'otherOptions':{
-        'hint':'Other options:'
+    'otherOptions': {
+        'hint': 'Other options:'
     },
     /*Not working yet
     'shinyPop':{
@@ -162,7 +162,7 @@ FrozenCookies.preferenceValues = {
     /*
     'timeTravelMethod':{
         'hint':'Time travel is unstable. This determines how time travel works. If you\'re unsure, don\'t touch this.',
-        'display':['Time Travel DISABLED'],//,'Purchases by Estimated Effective CPS','Purchases by Simulated Real Time','Heavenly Chips by Estimated Effective CPS','Heavenly Chips by Simulated Real Time'],
+        'display':['Time Travel DISABLED'], //, 'Purchases by Estimated Effective CPS', 'Purchases by Simulated Real Time', 'Heavenly Chips by Estimated Effective CPS', 'Heavenly Chips by Simulated Real Time'],
         'default':0,
         'extras':'<a class="option" id="timeTravelPurchases" onclick="updateTimeTravelAmount();">Set Time Travel Amount</a>'
     },
@@ -188,13 +188,15 @@ FrozenCookies.preferenceValues = {
         'default': 0,
         'extras': '<a class="option" id="viewStats" onclick="viewStatGraphs();">View Stat Graphs</a>'
     },
+
     /*Doesnt work
     'showAchievements':{
         'hint':'Show achievement popups (Kind of broken early game)',
-        'display':['Achievement Popups OFF','Achievement Popups ON'],
+        'display':['Achievement Popups OFF', 'Achievement Popups ON'],
         'default':0
     },
     */
+
     'defaultSeason': {
         'hint': 'Autobuy a selected season when no others have needed upgrades',
         'display': ['Default Season OFF', 'Default Season BUSINESS DAY', 'Default Season CHRISTMAS', 'Default Season EASTER', 'Default Season HALLOWEEN', "Default Season VALENTINE'S DAY"],
