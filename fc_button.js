@@ -555,7 +555,7 @@ function FCMenu() {
         }
         menu.append(subsection);
 
-        // preferences
+        // build preference menu items
         if (FrozenCookies.preferenceValues) {
             subsection = $('<div>').addClass('subsection');
             subsection.append($('<div>').addClass('title').html('Frozen Cookie Controls'));
@@ -575,6 +575,14 @@ function FCMenu() {
                     }
                     if (extras) {
                         listing.append($(extras.replace(/\$\{(.+)\}/g, function (s, id) { return fcBeautify(FrozenCookies[id]); })));
+                    }
+                    subsection.append(listing);
+                }
+                // if no options, still display the hint as a subsection head
+                if (!display) {
+                    listing = $('<div>').addClass('listing');
+                    if (hint) {
+                        listing.append($('<br /><label>' + hint.replace(/\$\{(.+)\}/g, function (s, id) { return FrozenCookies[id]; }) + '</label>'));
                     }
                     subsection.append(listing);
                 }
