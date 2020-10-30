@@ -1387,46 +1387,47 @@ function buildingStats(recalculate) {
 
 function upgradeStats(recalculate) {
     if (recalculate) {
-	FrozenCookies.showAchievements=false;
-        var upgradeBlacklist = blacklist[FrozenCookies.blacklist].upgrades;
-        var currentBank = bestBank(0).cost;
-        FrozenCookies.caches.upgrades = Game.UpgradesById.map(function(current) {
-            if (!current.bought) {
-                var needed = unfinishedUpgradePrereqs(current);
-                if (isUnavailable(current, upgradeBlacklist)) {
-                    return null;
+        if (blacklist[FrozenCookies.blacklist].upgrades === true) {
+            FrozenCookies.caches.upgrades = [];
+        } else {
+            var upgradeBlacklist = blacklist[FrozenCookies.blacklist].upgrades;
+            FrozenCookies.caches.upgrades = Game.UpgradesById.map(function (current) {
+                if (!current.bought) {
+                    if (isUnavailable(current, upgradeBlacklist)) {
+                        return null;
+                    }
+                    var currentBank = bestBank(0).cost;
+                    var cost = upgradePrereqCost(current);
+                    var baseCpsOrig = baseCps();
+                    var cpsOrig = effectiveCps(Math.min(Game.cookies, currentBank));
+                    var existingAchievements = Game.AchievementsById.map(function (item) {
+                        return item.won
+                    });
+                    var existingWrath = Game.elderWrath;
+                    var discounts = totalDiscount() + totalDiscount(true);
+                    var reverseFunctions = upgradeToggle(current);
+                    var baseCpsNew = baseCps();
+                    var cpsNew = effectiveCps(currentBank);
+                    var priceReduction = discounts == (totalDiscount() + totalDiscount(true)) ? 0 : checkPrices(current);
+                    upgradeToggle(current, existingAchievements, reverseFunctions);
+                    Game.elderWrath = existingWrath;
+                    var deltaCps = cpsNew - cpsOrig;
+                    var baseDeltaCps = baseCpsNew - baseCpsOrig;
+                    var efficiency = (current.season && current.season == seasons[FrozenCookies.defaultSeason]) ? cost / baseCpsOrig : (priceReduction > cost) ? 1 : purchaseEfficiency(cost, deltaCps, baseDeltaCps, cpsOrig);
+                    return {
+                        'id': current.id,
+                        'efficiency': efficiency,
+                        'base_delta_cps': baseDeltaCps,
+                        'delta_cps': deltaCps,
+                        'cost': cost,
+                        'purchase': current,
+                        'type': 'upgrade'
+                    };
                 }
-                var cost = upgradePrereqCost(current);
-                var baseCpsOrig = baseCps();
-                var cpsOrig = effectiveCps(Math.min(Game.cookies, currentBank)); // baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
-                var existingAchievements = Game.AchievementsById.map(function(item) {
-                    return item.won
-                });
-                var existingWrath = Game.elderWrath;
-                var discounts = totalDiscount() + totalDiscount(true);
-                var reverseFunctions = upgradeToggle(current);
-                var baseCpsNew = baseCps();
-                var cpsNew = effectiveCps(currentBank); // baseCpsNew + gcPs(cookieValue(currentBank)) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
-                var priceReduction = discounts == (totalDiscount() + totalDiscount(true)) ? 0 : checkPrices(current);
-                upgradeToggle(current, existingAchievements, reverseFunctions);
-                Game.elderWrath = existingWrath;
-                var deltaCps = cpsNew - cpsOrig;
-                var baseDeltaCps = baseCpsNew - baseCpsOrig;
-                var efficiency = (current.season && current.season == seasons[FrozenCookies.defaultSeason]) ? cost / baseCpsOrig : (priceReduction > cost) ? 1 : purchaseEfficiency(cost, deltaCps, baseDeltaCps, cpsOrig);
-                return {
-                    'id': current.id,
-                    'efficiency': efficiency,
-                    'base_delta_cps': baseDeltaCps,
-                    'delta_cps': deltaCps,
-                    'cost': cost,
-                    'purchase': current,
-                    'type': 'upgrade'
-                };
-            }
-        }).filter(function(a) {
-            return a;
-        });
-	FrozenCookies.showAchievements=true;
+            }).filter(function (a) {
+                return a;
+            });
+        }
     }
     return FrozenCookies.caches.upgrades;
 }
