@@ -698,15 +698,15 @@ function autoCast() {
                 case 3:
                     var SE = M.spellsById[3];
                     // This code apparently works under the following assumptions:
-                    //      - you want to spend your mana to get the highest value building (currently Javascript Console)
-                    //      - therefore you'll manually keep your number of Javascript consoles < 400, or don't mind selling the excess for the chance to win a free one
-                    // If you don't have any Javascript Consoles yet, or can't cast SE, just give up.
-                    if (Game.Objects["Javascript console"].amount == 0 || M.magicM < Math.floor(SE.costMin + SE.costPercent * M.magicM)) return;
-                    // If we have over 400 Javascript consoles, always going to sell down to 399.
-                    // If you don't have half a Javascript Console's worth of cookies in bank, sell one or more until you do
-                    while (Game.Objects["Javascript console"].amount >= 400 || Game.cookies < Game.Objects["Javascript console"].price / 2) {
-                        Game.Objects["Javascript console"].sell(1);
-                        logEvent('Store', 'Sold 1 Javascript Console for ' + (Beautify(Game.Objects['Javascript console'].price * Game.Objects['Javascript console'].getSellMultiplier()) + ' cookies'));
+                    //      - you want to spend your mana to get the highest value building (currently Idleverse)
+                    //      - therefore you'll manually keep your number of Idleverses < 400, or don't mind selling the excess for the chance to win a free one
+                    // If you don't have any Idleverse yet, or can't cast SE, just give up.
+                    if (Game.Objects["Idleverse"].amount == 0 || M.magicM < Math.floor(SE.costMin + SE.costPercent * M.magicM)) return;
+                    // If we have over 400 Idleverses, always going to sell down to 399.
+                    // If you don't have half a Idleverse's worth of cookies in bank, sell one or more until you do
+                    while (Game.Objects["Idleverse"].amount >= 400 || Game.cookies < Game.Objects["Idleverse"].price / 2) {
+                        Game.Objects["Idleverse"].sell(1);
+                        logEvent('Store', 'Sold 1 Idleverse for ' + (Beautify(Game.Objects['Idleverse'].price * Game.Objects['Idleverse'].getSellMultiplier()) + ' cookies'));
                     }
                     M.castSpell(SE);
                     logEvent('AutoSpell', 'Cast Spontaneous Edifice');
@@ -987,13 +987,13 @@ function estimatedTimeRemaining(cookies) {
 }
 
 function canCastSE() {
-    if (M.magicM >= 80 && Game.Objects['Javascript console'].amount > 0) return 1;
+    if (M.magicM >= 80 && Game.Objects['Idleverse'].amount > 0) return 1;
     return 0;
 }
 
 function edificeBank() {
     if (!canCastSE) return 0;
-    var cmCost = Game.Objects['Javascript console'].price;
+    var cmCost = Game.Objects['Idleverse'].price;
     return Game.hasBuff('everything must go') ? (cmCost * (100/95))/2 : cmCost/2;
 }
 function luckyBank() {
@@ -1041,7 +1041,8 @@ function harvestBank() {
                            	    Game.Objects['Prism'].amount,
                            	    Game.Objects['Chancemaker'].amount,
                            	    Game.Objects['Fractal engine'].amount,
-                           	    Game.Objects['Javascript Console'].amount];	    
+                                Game.Objects['Javascript Console'].amount,
+                                Game.Objects['Idleverse'].amount];	    
 	harvestBuildingArray.sort(function(a, b){return b-a});
 	    
 	for(var buildingLoop = 0; buildingLoop < FrozenCookies.maxSpecials ; buildingLoop++){
@@ -1335,8 +1336,8 @@ function buildingStats(recalculate) {
             FrozenCookies.caches.buildings = [];
         } else {
             var buildingBlacklist = Array.from(blacklist[FrozenCookies.blacklist].buildings);
-            //If autocasting Spontaneous Edifice, don't buy any Javascript console after 399
-            if (M && FrozenCookies.autoSpell == 3 && Game.Objects['Javascript console'].amount >= 399) {
+            //If autocasting Spontaneous Edifice, don't buy any Idleverse after 399
+            if (M && FrozenCookies.autoSpell == 3 && Game.Objects['Idleverse'].amount >= 399) {
                 buildingBlacklist.push(16);
             }
             //Stop buying wizard towers at max Mana if enabled

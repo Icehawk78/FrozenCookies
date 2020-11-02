@@ -1,4 +1,11 @@
 // Global Variables
+var lastCompatibleVersion = 2.029;
+if (Game.version > lastCompatibleVersion) {
+    console.log("WARNING: The Cookie Clicker version is newer than this version of Frozen Cookies.");
+    console.log("This version of Frozen Cookies has only been tested through Cookie Clicker version " + lastCompatibleVersion);
+    console.log("There may be incompatibilities, undesirable effects, bugs, shifts in reality, immoral behavior, and who knows what else.");
+}
+
 var scriptElement = document.getElementById('frozenCookieScript') !== null ?
     document.getElementById('frozenCookieScript') :
     document.getElementById('modscript_frozen_cookies');
@@ -8,7 +15,7 @@ var baseUrl = scriptElement !== null ?
 var FrozenCookies = {
     'baseUrl': baseUrl,
     'branch': '',
-    'version': '1.9.0'
+    'version': '1.10.0'
 };
 
 // Load external libraries
