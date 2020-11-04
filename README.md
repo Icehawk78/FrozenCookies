@@ -3,6 +3,11 @@ FrozenCookies
 
 An automated Cookie Clicker tool.
 
+Discord
+-------
+For devolopers / code intended behavior purposes only.
+https://discord.gg/Cpw8csuypT
+
 How to use
 ----------
 
