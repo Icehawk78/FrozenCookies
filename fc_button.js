@@ -245,7 +245,7 @@ function buffDuration(buffName) {
     return buff ? buff.time : 0;
 }
 
-function updateTimers() {
+function updateTimers() {   // update infobox calculations and assemble output -- called every draw tick
     var chainPurchase, bankPercent, purchasePercent, bankMax, actualCps, t_draw,
         maxColor, height,
         gc_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.5) - Game.shimmerTypes.golden.time) / maxCookieTime(),

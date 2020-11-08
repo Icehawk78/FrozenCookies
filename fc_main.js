@@ -113,11 +113,6 @@ function setOverrides() {
     //    Game.wrinklers = JSON.parse(localStorage.wrinklers);
     //  }
     Game.Win = fcWin;
-    Game.oldBackground = Game.DrawBackground;
-    Game.DrawBackground = function() {
-        Game.oldBackground();
-        updateTimers();
-    }
     // Remove the following when turning on tooltop code
     nextPurchase(true);
     Game.RefreshStore();
@@ -146,6 +141,7 @@ function setOverrides() {
                     }
                 }
             });
+            Game.registerHook('draw', updateTimers);
         }
     });
 }
