@@ -12,6 +12,20 @@
 })(this);
 
 function setOverrides() {
+    Game.registerMod("Frozen Cookies (mtarnuhal)", {
+        init: function () {
+            Game.registerHook('reincarnate', function () {  // Automatically buy in bulk after reincarnation if setting turned on
+                if (FrozenCookies.autoBulk != 0) {
+                    if (FrozenCookies.autoBulk == 1) { // Buy x10
+                        document.getElementById('storeBulk10').click();
+                    }
+                    if (FrozenCookies.autoBulk == 2) { // Buy x100
+                        document.getElementById('storeBulk100').click();
+                    }
+                }
+            });
+        }
+    });
 
     // Set all cycleable preferences
     _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
@@ -47,7 +61,6 @@ function setOverrides() {
     FrozenCookies.lastHCTime = Number(localStorage.getItem('lastHCTime'));
     FrozenCookies.prevLastHCTime = Number(localStorage.getItem('prevLastHCTime'));
     FrozenCookies.maxHCPercent = Number(localStorage.getItem('maxHCPercent'));
-    FrozenCookies.autoBulkReady = Number(localStorage.getItem('autoBulkReady'));
 
     // Set default values for calculations
     FrozenCookies.hc_gain = 0;
@@ -330,7 +343,6 @@ function fcReset() {
     FrozenCookies.lastCps = 0;
     FrozenCookies.lastBaseCps = 0;
     FrozenCookies.trackedStats = [];
-    FrozenCookies.autoBulkReady = 1;
     updateLocalStorage();
     recommendationList(true);
 }
@@ -362,7 +374,6 @@ function updateLocalStorage() {
     localStorage.manaMax = FrozenCookies.manaMax;
     localStorage.maxSpecials = FrozenCookies.maxSpecials;
     localStorage.prevLastHCTime = FrozenCookies.prevLastHCTime;
-    localStorage.autoBulkReady = FrozenCookies.autoBulkReady;
 }
 
 function divCps(value, cps) {
@@ -2296,18 +2307,6 @@ function autoCookie() {
 
         var itemBought = false;
 
-        //Automatically buy in bulk if setting turned on
-        if (FrozenCookies.autoBulkReady && FrozenCookies.autoBulk != 0) {
-            if (FrozenCookies.autoBulk == 1) { // Buy x10
-                document.getElementById('storeBulk10').click();
-            }
-            if (FrozenCookies.autoBulk == 2) { // Buy x100
-                document.getElementById('storeBulk100').click();
-            }
-            FrozenCookies.autoBulkReady = 0;
-            updateLocalStorage();
-        }       
-        
         //var seConditions = (Game.cookies >= delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))); //true == good on SE bank or don't care about it
         if (FrozenCookies.autoBuy && ((Game.cookies >= delay + recommendation.cost) || recommendation.purchase.name == "Elder Pledge") && (FrozenCookies.pastemode || isFinite(nextChainedPurchase().efficiency))) {
             //    if (FrozenCookies.autoBuy && (Game.cookies >= delay + recommendation.cost)) {
