@@ -12,20 +12,6 @@
 })(this);
 
 function setOverrides() {
-    Game.registerMod("Frozen Cookies (mtarnuhal)", {
-        init: function () {
-            Game.registerHook('reincarnate', function () {  // Automatically buy in bulk after reincarnation if setting turned on
-                if (FrozenCookies.autoBulk != 0) {
-                    if (FrozenCookies.autoBulk == 1) { // Buy x10
-                        document.getElementById('storeBulk10').click();
-                    }
-                    if (FrozenCookies.autoBulk == 2) { // Buy x100
-                        document.getElementById('storeBulk100').click();
-                    }
-                }
-            });
-        }
-    });
 
     // Set all cycleable preferences
     _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
@@ -146,6 +132,22 @@ function setOverrides() {
     if (!Game.HasAchiev('Third-party')) {
         Game.Win('Third-party');
     }
+
+    // register with the modding API
+    Game.registerMod("Frozen Cookies (mtarnuhal)", {
+        init: function () {
+            Game.registerHook('reincarnate', function () {  // Automatically buy in bulk after reincarnation if setting turned on
+                if (FrozenCookies.autoBulk != 0) {
+                    if (FrozenCookies.autoBulk == 1) { // Buy x10
+                        document.getElementById('storeBulk10').click();
+                    }
+                    if (FrozenCookies.autoBulk == 2) { // Buy x100
+                        document.getElementById('storeBulk100').click();
+                    }
+                }
+            });
+        }
+    });
 }
 
 function preferenceParse(setting, defaultVal) {
