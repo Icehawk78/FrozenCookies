@@ -105,13 +105,7 @@ function setOverrides() {
     Game.tooltip.oldDraw = Game.tooltip.draw;
     Game.tooltip.draw = fcDraw;
     Game.oldReset = Game.Reset;
-    Game.oldWriteSave = Game.WriteSave;
-    Game.oldLoadSave = Game.LoadSave;
     Game.Reset = fcReset;
-    Game.WriteSave = fcWriteSave;
-    //  if (FrozenCookies.saveWrinklers && localStorage.wrinklers) {
-    //    Game.wrinklers = JSON.parse(localStorage.wrinklers);
-    //  }
     Game.Win = fcWin;
     // Remove the following when turning on tooltop code
     nextPurchase(true);
@@ -343,13 +337,6 @@ function fcReset() {
     FrozenCookies.trackedStats = [];
     updateLocalStorage();
     recommendationList(true);
-}
-
-function fcWriteSave(exporting) {
-    //  if (FrozenCookies.saveWrinklers && Game.wrinklers) {
-    //    localStorage.wrinklers = JSON.stringify(Game.wrinklers);
-    //  }
-    return Game.oldWriteSave(exporting);
 }
 
 function updateLocalStorage() {
