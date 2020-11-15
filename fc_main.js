@@ -11,6 +11,45 @@
     });
 })(this);
 
+function registerMod() {    // register with the modding API
+    Game.registerMod("Frozen Cookies (mtarnuhal)", {
+        init: function () {
+            Game.registerHook('reincarnate', function () {  // called when the player has reincarnated after an ascension
+                if (FrozenCookies.autoBulk != 0) {
+                    if (FrozenCookies.autoBulk == 1) { // Buy x10
+                        document.getElementById('storeBulk10').click();
+                    }
+                    if (FrozenCookies.autoBulk == 2) { // Buy x100
+                        document.getElementById('storeBulk100').click();
+                    }
+                }
+            });
+            Game.registerHook('draw', updateTimers);    // called every draw tick
+            /*  other hooks that can be used
+            Game.registerHook('logic', function () {   // called every logic tick. seems to correspond with fps
+            });
+            Game.registerHook('reset', function (hard) { // the parameter will be true if it's a hard reset, and false (not passed) if it's just an ascension
+            });
+            Game.registerHook('reincarnate', function () {
+            });
+            Game.registerHook('check', function () {   // called every few seconds when we check for upgrade/achiev unlock conditions; you can also use this for other checks that you don't need happening every logic frame. called about every five seconds?
+            });
+            Game.registerHook('cps', function (cps) { // called when determining the CpS; parameter is the current CpS; should return the modified CpS. called on change or about every ten seconds
+                return cps;
+            });
+            Game.registerHook('cookiesPerClick', function (cookiesPerClick) { // called when determining the cookies per click; parameter is the current value; should return the modified value. called on change or about every ten seconds
+                return cookiesPerClick;
+            });
+            Game.registerHook('click', function () {    // called when the big cookie is clicked
+            });
+            Game.registerHook('create', function () {   // called after the game declares all buildings, upgrades and achievs; use this to declare your own - note that saving/loading functionality for custom content is not explicitly implemented and may be unpredictable and broken
+            });
+            */
+        },
+        load: setOverrides
+    });
+}
+
 function setOverrides() {
 
     // Set all cycleable preferences
@@ -121,23 +160,8 @@ function setOverrides() {
     if (!Game.HasAchiev('Third-party')) {
         Game.Win('Third-party');
     }
-
-    // register with the modding API
-    Game.registerMod("Frozen Cookies (mtarnuhal)", {
-        init: function () {
-            Game.registerHook('reincarnate', function () {  // Automatically buy in bulk after reincarnation if setting turned on
-                if (FrozenCookies.autoBulk != 0) {
-                    if (FrozenCookies.autoBulk == 1) { // Buy x10
-                        document.getElementById('storeBulk10').click();
-                    }
-                    if (FrozenCookies.autoBulk == 2) { // Buy x100
-                        document.getElementById('storeBulk100').click();
-                    }
-                }
-            });
-            Game.registerHook('draw', updateTimers);
-        }
-    });
+    
+    FCStart();
 }
 
 function preferenceParse(setting, defaultVal) {
