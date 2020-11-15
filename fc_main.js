@@ -26,7 +26,10 @@ function registerMod() {    // register with the modding API
             });
             Game.registerHook('draw', updateTimers);    // called every draw tick
             Game.registerHook('ticker', function () {   // called when determining news ticker text (about every ten seconds); should return an array of possible choices to add
-                return ["News: Debate about whether using Frozen Cookies constitutes cheating continues to rage. Violence escalating.", "News: Supreme Court rules that Frozen Cookies not unauthorized cheating after all."];
+                return [
+                    "News: Debate about whether using Frozen Cookies constitutes cheating continues to rage. Violence escalating.",
+                    "News: Supreme Court rules that Frozen Cookies not unauthorized cheating after all."
+                ];
             });
             /*  other hooks that can be used
             Game.registerHook('logic', function () {   // called every logic tick. seems to correspond with fps
@@ -54,7 +57,7 @@ function registerMod() {    // register with the modding API
     });
 }
 
-function setOverrides(gameSaveData) {
+function setOverrides(gameSaveData) {   // load settings and initialize variables
     logEvent("Load", "Initial Load of Frozen Cookies v " + FrozenCookies.branch + "." + FrozenCookies.version + ". (You should only ever see this once.)");
     var loadedData = JSON.parse(gameSaveData);
     loadFCData();
@@ -156,22 +159,8 @@ function setOverrides(gameSaveData) {
 
         // building max values
         FrozenCookies.cursorMax = preferenceParse('cursorMax', 500);
-        // FrozenCookies.grandmaMax = preferenceParse('grandmaMax', 500);
         FrozenCookies.farmMax = preferenceParse('farmMax', 500);
-        // FrozenCookies.mineMax = preferenceParse('mineMax', 500);
-        // FrozenCookies.factoryMax = preferenceParse('factoryMax', 500);
-        // FrozenCookies.bankMax = preferenceParse('bankMax', 500);
-        // FrozenCookies.templeMax = preferenceParse('templeMax', 500);
         FrozenCookies.manaMax = preferenceParse('manaMax', 100);
-        // FrozenCookies.shipmentMax = preferenceParse('shipmentMax', 500);
-        // FrozenCookies.labMax = preferenceParse('labMax', 500);
-        // FrozenCookies.portalMax = preferenceParse('portalMax', 500);
-        // FrozenCookies.timeMachineMax = preferenceParse('timeMachineMax', 500);
-        // FrozenCookies.condensorMax = preferenceParse('condensorMax', 500);
-        // FrozenCookies.prismMax = preferenceParse('prismMax', 500);
-        // FrozenCookies.chancemakerMax = preferenceParse('chancemakerMax', 500);
-        // FrozenCookies.fractalEngineMax = preferenceParse('fractalEngineMax', 500);
-        // FrozenCookies.consoleMax = preferenceParse('consoleMax', 500);
 
         // Get historical data
         FrozenCookies.frenzyTimes = JSON.parse(loadedData['frenzyTimes'] || localStorage.getItem('frenzyTimes')) || {};
