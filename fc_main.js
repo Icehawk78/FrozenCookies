@@ -54,42 +54,18 @@ function registerMod() {    // register with the modding API
     });
 }
 
-function setOverrides() {
-
-    // Set all cycleable preferences
-    _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
-        FrozenCookies[preference] = preferenceParse(preference, FrozenCookies.preferenceValues[preference].default);
-    });
-
+function setOverrides(gameSaveData) {
     logEvent("Load", "Initial Load of Frozen Cookies v " + FrozenCookies.branch + "." + FrozenCookies.version + ". (You should only ever see this once.)");
-
+    var loadedData = JSON.parse(gameSaveData);
+    loadFCData();
     FrozenCookies.frequency = 100;
     FrozenCookies.efficiencyWeight = 1.0;
-
-    // Separate because these are user-input values
-    FrozenCookies.cookieClickSpeed = preferenceParse('cookieClickSpeed', 0);
-    FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed', 0);
-    FrozenCookies.HCAscendAmount = preferenceParse('HCAscendAmount', 0);
-    FrozenCookies.minCpSMult = preferenceParse('minCpSMult', 1);
-    FrozenCookies.cursorMax = preferenceParse('cursorMax', 500);
-    FrozenCookies.farmMax = preferenceParse('farmMax', 500);
-    FrozenCookies.manaMax = preferenceParse('manaMax', 100);
-    FrozenCookies.maxSpecials = preferenceParse('maxSpecials', 1);
 
     // Becomes 0 almost immediately after user input, so default to 0
     FrozenCookies.timeTravelAmount = 0;
 
     // Force redraw every 10 purchases
     FrozenCookies.autobuyCount = 0;
-
-    // Get historical data
-    FrozenCookies.frenzyTimes = JSON.parse(localStorage.getItem('frenzyTimes')) || {};
-    //  FrozenCookies.non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
-    //  FrozenCookies.gc_time = Number(localStorage.getItem('frenzyTime'));
-    FrozenCookies.lastHCAmount = Number(localStorage.getItem('lastHCAmount'));
-    FrozenCookies.lastHCTime = Number(localStorage.getItem('lastHCTime'));
-    FrozenCookies.prevLastHCTime = Number(localStorage.getItem('prevLastHCTime'));
-    FrozenCookies.maxHCPercent = Number(localStorage.getItem('maxHCPercent'));
 
     // Set default values for calculations
     FrozenCookies.hc_gain = 0;
@@ -134,7 +110,7 @@ function setOverrides() {
     FrozenCookies.caches.recommendationList = [];
     FrozenCookies.caches.buildings = [];
     FrozenCookies.caches.upgrades = [];
-	
+
     //Whether to currently display achievement popups
     FrozenCookies.showAchievements = true;
 
@@ -142,7 +118,7 @@ function setOverrides() {
         FrozenCookies.blacklist = 0;
     }
     Beautify = fcBeautify;
-    Game.sayTime = function(time, detail) {
+    Game.sayTime = function (time, detail) {
         return timeDisplay(time / Game.fps);
     }
     Game.tooltip.oldDraw = Game.tooltip.draw;
@@ -164,17 +140,59 @@ function setOverrides() {
     if (!Game.HasAchiev('Third-party')) {
         Game.Win('Third-party');
     }
-    
-    FCStart();
-}
 
-function preferenceParse(setting, defaultVal) {
-    var value = localStorage.getItem(setting);
-    if (typeof(value) == 'undefined' || value == null || isNaN(Number(value))) {
-        value = defaultVal;
-        localStorage.setItem(setting, value);
+
+    function loadFCData() {
+        // Set all cycleable preferences
+        _.keys(FrozenCookies.preferenceValues).forEach(function (preference) {
+            FrozenCookies[preference] = preferenceParse(preference, FrozenCookies.preferenceValues[preference].default);
+        });
+        // Separate because these are user-input values
+        FrozenCookies.cookieClickSpeed = preferenceParse('cookieClickSpeed', 0);
+        FrozenCookies.frenzyClickSpeed = preferenceParse('frenzyClickSpeed', 0);
+        FrozenCookies.HCAscendAmount = preferenceParse('HCAscendAmount', 0);
+        FrozenCookies.minCpSMult = preferenceParse('minCpSMult', 1);
+        FrozenCookies.maxSpecials = preferenceParse('maxSpecials', 1);
+
+        // building max values
+        FrozenCookies.cursorMax = preferenceParse('cursorMax', 500);
+        // FrozenCookies.grandmaMax = preferenceParse('grandmaMax', 500);
+        FrozenCookies.farmMax = preferenceParse('farmMax', 500);
+        // FrozenCookies.mineMax = preferenceParse('mineMax', 500);
+        // FrozenCookies.factoryMax = preferenceParse('factoryMax', 500);
+        // FrozenCookies.bankMax = preferenceParse('bankMax', 500);
+        // FrozenCookies.templeMax = preferenceParse('templeMax', 500);
+        FrozenCookies.manaMax = preferenceParse('manaMax', 100);
+        // FrozenCookies.shipmentMax = preferenceParse('shipmentMax', 500);
+        // FrozenCookies.labMax = preferenceParse('labMax', 500);
+        // FrozenCookies.portalMax = preferenceParse('portalMax', 500);
+        // FrozenCookies.timeMachineMax = preferenceParse('timeMachineMax', 500);
+        // FrozenCookies.condensorMax = preferenceParse('condensorMax', 500);
+        // FrozenCookies.prismMax = preferenceParse('prismMax', 500);
+        // FrozenCookies.chancemakerMax = preferenceParse('chancemakerMax', 500);
+        // FrozenCookies.fractalEngineMax = preferenceParse('fractalEngineMax', 500);
+        // FrozenCookies.consoleMax = preferenceParse('consoleMax', 500);
+
+        // Get historical data
+        FrozenCookies.frenzyTimes = JSON.parse(loadedData['frenzyTimes'] || localStorage.getItem('frenzyTimes')) || {};
+        //  FrozenCookies.non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
+        //  FrozenCookies.gc_time = Number(localStorage.getItem('frenzyTime'));
+        FrozenCookies.lastHCAmount = preferenceParse('lastHCAmount', 0);
+        FrozenCookies.lastHCTime = preferenceParse('lastHCTime', 0);
+        FrozenCookies.prevLastHCTime = preferenceParse('prevLastHCTime', 0);
+        FrozenCookies.maxHCPercent = preferenceParse('maxHCPercent', 0);
     }
-    return Number(value);
+
+    function preferenceParse(setting, defaultVal) {
+        var value = defaultVal;
+        if (setting in loadedData) {  // first look in the data from the game save
+            value = loadedData[setting];
+        } else if (localStorage.getItem(setting)) { // if the setting isn't there, check localStorage
+            value = localStorage.getItem(setting);
+        }
+        return Number(value);   // if not overridden by game save or localStorage, defaultVal is returned
+    }
+    FCStart();
 }
 
 function scientificNotation(value) {
