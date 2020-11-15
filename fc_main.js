@@ -25,6 +25,9 @@ function registerMod() {    // register with the modding API
                 }
             });
             Game.registerHook('draw', updateTimers);    // called every draw tick
+            Game.registerHook('ticker', function () {   // called when determining news ticker text (about every ten seconds); should return an array of possible choices to add
+                return ["News: Debate about whether using Frozen Cookies constitutes cheating continues to rage. Violence escalating.", "News: Supreme Court rules that Frozen Cookies not unauthorized cheating after all."];
+            });
             /*  other hooks that can be used
             Game.registerHook('logic', function () {   // called every logic tick. seems to correspond with fps
             });
