@@ -49,6 +49,7 @@ function registerMod() {    // register with the modding API
             });
             */
         },
+        save: saveFCData,
         load: setOverrides
     });
 }
@@ -362,30 +363,30 @@ function fcReset() {
     FrozenCookies.lastCps = 0;
     FrozenCookies.lastBaseCps = 0;
     FrozenCookies.trackedStats = [];
-    updateLocalStorage();
     recommendationList(true);
 }
 
-function updateLocalStorage() {
-    _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
-        localStorage[preference] = FrozenCookies[preference];
+function saveFCData() {
+    var saveString = {};
+    _.keys(FrozenCookies.preferenceValues).forEach(function (preference) {
+        saveString[preference] = FrozenCookies[preference];
     });
-
-    localStorage.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
-    localStorage.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
-    localStorage.HCAscendAmount = FrozenCookies.HCAscendAmount;
-    localStorage.cursorMax = FrozenCookies.cursorMax;
-    localStorage.farmMax = FrozenCookies.farmMax;
-    localStorage.minCpSMult = FrozenCookies.minCpSMult;
-    localStorage.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
-    //  localStorage.nonFrenzyTime = FrozenCookies.non_gc_time;
-    //  localStorage.frenzyTime = FrozenCookies.gc_time;
-    localStorage.lastHCAmount = FrozenCookies.lastHCAmount;
-    localStorage.maxHCPercent = FrozenCookies.maxHCPercent;
-    localStorage.lastHCTime = FrozenCookies.lastHCTime;
-    localStorage.manaMax = FrozenCookies.manaMax;
-    localStorage.maxSpecials = FrozenCookies.maxSpecials;
-    localStorage.prevLastHCTime = FrozenCookies.prevLastHCTime;
+    saveString.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
+    saveString.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
+    saveString.HCAscendAmount = FrozenCookies.HCAscendAmount;
+    saveString.cursorMax = FrozenCookies.cursorMax;
+    saveString.farmMax = FrozenCookies.farmMax;
+    saveString.minCpSMult = FrozenCookies.minCpSMult;
+    saveString.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
+    //  saveString.nonFrenzyTime = FrozenCookies.non_gc_time;
+    //  saveString.frenzyTime = FrozenCookies.gc_time;
+    saveString.lastHCAmount = FrozenCookies.lastHCAmount;
+    saveString.maxHCPercent = FrozenCookies.maxHCPercent;
+    saveString.lastHCTime = FrozenCookies.lastHCTime;
+    saveString.manaMax = FrozenCookies.manaMax;
+    saveString.maxSpecials = FrozenCookies.maxSpecials;
+    saveString.prevLastHCTime = FrozenCookies.prevLastHCTime;
+    return JSON.stringify(saveString);
 }
 
 function divCps(value, cps) {
