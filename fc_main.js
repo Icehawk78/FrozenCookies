@@ -175,8 +175,8 @@ function setOverrides(gameSaveData) {
 
         // Get historical data
         FrozenCookies.frenzyTimes = JSON.parse(loadedData['frenzyTimes'] || localStorage.getItem('frenzyTimes')) || {};
-        //  FrozenCookies.non_gc_time = Number(localStorage.getItem('nonFrenzyTime'));
-        //  FrozenCookies.gc_time = Number(localStorage.getItem('frenzyTime'));
+        //  FrozenCookies.non_gc_time = Number(loadedData['nonFrenzyTime']) || Number(localStorage.getItem('nonFrenzyTime')) || 0;
+        //  FrozenCookies.gc_time = Number(loadedData['frenzyTime']) || Number(localStorage.getItem('frenzyTime')) || 0;;
         FrozenCookies.lastHCAmount = preferenceParse('lastHCAmount', 0);
         FrozenCookies.lastHCTime = preferenceParse('lastHCTime', 0);
         FrozenCookies.prevLastHCTime = preferenceParse('prevLastHCTime', 0);
@@ -491,7 +491,6 @@ function updateSpeed(base) {
     var newSpeed = getSpeed(FrozenCookies[base]);
     if (newSpeed != FrozenCookies[base]) {
         FrozenCookies[base] = newSpeed;
-        updateLocalStorage();
         FCStart();
     }
 }
@@ -508,7 +507,6 @@ function updateCpSMultMin(base) {
     var newMin = getCpSMultMin(FrozenCookies[base]);
     if (newMin != FrozenCookies[base]) {
         FrozenCookies[base] = newMin;
-        updateLocalStorage();
         FCStart();
     }
 }
@@ -525,7 +523,6 @@ function updateAscendAmount(base) {
     var newAmount = getAscendAmount(FrozenCookies[base]);
     if (newAmount != FrozenCookies[base]) {
         FrozenCookies[base] = newAmount;
-        updateLocalStorage();
         FCStart();
     }
 }
@@ -542,7 +539,6 @@ function updateManaMax(base) {
     var newMax = getManaMax(FrozenCookies[base]);
     if (newMax != FrozenCookies[base]) {
         FrozenCookies[base] = newMax;
-        updateLocalStorage();
         FCStart();
     }
 }
@@ -559,7 +555,6 @@ function updateMaxSpecials(base) {
     var newSpecials = getMaxSpecials(FrozenCookies[base]);
     if (newSpecials != FrozenCookies[base]) {
         FrozenCookies[base] = newSpecials;
-        updateLocalStorage();
         FCStart();
     }
 }
@@ -576,7 +571,6 @@ function updateCursorMax(base) {
     var newMax = getCursorMax(FrozenCookies[base]);
     if (newMax != FrozenCookies[base]) {
         FrozenCookies[base] = newMax;
-        updateLocalStorage();
         FCStart();
     }
 }
@@ -593,7 +587,6 @@ function updateFarmMax(base) {
     var newMax2 = getFarmMax(FrozenCookies[base]);
     if (newMax2 != FrozenCookies[base]) {
         FrozenCookies[base] = newMax2;
-        updateLocalStorage();
         FCStart();
     }
 }
@@ -616,7 +609,6 @@ function cyclePreference(preferenceName) {
             var newValue = (current + 1) % display.length;
             preferenceButton[0].innerText = display[newValue];
             FrozenCookies[preferenceName] = newValue;
-            updateLocalStorage();
             FrozenCookies.recalculateCaches = true;
             Game.RefreshStore();
             Game.RebuildUpgrades();
@@ -626,11 +618,9 @@ function cyclePreference(preferenceName) {
 }
 
 function toggleFrozen(setting) {
-    if (!Number(localStorage.getItem(setting))) {
-        localStorage.setItem(setting, 1);
+    if (!FrozenCookies[setting]) {
         FrozenCookies[setting] = 1;
     } else {
-        localStorage.setItem(setting, 0);
         FrozenCookies[setting] = 0;
     }
     FCStart();
@@ -2293,7 +2283,6 @@ function autoCookie() {
                 FrozenCookies.maxHCPercent = currHCPercent;
             }
             FrozenCookies.hc_gain += changeAmount;
-            updateLocalStorage();
         }
         updateCaches();
         var recommendation = nextPurchase();
@@ -2428,7 +2417,6 @@ function autoCookie() {
             FrozenCookies.frenzyTimes[FrozenCookies.last_gc_state] += Date.now() - FrozenCookies.last_gc_time;
             FrozenCookies.last_gc_state = currentFrenzy;
             FrozenCookies.last_gc_time = Date.now();
-            updateLocalStorage();
         }
         FrozenCookies.processing = false;
         if (FrozenCookies.frequency) {
@@ -2472,10 +2460,6 @@ function FCStart() {
         clearInterval(FrozenCookies.autoFortuneBot);
         FrozenCookies.autoFortuneBot = 0;
     }
-
-    //  if (!FrozenCookies.saveWrinklers && localStorage.wrinklers) {
-    //    delete localStorage.wrinklers;
-    //  }
 
     // Remove until timing issues are fixed
     //  if (FrozenCookies.goldenCookieBot) {
