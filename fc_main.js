@@ -28,7 +28,7 @@ function registerMod() {    // register with the modding API
             Game.registerHook('ticker', function () {   // called when determining news ticker text (about every ten seconds); should return an array of possible choices to add
                 return [
                     "News: Debate about whether using Frozen Cookies constitutes cheating continues to rage. Violence escalating.",
-                    "News: Supreme Court rules that Frozen Cookies not unauthorized cheating after all."
+                    "News: Supreme Court rules Frozen Cookies not unauthorized cheating after all."
                 ];
             });
             /*  other hooks that can be used
@@ -393,6 +393,7 @@ function saveFCData() {
     saveString.manaMax = FrozenCookies.manaMax;
     saveString.maxSpecials = FrozenCookies.maxSpecials;
     saveString.prevLastHCTime = FrozenCookies.prevLastHCTime;
+    saveString.saveVersion = FrozenCookies.version;
     return JSON.stringify(saveString);
 }
 
