@@ -124,10 +124,14 @@ function setOverrides(gameSaveData) {   // load settings and initialize variable
     Game.sayTime = function (time, detail) {
         return timeDisplay(time / Game.fps);
     }
-    Game.tooltip.oldDraw = Game.tooltip.draw;
-    Game.tooltip.draw = fcDraw;
-    Game.oldReset = Game.Reset;
-    Game.Reset = fcReset;
+    if (typeof (Game.tooltip.oldDraw) != "function") {
+        Game.tooltip.oldDraw = Game.tooltip.draw;
+        Game.tooltip.draw = fcDraw;
+    }
+    if (typeof (Game.oldReset) != "function") {
+        Game.oldReset = Game.Reset;
+        Game.Reset = fcReset;
+    }
     Game.Win = fcWin;
     // Remove the following when turning on tooltop code
     nextPurchase(true);
