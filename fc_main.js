@@ -107,12 +107,7 @@ function setOverrides(gameSaveData) {   // load settings and initialize variable
     FrozenCookies.delayPurchaseCount = 0;
 
     // Caching
-    FrozenCookies.recalculateCaches = true;
-    FrozenCookies.caches = {};
-    FrozenCookies.caches.nextPurchase = {};
-    FrozenCookies.caches.recommendationList = [];
-    FrozenCookies.caches.buildings = [];
-    FrozenCookies.caches.upgrades = [];
+    emptyCaches();
 
     //Whether to currently display achievement popups
     FrozenCookies.showAchievements = true;
@@ -186,6 +181,15 @@ function setOverrides(gameSaveData) {   // load settings and initialize variable
         return Number(value);   // if not overridden by game save or localStorage, defaultVal is returned
     }
     FCStart();
+}
+
+function emptyCaches() {
+    FrozenCookies.recalculateCaches = true;
+    FrozenCookies.caches = {};
+    FrozenCookies.caches.nextPurchase = {};
+    FrozenCookies.caches.recommendationList = [];
+    FrozenCookies.caches.buildings = [];
+    FrozenCookies.caches.upgrades = [];
 }
 
 function scientificNotation(value) {
