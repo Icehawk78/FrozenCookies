@@ -31,10 +31,13 @@ function registerMod() {    // register with the modding API
                     "News: Supreme Court rules Frozen Cookies not unauthorized cheating after all."
                 ];
             });
+            Game.registerHook('reset', function (hard) { // the parameter will be true if it's a hard reset, and false (not passed) if it's just an ascension
+                if (hard) {
+                    emptyCaches();
+                }
+            });
             /*  other hooks that can be used
             Game.registerHook('logic', function () {   // called every logic tick. seems to correspond with fps
-            });
-            Game.registerHook('reset', function (hard) { // the parameter will be true if it's a hard reset, and false (not passed) if it's just an ascension
             });
             Game.registerHook('reincarnate', function () {
             });
