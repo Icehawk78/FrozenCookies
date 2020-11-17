@@ -58,11 +58,18 @@ function registerMod() {    // register with the modding API
         save: saveFCData,
         load: setOverrides
     });
+    if (!FrozenCookies.loadedData) {
+        setOverrides();
+    }
 }
 
 function setOverrides(gameSaveData) {   // load settings and initialize variables
     logEvent("Load", "Initial Load of Frozen Cookies v " + FrozenCookies.branch + "." + FrozenCookies.version + ". (You should only ever see this once.)");
-    var loadedData = JSON.parse(gameSaveData);
+    if (gameSaveData) {
+        FrozenCookies.loadedData = JSON.parse(gameSaveData);
+    } else {
+        FrozenCookies.loadedData = {};
+    }
     loadFCData();
     FrozenCookies.frequency = 100;
     FrozenCookies.efficiencyWeight = 1.0;
@@ -165,19 +172,22 @@ function setOverrides(gameSaveData) {   // load settings and initialize variable
         FrozenCookies.manaMax = preferenceParse('manaMax', 100);
 
         // Get historical data
-        FrozenCookies.frenzyTimes = JSON.parse(loadedData['frenzyTimes'] || localStorage.getItem('frenzyTimes')) || {};
-        //  FrozenCookies.non_gc_time = Number(loadedData['nonFrenzyTime']) || Number(localStorage.getItem('nonFrenzyTime')) || 0;
-        //  FrozenCookies.gc_time = Number(loadedData['frenzyTime']) || Number(localStorage.getItem('frenzyTime')) || 0;;
+        FrozenCookies.frenzyTimes = JSON.parse(FrozenCookies.loadedData['frenzyTimes'] || localStorage.getItem('frenzyTimes')) || {};
+        //  FrozenCookies.non_gc_time = Number(FrozenCookies.loadedData['nonFrenzyTime']) || Number(localStorage.getItem('nonFrenzyTime')) || 0;
+        //  FrozenCookies.gc_time = Number(FrozenCookies.loadedData['frenzyTime']) || Number(localStorage.getItem('frenzyTime')) || 0;;
         FrozenCookies.lastHCAmount = preferenceParse('lastHCAmount', 0);
         FrozenCookies.lastHCTime = preferenceParse('lastHCTime', 0);
         FrozenCookies.prevLastHCTime = preferenceParse('prevLastHCTime', 0);
         FrozenCookies.maxHCPercent = preferenceParse('maxHCPercent', 0);
+        if (Object.keys(FrozenCookies.loadedData).length > 0) {
+            logEvent("Load", "Restored Frozen Cookies settings from previous save");
+        }
     }
 
     function preferenceParse(setting, defaultVal) {
         var value = defaultVal;
-        if (setting in loadedData) {  // first look in the data from the game save
-            value = loadedData[setting];
+        if (setting in FrozenCookies.loadedData) {  // first look in the data from the game save
+            value = FrozenCookies.loadedData[setting];
         } else if (localStorage.getItem(setting)) { // if the setting isn't there, check localStorage
             value = localStorage.getItem(setting);
         }
