@@ -34,6 +34,7 @@ function registerMod() {    // register with the modding API
             Game.registerHook('reset', function (hard) { // the parameter will be true if it's a hard reset, and false (not passed) if it's just an ascension
                 if (hard) {
                     emptyCaches();
+                    // if the user is starting fresh, code will likely need to be called to reinitialize some historical data here as well
                 }
             });
             /*  other hooks that can be used
@@ -56,8 +57,11 @@ function registerMod() {    // register with the modding API
             */
         },
         save: saveFCData,
-        load: setOverrides
+        load: setOverrides  // called whenever a game save is loaded. If the mod has data in the game save when the mod is initially registered, this hook is also called at that time as well.
     });
+    
+    // If Frozen Cookes was loaded and there was previous Frozen Cookies data in the game save, the "load" hook ran so the setOverrides function was called and things got initialized.
+    // However, if there wasn't previous Frozen Cookies data in the game save, the "load" hook wouldn't have been called. So, we have to manually call setOverrides here to start Frozen Cookies.
     if (!FrozenCookies.loadedData) {
         setOverrides();
     }
@@ -65,6 +69,9 @@ function registerMod() {    // register with the modding API
 }
 
 function setOverrides(gameSaveData) {   // load settings and initialize variables
+    // If gameSaveData wasn't passed to this function, it means that there was nothing for this mod in the game save when the mod was loaded
+    // In that case, set the "loadedData" var to an empty object. When the loadFCData() function runs and finds no data from the game save,
+    // it pulls data from local storage or sets default values
     if (gameSaveData) {
         FrozenCookies.loadedData = JSON.parse(gameSaveData);
     } else {
