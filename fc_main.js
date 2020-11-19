@@ -1461,10 +1461,9 @@ function isUnavailable(upgrade, upgradeBlacklist) {
 
     var needed = unfinishedUpgradePrereqs(upgrade);
     result = result || !upgrade.unlocked && !needed;
-    result = result || _.contains(upgradeBlacklist, upgrade.id);
-    result = result || (needed && _.find(needed, function(a) {
+    result = result || (_.find(needed, function (a) {
         return a.type == "wrinklers"
-    }) != null);
+    }) != null) && needed;
     result = result || (upgrade.season && (!haveAll(Game.season) || (upgrade.season != seasons[FrozenCookies.defaultSeason] && haveAll(upgrade.season))));
 
     return result;
