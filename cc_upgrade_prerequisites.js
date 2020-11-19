@@ -519,28 +519,3 @@ var cookieInfo = {
     'clotClick':   {'odds':[0,0.001307530606642,0.005809363719639,0.007810910338684],                 isOverlap:true},
     'blah':        {'odds':[0,0,0,0],                                                                 isOverlap:false}
 };
-
-function generateProbabilities(upgradeMult, minBase, maxMult) {
-    var cumProb = [];
-    var remainingProbability = 1;
-    var minTime = minBase * upgradeMult;
-    var maxTime = maxMult * minTime;
-    var spanTime = maxTime - minTime;
-    for (var i=0; i<maxTime; i++) {
-        var thisFrame = remainingProbability * Math.pow(Math.max(0,(i-minTime)/spanTime),5);
-        remainingProbability -= thisFrame;
-        cumProb.push(1 - remainingProbability);
-    }
-    return cumProb;
-}
-
-var cumulativeProbabilityList = {
-    golden : [1, 0.95, 0.5, 0.475, 0.25, 0.2375].reduce(function(r,x) {
-        r[x] = generateProbabilities(x, 5 * 60 * Game.fps, 3);
-        return r;
-    }, {}),
-    reindeer : [1, 0.5].reduce(function(r,x) {
-        r[x] = generateProbabilities(x, 3 * 60 * Game.fps, 2);
-        return r;
-    }, {})
-};
