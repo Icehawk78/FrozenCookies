@@ -325,6 +325,26 @@ var upgradeJson = {
     696: {'buildings': [0,0,0,0,0,0,0,0,0,0,15,0,0,0,0,0,0,15], 'upgrades': [393]}, // Perforated mille-feuille cosmos
     697: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,75], 'upgrades': [394]}, // Infraverses and superverses
 
+    // Fortune upgrades - Requires "Fortune cookies" heavenly upgrade (643)
+    621: {'buildings': [15], 'upgrades': [643]},                                    // Fortune #001
+    622: {'buildings': [0,15], 'upgrades': [643]},                                  // Fortune #002
+    623: {'buildings': [0,0,15], 'upgrades': [643]},                                // Fortune #003
+    624: {'buildings': [0,0,0,15], 'upgrades': [643]},                              // Fortune #004
+    625: {'buildings': [0,0,0,0,15], 'upgrades': [643]},                            // Fortune #005
+    626: {'buildings': [0,0,0,0,0,15], 'upgrades': [643]},                          // Fortune #006
+    627: {'buildings': [0,0,0,0,0,0,15], 'upgrades': [643]},                        // Fortune #007
+    628: {'buildings': [0,0,0,0,0,0,0,15], 'upgrades': [643]},                      // Fortune #008
+    629: {'buildings': [0,0,0,0,0,0,0,0,15], 'upgrades': [643]},                    // Fortune #009
+    630: {'buildings': [0,0,0,0,0,0,0,0,0,15], 'upgrades': [643]},                  // Fortune #010
+    631: {'buildings': [0,0,0,0,0,0,0,0,0,0,15], 'upgrades': [643]},                // Fortune #011
+    632: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,15], 'upgrades': [643]},              // Fortune #012
+    633: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,15], 'upgrades': [643]},            // Fortune #013
+    634: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,15], 'upgrades': [643]},          // Fortune #014
+    635: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,15], 'upgrades': [643]},        // Fortune #015
+    636: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15], 'upgrades': [643]},      // Fortune #016
+    637: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15], 'upgrades': [643]},    // Fortune #017
+    698: {'buildings': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15], 'upgrades': [643]},  // Fortune #018
+
     // Reward cookies - Unlocked when all buildings reach a certain number
     334: {'buildings': [100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100], 'upgrades': []},  // Milk chocolate butter biscuit
     335: {'buildings': [150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150,150], 'upgrades': []},  // Dark chocolate butter biscuit
@@ -432,6 +452,13 @@ var upgradeJson = {
     173: {'buildings': [], 'upgrades': [172,184]},  // Golden heart biscuits
     174: {'buildings': [], 'upgrades': [173,184]},  // Eternal heart biscuits
     645: {'buildings': [], 'upgrades': [174,184]},  // Prism heart biscuits
+
+    // Dragon upgrades - Requires the "How to bake your dragon" heavenly upgrade (323); the gifts require A crumbly egg (324) and the "Pet the dragon" heavenly upgrade (647)
+    324: {'buildings': [], 'upgrades': [323]},          // A crumbly egg
+    648: {'buildings': [], 'upgrades': [323,324,647]},  // Dragon scale
+    649: {'buildings': [], 'upgrades': [323,324,647]},  // Dragon claw
+    650: {'buildings': [], 'upgrades': [323,324,647]},  // Dragon fang
+    651: {'buildings': [], 'upgrades': [323,324,647]}   // Dragon teddy bear
 };
 
 var blacklist = [
