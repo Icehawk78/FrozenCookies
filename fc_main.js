@@ -1451,6 +1451,12 @@ function isUnavailable(upgrade, upgradeBlacklist) {
     if (upgradeBlacklist === true) {
         return true;
     }
+
+    // check if the upgrade is in the selected blacklist, or is an upgrade that shouldn't be recommended
+    if (upgradeBlacklist.concat(recommendationBlacklist).includes(upgrade.id)) {
+        return true;
+    }
+
     var result = false;
 
     var needed = unfinishedUpgradePrereqs(upgrade);
@@ -1460,34 +1466,6 @@ function isUnavailable(upgrade, upgradeBlacklist) {
         return a.type == "wrinklers"
     }) != null);
     result = result || (upgrade.season && (!haveAll(Game.season) || (upgrade.season != seasons[FrozenCookies.defaultSeason] && haveAll(upgrade.season))));
-
-    if (upgrade.id == 331 || upgrade.id == 332) {
-        result = true; // blacklist golden switch from being used, until proper logic can be implemented
-    }
-    
-    if (upgrade.id == 333) {
-        result = true; // blacklist milk selector from being used
-    }
-    
-    if (upgrade.id == 414) {
-        result = true; // blacklist background selector from being used
-    }
-
-    if (upgrade.id == 361) {
-        result = true; // blacklist golden cookie sound selector from being used
-    }
-    
-    if (upgrade.id == 452) {
-        result = true; // blacklist sugar frenzy from being used
-    }
-
-    if (upgrade.id == 227) {
-        result = true; // blacklist chocolate egg from being used
-    }
-	
-    if (upgrade.id == 563 || upgrade.id == 564) {
-        result = true; // blacklist shimmering veil from being used
-    }
 
     return result;
 }
