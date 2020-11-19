@@ -1447,11 +1447,14 @@ function upgradeStats(recalculate) {
 }
 
 function isUnavailable(upgrade, upgradeBlacklist) {
+    // should we even recommend upgrades at all?
+    if (upgradeBlacklist === true) {
+        return true;
+    }
     var result = false;
 
     var needed = unfinishedUpgradePrereqs(upgrade);
     result = result || !upgrade.unlocked && !needed;
-    result = result || (upgradeBlacklist === true);
     result = result || _.contains(upgradeBlacklist, upgrade.id);
     result = result || (needed && _.find(needed, function(a) {
         return a.type == "wrinklers"
