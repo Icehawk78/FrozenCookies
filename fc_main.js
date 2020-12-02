@@ -786,6 +786,31 @@ function autoBlacklistOff() {
     }
 }
 
+function generateProbabilities(upgradeMult, minBase, maxMult) {
+    var cumProb = [];
+    var remainingProbability = 1;
+    var minTime = minBase * upgradeMult;
+    var maxTime = maxMult * minTime;
+    var spanTime = maxTime - minTime;
+    for (var i=0; i<maxTime; i++) {
+        var thisFrame = remainingProbability * Math.pow(Math.max(0,(i-minTime)/spanTime),5);
+        remainingProbability -= thisFrame;
+        cumProb.push(1 - remainingProbability);
+    }
+    return cumProb;
+}
+
+var cumulativeProbabilityList = {
+    golden : [1, 0.95, 0.5, 0.475, 0.25, 0.2375].reduce(function(r,x) {
+        r[x] = generateProbabilities(x, 5 * 60 * Game.fps, 3);
+        return r;
+    }, {}),
+    reindeer : [1, 0.5].reduce(function(r,x) {
+        r[x] = generateProbabilities(x, 3 * 60 * Game.fps, 2);
+        return r;
+    }, {})
+};
+
 function getProbabilityList(listType) {
     return cumulativeProbabilityList[listType][getProbabilityModifiers(listType)];
 }
@@ -1484,44 +1509,24 @@ function upgradeStats(recalculate) {
 }
 
 function isUnavailable(upgrade, upgradeBlacklist) {
+    // should we even recommend upgrades at all?
+    if (upgradeBlacklist === true) {
+        return true;
+    }
+
+    // check if the upgrade is in the selected blacklist, or is an upgrade that shouldn't be recommended
+    if (upgradeBlacklist.concat(recommendationBlacklist).includes(upgrade.id)) {
+        return true;
+    }
+
     var result = false;
 
     var needed = unfinishedUpgradePrereqs(upgrade);
     result = result || !upgrade.unlocked && !needed;
-    result = result || (upgradeBlacklist === true);
-    result = result || _.contains(upgradeBlacklist, upgrade.id);
-    result = result || (needed && _.find(needed, function(a) {
+    result = result || (_.find(needed, function (a) {
         return a.type == "wrinklers"
-    }) != null);
+    }) != null) && needed;
     result = result || (upgrade.season && (!haveAll(Game.season) || (upgrade.season != seasons[FrozenCookies.defaultSeason] && haveAll(upgrade.season))));
-
-    if (upgrade.id == 331 || upgrade.id == 332) {
-        result = true; // blacklist golden switch from being used, until proper logic can be implemented
-    }
-    
-    if (upgrade.id == 333) {
-        result = true; // blacklist milk selector from being used
-    }
-    
-    if (upgrade.id == 414) {
-        result = true; // blacklist background selector from being used
-    }
-
-    if (upgrade.id == 361) {
-        result = true; // blacklist golden cookie sound selector from being used
-    }
-    
-    if (upgrade.id == 452) {
-        result = true; // blacklist sugar frenzy from being used
-    }
-
-    if (upgrade.id == 227) {
-        result = true; // blacklist chocolate egg from being used
-    }
-	
-    if (upgrade.id == 563 || upgrade.id == 564) {
-        result = true; // blacklist shimmering veil from being used
-    }
 
     return result;
 }
