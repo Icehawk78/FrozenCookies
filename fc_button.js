@@ -142,7 +142,9 @@ Game.RebuildStore(true);
 Game.RebuildUpgrades(true);
 */
 
-Game.oldUpdateMenu = Game.UpdateMenu;
+if (typeof (Game.oldUpdateMenu) != "function") {
+    Game.oldUpdateMenu = Game.UpdateMenu;
+}
 
 function drawCircles(t_d, x, y) {
     var maxRadius, heightOffset, i_c, i_tc, t_b, maxWidth, maxHeight, s_t,
@@ -245,7 +247,7 @@ function buffDuration(buffName) {
     return buff ? buff.time : 0;
 }
 
-function updateTimers() {
+function updateTimers() {   // update infobox calculations and assemble output -- called every draw tick
     var chainPurchase, bankPercent, purchasePercent, bankMax, actualCps, t_draw,
         maxColor, height,
         gc_delay = (probabilitySpan('golden', Game.shimmerTypes.golden.time, 0.5) - Game.shimmerTypes.golden.time) / maxCookieTime(),
