@@ -37,10 +37,11 @@ var script_list = [
     FrozenCookies.baseUrl + '/cc_upgrade_prerequisites.js',
     FrozenCookies.baseUrl + '/fc_main.js',
     FrozenCookies.baseUrl + '/fc_button.js',
-    FrozenCookies.baseUrl + '/fc_spellpredict.js'
+    FrozenCookies.baseUrl + '/fc_spellpredict.js',
+    FrozenCookies.baseUrl + '/fc_infobox.js'
 ]
 
-FrozenCookies.loadInterval = setInterval(function() {
+FrozenCookies.loadInterval = setInterval(function () {
     if (Game && Game.ready) {
         clearInterval(FrozenCookies.loadInterval);
         FrozenCookies.loadInterval = 0;
@@ -54,7 +55,7 @@ function loadScript(id) {
     } else {
         var url = script_list[id];
         if (/\.js$/.exec(url)) {
-            $.getScript(url, function() {
+            $.getScript(url, function () {
                 loadScript(id + 1);
             });
         } else if (/\.css$/.exec(url)) {
@@ -75,7 +76,7 @@ function fcInit() {
     var jquery = document.createElement('script');
     jquery.setAttribute('type', 'text/javascript');
     jquery.setAttribute('src', '//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js');
-    jquery.onload = function() {
+    jquery.onload = function () {
         loadScript(0);
     };
     document.head.appendChild(jquery);
