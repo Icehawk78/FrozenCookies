@@ -15,12 +15,10 @@
 // Master:    https://github.com/Mtarnuhal/FrozenCookies/master/
 // Github.io: http://lordshinjo.github.io/FrozenCookies/
 
-const Game = unsafeWindow.Game;
-
-function LoadFrozenCookies() {
-    Game.LoadMod('https://mtarnuhal.github.io/FrozenCookies/frozen_cookies.js');
-}
-
-// It's not the best way but Chrome doesn't work with addEventListener... :(
-// Delay load by 5 seconds to allow the site to load itself first.)
-setTimeout(LoadFrozenCookies, 5000);
+var loadInterval = setInterval(function() {
+  const Game = unsafeWindow.Game;
+    if (Game && Game.ready) {
+      clearInterval(loadInterval);
+      Game.LoadMod('https://mtarnuhal.github.io/FrozenCookies/frozen_cookies.js');
+    }
+}, 1000);
