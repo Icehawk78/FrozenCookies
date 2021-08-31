@@ -1685,8 +1685,11 @@ function unfinishedUpgradePrereqs(upgrade) {
             }
         });
         if (prereqs.santa) {
+	    // season: 'christmas': could use this to auto filter necessary seasons,
+	    // currently not doing, bc it would need iteration method or to change needed into an object 
+	    // that stores the seasons required at the top
             needed.push({
-                season: 'christmas',
+		type: 'santa',
                 id: 0
             });
         }
