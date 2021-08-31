@@ -1532,11 +1532,13 @@ function isUnavailable(upgrade, upgradeBlacklist) {
     result = result || (_.find(needed, function (a) {
         return a.type == "wrinklers"
     }) != null) && needed;
+    result = result || (_.find(needed, function (a) {
+        return a.type == "santa"
+    }) != null) && ('christmas' != Game.season && (!Game.UpgradesById[181].unlocked && !Game.prestige));
     result = result || (upgrade.season && (!haveAll(Game.season) || (upgrade.season != seasons[FrozenCookies.defaultSeason] && haveAll(upgrade.season))));
-
+    
     return result;
 }
-
 function santaStats() {
     return Game.Has('A festive hat') && (Game.santaLevel + 1 < Game.santaLevels.length) ? {
         id: 0,
@@ -1684,7 +1686,7 @@ function unfinishedUpgradePrereqs(upgrade) {
         });
         if (prereqs.santa) {
             needed.push({
-                type: 'santa',
+                season: 'christmas',
                 id: 0
             });
         }
