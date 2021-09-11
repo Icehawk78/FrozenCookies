@@ -12,5 +12,8 @@
   "bugs": {
     "url": "https://github.com/icehawk78/FrozenCookies/issues"
   },
-  "homepage": "https://github.com/icehawk78/FrozenCookies#readme"
+  "homepage": "https://github.com/icehawk78/FrozenCookies#readme",
+  "devDependencies": {
+    "prettier": "2.4.0"
+  }
 }
