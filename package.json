@@ -1,0 +1,16 @@
+{
+  "name": "frozencookies",
+  "version": "2.0.0",
+  "description": "An automated Cookie Clicker tool.",
+  "main": "frozen_cookie.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/icehawk78/FrozenCookies.git"
+  },
+  "author": "Icehawk78",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/icehawk78/FrozenCookies/issues"
+  },
+  "homepage": "https://github.com/icehawk78/FrozenCookies#readme"
+}

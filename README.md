@@ -3,25 +3,29 @@ FrozenCookies
 
 An automated Cookie Clicker tool.
 
+Discord
+-------
+For devolopers / code intended behavior purposes only.
+https://discord.gg/Cpw8csuypT
+
 How to use
 ----------
 
 ## Bookmarklet install
 
-1. Paste the *contents* (not the url) of http://icehawk78.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark. (This now supports both Live and Beta versions.)
+1. Paste the *contents* (not the url) of https://mtarnuhal.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark.
 2. Load up Cookie Clicker.
 3. Load the recently created bookmark.
 
 ## Userscript install
 
 0. If you don't already have it, install the required browser add-on. [Tampermonkey (Chrome)](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) or [Greasemonkey (Firefox)](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/)
-1. Go to http://userscripts.org/scripts/show/417095
+1. Go to https://mtarnuhal.github.io/FrozenCookies/fc_userscript_loader.user.js
 2. Click the 'install' button in the upper right corner.
 3. Load up Cookie Clicker.
 
 What can Frozen Cookies do?
 ---------------------------
-
  - Long number shortening. (convert 1,234,567,890 to 1.235 billion)
  - Calculates the most efficient* next purchase.
  - Optionally, will automatically buy that most efficient* next purchase.
@@ -33,11 +37,107 @@ What can Frozen Cookies do?
  - Calculates far more building/upgrade efficiency information that any person ever wants to know, and displays it in a not extremely user friendly manner.
  - Automatically updates to the most recent version upon load. Regardless of if that version is better or not.
  - Might not eat all of your cookies.
- 
+
  *Note: Not guaranteed to actually be the most efficient purchase. Just the most efficient that I currently know of.
 
 What's new?
 -----------
+
+2020 Nov 2
+ - Version 1.10.0
+ - Add version check
+ - Removed unused variables
+ - Removed unused function
+ - Update CookieClicker 2.031
+  - New Building upgrades
+  - New Grandma upgrades
+  - New Synergie upgrades
+
+2020 Oct 26
+ - Version 1.9.0
+ - Fix autoAscend number entry. ([Issue #49](https://github.com/Mtarnuhal/FrozenCookies/pull/49))
+ - Fix recommendation list to show accurate efficiency percentages even when AutoBuy excludes the purchase of some buildings (like when they've hit their max). ([Issue #47](https://github.com/Mtarnuhal/FrozenCookies/pull/47))
+ - Simplified Auto-Godzamok: Now just on or off. When on, it will wait until Dragonflight or Click Frenzy and sell all the cursors and farms to get the Devastation buff. Then, if AutoBuy is turned on, it will immediately buy the buildings back (stopping at the max for those buildings if a max has been set).
+ - Fix autoharvest of sugar lump. ([Issue #18](https://github.com/Mtarnuhal/FrozenCookies/pull/18))
+ - Show correct buff value on Devastation tooltip, even if additional buildings have been sold after the buff has started. ([Issue #46](https://github.com/Mtarnuhal/FrozenCookies/pull/46))
+ - Fix Auto Bulkbuy to only actually kick in after a reincarnation instead of all the time.
+ - Other minor fixes
+
+2020 Sept 28
+ - Version  1.8.0
+ - Move preferences to their own file
+ - Rearange preferences into sections
+ - Reword preferences for consistency
+ - Fix autoCast() to correctly consider CPS
+ - Update autoCast SE to javascript console
+ - Display next purchase and chain name in timers
+
+2020 Sept 15
+- Add function to make sure game is in buymode when autobuying
+- Fixed achievement not showing.
+
+2018 Oct 27
+- Added Shimmering veil blacklists
+- Updated SE auto cast strategy to use new fractal engine instead of chancemaker.
+- Added farms to godzamok sold buildings as they contribute barely synergy. Sells all farms except 1 for the garden. Added a new option to limit farms just like cursors
+- Added Fractal engine related upgrade values
+
+2018 Aug 6
+- New "Harvest Bank" option to select a higher Bank than for Frenzy/Clicking Frenzy if you want to get the maximum return from harvesting Bakeberries, Chocoroots, White Chocoroots, Queenbeets or Duketaters
+- Scenario selection for harvesting
+
+2018 Aug 4
+- Automatically blacklists Sugar Frenzy and Chocolate Egg
+
+2018 Mar 2:
+- Updated to work in patch 2.0045
+- More auto-Godzamok behavior options
+- Auto Spell Casting (Conj. Baked Goods, Force the Hand of Fate, Spontaneous Edifice, and Haggler's Charm [the fastest to spam for spell achievements])
+- Wizard Tower purchase limit toggle to stay at 100 mana
+- Auto Sugar Lump Harvesting
+- Cursor Autobuy limit option to keep Godzamok efficient at very high cursor counts
+- Auto bulk purchase on reincarnation (option to automatically buy in 10s or 100s after reincarnation to speed up early run
+
+2017 Apr 14:
+- New option: FPS modifier
+
+2017 Apr 12:
+- Wrinklers can now be popped efficiently or instantly
+
+2017 Mar 31:
+- New option: Auto-ascension
+- Scientific notation changed a fair bit
+
+2016 Dec 1:
+
+- New option: Default Season
+
+2016 Nov 19:
+
+- Update discount calc with new discounts
+- Fix problem with lucky bank targeting during wrath
+- Add Earth Shatterer option to Chocolate Egg calc and display
+- Fix 'HC After Reset' stat
+- Fix: Auto-GS waited for Frenzy to end but incurred 7x cost anyway
+- Removed 'No GS' blacklists
+- Added label to Auto-GS option
+- Auto-GS no longer cheats
+
+2016 Nov 13:
+
+- Fixed auto-buying of Santa upgrades
+- Fixed Lucky calc
+- Add support for new GC buffs
+- Internal Information: delta-CPS for Bank targets now compares to current bank
+- Golden Switch excluded from auto-buy (no blacklist necessary)
+
+2016 Aug 11:
+
+- Added Golden Switch blacklists
+
+2016 Jul 24:
+
+- Updated for Cookie Clicker 2.002
 
 2014 May 27:
 
@@ -156,7 +256,7 @@ Upcoming features!
  - Add less terrible UI, including more detailed tooltips, and possible color/icon markers indicating relative efficiency of purchases.
  - Add the ability to set custom Golden Click ratio and Cookie Click ratio for more accurate valuation of Golden Cookie upgrades and Mouse upgrades.
  - Add a toggle to make timers utilise Effective CPS rather than Current CPS for "Time to Completion"
- - Other stuff? (If you're a visitor and have other ideas to be added, go here to let me know: https://github.com/Icehawk78/FrozenCookies/issues/new )
+ - Other stuff? (If you're a visitor and have other ideas to be added, go here to let me know: https://github.com/Lordshinjo/FrozenCookies/issues/new )
 
 Efficiency? What's that?
 ========================
@@ -166,13 +266,13 @@ Frozen Cookies uses a custom tweaked Efficiency calculation to determine what th
                cost         cost
     1.15 * ----------- + ---------
            current cps   delta cps
-           
+
 This originated from the assertion that, for any purchases A and B, purchase A is superior if and only if the following inequality is true:
 
     a.cost     b.cost       b.cost     a.cost
     ------ + -----------  < ------ + -----------
      CPS     a.CPS + CPS     CPS     b.CPS + CPS
-     
+
 Initially, this was just simplified down to (cost/cps + cost/Δ cps), but thanks to a number of repeated simulations by Vandalite, it was found that adding a modifier to the (cost/cps) section very slightly increased the optimal build speed, as can be seen here:
 
 ![Cookie Monster uses the more naïve (cost/Δ CPS) formula, which is far less efficient than either of the Frozen Cookie efficiency algorithms.](http://i.imgur.com/BvVRadm.png)
@@ -230,15 +330,15 @@ Other Information
  - **Frenzy CPS**: This is how many cookies you create every second, when a Frenzy is active. (Marked with (*) when this is the current CPS.)
  - **Estimated Effective CPS**: This is an estimate (over time) of roughly how many cookies you create every second, when including the effects of clicking Golden Cookies. This will currently be the same as the Base CPS if Autoclick GC is turned off.
  - **Game Started**: How long it's been since the most recent reset.
- 
+
 Internal Information
 --------------------
-This is actually a table of literally every purchase that Frozen Cookies is currently considering buying. 
+This is actually a table of literally every purchase that Frozen Cookies is currently considering buying.
  - **Efficiency**: The calculated Efficiency value of that purchase. This returns Infinity if the Δ CPS is negative. Smaller numbers are better.
  - **Cost**: The cost of either the individual purchase, or the entire chain, for chained upgrades.
  - **Δ CPS**: The full CPS change that buying this purchase would have. Includes estimated Golden Cookie CPS changes, meaning that it may be negative (especially for Elder Covenant.)
- 
- 
+
+
 Known Issues
 ============
 
@@ -247,7 +347,7 @@ Known Issues
  - ~~Currently will not buy or recommend buying chains of buildings in order to unlock an upgrade that, itself, might be the most efficient purchase even when combined with the cost of the prerequisite buildings.~~
  - Reports of people buying upgrades and having the cost deducted, but the purchase reverted has been noted. This is difficult to reproduce and *may* have already been fixed, but that is not currently guaranteed. Recommend saving before making any large upgrade purchases, just in case.
  - Possibly other things?
- 
+
 Contact Us!
 ===========
 
