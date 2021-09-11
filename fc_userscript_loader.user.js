@@ -13,10 +13,10 @@
 // Source:    https://github.com/Icehawk78/FrozenCookies/main/
 // Github.io: http://icehawk78.github.io/FrozenCookies/
 
-var loadInterval = setInterval(function() {
+var loadInterval = setInterval(function () {
   const Game = unsafeWindow.Game;
-    if (Game && Game.ready) {
-      clearInterval(loadInterval);
-      Game.LoadMod('https://icehawk78.github.io/FrozenCookies/frozen_cookies.js');
-    }
+  if (Game && Game.ready) {
+    clearInterval(loadInterval);
+    Game.LoadMod("https://icehawk78.github.io/FrozenCookies/frozen_cookies.js");
+  }
 }, 1000);
