@@ -2,11 +2,11 @@
 var scriptElement = document.getElementById( 'frozenCookieScript' ),
 	baseUrl = scriptElement !== null ?
 		scriptElement.getAttribute('src').replace(/\/frozen_cookies\.js$/, '') :
-		'https://cdn.rawgit.com/Icehawk78/FrozenCookies/master',
+		'https://cdn.rawgit.com/Icehawk78/FrozenCookies/main',
 	FrozenCookies = {
 		'baseUrl': baseUrl,
-		'branch' : 'Beta-',
-		'version': '1.5'
+		'branch' : 'Main-',
+		'version': '2.0'
 	};
 
 // Load external libraries
