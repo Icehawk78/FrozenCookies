@@ -570,8 +570,8 @@ function userInputPrompt(title, description, existingValue, callback) {
             'Cancel'
         ]);
     $('#promptOption0').click(() => {callback(l('fcGenericInput').value)});
-    l('bakeryNameInput').focus();
-    l('bakeryNameInput').select();
+    l('fcGenericInput').focus();
+    l('fcGenericInput').select();
 }
 
 function validateNumber(value, minValue, maxValue) {
