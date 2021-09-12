@@ -488,7 +488,7 @@ function FCMenu() {
     subsection.append(
       $("<div>").addClass("title").text("Heavenly Chips Information")
     );
-    currHC = Game.heavenlyChipsEarned;
+    currHC = Game.heavenlyChips;
     resetHC = Game.HowMuchPrestige(
       Game.cookiesReset +
         Game.cookiesEarned +
@@ -499,7 +499,7 @@ function FCMenu() {
     // Show timing if it's been more than a minute since the last HC was gained
     var showTiming = Date.now() - FrozenCookies.lastHCTime > 1000 * 60;
     subsection.append(
-      buildListing("HC Now", Beautify(Game.heavenlyChipsEarned))
+      buildListing("HC Now", Beautify(Game.heavenlyChips))
     );
     subsection.append(buildListing("HC After Reset", Beautify(resetHC)));
     if (showTiming) {
@@ -563,12 +563,12 @@ function FCMenu() {
         buildListing("Plant to harvest", FrozenCookies.harvestPlant)
       );
       subsection.append(
-        buildListing("Minutes of CpS", +FrozenCookies.harvestMinutes + " min")
+        buildListing("Minutes of CpS", FrozenCookies.harvestMinutes + " min")
       );
       subsection.append(
         buildListing(
           "Max percent of Bank",
-          +FrozenCookies.harvestMaxPercent * 100 + " %"
+          FrozenCookies.harvestMaxPercent * 100 + " %"
         )
       );
       subsection.append(
@@ -579,7 +579,7 @@ function FCMenu() {
               ? " harvesting"
               : " exploding") +
             "",
-          +Beautify(
+          Beautify(
             (baseCps() *
               60 *
               FrozenCookies.harvestMinutes *
@@ -596,7 +596,7 @@ function FCMenu() {
               ? " harvesting"
               : " exploding") +
             " (36 plots)",
-          +Beautify(
+          Beautify(
             (36 *
               baseCps() *
               60 *
@@ -620,20 +620,20 @@ function FCMenu() {
     frenzyChosen = Game.hasBuff("Frenzy") ? " (*)" : "";
     clickStr = FrozenCookies.autoClick ? " + Autoclick" : "";
     subsection.append(
-      buildListing("Base CPS" + clickStr + baseChosen + "", +Beautify(cps))
+      buildListing("Base CPS" + clickStr + baseChosen + "", Beautify(cps))
     );
     subsection.append(
       buildListing(
         "Frenzy CPS" + clickStr + frenzyChosen + "",
-        +Beautify(cps * 7)
+        Beautify(cps * 7)
       )
     );
     subsection.append(
-      buildListing("Estimated Effective CPS", +Beautify(effectiveCps()))
+      buildListing("Estimated Effective CPS", Beautify(effectiveCps()))
     );
     if (Game.HasUnlocked("Chocolate egg") && !Game.Has("Chocolate egg")) {
       subsection.append(
-        buildListing("Chocolate Egg Value", +Beautify(chocolateValue()))
+        buildListing("Chocolate Egg Value", Beautify(chocolateValue()))
       );
       if (!Game.hasAura("Earth Shatterer")) {
         subsection.append(
@@ -646,7 +646,7 @@ function FCMenu() {
     }
     if (liveWrinklers().length > 0) {
       subsection.append(
-        buildListing("Wrinkler Value", +Beautify(wrinklerValue()))
+        buildListing("Wrinkler Value", Beautify(wrinklerValue()))
       );
     }
     menu.append(subsection);
