@@ -11,9 +11,9 @@
   });
 })(this);
 
-function registerMod() {
+function registerMod(mod_id = "frozen_cookies") {
   // register with the modding API
-  Game.registerMod("Frozen Cookies", {
+  Game.registerMod(mod_id, {
     init: function () {
       Game.registerHook("reincarnate", function () {
         // called when the player has reincarnated after an ascension
