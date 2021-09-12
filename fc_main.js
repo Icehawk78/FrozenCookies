@@ -581,8 +581,8 @@ function validateNumber(value, minValue = null, maxValue = null) {
     }
     const numericValue = Number(value);
     return !isNaN(numericValue) &&
-      (minValue == null || numericValue > minValue) &&
-      (maxValue == null || numericValue < maxValue);
+      (minValue == null || numericValue >= minValue) &&
+      (maxValue == null || numericValue <= maxValue);
 }
 
 function storeNumberCallback(base, min, max) {
@@ -618,7 +618,7 @@ function updateAscendAmount(base) {
         'Autoascending!',
         'How many heavenly chips do you want to auto-ascend at?',
         FrozenCookies[base],
-        storeNumberCallback(base, 0)
+        storeNumberCallback(base, 1)
     );
 }
 
