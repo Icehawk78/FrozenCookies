@@ -150,7 +150,7 @@ function setOverrides(gameSaveData) {
   }
 
   // Set `App`, on older version of CC it's not set to anything, so default it to `undefined`
-  if (!window.App) window.App = undefined
+  if (!window.App) window.App = undefined;
 
   Beautify = fcBeautify;
   Game.sayTime = function (time, detail) {
