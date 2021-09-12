@@ -574,7 +574,7 @@ function userInputPrompt(title, description, existingValue, callback) {
     l('fcGenericInput').select();
 }
 
-function validateNumber(value, minValue, maxValue) {
+function validateNumber(value, minValue = null, maxValue = null) {
     if (typeof value == "undefined" ||
       value == null) {
           return false;
