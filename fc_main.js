@@ -587,7 +587,7 @@ function validateNumber(value, minValue = null, maxValue = null) {
 
 function storeNumberCallback(base, min, max) {
     return (result) => {
-        if (validateNumber(result, min, max)) {
+        if (!validateNumber(result, min, max)) {
             result = FrozenCookies[base];
         }
         FrozenCookies[base] = Number(result);
