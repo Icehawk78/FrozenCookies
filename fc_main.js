@@ -2509,6 +2509,7 @@ function fcWin(what) {
               "</div>",
             Game.Achievements[what].icon
           );
+          if (App && Game.Achievements[what].vanilla) App.gotAchiev(Game.Achievements[what].id);
         }
         if (Game.Achievements[what].pool != "shadow") {
           Game.AchievementsOwned++;
