@@ -148,6 +148,10 @@ function setOverrides(gameSaveData) {
   if (!blacklist[FrozenCookies.blacklist]) {
     FrozenCookies.blacklist = 0;
   }
+
+  // Set `App`, on older version of CC it's not set to anything, so default it to `undefined`
+  if (!window.App) window.App = undefined;
+
   Beautify = fcBeautify;
   Game.sayTime = function (time, detail) {
     return timeDisplay(time / Game.fps);
