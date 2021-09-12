@@ -383,12 +383,12 @@ function beautifyUpgradesAndAchievements() {
   }
 
   var numre = /\d\d?\d?(?:,\d\d\d)*/;
-  Game.AchievementsById.forEach(function (ach) {
+  Object.values(Game.AchievementsById).forEach(function (ach) {
     ach.desc = ach.desc.replace(numre, beautifyFn);
   });
 
   // These might not have any numbers in them, but just in case...
-  Game.UpgradesById.forEach(function (upg) {
+  Object.values(Game.UpgradesById).forEach(function (upg) {
     upg.desc = upg.desc.replace(numre, beautifyFn);
   });
 }
@@ -563,179 +563,109 @@ function writeFCButton(setting) {
   var current = FrozenCookies[setting];
 }
 
-function getSpeed(current) {
-  var newSpeed = prompt(
-    "How many times per second do you want to click? (Current maximum is 250 clicks per second)",
-    current
-  );
-  if (
-    typeof newSpeed == "undefined" ||
-    newSpeed == null ||
-    isNaN(Number(newSpeed)) ||
-    Number(newSpeed) < 0 ||
-    Number(newSpeed) > 250
-  ) {
-    newSpeed = current;
-  }
-  return Number(newSpeed);
+function userInputPrompt(title, description, existingValue, callback) {
+    Game.Prompt(`<h3>${title}</h3><div class="block" style="text-align:center;">${description}</div><div class="block"><input type="text" style="text-align:center;width:100%;" id="fcGenericInput" value="${existingValue}"/></div>`,
+        [
+            'Confirm',
+            'Cancel'
+        ]);
+    $('#promptOption0').click(() => {callback(l('fcGenericInput').value)});
+    l('bakeryNameInput').focus();
+    l('bakeryNameInput').select();
+}
+
+function validateNumber(value, minValue, maxValue) {
+    if (typeof value == "undefined" ||
+      value == null) {
+          return false;
+    }
+    const numericValue = Number(value);
+    return !isNaN(numericValue) &&
+      (minValue == null || numericValue > minValue) &&
+      (maxValue == null || numericValue < maxValue);
+}
+
+function storeNumberCallback(base, min, max) {
+    return (result) => {
+        if (validateNumber(result, min, max)) {
+            result = FrozenCookies[base];
+        }
+        FrozenCookies[base] = Number(result);
+        FCStart();
+    }
 }
 
 function updateSpeed(base) {
-  var newSpeed = getSpeed(FrozenCookies[base]);
-  if (newSpeed != FrozenCookies[base]) {
-    FrozenCookies[base] = newSpeed;
-    FCStart();
-  }
-}
-
-function getCpSMultMin(current) {
-  var newMin = prompt(
-    'What CpS multiplier should trigger Auto Casting (e.g. "7" will trigger when you have full mana and a Frenzy, "1" prevents triggering during a clot, etc.)?',
-    current
-  );
-  if (
-    typeof newMin == "undefined" ||
-    newMin == null ||
-    isNaN(Number(newMin)) ||
-    Number(newMin) < 0
-  ) {
-    newMin = current;
-  }
-  return Number(newMin);
+    userInputPrompt(
+        'Autoclicking!',
+        "How many times per second do you want to click? (Current maximum is 250 clicks per second)",
+        FrozenCookies[base],
+        storeNumberCallback(base, 0, 250)
+    );
 }
 
 function updateCpSMultMin(base) {
-  var newMin = getCpSMultMin(FrozenCookies[base]);
-  if (newMin != FrozenCookies[base]) {
-    FrozenCookies[base] = newMin;
-    FCStart();
-  }
-}
-
-function getAscendAmount(current) {
-  var newAmount = prompt(
-    "How many heavenly chips do you want to auto-ascend at?",
-    current
-  );
-  if (
-    typeof newAmount == "undefined" ||
-    newAmount == null ||
-    isNaN(Number(newAmount)) ||
-    Number(newAmount) < 0
-  ) {
-    newAmount = current;
-  }
-  return Number(newAmount);
+    userInputPrompt(
+        'Autocasting!',
+        'What CpS multiplier should trigger Auto Casting (e.g. "7" will trigger when you have full mana and a Frenzy, "1" prevents triggering during a clot, etc.)?',
+        FrozenCookies[base],
+        storeNumberCallback(base, 0)
+    );
 }
 
 function updateAscendAmount(base) {
-  var newAmount = getAscendAmount(FrozenCookies[base]);
-  if (newAmount != FrozenCookies[base]) {
-    FrozenCookies[base] = newAmount;
-    FCStart();
-  }
-}
-
-function getManaMax(current) {
-  var newMax = prompt("Set maximum mana: ", current);
-  if (
-    typeof newMax == "undefined" ||
-    newMax == null ||
-    isNaN(Number(newMax)) ||
-    Number(newMax < 0)
-  ) {
-    newMax = current;
-  }
-  return Number(newMax);
+    userInputPrompt(
+        'Autoascending!',
+        'How many heavenly chips do you want to auto-ascend at?',
+        FrozenCookies[base],
+        storeNumberCallback(base, 0)
+    );
 }
 
 function updateManaMax(base) {
-  var newMax = getManaMax(FrozenCookies[base]);
-  if (newMax != FrozenCookies[base]) {
-    FrozenCookies[base] = newMax;
-    FCStart();
-  }
-}
-
-function getMaxSpecials(current) {
-  var newSpecials = prompt(
-    "Set amount of stacked Building specials for Harvest Bank: ",
-    current
-  );
-  if (
-    typeof newSpecials == "undefined" ||
-    newSpecials == null ||
-    isNaN(Number(newSpecials)) ||
-    Number(newSpecials < 0)
-  ) {
-    newSpecials = current;
-  }
-  return Number(newSpecials);
+    userInputPrompt(
+        'Mana Cap!',
+        'Choose a maximum mana amount',
+        FrozenCookies[base],
+        storeNumberCallback(base, 0)
+    );
 }
 
 function updateMaxSpecials(base) {
-  var newSpecials = getMaxSpecials(FrozenCookies[base]);
-  if (newSpecials != FrozenCookies[base]) {
-    FrozenCookies[base] = newSpecials;
-    FCStart();
-  }
-}
-
-function getCursorMax(current) {
-  var newMax = prompt("How many Cursors should Autobuy stop at?", current);
-  if (
-    typeof newMax == "undefined" ||
-    newMax == null ||
-    isNaN(Number(newMax)) ||
-    Number(newMax < 0)
-  ) {
-    newMax = current;
-  }
-  return Number(newMax);
+    userInputPrompt(
+        'Harvest Bank!',
+        'Set amount of stacked Building specials for Harvest Bank',
+        FrozenCookies[base],
+        storeNumberCallback(base, 0)
+    );
 }
 
 function updateCursorMax(base) {
-  var newMax = getCursorMax(FrozenCookies[base]);
-  if (newMax != FrozenCookies[base]) {
-    FrozenCookies[base] = newMax;
-    FCStart();
-  }
-}
-
-function getFarmMax(current) {
-  var newMax2 = prompt("How many Farms should Autobuy stop at?", current);
-  if (
-    typeof newMax2 == "undefined" ||
-    newMax2 == null ||
-    isNaN(Number(newMax2)) ||
-    Number(newMax2 < 0)
-  ) {
-    newMax2 = current;
-  }
-  return Number(newMax2);
+    userInputPrompt(
+        'Cursor Cap!',
+        'How many Cursors should Autobuy stop at?',
+        FrozenCookies[base],
+        storeNumberCallback(base, 0)
+    );
 }
 
 function updateFarmMax(base) {
-  var newMax2 = getFarmMax(FrozenCookies[base]);
-  if (newMax2 != FrozenCookies[base]) {
-    FrozenCookies[base] = newMax2;
-    FCStart();
-  }
+    userInputPrompt(
+        'Farm Cap!',
+        'How many Farms should Autobuy stop at?',
+        FrozenCookies[base],
+        storeNumberCallback(base, 0)
+    );
+
 }
 
 function updateTimeTravelAmount() {
-  var newAmount = prompt(
-    "Warning: Time travel is highly unstable, and large values are highly likely to either cause long delays or crash the game. Be careful!\nHow much do you want to time travel by? This will happen instantly."
-  );
-  if (
-    typeof newAmount === "undefined" ||
-    newAmount === null ||
-    isNaN(Number(newAmount)) ||
-    Number(newAmount) < 0
-  ) {
-    newAmount = 0;
-  }
-  FrozenCookies.timeTravelAmount = newAmount;
+  userInputPrompt(
+    'Time Travel!',
+    "Warning: Time travel is highly unstable, and large values are highly likely to either cause long delays or crash the game. Be careful!\nHow much do you want to time travel by? This will happen instantly.",
+    FrozenCookies.timeTravelAmount,
+    storeNumberCallback('timeTravelAmount', 0)
+);
 }
 
 function cyclePreference(preferenceName) {
@@ -1843,7 +1773,7 @@ function buildingStats(recalculate) {
         var currentBank = bestBank(0).cost;
         var baseCpsOrig = baseCps();
         var cpsOrig = effectiveCps(Math.min(Game.cookies, currentBank)); // baseCpsOrig + gcPs(cookieValue(Math.min(Game.cookies, currentBank))) + baseClickingCps(FrozenCookies.autoClick * FrozenCookies.cookieClickSpeed);
-        var existingAchievements = Game.AchievementsById.map(function (
+        var existingAchievements = Object.values(Game.AchievementsById).map(function (
           item,
           i
         ) {
@@ -1884,7 +1814,7 @@ function upgradeStats(recalculate) {
       FrozenCookies.caches.upgrades = [];
     } else {
       var upgradeBlacklist = blacklist[FrozenCookies.blacklist].upgrades;
-      FrozenCookies.caches.upgrades = Game.UpgradesById.map(function (current) {
+      FrozenCookies.caches.upgrades = Object.values(Game.UpgradesById).map(function (current) {
         if (!current.bought) {
           if (isUnavailable(current, upgradeBlacklist)) {
             return null;
@@ -1893,7 +1823,7 @@ function upgradeStats(recalculate) {
           var cost = upgradePrereqCost(current);
           var baseCpsOrig = baseCps();
           var cpsOrig = effectiveCps(Math.min(Game.cookies, currentBank));
-          var existingAchievements = Game.AchievementsById.map(function (item) {
+          var existingAchievements = Object.values(Game.AchievementsById).map(function (item) {
             return item.won;
           });
           var existingWrath = Game.elderWrath;

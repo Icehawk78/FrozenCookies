@@ -17,8 +17,7 @@ var scriptElement =
   document.getElementById("frozenCookieScript") !== null
     ? document.getElementById("frozenCookieScript")
     : document.getElementById("modscript_frozen_cookies");
-var baseUrl =
-  scriptElement !== null
+var baseUrl =  scriptElement !== null
     ? scriptElement.getAttribute("src").replace(/\/frozen_cookies\.js$/, "")
     : "https://icehawk78.github.io/FrozenCookies/";
 var FrozenCookies = {
@@ -29,19 +28,19 @@ var FrozenCookies = {
 
 // Load external libraries
 var script_list = [
-  "//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js",
-  "//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css",
-  "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js",
-  "//cdnjs.cloudflare.com/ajax/libs/jcanvas/20.1.1/min/jcanvas.min.js",
-  "//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/jquery.jqplot.min.js",
-  "//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/jquery.jqplot.min.css",
-  "//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.canvasTextRenderer.min.js",
-  "//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.canvasAxisLabelRenderer.min.js",
-  "//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.canvasAxisTickRenderer.min.js",
-  "//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.trendline.min.js",
-  "//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.highlighter.min.js",
-  "//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.logAxisRenderer.min.js",
-  "//cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.cursor.min.js",
+  "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js",
+  "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css",
+  "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/jcanvas/20.1.1/min/jcanvas.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/jquery.jqplot.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/jquery.jqplot.min.css",
+  "https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.canvasTextRenderer.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.canvasAxisLabelRenderer.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.canvasAxisTickRenderer.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.trendline.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.highlighter.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.logAxisRenderer.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.cursor.min.js",
   FrozenCookies.baseUrl + "/fc_preferences.js",
   FrozenCookies.baseUrl + "/cc_upgrade_prerequisites.js",
   FrozenCookies.baseUrl + "/fc_main.js",
@@ -60,7 +59,7 @@ FrozenCookies.loadInterval = setInterval(function () {
 
 function loadScript(id) {
   if (id >= script_list.length) {
-    registerMod(); // when the mod is registered, the save data is passed in the load function
+    registerMod("frozen_cookies"); // when the mod is registered, the save data is passed in the load function
   } else {
     var url = script_list[id];
     if (/\.js$/.exec(url)) {

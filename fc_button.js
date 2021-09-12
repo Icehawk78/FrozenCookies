@@ -1,6 +1,7 @@
 $("#logButton").before(
-  $('<div id="fcButton" />')
-    .addClass("button")
+  $("<div>")
+    .attr("id", "fcButton")
+    .addClass("button panelButton")
     .html("Frozen<br />Cookies")
     .click(function () {
       Game.ShowMenu("fc_menu");
