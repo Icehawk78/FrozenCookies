@@ -748,10 +748,10 @@ function FCMenu() {
 
     // Table Dividers
     var dividers = [
-      $("<tr>").append($("<td>").attr("colspan", "5").text("&nbsp;")),
+      $("<tr>").append($("<td>").attr("colspan", "5").html("&nbsp;")),
       $("<tr>")
         .css("border-top", "2px dashed #999")
-        .append($("<td>").attr("colspan", "5").text("&nbsp;")),
+        .append($("<td>").attr("colspan", "5").html("&nbsp;")),
     ];
 
     var banks = [
