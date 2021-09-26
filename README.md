@@ -9,6 +9,10 @@ https://discord.gg/Cpw8csuypT
 
 ## How to use
 
+## Steam Install
+1. Download https://icehawk78.github.io/FrozenCookies/Steam/SteamMod.zip and extract it to your mods/local folder.
+2. Load up Cookie Clicker via Steam.
+
 ## Bookmarklet install
 
 1. Paste the _contents_ (not the url) of https://icehawk78.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark.

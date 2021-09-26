@@ -2956,9 +2956,7 @@ function autoCookie() {
     if (FrozenCookies.autoBlacklistOff) {
       autoBlacklistOff();
     }
-    var currentFrenzy =
-      (Game.hasBuff("Frenzy") ? Game.buffs["Frenzy"].multCpS : 1) *
-      clickBuffBonus();
+    var currentFrenzy = cpsBonus() * clickBuffBonus();
     if (currentFrenzy != FrozenCookies.last_gc_state) {
       if (FrozenCookies.last_gc_state != 1 && currentFrenzy == 1) {
         logEvent("GC", "Frenzy ended, cookie production x1");
