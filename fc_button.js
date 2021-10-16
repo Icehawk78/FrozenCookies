@@ -472,11 +472,11 @@ function FCMenu() {
     subsection.append(
       buildListing("Last Golden Cookie Effect", Game.shimmerTypes.golden.last)
     );
-    $.each(FrozenCookies.frenzyTimes, function (rate, time) {
+    Object.keys(FrozenCookies.frenzyTimes).sort(x => parseInt(x)).forEach((rate) => {
       subsection.append(
         buildListing(
-          "Total Recorded Time at x" + rate,
-          timeDisplay(time / 1000)
+          "Total Recorded Time at x" + parseInt(rate),
+          timeDisplay(FrozenCookies.frenzyTimes[rate] / 1000)
         )
       );
     });
