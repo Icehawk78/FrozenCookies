@@ -4,7 +4,7 @@ An automated Cookie Clicker tool.
 
 ## Discord
 
-For devolopers / code intended behavior purposes only.
+For developers / code intended behavior purposes only.
 https://discord.gg/Cpw8csuypT
 
 ## How to use
