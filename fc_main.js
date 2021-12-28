@@ -1085,7 +1085,7 @@ function luckyFrenzyBank() {
     var bank =  baseCps() * 60 * 100 * 7;
 		// Adds the price of Get Lucky (with discounts) since that would need to be
 		// purchased in order for this bank to make sense.
-		bank += Game.Has('Get lucky') ? 0 : checkPrices({'id': 86});
+		bank += Game.Has('Get lucky') ? 0 : Game.UpgradesById[86].getPrice();
 		return bank;
 }
 
