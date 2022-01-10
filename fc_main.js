@@ -3317,11 +3317,10 @@ function autoGodzamokAction() {
     // if Pantheon is here and autoGodzamok is set
     if (
       Game.hasGod("ruin") &&
-      (Game.Objects["Farm"].amount > 10 || Game.Objects["Mine"].amount > 10  || Game.Objects["Factory"].amount > 10)
+      (Game.Objects["Cursor"].amount > 10 || Game.Objects["Farm"].amount > 10)
     ) {
+      var countCursor = Game.Objects["Cursor"].amount - 1;
       var countFarm = Game.Objects["Farm"].amount - 1;
-      var countMine = Game.Objects["Mine"].amount - 1;
-      var countFactory = Game.Objects["Factory"].amount - 1;
 
       //Automatically sell all farms, mines, and factories (except one) during Dragonflight and Click Frenzy if you worship Godzamok and prevent rapid buy/sell spam
       if (
@@ -3329,17 +3328,14 @@ function autoGodzamokAction() {
         hasClickBuff() &&
         !Game.hasBuff("Devastation")
       ) {
+        Game.Objects["Cursor"].sell(countCursor);
         Game.Objects["Farm"].sell(countFarm);
-        Game.Objects["Mine"].sell(countMine);
-        Game.Objects["Factory"].sell(countFactory);
 
         if (FrozenCookies.autoBuy == 1) {
+          safeBuy(Game.Objects["Cursor"], countCursor);
+          logEvent("AutoGodzamok", "Bought " + countCursor + " cursors");
           safeBuy(Game.Objects["Farm"], countFarm);
           logEvent("AutoGodzamok", "Bought " + countFarm + " farms");
-          safeBuy(Game.Objects["Mine"], countMine);
-          logEvent("AutoGodzamok", "Bought " + countMine + " mines");
-          safeBuy(Game.Objects["Factory"], countFactory);
-          logEvent("AutoGodzamok", "Bought " + countFactory + " factories");
         }
       }
     }
