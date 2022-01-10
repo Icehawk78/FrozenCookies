@@ -288,22 +288,19 @@ FrozenCookies.preferenceValues = {
   },
   
 // experimental options
-  experimentalOptions: {
-    hint: "Experimental options:",
-  },  
-    'autoFTHOFCombo':{
+    autoFTHOFCombo:{
         'hint':'This overrides Auto Cast\. Cast Haggler\'s Charm until 2 subsequent FTHOF spells are Click Frenzy and Elder Frenzy, or Click Frenzy and Building Special',
         'display':["Auto FTHOF Combo OFF", "Auto FTHOF Combo ON"],
         'default':0
     },
-    'auto100ConsistencyCombo':{
+    auto100ConsistencyCombo:{
         'hint':'HIGHLY EXPERIMENTAL: Does the 100% Consistency Combo but with 2 building specials',
         'display':["Auto 100% Consistency Combo OFF", "Auto 100% Consistency Combo ON"],
         'default':0
     },
-    'autoEaster':{
+    autoEaster:{
         'hint':'Switches to Easter season if Cookie Storm is active and you do not have all eggs yet',
         'display':["Auto Easter OFF","Auto Easter ON"],
         'default':0,
     },
-};
+}
