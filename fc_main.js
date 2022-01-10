@@ -793,9 +793,33 @@ function autoTicker() {
   }
 }
 
+// Used in autoCast() for some maths in the smart Force The Hand of Fate subroutine
+function BuffTimeFactor()
+{
+	var DurMod = 1;
+	if (Game.Has('Get lucky')) DurMod*=2;
+	if (Game.Has('Lasting fortune')) DurMod*=1.1;
+	if (Game.Has('Lucky digit')) DurMod*=1.01;
+	if (Game.Has('Lucky number')) DurMod*=1.01;
+	if (Game.Has('Green yeast digestives')) DurMod*=1.01;
+	if (Game.Has('Lucky payout')) DurMod*=1.01;
+	DurMod*=1+Game.auraMult('Epoch Manipulator')*0.05;
+					
+	if (Game.hasGod)
+	{
+		var godLvl=Game.hasGod('decadence');
+		if (godLvl==1) DurMod*=1.07;
+		else if (godLvl==2) DurMod*=1.05;
+		else if (godLvl==3) DurMod*=1.02;
+	}
+	
+	return DurMod;
+}
+
 function autoCast() {
   if (!M) return; // Just leave if you don't have grimoire
   if (M.magic == M.magicM) {
+  if (FrozenCookies.autoFTHOFCombo == 1) return; // FTHOF combo option will override any auto cast function
     if (
       cpsBonus() >= FrozenCookies.minCpSMult ||
       Game.hasBuff("Dragonflight") ||
@@ -812,14 +836,99 @@ function autoCast() {
           logEvent("AutoSpell", "Cast Conjure Baked Goods");
           return;
         case 2:
-          var FTHOF = M.spellsById[1];
-          if (
-            M.magicM < Math.floor(FTHOF.costMin + FTHOF.costPercent * M.magicM)
-          )
-            return;
-          M.castSpell(FTHOF);
-          logEvent("AutoSpell", "Cast Force the Hand of Fate");
-          return;
+                var FTHOF = M.spellsById[1];
+                if (M.magicM < Math.floor(FTHOF.costMin + FTHOF.costPercent*M.magicM)) return;
+		
+				if (nextSpellName(0) == "Clot" || nextSpellName(0) == "Blab" || nextSpellName(0) == "Cookie Storm (Drop)" || nextSpellName(0) == "Ruin Cookies") {
+					var hagC = M.spellsById[4];
+					M.castSpell(hagC);
+					logEvent('AutoSpell', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
+				}
+
+				if (nextSpellName(0) == "Sugar Lump" || nextSpellName(0) == "Cookie Chain") {
+					M.castSpell(FTHOF);
+					logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+				}
+
+				if (nextSpellName(0) == "Lucky") {
+					if (cpsBonus() >= 7) {
+						M.castSpell(FTHOF);
+						logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+					}
+				}
+
+				if (nextSpellName(0) == "Elder Frenzy") {
+					if (Game.Upgrades["Elder Pact"].bought == 1) {
+						if (Game.dragonAura == 10 || Game.dragonAura2 == 10) {
+							if (Game.hasBuff('Dragonflight') && Game.hasBuff('Dragonflight').time / 30 >= Math.ceil(6 * BuffTimeFactor()) - 1) {
+								M.castSpell(FTHOF);
+								logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+							}
+						}
+						else if (Game.dragonAura != 10 && Game.dragonAura2 != 10) {
+							if (Game.hasBuff('Click frenzy') && Game.hasBuff('Click frenzy').time / 30 >= Math.ceil(6 * BuffTimeFactor()) - 1) {
+								M.castSpell(FTHOF);
+								logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+							}
+						}
+					}
+					else if (Game.Upgrades["Elder Pact"].bought == 0) {
+						if (Game.dragonAura == 10 || Game.dragonAura2 == 10) {
+							if (Game.hasBuff('Frenzy') && Game.hasBuff('Dragonflight') && Game.hasBuff('Dragonflight').time / 30 >= Math.ceil(6 * BuffTimeFactor()) - 1) {
+								M.castSpell(FTHOF);
+								logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+							}
+						}
+						else if (Game.dragonAura != 10 && Game.dragonAura2 != 10) {
+							if (Game.hasBuff('Frenzy') && Game.hasBuff('Click frenzy') && Game.hasBuff('Click frenzy').time / 30 >= Math.ceil(6 * BuffTimeFactor()) - 1) {
+								M.castSpell(FTHOF);
+								logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+							}
+						}
+					}
+				}
+
+				if (nextSpellName(0) == "Frenzy" || nextSpellName(0) == "Building Special") {
+					if (Game.dragonAura == 10 || Game.dragonAura2 == 10) {
+						if (Game.hasBuff('Dragonflight') && Game.hasBuff('Dragonflight').time / 30 >= Math.ceil(10 * BuffTimeFactor()) - 1) {
+							M.castSpell(FTHOF);
+							logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+						}
+					}
+					else if (Game.hasBuff('Click frenzy') && Game.hasBuff('Click frenzy').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1) {
+						M.castSpell(FTHOF);
+						logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+					}
+				}
+
+				if (nextSpellName(0) == "Click Frenzy") {
+					if (Game.hasBuff('Frenzy') && BuildingSpecialBuff() == 1 && Game.hasBuff('Frenzy').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1 && BuildingBuffTime() >= Math.ceil(13 * BuffTimeFactor())) {
+						M.castSpell(FTHOF);
+						logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+					}
+				}
+
+				if (nextSpellName(0) == "Cookie Storm") {
+					if (Game.hasBuff('Frenzy') && BuildingSpecialBuff() == 1 && Game.hasBuff('Frenzy').time / 30 >= Math.ceil(7 * BuffTimeFactor()) - 1 && BuildingBuffTime() >= Math.ceil(7 * BuffTimeFactor())) {
+						M.castSpell(FTHOF);
+						logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+					}
+				}
+
+				if (nextSpellName(0) == "Cursed Finger") {
+					if (Game.dragonAura == 10 || Game.dragonAura2 == 10) {
+						if (Game.hasBuff('Dragonflight') && Game.hasBuff('Dragonflight').time / 30 >= Math.ceil(10 * BuffTimeFactor()) - 1){
+							M.castSpell(FTHOF);
+							logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+						}
+					}
+					else if (Game.hasBuff('Click frenzy') && Game.hasBuff('Click frenzy').time / 30 >= Math.ceil(10 * BuffTimeFactor()) - 1) {
+						M.castSpell(FTHOF);
+						logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+					}
+				}
+
+				return;
         case 3:
           var SE = M.spellsById[3];
           // This code apparently works under the following assumptions:
@@ -861,6 +970,492 @@ function autoCast() {
       }
     }
   }
+}
+
+// Thank goodness for static variables otherwise this function would not have worked as intended.
+function autoFTHOFComboAction() {
+	if (Game.Objects['Wizard tower'].level > 10 || FrozenCookies.autoFTHOFCombo == 0) return; // THIS WILL NOT WORK IF TOWER LEVEL IS ABOVE 10
+		
+	if (typeof autoFTHOFComboAction.count == 'undefined') {
+		autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
+	}
+		
+	if (typeof autoFTHOFComboAction.state == 'undefined') {
+		autoFTHOFComboAction.state = 0;
+	}
+
+	if (autoFTHOFComboAction.state != 2) {
+		if ((nextSpellName(0) == "Click Frenzy" && nextSpellName(1) == "Building Special") || 
+		    (nextSpellName(1) == "Click Frenzy" && nextSpellName(0) == "Building Special") ||
+		    (nextSpellName(0) == "Click Frenzy" && nextSpellName(1) == "Elder Frenzy") || 		
+		    (nextSpellName(1) == "Click Frenzy" && nextSpellName(0) == "Elder Frenzy")) {
+			autoFTHOFComboAction.state = 1;
+		}
+		else { autoFTHOFComboAction.state = 0; }
+	}
+	
+	if (M.magic == M.magicM) {
+		var FTHOF = M.spellsById[1];
+		var SugarLevel = Game.Objects['Wizard tower'].level;
+		
+		switch (autoFTHOFComboAction.state)
+		{
+			case 0:
+				var hagC = M.spellsById[4];
+				M.castSpell(hagC);
+				logEvent('AutoSpell', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
+							
+				return;
+
+			case 1:
+				if (Game.hasBuff('Frenzy') && BuildingSpecialBuff() == 1 && Game.hasBuff('Frenzy').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1 && BuildingBuffTime() >= Math.ceil(13 * BuffTimeFactor())) {
+					if (FrozenCookies.autoBuy == 1) {
+						autoFTHOFComboAction.autobuyyes = 1;
+						FrozenCookies.autoBuy = 0;
+					}
+					else {
+						autoFTHOFComboAction.autobuyyes = 0;
+					}
+					
+					switch (SugarLevel)
+					{
+						case 0:
+							return;
+
+						case 1:							
+							if (Game.Objects['Wizard tower'].amount >= 316) {
+								autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 22;
+								M.castSpell(FTHOF);
+
+								Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);								
+								
+								autoFTHOFComboAction.state = 2;
+							}
+							return;
+
+						case 2:						
+							if (Game.Objects['Wizard tower'].amount >= 312) {
+								autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 15;
+								M.castSpell(FTHOF);
+
+								Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);						
+								
+								autoFTHOFComboAction.state = 2;
+							}	
+							return;
+							
+						case 3:							
+							if (Game.Objects['Wizard tower'].amount >= 308) {
+								autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 9;
+								M.castSpell(FTHOF);
+
+								Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);							
+								
+								autoFTHOFComboAction.state = 2;
+							}	
+							return;
+							
+						case 4:						
+							if (Game.Objects['Wizard tower'].amount >= 304) {
+								autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 3;
+								M.castSpell(FTHOF);
+
+								Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);						
+								
+								autoFTHOFComboAction.state = 2;
+							}	
+							return;
+							
+						case 5:							
+							if (Game.Objects['Wizard tower'].amount >= 309) {
+								autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
+								M.castSpell(FTHOF);
+
+								Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);							
+								
+								autoFTHOFComboAction.state = 2;
+							}	
+							return;
+							
+						case 6:						
+							if (Game.Objects['Wizard tower'].amount >= 390) {
+								autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
+								M.castSpell(FTHOF);
+
+								Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);							
+								
+								autoFTHOFComboAction.state = 2;
+							}	
+							return;
+							
+						case 7:							
+							if (Game.Objects['Wizard tower'].amount >= 445) {
+								autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
+								M.castSpell(FTHOF);
+								logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+
+								Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
+								
+								autoFTHOFComboAction.state = 2;
+							}	
+							return;
+							
+						case 8:							
+							if (Game.Objects['Wizard tower'].amount >= 506) {
+								autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
+								M.castSpell(FTHOF);
+
+								Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
+								
+								autoFTHOFComboAction.state = 2;
+							}	
+							return;
+							
+						case 9:
+							if (Game.Objects['Wizard tower'].amount >= 530) {
+								autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
+								M.castSpell(FTHOF);
+
+								Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
+								
+								autoFTHOFComboAction.state = 2;
+							}	
+							return;
+							
+						case 10:
+							if (Game.Objects['Wizard tower'].amount >= 598) {
+								autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
+								M.castSpell(FTHOF);
+								Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
+								
+								autoFTHOFComboAction.state = 2;
+							}	
+							return;
+							
+					}
+				}
+				return;
+				
+			case 2:
+				M.castSpell(FTHOF);
+				logEvent('AutoSpell', 'Double Casted Force the Hand of Fate');
+				Game.Objects['Wizard tower'].buy(autoFTHOFComboAction.count);
+				autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
+				
+				if (autoFTHOFComboAction.autobuyyes == 1) {
+					FrozenCookies.autoBuy = 1;
+				}
+				
+				autoFTHOFComboAction.state = 0;
+				
+				return;	
+		}
+	}
+}
+
+function auto100ConsistencyComboAction() {
+	if (Game.Objects['Wizard tower'].level < 10 || FrozenCookies.auto100ConsistencyCombo == 0) return; // For now only works with wizard towers level 10
+	
+	if (typeof auto100ConsistencyComboAction.countFarm == 'undefined') {
+		auto100ConsistencyComboAction.countFarm = Game.Objects['Farm'].amount;
+	}
+	
+	if (typeof auto100ConsistencyComboAction.countMine == 'undefined') {
+		auto100ConsistencyComboAction.countMine = Game.Objects['Mine'].amount;
+	}
+	
+	if (typeof auto100ConsistencyComboAction.countFactory == 'undefined') {
+		auto100ConsistencyComboAction.countFactory = Game.Objects['Factory'].amount;
+	}
+	
+	if (typeof auto100ConsistencyComboAction.countBank == 'undefined') {
+		auto100ConsistencyComboAction.countBank = Game.Objects['Bank'].amount;
+	}
+	
+	if (typeof auto100ConsistencyComboAction.countTemple == 'undefined') {
+		auto100ConsistencyComboAction.countTemple = Game.Objects['Temple'].amount;
+	}
+	
+	if (typeof auto100ConsistencyComboAction.countWizard == 'undefined') {
+		auto100ConsistencyComboAction.countWizard = Game.Objects['Wizard tower'].amount;
+	}
+	
+	if (typeof auto100ConsistencyComboAction.countShipment == 'undefined') {
+		auto100ConsistencyComboAction.countShipment = Game.Objects['Shipment'].amount;
+	}
+	
+	if (typeof auto100ConsistencyComboAction.countAlchemy == 'undefined') {
+		auto100ConsistencyComboAction.countAlchemy = Game.Objects['Alchemy lab'].amount;
+	}
+	
+	if (typeof auto100ConsistencyComboAction.countTimeMach == 'undefined') {
+		auto100ConsistencyComboAction.countTimeMach = Game.Objects['Time machine'].amount;
+	}
+	
+	if (typeof auto100ConsistencyComboAction.countAntiMatter == 'undefined') {
+		auto100ConsistencyComboAction.countAntiMatter = Game.Objects['Antimatter condenser'].amount;
+	}
+	
+	if (typeof auto100ConsistencyComboAction.state == 'undefined') {
+		auto100ConsistencyComboAction.state = 0;
+	}
+	
+	if (auto100ConsistencyComboAction.state == 0) {
+		if ((nextSpellName(0) == "Click Frenzy" && nextSpellName(1) == "Building Special") || 
+		    (nextSpellName(1) == "Click Frenzy" && nextSpellName(0) == "Building Special") ||
+		    (nextSpellName(0) == "Click Frenzy" && nextSpellName(1) == "Elder Frenzy") || 		
+		    (nextSpellName(1) == "Click Frenzy" && nextSpellName(0) == "Elder Frenzy")) {
+			auto100ConsistencyComboAction.state = 1;
+		}
+	}
+	
+		var FTHOF = M.spellsById[1];
+		
+		switch (auto100ConsistencyComboAction.state)
+		{
+			case 0: //Continue casting Haggler's Charm
+				if (M.magic == M.magicM) {
+					var hagC = M.spellsById[4];
+					M.castSpell(hagC);
+					logEvent('AutoSpell', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
+				}
+							
+				return;
+
+			case 1: // Turn off auto buy
+				if (Game.hasBuff('Frenzy') && Game.hasBuff('Dragon Harvest') && BuildingSpecialBuff() == 1 && Game.hasBuff('Frenzy').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1 && Game.hasBuff('Dragon Harvest').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1 && BuildingBuffTime() >= Math.ceil(13 * BuffTimeFactor())) {
+					if (FrozenCookies.autoBuy == 1) {
+						auto100ConsistencyComboAction.autobuyyes = 1;
+						FrozenCookies.autoBuy = 0;
+					}
+					else {
+						auto100ConsistencyComboAction.autobuyyes = 0;
+					}
+					
+					auto100ConsistencyComboAction.state = 2;
+				}
+					
+				return;
+					
+				
+			case 2: // Turn off auto click golden cookie
+				if (M.magic == M.magicM)
+				{
+					if (FrozenCookies.autoGC > 0) {
+						auto100ConsistencyComboAction.autogcyes = 1;
+					}
+					else {
+						auto100ConsistencyComboAction.autogcyes = 0;
+					}
+
+					FrozenCookies.autoGC = 0;
+
+					auto100ConsistencyComboAction.state = 3;
+				}
+				
+				return;
+				
+			case 3: // Harvest garden then plant whiskerbloom
+				if (M.magic == M.magicM) 
+				{
+					Game.Objects['Farm'].minigame.harvestAll();
+
+					for (var y = 0; y <= 5; y++)
+					{
+						for (var x = 0; x <= 5; x++)
+						{
+							Game.Objects['Farm'].minigame.seedSelected = Game.Objects['Farm'].minigame.plants['whiskerbloom'].id;
+							Game.Objects['Farm'].minigame.clickTile(x,y);
+						}
+					}
+
+					auto100ConsistencyComboAction.state = 4;
+				}
+				
+				return;
+				
+			case 4: // Change dragon auras to radiant appetite and dragon's fortune
+				if (M.magic == M.magicM)
+				{
+					Game.SetDragonAura(15, 0);
+					Game.ConfirmPrompt();
+					Game.SetDragonAura(16, 1);
+					Game.ConfirmPrompt();
+
+					auto100ConsistencyComboAction.state = 5;
+				}
+				return;
+				
+			case 5: // Cast FTHOF then sell
+				if (M.magic == M.magicM) {
+					if (Game.Objects['Wizard tower'].amount >= 598) {
+						auto100ConsistencyComboAction.count = Game.Objects['Wizard tower'].amount - 1;
+						M.castSpell(FTHOF);
+						Game.Objects['Wizard tower'].sell(auto100ConsistencyComboAction.count);
+
+						auto100ConsistencyComboAction.state = 6;
+					}
+				}
+				
+				return;
+				
+			case 6: // Cast FTHOF then buy
+				if (M.magic == M.magicM) 
+				{
+					M.castSpell(FTHOF);
+					Game.Objects['Wizard tower'].buy(auto100ConsistencyComboAction.count);
+					auto100ConsistencyComboAction.count = Game.Objects['Wizard tower'].amount;
+
+					auto100ConsistencyComboAction.state = 7;
+				}
+				return;
+				
+			case 7: // Use sugar lump to refill magic
+				Game.Objects['Wizard tower'].minigame.lumpRefill.click();
+				
+				auto100ConsistencyComboAction.state = 8;
+				
+				return;
+				
+			case 8: // Cast FTHOF then sell
+				if (Game.Objects['Wizard tower'].amount >= 598) {
+					auto100ConsistencyComboAction.count = Game.Objects['Wizard tower'].amount - 1;
+					M.castSpell(FTHOF);
+					Game.Objects['Wizard tower'].sell(auto100ConsistencyComboAction.count);
+				
+					auto100ConsistencyComboAction.state = 9;
+				}
+				
+				return;
+				
+			case 9: // Cast FTHOF then buy
+				M.castSpell(FTHOF);
+				Game.Objects['Wizard tower'].buy(auto100ConsistencyComboAction.count);
+				auto100ConsistencyComboAction.count = Game.Objects['Wizard tower'].amount;
+				
+				auto100ConsistencyComboAction.state = 10;
+			
+				return;
+				
+			case 10: // Take Stock Market loans
+				Game.Objects['Bank'].minigame.takeLoan(1);
+				Game.Objects['Bank'].minigame.takeLoan(2);
+				Game.Objects['Bank'].minigame.takeLoan(3);
+				
+				auto100ConsistencyComboAction.state = 11;
+				
+				return;
+			
+			case 11: // If autoGodzamok is on, disable
+				if (FrozenCookies.autoGodzamok > 0) {
+					auto100ConsistencyComboAction.autogodyes = 1;
+				}
+				else {
+					auto100ConsistencyComboAction.autogodyes = 0;
+				}
+
+				FrozenCookies.autoGodzamok = 0;
+				
+				auto100ConsistencyComboAction.state = 12;
+				
+				return;
+				
+			
+			case 12: // Activate Building Special and Click Frenzy buffs
+				Game.shimmers[0].pop();
+				Game.shimmers[0].pop();
+				
+				auto100ConsistencyComboAction.state = 13;
+				
+				return;
+			
+			case 13: // Swap Holobre to ruby slot
+				swapIn(0,1);
+				
+				auto100ConsistencyComboAction.state = 14;
+				
+				return;
+			
+			case 14: // sell buildings				
+
+				Game.Objects['Farm'].sell(auto100ConsistencyComboAction.countFarm - 1);
+				Game.Objects['Mine'].sell(auto100ConsistencyComboAction.countMine);
+				Game.Objects['Factory'].sell(auto100ConsistencyComboAction.countFactory);
+				Game.Objects['Bank'].sell(auto100ConsistencyComboAction.countBank);
+				Game.Objects['Temple'].sell(auto100ConsistencyComboAction.countTemple - 1);
+				Game.Objects['Wizard tower'].sell(auto100ConsistencyComboAction.countWizard - 1);
+				Game.Objects['Shipment'].sell(auto100ConsistencyComboAction.countShipment);
+				Game.Objects['Alchemy lab'].sell(auto100ConsistencyComboAction.countAlchemy);
+				Game.Objects['Time machine'].sell(auto100ConsistencyComboAction.countTimeMach);
+				Game.Objects['Antimatter condenser'].sell(auto100ConsistencyComboAction.countAntiMatter);
+				
+				auto100ConsistencyComboAction.state = 15;
+				
+				return;
+				
+			case 15: // Swap Mokalsium to diamond slot
+				swapIn(8,0);
+				
+				auto100ConsistencyComboAction.state = 16;
+				
+				return;
+			
+			case 16: // buy back buildings
+				Game.Objects['Farm'].buy(auto100ConsistencyComboAction.countFarm - 1);
+				Game.Objects['Mine'].buy(auto100ConsistencyComboAction.countMine);
+				Game.Objects['Factory'].buy(auto100ConsistencyComboAction.countFactory);
+				Game.Objects['Bank'].buy(auto100ConsistencyComboAction.countBank);
+				Game.Objects['Temple'].buy(auto100ConsistencyComboAction.countTemple - 1);
+				Game.Objects['Wizard tower'].buy(auto100ConsistencyComboAction.countWizard - 1);
+				Game.Objects['Shipment'].buy(auto100ConsistencyComboAction.countShipment);
+				Game.Objects['Alchemy lab'].buy(auto100ConsistencyComboAction.countAlchemy);
+				Game.Objects['Time machine'].buy(auto100ConsistencyComboAction.countTimeMach);
+				Game.Objects['Antimatter condenser'].buy(auto100ConsistencyComboAction.countAntiMatter);
+				
+				auto100ConsistencyComboAction.state = 17;
+				
+				return;
+				
+				
+			case 17: // Turn autobuy back on if on before
+				if (auto100ConsistencyComboAction.autobuyyes == 1) {
+					FrozenCookies.autoBuy = 1;
+				}
+				
+				auto100ConsistencyComboAction.state = 18;
+				
+				return;
+				
+			case 18: // Once click frenzy buff is gone, turn autoGC on if it were on previously
+				if (!Game.hasBuff('Click frenzy')) {
+					if (auto100ConsistencyComboAction.autogcyes == 1) {
+						FrozenCookies.autoGC = 1;
+					}
+					
+					auto100ConsistencyComboAction.state = 19;
+				}
+				
+				return;
+			
+			case 19: // Re-enable autoGodzamok if it were on previously
+				if (auto100ConsistencyComboAction.autogodyes == 1) {
+					FrozenCookies.autoGodzamok = 1;
+				}
+				
+				auto100ConsistencyComboAction.state = 0;
+				
+				return;
+		}
+	
+}
+
+function autoEasterAction() {
+
+	if (FrozenCookies.autoEaster == 0) { return; }
+
+	if (Game.hasBuff('Cookie storm') && !haveAll('easter') && Game.season != 'easter') {
+		Game.UpgradesById[209].buy()
+	}
 }
 
 function autoBlacklistOff() {
