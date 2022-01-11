@@ -3688,6 +3688,18 @@ function FCStart() {
       FrozenCookies.frequency * 10
     );
   }
+  
+  if (FrozenCookies.autoFTHOFCombo) {
+	FrozenCookies.autoFTHOFComboBot = setInterval(autoFTHOFComboAction, FrozenCookies.frequency*2)
+  }
+    
+  if (FrozenCookies.auto100ConsistencyCombo) {
+	FrozenCookies.auto100ConsistencyComboBot = setInterval(auto100ConsistencyComboAction, FrozenCookies.frequency*2)
+  }
+    
+  if (FrozenCookies.autoEaster) {
+	FrozenCookies.autoEasterBot = setInterval(autoEasterAction, FrozenCookies.frequency)
+  }
 
   if (statSpeed(FrozenCookies.trackStats) > 0) {
     FrozenCookies.statBot = setInterval(
