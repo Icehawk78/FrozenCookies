@@ -4,25 +4,27 @@ An automated Cookie Clicker tool.
 
 ## Discord
 
-For devolopers / code intended behavior purposes only.
+For developers / code intended behavior purposes only.
 https://discord.gg/Cpw8csuypT
 
 ## How to use
 
 ## Steam Install
 1. Download https://icehawk78.github.io/FrozenCookies/Steam/SteamMod.zip and extract it to your mods/local folder.
-2. Load up Cookie Clicker via Steam.
+2. Edit the _contents_ of the included main.js file to this: 
+**Game.LoadMod("http://erbkaiser.github.io/FrozenCookies/frozen_cookies.js");**
+3. Load up Cookie Clicker via Steam.
 
-## Bookmarklet install
+## Bookmarklet install (untested)
 
-1. Paste the _contents_ (not the url) of https://icehawk78.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark.
+1. Paste the _contents_ (not the url) of http://erbkaiser.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark.
 2. Load up Cookie Clicker.
 3. Load the recently created bookmark.
 
-## Userscript install
+## Userscript install (untested)
 
 0. If you don't already have it, install the required browser add-on. [Tampermonkey (Chrome)](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) or [Greasemonkey (Firefox)](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/)
-1. Go to https://icehawk78.github.io/FrozenCookies/fc_userscript_loader.user.js
+1. Go to http://erbkaiser.github.io/FrozenCookies/fc_userscript_loader.user.js
 2. Click the 'install' button in the upper right corner.
 3. Load up Cookie Clicker.
 
@@ -43,6 +45,12 @@ https://discord.gg/Cpw8csuypT
 \*Note: Not guaranteed to actually be the most efficient purchase. Just the most efficient that I currently know of.
 
 ## What's new?
+
+2022 Jan 10 (bootleg DarkRoman version)
+
+- Copied the smart FTHOF behaviour from DarkRoman's variant: https://github.com/Darkroman/FrozenCookies
+- Copied the AutoComboFinder and smart Easter from DarkRoman
+- Fixed the broken auto-Godmazok behaviour that sold mines and factories instead of cursors
 
 2020 Nov 2
 
