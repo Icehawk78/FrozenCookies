@@ -24,7 +24,7 @@ https://discord.gg/Cpw8csuypT
 ## Userscript install (untested)
 
 0. If you don't already have it, install the required browser add-on. [Tampermonkey (Chrome)](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) or [Greasemonkey (Firefox)](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/)
-1. Go to https://erbkaiser.github.io/FrozenCookies/fc_userscript_loader.user.js
+1. Go to http://erbkaiser.github.io/FrozenCookies/fc_userscript_loader.user.js
 2. Click the 'install' button in the upper right corner.
 3. Load up Cookie Clicker.
 
@@ -46,9 +46,9 @@ https://discord.gg/Cpw8csuypT
 
 ## What's new?
 
-2022 Jan 10
+2022 Jan 10 (bootleg DarkRoman version)
 
-- Copied the smart FTHOF behaviour from DarkRoman's variant
+- Copied the smart FTHOF behaviour from DarkRoman's variant: https://github.com/Darkroman/FrozenCookies
 - Copied the AutoComboFinder and smart Easter from DarkRoman
 - Fixed the broken auto-Godmazok behaviour that sold mines and factories instead of cursors
 
