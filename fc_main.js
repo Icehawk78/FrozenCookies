@@ -3633,6 +3633,21 @@ function FCStart() {
     clearInterval(FrozenCookies.autoFortuneBot);
     FrozenCookies.autoFortuneBot = 0;
   }
+	
+  if (FrozenCookies.autoFTHOFComboBot) {
+    clearInterval(FrozenCookies.autoFTHOFComboBot);
+    FrozenCookies.autoFTHOFComboBot = 0;
+  }
+	
+  if (FrozenCookies.auto100ConsistencyComboBot) {
+    clearInterval(FrozenCookies.auto100ConsistencyComboBot);
+    FrozenCookies.autoFTHOFComboBot = 0;
+  }
+
+  if (FrozenCookies.autoEasterBot) {
+    clearInterval(FrozenCookies.autoEasterBot);
+    FrozenCookies.autoEasterBot = 0;
+  }
 
   // Remove until timing issues are fixed
   //  if (FrozenCookies.goldenCookieBot) {
