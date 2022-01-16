@@ -2383,7 +2383,7 @@ function buildingStats(recalculate) {
         FrozenCookies.mineLimit &&
         Game.Objects["Mine"].amount >= FrozenCookies.mineMax
       ) {
-        buildingBlacklist.push(2);
+        buildingBlacklist.push(3);
       }
       FrozenCookies.caches.buildings = Game.ObjectsById.map(function (
         current,
