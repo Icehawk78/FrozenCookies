@@ -46,6 +46,10 @@ https://discord.gg/Cpw8csuypT
 
 ## What's new?
 
+2022 Jan 16
+
+- Changed auto-Godzamok to farms and mines instead of cursors and farms since cursor sinergies with auro gloves earn more than mines ever could.
+
 2022 Jan 10 (bootleg DarkRoman version)
 
 - Copied the smart FTHOF behaviour from DarkRoman's variant: https://github.com/Darkroman/FrozenCookies

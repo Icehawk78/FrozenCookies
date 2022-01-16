@@ -213,8 +213,9 @@ function setOverrides(gameSaveData) {
     FrozenCookies.maxSpecials = preferenceParse("maxSpecials", 1);
 
     // building max values
-    FrozenCookies.cursorMax = preferenceParse("cursorMax", 500);
+    // FrozenCookies.cursorMax = preferenceParse("cursorMax", 500);
     FrozenCookies.farmMax = preferenceParse("farmMax", 500);
+	FrozenCookies.mineMax = preferenceParse("mineMax", 500);
     FrozenCookies.manaMax = preferenceParse("manaMax", 100);
 
     // Get historical data
@@ -466,8 +467,9 @@ function saveFCData() {
   saveString.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
   saveString.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
   saveString.HCAscendAmount = FrozenCookies.HCAscendAmount;
-  saveString.cursorMax = FrozenCookies.cursorMax;
+  // saveString.cursorMax = FrozenCookies.cursorMax;
   saveString.farmMax = FrozenCookies.farmMax;
+  saveString.mineMax = FrozenCookies.mineMax;
   saveString.minCpSMult = FrozenCookies.minCpSMult;
   saveString.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
   //  saveString.nonFrenzyTime = FrozenCookies.non_gc_time;
@@ -644,19 +646,29 @@ function updateMaxSpecials(base) {
     );
 }
 
-function updateCursorMax(base) {
-    userInputPrompt(
-        'Cursor Cap!',
-        'How many Cursors should Autobuy stop at?',
-        FrozenCookies[base],
-        storeNumberCallback(base, 0)
-    );
-}
+// function updateCursorMax(base) {
+//    userInputPrompt(
+//        'Cursor Cap!',
+//        'How many Cursors should Autobuy stop at?',
+//        FrozenCookies[base],
+//        storeNumberCallback(base, 0)
+//    );
+// }
 
 function updateFarmMax(base) {
     userInputPrompt(
         'Farm Cap!',
         'How many Farms should Autobuy stop at?',
+        FrozenCookies[base],
+        storeNumberCallback(base, 0)
+    );
+
+}
+
+function updateMineMax(base) {
+    userInputPrompt(
+        'Mine Cap!',
+        'How many Mines should Autobuy stop at?',
         FrozenCookies[base],
         storeNumberCallback(base, 0)
     );
@@ -2353,16 +2365,23 @@ function buildingStats(recalculate) {
         buildingBlacklist.push(7);
       }
       //Stop buying Cursors if at set limit
-      if (
-        FrozenCookies.cursorLimit &&
-        Game.Objects["Cursor"].amount >= FrozenCookies.cursorMax
-      ) {
-        buildingBlacklist.push(0);
-      }
+      // if (
+      //  FrozenCookies.cursorLimit &&
+      //  Game.Objects["Cursor"].amount >= FrozenCookies.cursorMax
+      // ) {
+      //  buildingBlacklist.push(0);
+      // }
       //Stop buying Farms if at set limit
       if (
         FrozenCookies.farmLimit &&
         Game.Objects["Farm"].amount >= FrozenCookies.farmMax
+      ) {
+        buildingBlacklist.push(2);
+      }
+      //Stop buying Mines if at set limit
+      if (
+        FrozenCookies.mineLimit &&
+        Game.Objects["Mine"].amount >= FrozenCookies.mineMax
       ) {
         buildingBlacklist.push(2);
       }
@@ -3321,25 +3340,25 @@ function autoGodzamokAction() {
     // if Pantheon is here and autoGodzamok is set
     if (
       Game.hasGod("ruin") &&
-      (Game.Objects["Cursor"].amount > 10 || Game.Objects["Farm"].amount > 10)
+      (Game.Objects["Farm"].amount > 10 || Game.Objects["Mine"].amount > 10)
     ) {
-      var countCursor = Game.Objects["Cursor"].amount - 1;
       var countFarm = Game.Objects["Farm"].amount - 1;
+      var countMine = Game.Objects["Mine"].amount - 1;
 
-      //Automatically sell all cursors and farms (except one) during Dragonflight and Click Frenzy if you worship Godzamok and prevent rapid buy/sell spam
+      //Automatically sell all farms and mines (except one) during Dragonflight and Click Frenzy if you worship Godzamok and prevent rapid buy/sell spam
       if (
         FrozenCookies.autoGodzamok >= 1 &&
         hasClickBuff() &&
         !Game.hasBuff("Devastation")
       ) {
-        Game.Objects["Cursor"].sell(countCursor);
         Game.Objects["Farm"].sell(countFarm);
+        Game.Objects["Mine"].sell(countMine);
 
         if (FrozenCookies.autoBuy == 1) {
-          safeBuy(Game.Objects["Cursor"], countCursor);
-          logEvent("AutoGodzamok", "Bought " + countCursor + " cursors");
           safeBuy(Game.Objects["Farm"], countFarm);
           logEvent("AutoGodzamok", "Bought " + countFarm + " farms");
+          safeBuy(Game.Objects["Mine"], countMine);
+          logEvent("AutoGodzamok", "Bought " + countMine + " mines");
         }
       }
     }
