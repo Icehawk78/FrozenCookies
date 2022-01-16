@@ -48,7 +48,7 @@ https://discord.gg/Cpw8csuypT
 
 2022 Jan 16
 
-- Changed auto-Godzamok to farms and mines instead of cursors and farms since cursor sinergies with auro gloves earn more than mines ever could.
+- Changed auto-Godzamok to farms and mines instead of cursors and farms since cursor sinergies and aura gloves can earn more cookies than mines ever could.
 
 2022 Jan 10 (bootleg DarkRoman version)
 
