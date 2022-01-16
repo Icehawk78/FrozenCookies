@@ -63,19 +63,26 @@ FrozenCookies.preferenceValues = {
     ],
     default: 0,
   },
-  cursorLimit: {
-    hint: "Limit max number of cursors to keep Godzamok useful",
-    display: ["Cursor Limit OFF", "Cursor Limit ON"],
-    default: 0,
-    extras:
-      '<a class="option" id="cursorMax" onclick="updateCursorMax(\'cursorMax\');">${cursorMax} Cursors</a>',
-  },
+  // cursorLimit: {
+  //  hint: "Limit max number of cursors to keep Godzamok useful",
+  //  display: ["Cursor Limit OFF", "Cursor Limit ON"],
+  //  default: 0,
+  //  extras:
+  //    '<a class="option" id="cursorMax" onclick="updateCursorMax(\'cursorMax\');">${cursorMax} Cursors</a>',
+  // },
   farmLimit: {
     hint: "Limit max number of farms to keep Godzamok useful",
     display: ["Farm Limit OFF", "Farm Limit ON"],
     default: 0,
     extras:
       '<a class="option" id="farmMax" onclick="updateFarmMax(\'farmMax\');">${farmMax} Farms</a>',
+  },
+  mineLimit: {
+    hint: "Limit max number of mines to keep Godzamok useful",
+    display: ["Mine Limit OFF", "Mine Limit ON"],
+    default: 0,
+    extras:
+      '<a class="option" id="mineMax" onclick="updateMineMax(\'mineMax\');">${mineMax} Mines</a>',
   },
   towerLimit: {
     hint: "Stop autobuying Wizard Towers at selected Max Mana, for spellcasting efficiency",
