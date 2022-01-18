@@ -10,10 +10,10 @@ https://discord.gg/Cpw8csuypT
 ## How to use
 
 ## Steam Install
-1. Download https://icehawk78.github.io/FrozenCookies/Steam/SteamMod.zip and extract it to your mods/local folder.
-2. Edit the _contents_ of the included main.js file to this: 
-**Game.LoadMod("http://erbkaiser.github.io/FrozenCookies/frozen_cookies.js");**
-3. Load up Cookie Clicker via Steam.
+1. Download https://erbkaiser.github.io/FrozenCookies/Steam/SteamMod.zip and extract it to your mods/local folder. Remove or disable any other variants of FC.
+2. Close Cookie Clicker if it is running, or refresh it
+3. Load up Cookie Clicker via Steam
+4. Enable Frozen Cookies at 'Manage mods' on the Options page
 
 ## Bookmarklet install (untested)
 
