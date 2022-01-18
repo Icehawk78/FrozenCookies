@@ -1216,7 +1216,7 @@ function auto100ConsistencyComboAction() {
 		if ((nextSpellName(0) == "Click Frenzy" && nextSpellName(1) == "Building Special") || 
 		    (nextSpellName(1) == "Click Frenzy" && nextSpellName(0) == "Building Special") ||
 		    (nextSpellName(0) == "Click Frenzy" && nextSpellName(1) == "Elder Frenzy") || 		
-		    (nextSpellName(1) == "Click Frenzy" && nextSpellName(0) == "Elder Frenzy")) {
+		    (nextSpellName(1) == "Click Frenzy" && nextSpellName(0) == "Elder Frenzy" )) {
 			auto100ConsistencyComboAction.state = 1;
 		}
 	}
@@ -1381,14 +1381,7 @@ function auto100ConsistencyComboAction() {
 				
 				return;
 			
-			case 13: // Swap Holobre to ruby slot
-				swapIn(0,1);
-				
-				auto100ConsistencyComboAction.state = 14;
-				
-				return;
-			
-			case 14: // sell buildings				
+			case 13: // sell buildings				
 
 				Game.Objects['Farm'].sell(auto100ConsistencyComboAction.countFarm - 1);
 				Game.Objects['Mine'].sell(auto100ConsistencyComboAction.countMine);
@@ -1401,18 +1394,18 @@ function auto100ConsistencyComboAction() {
 				Game.Objects['Time machine'].sell(auto100ConsistencyComboAction.countTimeMach);
 				Game.Objects['Antimatter condenser'].sell(auto100ConsistencyComboAction.countAntiMatter);
 				
+				auto100ConsistencyComboAction.state = 14;
+				
+				return;
+				
+			case 14: // Swap Mokalsium to ruby slot
+				swapIn(8,1);
+				
 				auto100ConsistencyComboAction.state = 15;
 				
 				return;
-				
-			case 15: // Swap Mokalsium to diamond slot
-				swapIn(8,0);
-				
-				auto100ConsistencyComboAction.state = 16;
-				
-				return;
 			
-			case 16: // buy back buildings
+			case 15: // buy back buildings
 				Game.Objects['Farm'].buy(auto100ConsistencyComboAction.countFarm - 1);
 				Game.Objects['Mine'].buy(auto100ConsistencyComboAction.countMine);
 				Game.Objects['Factory'].buy(auto100ConsistencyComboAction.countFactory);
@@ -1423,12 +1416,49 @@ function auto100ConsistencyComboAction() {
 				Game.Objects['Alchemy lab'].buy(auto100ConsistencyComboAction.countAlchemy);
 				Game.Objects['Time machine'].buy(auto100ConsistencyComboAction.countTimeMach);
 				Game.Objects['Antimatter condenser'].buy(auto100ConsistencyComboAction.countAntiMatter);
+								
+				auto100ConsistencyComboAction.state = 16;
+
+				return;
+	
+			case 16: // Perform custom autogodzamok
+				if (((Game.hasGod('ruin')) && (!Game.hasBuff('Devastation'))) && hasClickBuff())
+				{
+					if (Game.Objects['Farm'].amount >= 10)
+					{
+						Game.Objects['Farm'].sell(auto100ConsistencyComboAction.countFarm - 1);
+						Game.Objects['Mine'].sell(auto100ConsistencyComboAction.countMine);
+						Game.Objects['Factory'].sell(auto100ConsistencyComboAction.countFactory);
+						Game.Objects['Bank'].sell(auto100ConsistencyComboAction.countBank);
+						Game.Objects['Temple'].sell(auto100ConsistencyComboAction.countTemple - 1);
+						Game.Objects['Wizard tower'].sell(auto100ConsistencyComboAction.countWizard - 1);
+						Game.Objects['Shipment'].sell(auto100ConsistencyComboAction.countShipment);
+						Game.Objects['Alchemy lab'].sell(auto100ConsistencyComboAction.countAlchemy);
+						Game.Objects['Time machine'].sell(auto100ConsistencyComboAction.countTimeMach);
+						Game.Objects['Antimatter condenser'].sell(auto100ConsistencyComboAction.countAntiMatter);
+					}
+					if (Game.Objects['Farm'].amount < 10)
+					{
+						Game.Objects['Farm'].buy(auto100ConsistencyComboAction.countFarm - 1);
+						Game.Objects['Mine'].buy(auto100ConsistencyComboAction.countMine);
+						Game.Objects['Factory'].buy(auto100ConsistencyComboAction.countFactory);
+						Game.Objects['Bank'].buy(auto100ConsistencyComboAction.countBank);
+						Game.Objects['Temple'].buy(auto100ConsistencyComboAction.countTemple - 1);
+						Game.Objects['Wizard tower'].buy(auto100ConsistencyComboAction.countWizard - 1);
+						Game.Objects['Shipment'].buy(auto100ConsistencyComboAction.countShipment);
+						Game.Objects['Alchemy lab'].buy(auto100ConsistencyComboAction.countAlchemy);
+						Game.Objects['Time machine'].buy(auto100ConsistencyComboAction.countTimeMach);
+						Game.Objects['Antimatter condenser'].buy(auto100ConsistencyComboAction.countAntiMatter);
+					}
+				}
 				
-				auto100ConsistencyComboAction.state = 17;
+				if (!hasClickBuff())
+				{
+					auto100ConsistencyComboAction.state = 17;
+				}
 				
 				return;
-				
-				
+
 			case 17: // Turn autobuy back on if on before
 				if (auto100ConsistencyComboAction.autobuyyes == 1) {
 					FrozenCookies.autoBuy = 1;
@@ -3313,7 +3343,7 @@ function autoGSBuy() {
     ) {
       Game.Upgrades["Golden switch [off]"].buy();
     }
-  } else if (cpsBonus() <= 1) {
+  } else if (!hasClickBuff()) {
     if (
       Game.Upgrades["Golden switch [on]"].unlocked &&
       !Game.Upgrades["Golden switch [on]"].bought
