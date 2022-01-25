@@ -70,26 +70,12 @@ FrozenCookies.preferenceValues = {
   //  extras:
   //    '<a class="option" id="cursorMax" onclick="updateCursorMax(\'cursorMax\');">${cursorMax} Cursors</a>',
   // },
-  //farmLimit: {
-  //  hint: "Limit max number of farms to keep Godzamok useful",
-  //  display: ["Farm Limit OFF", "Farm Limit ON"],
-  //  default: 0,
-  //  extras:
-  //    '<a class="option" id="farmMax" onclick="updateFarmMax(\'farmMax\');">${farmMax} Farms</a>',
-  //},
-  mineLimit: {
-    hint: "Limit max number of mines to keep Godzamok useful",
-    display: ["Mine Limit OFF", "Mine Limit ON"],
+  farmLimit: {
+    hint: "Limit max number of farms to keep Godzamok useful",
+    display: ["Farm Limit OFF", "Farm Limit ON"],
     default: 0,
     extras:
-      '<a class="option" id="mineMax" onclick="updateMineMax(\'mineMax\');">${mineMax} Mines</a>',
-  },
-  factoryLimit: {
-    hint: "Limit max number of factories to keep Godzamok useful",
-    display: ["Factory Limit OFF", "Factory Limit ON"],
-    default: 0,
-    extras:
-      '<a class="option" id="factoryMax" onclick="updateFactoryMax(\'factory\');">${factory} Factories</a>',
+      '<a class="option" id="farmMax" onclick="updateFarmMax(\'farmMax\');">${farmMax} Farms</a>',
   },
   mineLimit: {
     hint: "Limit max number of mines to keep Godzamok useful",
