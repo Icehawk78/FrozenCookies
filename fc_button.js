@@ -472,6 +472,14 @@ function FCMenu() {
         subsection.append(
             buildListing("Last Golden Cookie Effect", Game.shimmerTypes.golden.last)
         );
+        menu.append(subsection);
+		
+		// Frenzy Times
+		
+		subsection = $("<div style="height: 100px; overflow: scroll;">").addClass("subsection");
+        subsection.append(
+            $("<div>").addClass("title").text("Frenzy Times")
+        );
         $.each(Object.keys(FrozenCookies.frenzyTimes)
             .sort((a, b) => parseInt(a) - parseInt(b))
             .reduce((result, rate) => {
