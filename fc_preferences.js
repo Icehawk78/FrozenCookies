@@ -89,7 +89,7 @@ FrozenCookies.preferenceValues = {
     display: ["Factory Limit OFF", "Factory Limit ON"],
     default: 0,
     extras:
-      '<a class="option" id="factoryMax" onclick="updateFactoryMax(\'factoryMax\');">${factoryMax} Factories</a>',
+      '<a class="option" id="factoryMax" onclick="updateFactoryMax(\'factory\');">${factory} Factories</a>',
   },
   towerLimit: {
     hint: "Stop autobuying Wizard Towers at selected Max Mana, for spellcasting efficiency",
