@@ -5,14 +5,14 @@
   "main": "frozen_cookie.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/icehawk78/FrozenCookies.git"
+    "url": "https://github.com/erbkaiser/FrozenCookies.git"
   },
-  "author": "Icehawk78",
+  "author": "erbkaiser",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/icehawk78/FrozenCookies/issues"
+    "url": "https://github.com/erbkaiser/FrozenCookies/issues"
   },
-  "homepage": "https://github.com/icehawk78/FrozenCookies#readme",
+  "homepage": "https://github.com/erbkaiser/FrozenCookies#readme",
   "devDependencies": {
     "prettier": "2.4.0"
   }
