@@ -214,8 +214,9 @@ function setOverrides(gameSaveData) {
 
         // building max values
         // FrozenCookies.cursorMax = preferenceParse("cursorMax", 500);
-        FrozenCookies.farmMax = preferenceParse("farmMax", 500);
+        // FrozenCookies.farmMax = preferenceParse("farmMax", 500);
         FrozenCookies.mineMax = preferenceParse("mineMax", 500);
+		FrozenCookies.factoryMax = preferenceParse("factoryMax", 500);
         FrozenCookies.manaMax = preferenceParse("manaMax", 100);
 
         // Get historical data
@@ -468,8 +469,9 @@ function saveFCData() {
     saveString.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
     saveString.HCAscendAmount = FrozenCookies.HCAscendAmount;
     // saveString.cursorMax = FrozenCookies.cursorMax;
-    saveString.farmMax = FrozenCookies.farmMax;
+    // saveString.farmMax = FrozenCookies.farmMax;
     saveString.mineMax = FrozenCookies.mineMax;
+	saveString.factoryMax = FrozenCookies.factoryMax;
     saveString.minCpSMult = FrozenCookies.minCpSMult;
     saveString.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
     //  saveString.nonFrenzyTime = FrozenCookies.non_gc_time;
@@ -657,15 +659,14 @@ function updateMaxSpecials(base) {
 //    );
 // }
 
-function updateFarmMax(base) {
-    userInputPrompt(
-        'Farm Cap!',
-        'How many Farms should Autobuy stop at?',
-        FrozenCookies[base],
-        storeNumberCallback(base, 0)
-    );
-
-}
+// function updateFarmMax(base) {
+//  userInputPrompt(
+//      'Farm Cap!',
+//      'How many Farms should Autobuy stop at?',
+//      FrozenCookies[base],
+//      storeNumberCallback(base, 0)
+//  );
+// }
 
 function updateMineMax(base) {
     userInputPrompt(
@@ -674,7 +675,15 @@ function updateMineMax(base) {
         FrozenCookies[base],
         storeNumberCallback(base, 0)
     );
+}
 
+function updatefactoryMax(base) {
+    userInputPrompt(
+        'Factory Cap!',
+        'How many Factories should Autobuy stop at?',
+        FrozenCookies[base],
+        storeNumberCallback(base, 0)
+    );
 }
 
 function updateTimeTravelAmount() {
@@ -2376,18 +2385,25 @@ function buildingStats(recalculate) {
             //  buildingBlacklist.push(0);
             // }
             //Stop buying Farms if at set limit
-            if (
-                FrozenCookies.farmLimit &&
-                Game.Objects["Farm"].amount >= FrozenCookies.farmMax
-            ) {
-                buildingBlacklist.push(2);
-            }
+            // if (
+            //  FrozenCookies.farmLimit &&
+            //  Game.Objects["Farm"].amount >= FrozenCookies.farmMax
+            // ) {
+            //  buildingBlacklist.push(2);
+            // }
             //Stop buying Mines if at set limit
             if (
                 FrozenCookies.mineLimit &&
                 Game.Objects["Mine"].amount >= FrozenCookies.mineMax
             ) {
                 buildingBlacklist.push(3);
+            }
+            //Stop buying Factories if at set limit
+            if (
+                FrozenCookies.factoryLimit &&
+                Game.Objects["Factory"].amount >= FrozenCookies.factoryMax
+            ) {
+                buildingBlacklist.push(4);
             }
             FrozenCookies.caches.buildings = Game.ObjectsById.map(function(
                 current,
@@ -3352,20 +3368,20 @@ function autoGodzamokAction() {
             return;
         }
 
-        //Automatically sell all farms and mines (except one) during Dragonflight and Click Frenzy if you worship Godzamok and prevent rapid buy/sell spam
+        //Automatically sell all mines and factories during Dragonflight and Click Frenzy if you worship Godzamok and prevent rapid buy/sell spam
         if (
             FrozenCookies.autoGodzamok >= 1 &&
             hasClickBuff() &&
             !Game.hasBuff("Devastation")
         ) {
-            Game.Objects["Farm"].sell(countFarm);
             Game.Objects["Mine"].sell(countMine);
+            Game.Objects["Factory"].sell(countFactory);
 
             if (FrozenCookies.autoBuy == 1) {
-                safeBuy(Game.Objects["Farm"], countFarm);
-                logEvent("AutoGodzamok", "Bought " + countFarm + " farms");
                 safeBuy(Game.Objects["Mine"], countMine);
                 logEvent("AutoGodzamok", "Bought " + countMine + " mines");
+                safeBuy(Game.Objects["Factory"], countFactory);
+                logEvent("AutoGodzamok", "Bought " + countFactory + " factories");
             }
         }
     }
