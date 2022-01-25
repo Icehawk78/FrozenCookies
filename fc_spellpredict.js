@@ -97,3 +97,114 @@ nextSpell = function (i) {
   Math.seedrandom();
   return "<small>" + ret + "</b></small>";
 };
+
+// This converts the nextSpell(i) to a string to be used for checking conditions for auto casting Force The Hand of Fate in fc_main.
+nextSpellName = function(i) {
+    for (var v = i; v <= i; v++) {
+	if (nextSpell(v) == '<small><b style="color:#FFDE5F">Lucky</b></small>') {   
+	return "Lucky";
+	}
+		
+	if (nextSpell(v) == '<small><b style="color:#FFDE5F">Frenzy</b></small>') {   
+	return "Frenzy";
+	}
+		
+	if (nextSpell(v) == '<small><b style="color:#FFD700">Click Frenzy</b></small>') {   
+	return "Click Frenzy";
+	}
+		
+	if (nextSpell(v) == '<small><b style="color:#FFDE5F">Cookie Chain</b></small>') {   
+	return "Cookie Chain";
+	}
+		
+	if (nextSpell(v) == '<small><b style="color:#FFDE5F">Cookie Storm</b></small>') {   
+	return "Cookie Storm";
+	}
+		
+	if (nextSpell(v) == '<small>Cookie Storm (Drop)</b></small>') {   
+	return "Cookie Storm (Drop)";
+	}
+		
+	if (nextSpell(v) == '<small><b style="color:#DAA520">Building Special</b></small>') {   
+	return "Building Special";
+	}
+		
+	if (nextSpell(v) == '<small>Blab</b></small>') {   
+	return "Blab";
+	}
+		
+	if (nextSpell(v) == '<small><b style="color:#FF3605">Ruin Cookies</b></small>') {   
+	return "Ruin Cookies";
+	}
+		
+	if (nextSpell(v) == '<small><b style="color:#FF3605">Clot</b></small>') {   
+	return "Clot";
+	}
+		
+	if (nextSpell(v) == '<small><b style="color:#DAA520">Cursed Finger</b></small>') {   
+	return "Cursed Finger";
+	}
+		
+	if (nextSpell(v) == '<small><b style="color:#DAA520">Elder Frenzy</b></small>') {   
+	return "Elder Frenzy";
+	}
+		
+	if (nextSpell(v) == '<small><b style="color:#5FFFFC">Sugar Lump</b></small>') {   
+	return "Sugar Lump";
+	}
+    }
+}
+
+// Converts all of the games' building special named buffs to a single function to check if a building special buff is up.
+// Used for autocasting Force The Hand of Fate
+BuildingSpecialBuff = function() {
+if (Game.hasBuff('High-five') ||
+//	Game.hasBuff('Slap to the face') ||
+	Game.hasBuff('Congregation') ||
+//	Game.hasBuff('Senility') ||
+	Game.hasBuff('Luxuriant harvest') ||
+//	Game.hasBuff('Locusts') ||
+	Game.hasBuff('Ore vein') ||
+//	Game.hasBuff('Cave-in') ||
+	Game.hasBuff('Oiled-up') ||
+//	Game.hasBuff('Jammed machinery') ||
+	Game.hasBuff('Juicy profits') ||
+//	Game.hasBuff('Recession') ||
+	Game.hasBuff('Fervent adoration') ||
+//	Game.hasBuff('Crisis of faith') ||
+	Game.hasBuff('Manabloom') ||
+//	Game.hasBuff('Magivores') ||
+	Game.hasBuff('Delicious lifeforms') ||
+//	Game.hasBuff('Black holes') ||
+	Game.hasBuff('Breakthrough') ||
+//	Game.hasBuff('Lab disaster') ||
+	Game.hasBuff('Righteous cataclysm') ||
+//	Game.hasBuff('Dimensional calamity') ||
+	Game.hasBuff('Golden ages') ||
+//	Game.hasBuff('Time jam') ||
+	Game.hasBuff('Extra cycles') ||
+//	Game.hasBuff('Predictable tragedy') ||
+	Game.hasBuff('Solar flare') ||
+//	Game.hasBuff('Eclipse') ||
+	Game.hasBuff('Winning streak') ||
+//	Game.hasBuff('Dry spell') ||
+	Game.hasBuff('Macrocosm') ||
+//	Game.hasBuff('Microcosm') ||
+	Game.hasBuff('Refactoring') ||
+//	Game.hasBuff('Antipattern') ||
+    	Game.hasBuff('Cosmic nursery'))
+//	Game.hasBuff('Big crunch'))
+    { return 1; }
+	
+	else { return 0; }
+}
+
+// This function will be used in fc_main.js to check time left on building buff within autoCast() function
+function BuildingBuffTime() {
+    for (var i in Game.buffs) {
+        if (Game.buffs[i].type && (Game.buffs[i].type.name == 'building buff')) {
+		return Game.buffs[i].time / 30;
+        }
+    }
+    return 0;
+}
