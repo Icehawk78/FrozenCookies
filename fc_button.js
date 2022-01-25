@@ -476,7 +476,7 @@ function FCMenu() {
 		
 		// Frenzy Times
 		
-		subsection = $("<div style='height: 100px; overflow: scroll;'>").addClass("subsection");
+		subsection = $("<div style='height: 200px; overflow: scroll;'>").addClass("subsection");
         subsection.append(
             $("<div>").addClass("title").text("Frenzy Times")
         );
