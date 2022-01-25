@@ -77,13 +77,6 @@ FrozenCookies.preferenceValues = {
     extras:
       '<a class="option" id="farmMax" onclick="updateFarmMax(\'farmMax\');">${farmMax} Farms</a>',
   },
-  mineLimit: {
-    hint: "Limit max number of mines to keep Godzamok useful",
-    display: ["Mine Limit OFF", "Mine Limit ON"],
-    default: 0,
-    extras:
-      '<a class="option" id="mineMax" onclick="updateMineMax(\'mineMax\');">${mineMax} Mines</a>',
-  },
   towerLimit: {
     hint: "Stop autobuying Wizard Towers at selected Max Mana, for spellcasting efficiency",
     display: ["Wizard Tower Cap OFF", "Wizard Tower Cap ON"],
@@ -293,21 +286,4 @@ FrozenCookies.preferenceValues = {
     ],
     default: 0,
   },
-  
-// experimental options
-    autoFTHOFCombo:{
-        'hint':'This overrides Auto Cast\. Cast Haggler\'s Charm until 2 subsequent FTHOF spells are Click Frenzy and Elder Frenzy, or Click Frenzy and Building Special',
-        'display':["Auto FTHOF Combo OFF", "Auto FTHOF Combo ON"],
-        'default':0
-    },
-    auto100ConsistencyCombo:{
-        'hint':'HIGHLY EXPERIMENTAL: Does the 100% Consistency Combo but with 2 building specials',
-        'display':["Auto 100% Consistency Combo OFF", "Auto 100% Consistency Combo ON"],
-        'default':0
-    },
-    autoEaster:{
-        'hint':'Switches to Easter season if Cookie Storm is active and you do not have all eggs yet',
-        'display':["Auto Easter OFF","Auto Easter ON"],
-        'default':0,
-    },
-}
+};
