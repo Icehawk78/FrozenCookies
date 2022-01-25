@@ -91,6 +91,13 @@ FrozenCookies.preferenceValues = {
     extras:
       '<a class="option" id="factoryMax" onclick="updateFactoryMax(\'factory\');">${factory} Factories</a>',
   },
+  mineLimit: {
+    hint: "Limit max number of mines to keep Godzamok useful",
+    display: ["Mine Limit OFF", "Mine Limit ON"],
+    default: 0,
+    extras:
+      '<a class="option" id="mineMax" onclick="updateMineMax(\'mineMax\');">${mineMax} Mines</a>',
+  },
   towerLimit: {
     hint: "Stop autobuying Wizard Towers at selected Max Mana, for spellcasting efficiency",
     display: ["Wizard Tower Cap OFF", "Wizard Tower Cap ON"],
