@@ -46,6 +46,12 @@ https://discord.gg/Cpw8csuypT
 
 ## What's new?
 
+2022 Jan 25
+
+- Changed auto-Godmazok to mines and factories as farms will get a synergy boost once the beta goes into live
+- Changed buy back behaviour for auto-G to stop at 500 max, so that enabling it won't devastate existing games where you have more mines and factories. Recommended to still enable the mine and factory limit once you can get over 600 of each, to keep them useful
+- Hid the Frenzy Times on the FC stats/settings page behind an overflow scrollbar
+
 2022 Jan 16
 
 - Changed auto-Godzamok to farms and mines instead of cursors and farms since cursor sinergies and aura gloves can earn more cookies than mines ever could.
