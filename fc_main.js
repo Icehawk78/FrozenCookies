@@ -3378,16 +3378,16 @@ function autoGodzamokAction() {
             if (FrozenCookies.autoBuy == 1) {
 				if (Game.Objects["Mine"].amount >= 400 && Game.Objects["Mine"].amount <= 450) {
 					safeBuy(Game.Objects["Mine"], 100);
-                    logEvent("AutoGodzamok", "Bought " + 100 + " mines");
+                    logEvent("AutoGodzamok", "Bought 100 mines");
 				} else if (Game.Objects["Mine"].amount >= 300 && Game.Objects["Mine"].amount < 400) {
 					safeBuy(Game.Objects["Mine"], 200);
-                    logEvent("AutoGodzamok", "Bought " + 200 + " mines");
+                    logEvent("AutoGodzamok", "Bought 200 mines");
 				} else if (Game.Objects["Mine"].amount >= 200 && Game.Objects["Mine"].amount < 300) {
 					safeBuy(Game.Objects["Mine"], 300);
-                    logEvent("AutoGodzamok", "Bought " + 300 + " mines");
-				} else if (Game.Objects["Mine"].amount >= 100 && Game.Objects["Mine"].amount = 200) {
+                    logEvent("AutoGodzamok", "Bought 300 mines");
+				} else if (Game.Objects["Mine"].amount >= 100 && Game.Objects["Mine"].amount < 200) {
 					safeBuy(Game.Objects["Mine"], 400);
-                    logEvent("AutoGodzamok", "Bought " + 400 + " mines");
+                    logEvent("AutoGodzamok", "Bought 400 mines");
 				} else {
                     safeBuy(Game.Objects["Mine"], countMine);
                     logEvent("AutoGodzamok", "Bought " + countMine + " mines");
@@ -3395,16 +3395,16 @@ function autoGodzamokAction() {
 				
                 if (Game.Objects["Factory"].amount >= 400 && Game.Objects["Factory"].amount <= 450) {
 					safeBuy(Game.Objects["Factory"], 100);
-                    logEvent("AutoGodzamok", "Bought " + 100 + " factories");
+                    logEvent("AutoGodzamok", "Bought 100 factories");
 				} else if (Game.Objects["Factory"].amount >= 300 && Game.Objects["Factory"].amount < 400) {
 					safeBuy(Game.Objects["Factory"], 200);
-                    logEvent("AutoGodzamok", "Bought " + 200 + " factories");
+                    logEvent("AutoGodzamok", "Bought 200 factories");
 				} else if (Game.Objects["Factory"].amount >= 200 && Game.Objects["Factory"].amount < 300) {
 					safeBuy(Game.Objects["Factory"], 300);
-                    logEvent("AutoGodzamok", "Bought " + 300 + " factories");
-				} else if (Game.Objects["Factory"].amount >= 100 && Game.Objects["Factory"].amount = 200) {
+                    logEvent("AutoGodzamok", "Bought 300 factories");
+				} else if (Game.Objects["Factory"].amount >= 100 && Game.Objects["Factory"].amount < 200) {
 					safeBuy(Game.Objects["Factory"], 400);
-                    logEvent("AutoGodzamok", "Bought " + 400 + " factories");
+                    logEvent("AutoGodzamok", "Bought 400 factories");
 				} else {
                     safeBuy(Game.Objects["Factory"], countFactory);
                     logEvent("AutoGodzamok", "Bought " + countFactory + " factories");
