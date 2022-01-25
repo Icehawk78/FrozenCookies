@@ -3370,18 +3370,53 @@ function autoGodzamokAction() {
 
         //Automatically sell all mines and factories during Dragonflight and Click Frenzy if you worship Godzamok and prevent rapid buy/sell spam
         if (
-            FrozenCookies.autoGodzamok >= 1 &&
-            hasClickBuff() &&
-            !Game.hasBuff("Devastation")
+            FrozenCookies.autoGodzamok >= 1 && hasClickBuff() && !Game.hasBuff("Devastation")
         ) {
             Game.Objects["Mine"].sell(countMine);
             Game.Objects["Factory"].sell(countFactory);
 
             if (FrozenCookies.autoBuy == 1) {
-                safeBuy(Game.Objects["Mine"], countMine);
-                logEvent("AutoGodzamok", "Bought " + countMine + " mines");
-                safeBuy(Game.Objects["Factory"], countFactory);
-                logEvent("AutoGodzamok", "Bought " + countFactory + " factories");
+                if (Game.Objects["Mine"].amount = 0) {
+                    safeBuy(Game.Objects["Mine"], countMine);
+                    logEvent("AutoGodzamok", "Bought " + countMine + " mines");
+                } else if (Game.Objects["Mine"].amount <= 100) {
+					safeBuy(Game.Objects["Mine"], 500);
+                    logEvent("AutoGodzamok", "Bought " + 500 + " mines");
+				} else if (Game.Objects["Mine"].amount >= 100 && Game.Objects["Mine"].amount = 200) {
+					safeBuy(Game.Objects["Mine"], 400);
+                    logEvent("AutoGodzamok", "Bought " + 400 + " mines");
+				} else if (Game.Objects["Mine"].amount >= 200 && Game.Objects["Mine"].amount < 300) {
+					safeBuy(Game.Objects["Mine"], 300);
+                    logEvent("AutoGodzamok", "Bought " + 300 + " mines");
+				} else if (Game.Objects["Mine"].amount >= 300 && Game.Objects["Mine"].amount < 400) {
+					safeBuy(Game.Objects["Mine"], 200);
+                    logEvent("AutoGodzamok", "Bought " + 200 + " mines");
+				} else if (Game.Objects["Mine"].amount >= 400 && Game.Objects["Mine"].amount <= 450) {
+					safeBuy(Game.Objects["Mine"], 100);
+                    logEvent("AutoGodzamok", "Bought " + 100 + " mines");
+				} else {
+				}
+				
+                if (Game.Objects["Factory"].amount = 0) {
+                    safeBuy(Game.Objects["Factory"], countFactory);
+                    logEvent("AutoGodzamok", "Bought " + countFactory + " factories");
+                } else if (Game.Objects["Factory"].amount <= 100) {
+					safeBuy(Game.Objects["Factory"], 500);
+                    logEvent("AutoGodzamok", "Bought " + 500 + " factories");
+				} else if (Game.Objects["Factory"].amount >= 100 && Game.Objects["Factory"].amount < 200) {
+					safeBuy(Game.Objects["Factory"], 400);
+                    logEvent("AutoGodzamok", "Bought " + 400 + " factories");
+				} else if (Game.Objects["Factory"].amount >= 200 && Game.Objects["Factory"].amount < 300) {
+					safeBuy(Game.Objects["Factory"], 300);
+                    logEvent("AutoGodzamok", "Bought " + 300 + " factories");
+				} else if (Game.Objects["Factory"].amount >= 300 && Game.Objects["Factory"].amount < 400) {
+					safeBuy(Game.Objects["Factory"], 200);
+                    logEvent("AutoGodzamok", "Bought " + 200 + " factories");
+				} else if (Game.Objects["Factory"].amount >= 400 && Game.Objects["Factory"].amount <= 450) {
+					safeBuy(Game.Objects["Factory"], 100);
+                    logEvent("AutoGodzamok", "Bought " + 100 + " factories");
+				} else {
+				}
             }
         }
     }
