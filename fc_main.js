@@ -677,7 +677,7 @@ function updateMineMax(base) {
     );
 }
 
-function updatefactoryMax(base) {
+function updateFactoryMax(base) {
     userInputPrompt(
         'Factory Cap!',
         'How many Factories should Autobuy stop at?',
