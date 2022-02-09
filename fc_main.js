@@ -471,8 +471,7 @@ function saveFCData() {
     saveString.HCAscendAmount = FrozenCookies.HCAscendAmount;
     // saveString.cursorMax = FrozenCookies.cursorMax;
     // saveString.farmMax = FrozenCookies.farmMax;
-    saveString.mineMax = FrozenCookies.mineMax;
-    saveString.factoryMax = FrozenCookies.factoryMax;
+    saveString.godzMax = FrozenCookies.godzMax;
     saveString.minCpSMult = FrozenCookies.minCpSMult;
     saveString.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
     //  saveString.nonFrenzyTime = FrozenCookies.non_gc_time;
