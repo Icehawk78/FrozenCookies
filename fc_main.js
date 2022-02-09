@@ -2383,14 +2383,14 @@ function buildingStats(recalculate) {
             // }
             //Stop buying Mines if at set limit
             if (
-                FrozenCookies.mineLimit &&
+                FrozenCookies.godzLimit &&
                 Game.Objects["Mine"].amount >= FrozenCookies.mineMax
             ) {
                 buildingBlacklist.push(3);
             }
             //Stop buying Factories if at set limit
             if (
-                FrozenCookies.factoryLimit &&
+                FrozenCookies.godzLimit &&
                 Game.Objects["Factory"].amount >= FrozenCookies.factoryMax
             ) {
                 buildingBlacklist.push(4);
