@@ -216,9 +216,8 @@ function setOverrides(gameSaveData) {
 		// 38 max mana is fastest for FTHOF
         // FrozenCookies.cursorMax = preferenceParse("cursorMax", 500);
         // FrozenCookies.farmMax = preferenceParse("farmMax", 500);
-        FrozenCookies.mineMax = preferenceParse("mineMax", 500);
-		FrozenCookies.factoryMax = preferenceParse("factoryMax", 500);
-        FrozenCookies.manaMax = preferenceParse("manaMax", 38);
+        FrozenCookies.godzMax = preferenceParse("godzMax", 500);
+        FrozenCookies.manaMax = preferenceParse("manaMax", 37);
 
         // Get historical data
         FrozenCookies.frenzyTimes =
@@ -471,8 +470,7 @@ function saveFCData() {
     saveString.HCAscendAmount = FrozenCookies.HCAscendAmount;
     // saveString.cursorMax = FrozenCookies.cursorMax;
     // saveString.farmMax = FrozenCookies.farmMax;
-    saveString.mineMax = FrozenCookies.mineMax;
-	saveString.factoryMax = FrozenCookies.factoryMax;
+    saveString.godzMax = FrozenCookies.godzMax;
     saveString.minCpSMult = FrozenCookies.minCpSMult;
     saveString.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
     //  saveString.nonFrenzyTime = FrozenCookies.non_gc_time;
@@ -669,19 +667,10 @@ function updateMaxSpecials(base) {
 //  );
 // }
 
-function updateMineMax(base) {
+function updategodzMax(base) {
     userInputPrompt(
-        'Mine Cap!',
-        'How many Mines should Autobuy stop at?',
-        FrozenCookies[base],
-        storeNumberCallback(base, 0)
-    );
-}
-
-function updateFactoryMax(base) {
-    userInputPrompt(
-        'Factory Cap!',
-        'How many Factories should Autobuy stop at?',
+        'Godzamok Cap!',
+        'How many Godzamok buildings should Autobuy stop at?',
         FrozenCookies[base],
         storeNumberCallback(base, 0)
     );
@@ -2394,14 +2383,14 @@ function buildingStats(recalculate) {
             // }
             //Stop buying Mines if at set limit
             if (
-                FrozenCookies.mineLimit &&
+                FrozenCookies.godzLimit &&
                 Game.Objects["Mine"].amount >= FrozenCookies.mineMax
             ) {
                 buildingBlacklist.push(3);
             }
             //Stop buying Factories if at set limit
             if (
-                FrozenCookies.factoryLimit &&
+                FrozenCookies.godzLimit &&
                 Game.Objects["Factory"].amount >= FrozenCookies.factoryMax
             ) {
                 buildingBlacklist.push(4);
