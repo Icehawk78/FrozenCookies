@@ -1,3 +1,15 @@
+## Changes in this fork
+
+- Includes features that may not be as well thought out or are still in testing. If you don't want to risk your save, use Icehawk78's instead. Although I will try to fix any issues as soon as they crop up.
+- Current differences from the oficial release:
+* Fixed to auto-Godzamok behaviour so that cookie count will not decrease drastically if enabled
+* With auto-Godz active, cap rebuy at 500 buildings to balance gain and loss
+* Smarter Force the Hand of Fate auto-spellcasting by not blindly selecting clots and other negative effects
+* Smarter season behaviour by swapping to Easter on Cookie Storms when not all eggs are unlocked 
+* Preparation for the new release with new building and new synergies (not yet complete, do not use with beta)
+
+----------
+
 # FrozenCookies
 
 An automated Cookie Clicker tool.
