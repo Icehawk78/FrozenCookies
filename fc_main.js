@@ -1501,7 +1501,7 @@ function autoBlacklistOff() {
             break;
         case 3:
             FrozenCookies.blacklist =
-                haveAll("halloween") && haveAll("easter") ? 0 : 3;
+                haveAll("halloween") ? 0 : 3;
             break;
     }
 }
