@@ -1154,7 +1154,7 @@ function autoFTHOFComboAction() {
             case 2:
                 M.castSpell(FTHOF);
                 logEvent('AutoSpell', 'Double Casted Force the Hand of Fate');
-                Game.Objects['Wizard tower'].buy(autoFTHOFComboAction.count);
+                safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
 
                 if (autoFTHOFComboAction.autobuyyes == 1) {
@@ -1236,7 +1236,7 @@ function auto100ConsistencyComboAction() {
 
             return;
 
-        case 1: // Turn off auto buy
+        case 1: // Turn off auto buy and make sure we're not in sell mode
             if (Game.hasBuff('Frenzy') && Game.hasBuff('Dragon Harvest') && BuildingSpecialBuff() == 1 && Game.hasBuff('Frenzy').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1 && Game.hasBuff('Dragon Harvest').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1 && BuildingBuffTime() >= Math.ceil(13 * BuffTimeFactor())) {
                 if (FrozenCookies.autoBuy == 1) {
                     auto100ConsistencyComboAction.autobuyyes = 1;
@@ -1244,6 +1244,7 @@ function auto100ConsistencyComboAction() {
                 } else {
                     auto100ConsistencyComboAction.autobuyyes = 0;
                 }
+                if (Game.buyMode == -1) { Game.buyMode = 1; }
 
                 auto100ConsistencyComboAction.state = 2;
             }
