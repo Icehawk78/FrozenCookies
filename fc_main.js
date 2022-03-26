@@ -1305,11 +1305,17 @@ function auto100ConsistencyComboAction() {
     var FTHOF = M.spellsById[1];
 
     switch (auto100ConsistencyComboAction.state) {
-        case 0: //Continue casting Haggler's Charm
+        case 0: 
+            //Continue casting Haggler's Charm - unless it's a sugar lump
             if (M.magic == M.magicM) {
-                var hagC = M.spellsById[4];
-                M.castSpell(hagC);
-                logEvent('AutoSpell', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
+                if (nextSpellName(0) == "Sugar Lump") {
+                    M.castSpell(FTHOF);
+                    logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+                } else {
+                    var hagC = M.spellsById[4];
+                    M.castSpell(hagC);
+                    logEvent('AutoSpell', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
+                }
             }
 
             return;
