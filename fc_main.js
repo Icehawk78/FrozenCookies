@@ -1018,6 +1018,15 @@ function autoFTHOFComboAction() {
 
         switch (autoFTHOFComboAction.state) {
             case 0:
+                var FTHOF = M.spellsById[1];
+                if (M.magicM < Math.floor(FTHOF.costMin + FTHOF.costPercent * M.magicM)) return;
+
+                if (nextSpellName(0) == "Clot" || nextSpellName(0) == "Blab" || nextSpellName(0) == "Cookie Storm (Drop)" || nextSpellName(0) == "Ruin Cookies") {
+                    var hagC = M.spellsById[4];
+                    M.castSpell(hagC);
+                    logEvent('AutoSpell', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
+                }
+
                 if (nextSpellName(0) == "Sugar Lump" || nextSpellName(0) == "Cookie Chain") {
                     M.castSpell(FTHOF);
                     logEvent('AutoSpell', 'Cast Force the Hand of Fate');
@@ -1095,10 +1104,6 @@ function autoFTHOFComboAction() {
                         logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                     }
                 }
-                
-                var hagC = M.spellsById[4];
-                M.castSpell(hagC);
-                logEvent('AutoSpell', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
 
                 return;
 
