@@ -87,7 +87,7 @@ FrozenCookies.preferenceValues = {
         extras: '<a class="option" id="factoryMax" onclick="updateFactoryMax(\'factoryMax\');">${factoryMax} Factories</a>',
     },
     towerLimit: {
-        hint: "Stop autobuying Wizard Towers at selected Max Mana, for efficiency. Recommended: 37 for FTHOF, 82 for combo casting.",
+        hint: "Stop autobuying Wizard Towers at selected Max Mana, for efficiency. Recommended: 37 for FTHOF, 82 for double casting.",
         display: ["Wizard Tower Cap OFF", "Wizard Tower Cap ON"],
         default: 1,
         extras: '<a class="option" id="manaMax" onclick="updateManaMax(\'manaMax\');">${manaMax} max Mana</a>',
@@ -293,12 +293,12 @@ FrozenCookies.preferenceValues = {
 
     // experimental options
     autoFTHOFCombo: {
-        'hint': 'This overrides Auto Cast\. Cast Haggler\'s Charm until 2 subsequent FTHOF spells are Click Frenzy and Elder Frenzy, or Click Frenzy and Building Special',
+        'hint': 'This replaces Auto Cast\. If 2 subsequent FTHOF spells are Click Frenzy and Elder Frenzy, or Click Frenzy and Building Special, it will attempt to double cast. Make sure to have enough mana to make double casting possible.',
         'display': ["Auto FTHOF Combo OFF", "Auto FTHOF Combo ON"],
         'default': 0
     },
     auto100ConsistencyCombo: {
-        'hint': 'HIGHLY EXPERIMENTAL: Does the 100% Consistency Combo but with 2 building specials',
+        'hint': 'HIGHLY EXPERIMENTAL: Does the 100% Consistency Combo, but with 2 building specials. WARNING: This will spend a sugar lump!',
         'display': ["Auto 100% Consistency Combo OFF", "Auto 100% Consistency Combo ON"],
         'default': 0
     },
