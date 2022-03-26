@@ -59,6 +59,10 @@ https://discord.gg/Cpw8csuypT
 
 ## What's new?
 
+2022 Mar 25
+
+- Extended safe buy mechanism to smart FTHOF and 100% consistency combos
+
 2022 Jan 25
 
 - Changed auto-Godmazok to mines and factories as farms will get a synergy boost once the beta goes into live
