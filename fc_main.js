@@ -1115,6 +1115,11 @@ function autoFTHOFComboAction() {
                     } else {
                         autoFTHOFComboAction.autobuyyes = 0;
                     }
+                    
+                    // Take Stock Market loans
+                    Game.Objects['Bank'].minigame.takeLoan(1);
+                    Game.Objects['Bank'].minigame.takeLoan(2);
+                    Game.Objects['Bank'].minigame.takeLoan(3);
 
                     switch (SugarLevel) {
                         case 0:
