@@ -7,6 +7,7 @@ Current differences from the oficial release:
 * With auto-Godz active, cap rebuy at 500 buildings to balance gain and loss
 * Smarter Force the Hand of Fate auto-spellcasting by not blindly selecting clots and other negative effects
 * Smarter season behaviour by swapping to Easter on Cookie Storms when not all eggs are unlocked 
+* Implemented two advanced Auto Cast behaviours, see documentation below
 * Preparation for the new release with new building and new synergies (not yet complete, do not use with beta)
 
 ----------
@@ -301,11 +302,7 @@ https://discord.gg/Cpw8csuypT
 
 ## Upcoming features!
 
-- The ability to switch between multiple different number-shortening styles.
-- Add less terrible UI, including more detailed tooltips, and possible color/icon markers indicating relative efficiency of purchases.
-- Add the ability to set custom Golden Click ratio and Cookie Click ratio for more accurate valuation of Golden Cookie upgrades and Mouse upgrades.
-- Add a toggle to make timers utilise Effective CPS rather than Current CPS for "Time to Completion"
-- Other stuff? (If you're a visitor and have other ideas to be added, go here to let me know: https://github.com/Lordshinjo/FrozenCookies/issues/new )
+- Support for the new building and upgrades
 
 # Efficiency? What's that?
 
@@ -385,11 +382,37 @@ This is actually a table of literally every purchase that Frozen Cookies is curr
 - **Cost**: The cost of either the individual purchase, or the entire chain, for chained upgrades.
 - **Δ CPS**: The full CPS change that buying this purchase would have. Includes estimated Golden Cookie CPS changes, meaning that it may be negative (especially for Elder Covenant.)
 
+# Special casting combos
+
+This fork includes two different FTHOF casting combo mechanics. Brief documentation and setup guides follow.
+
+## Auto FTHOF Combo
+
+Auto FTHOF Combo extends and replaces Auto Cast by switching to a special logic if two subsequent spells are Click Frenzy and either Elder Frenzy or a Building Special. If such a combo is detected, it will not cast another spell until a natural Frenzy + Building Special boost is active, and then quickly cast the first spell, sell wizard towers, and cast the second spell, for a four way boost in total. This can earn decades of cookies in a single combo.
+It will also take all three Stock Market loans if possible, for a further boost.
+This does require some manual tracking of minimum total wizard towers depending on your wizard tower sugar level, as follows:
+
+* 1 Lump: 316 WT
+* 2 Lumps: 312 WT
+* 3 Lumps: 308 WT
+* 4 Lumps: 304 WT
+* 5 Lumps: 309 WT
+* 6 Lumps: 390 WT
+* 7 Lumps: 445 WT
+* 8 Lumps: 506 WT
+* 9 Lumps: 530 WT
+* 10 Lumps: 598 WT
+
+The combo will not work if you upgrade Wizard Towers to 11 or higher, so don't do that.
+
+## Auto 100% Consistency Combo
+
+This is basically the Auto FTHOF Combo on steroids and will only work with Wizard Towers on level 10.  It will completely automate the building purchases, garden, and grimoire and use a sugar lump to cast up to four spells in succession, selling and rebuying buildings, fully harvesting the garden regardless of what is growing to plant whiskerblooms for a milk combo. If you opt to use this, make sure to have at least 110 sugar lumps in reserve and that you're not trying to grow a specific garden type.
+It's also necessary to turn off any building caps in Frozen Cookies settings before enabling this.
+
 # Known Issues
 
-- ~~Currently will not ever buy or recommend buying any of the Grandmapocalypse-increasing buildings while the Autoclick GC is turned on. (Due to the severe lack of efficiency in Wrath Cookies compared to Golden Cookies.)~~
 - Currently will not ever buy or recommend buying the Sacrificial Rolling Pin. (Due to not modelling the cost of the Elder Pact as lost CPS.)
-- ~~Currently will not buy or recommend buying chains of buildings in order to unlock an upgrade that, itself, might be the most efficient purchase even when combined with the cost of the prerequisite buildings.~~
 - Reports of people buying upgrades and having the cost deducted, but the purchase reverted has been noted. This is difficult to reproduce and _may_ have already been fixed, but that is not currently guaranteed. Recommend saving before making any large upgrade purchases, just in case.
 - Possibly other things?
 
