@@ -59,6 +59,10 @@ https://discord.gg/Cpw8csuypT
 
 ## What's new?
 
+2022 Apr 14
+
+- Automatically take Stock Market loans during FTHOF combo
+
 2022 Mar 25
 
 - Extended safe buy mechanism to smart FTHOF and 100% consistency combos
