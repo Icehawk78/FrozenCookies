@@ -1115,11 +1115,6 @@ function autoFTHOFComboAction() {
                     } else {
                         autoFTHOFComboAction.autobuyyes = 0;
                     }
-                    
-                    // Take Stock Market loans
-                    Game.Objects['Bank'].minigame.takeLoan(1);
-                    Game.Objects['Bank'].minigame.takeLoan(2);
-                    Game.Objects['Bank'].minigame.takeLoan(3);
 
                     switch (SugarLevel) {
                         case 0:
@@ -1234,7 +1229,6 @@ function autoFTHOFComboAction() {
                                 autoFTHOFComboAction.state = 2;
                             }
                             return;
-
                     }
                 }
                 return;
@@ -1242,6 +1236,12 @@ function autoFTHOFComboAction() {
             case 2:
                 M.castSpell(FTHOF);
                 logEvent('AutoSpell', 'Double Casted Force the Hand of Fate');
+                
+                // Take Stock Market loans
+                Game.Objects['Bank'].minigame.takeLoan(1);
+                Game.Objects['Bank'].minigame.takeLoan(2);
+                Game.Objects['Bank'].minigame.takeLoan(3);
+                
                 safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
 
