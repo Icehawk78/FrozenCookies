@@ -167,9 +167,9 @@ function updateTimers() {
         // useless decimal_HC_complete = (Game.HowMuchPrestige(Game.cookiesEarned + Game.cookiesReset)%1),
         bankTotal = delayAmount(),
         purchaseTotal = nextPurchase().cost,
-        bankCompletion = bankTotal ?
-        Math.min(Game.cookies, bankTotal) / bankTotal :
-        0,
+        bankCompletion = bankTotal
+        	? Math.min(Game.cookies, bankTotal) / bankTotal
+        	: 0,
         purchaseCompletion = Game.cookies / (bankTotal + purchaseTotal),
         bankPurchaseCompletion = bankTotal / (bankTotal + purchaseTotal),
         chainTotal = 0,
@@ -210,7 +210,8 @@ function updateTimers() {
         t_draw.push({
             f_percent: purchaseCompletion,
             c1: "rgba(17, 17, 17, 1)",
-            name: "Purchase Completion Time (" +
+            name: 
+            	"Purchase Completion Time (" +
                 decodeHtml(nextPurchase().purchase.name) +
                 ")",
             display: timeDisplay(
@@ -220,9 +221,9 @@ function updateTimers() {
     }
     if (bankMax > 0) {
         maxColor =
-            Game.cookies >= bankTotal ?
-            "rgba(252, 212, 0, 1)" :
-            "rgba(201, 169, 0, 1)";
+            Game.cookies >= bankTotal
+            ? "rgba(252, 212, 0, 1)"
+            : "rgba(201, 169, 0, 1)";
         t_draw.push({
             f_percent: bankMax,
             name: !FrozenCookies.setHarvestBankPlant ? "Max Bank" : "Harvest Bank",
@@ -292,7 +293,8 @@ function updateTimers() {
         t_draw.push({
             f_percent: dragon_harvest_delay,
             c1: "rgba(206, 180, 49, 1)",
-            name: "Dragon Harvest (x" + Game.buffs["Dragon Harvest"].multCpS + ") Time",
+            name: 
+              "Dragon Harvest (x" + Game.buffs["Dragon Harvest"].multCpS + ") Time",
             display: timeDisplay(buffDuration("Dragon Harvest") / Game.fps),
         });
     }

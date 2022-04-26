@@ -312,9 +312,9 @@ function FCMenu() {
             actualCps =
             Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed,
             chocolateRecoup =
-            (recommendation.type == "upgrade" ?
-                recommendation.cost :
-                recommendation.cost * 0.425) /
+            (recommendation.type == "upgrade"
+                ? recommendation.cost
+                : recommendation.cost * 0.425) /
             (recommendation.delta_cps * 21);
 
         function buildListing(label, name) {
@@ -585,9 +585,9 @@ function FCMenu() {
                 buildListing(
                     "Single " +
                     FrozenCookies.harvestPlant +
-                    (FrozenCookies.setHarvestBankPlant < 6 ?
-                        " harvesting" :
-                        " exploding") +
+                    (FrozenCookies.setHarvestBankPlant < 6
+                        ? " harvesting"
+                        : " exploding") +
                     "",
                     Beautify(
                         (baseCps() *
@@ -602,9 +602,9 @@ function FCMenu() {
             subsection.append(
                 buildListing(
                     "Full garden " +
-                    (FrozenCookies.setHarvestBankPlant < 6 ?
-                        " harvesting" :
-                        " exploding") +
+                    (FrozenCookies.setHarvestBankPlant < 6
+                        ? " harvesting"
+                        : " exploding") +
                     " (36 plots)",
                     Beautify(
                         (36 *
@@ -764,7 +764,8 @@ function FCMenu() {
             .append($("<td>").attr("colspan", "5").html("&nbsp;")),
         ];
 
-        var banks = [{
+        var banks = [
+        	{
                 name: "Lucky Bank",
                 cost: luckyBank(),
                 efficiency: cookieEfficiency(Game.cookies, luckyBank()),
@@ -781,7 +782,8 @@ function FCMenu() {
             },
         ];
 
-        var elderWrathLevels = [{
+        var elderWrathLevels = [
+        	{
                 name: "Pledging/Appeased",
                 level: 0
             },
