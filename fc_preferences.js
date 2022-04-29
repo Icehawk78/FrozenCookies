@@ -141,11 +141,6 @@ FrozenCookies.preferenceValues = {
         display: ["Auto-Godzamok OFF", "Auto-Godzamok ON"],
         default: 0,
     },
-    autoDragon: { // Use same option for upgrading?
-        hint: "Automatically pet the dragon",
-        display: ["Auto-Dragon OFF", "Auto-Dragon ON"],
-        default: 0,
-    },
     
     // Spell options
     SpellOptions: {

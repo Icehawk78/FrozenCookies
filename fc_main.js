@@ -1621,29 +1621,6 @@ function autoBrokerAction() {
     }
 }
 
-function autoDragonAction() {
-    
-    if(Game.dragonLevel < 8) || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
-        return;
-    }
-    
-    //Calculate current pet drop and if we have it
-    Math.seedrandom(Game.seed+'/dragonTime');
-    let drops = ['Dragon scale', 'Dragon claw', 'Dragon fang', 'Dragon teddy bear'];
-    drops=shuffle(drops);
-    Math.seedrandom();
-    let currentDrop = drops[Math.floor((new Date().getMinutes() / 60) * drops.length)];
-    
-    //Pet the dragon
-    if (!Game.Has(currentDrop) && !Game.HasUnlocked(currentDrop);)
-    {
-        Game.ClickSpecialPic();
-    }
-    //Don't open the dragon menu
-    Game.ToggleSpecialMenu(false);
-    
-}
-
 function generateProbabilities(upgradeMult, minBase, maxMult) {
     var cumProb = [];
     var remainingProbability = 1;
@@ -3947,10 +3924,6 @@ function FCStart() {
 
     if (FrozenCookies.autoBroker) {
         FrozenCookies.autoBrokerBot = setInterval(autoBrokerAction, FrozenCookies.frequency)
-    }
-    
-    if (FrozenCookies.autoDragon) {
-        FrozenCookies.autoDragonBot = setInterval(autoDragonAction, FrozenCookies.frequency)
     }
 
     if (statSpeed(FrozenCookies.trackStats) > 0) {
