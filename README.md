@@ -9,6 +9,7 @@ Current differences from the oficial release:
 * Smarter season behaviour by swapping to Easter on Cookie Storms when not all eggs are unlocked 
 * Implemented two advanced Auto Cast behaviours, see documentation below
 * Automatically buys brokers and upgrades the market office
+* Automatically pets the dragon
 * Preparation for the new release with new building and new synergies (not yet complete, do not use with beta)
 
 ----------
@@ -64,6 +65,7 @@ https://discord.gg/Cpw8csuypT
 2022 Apr 29
 
 - Add an option to automatically buy stock brokers and upgrade bank office levels
+- Add an option to automatically pet the dragon for upgrades
 
 2022 Apr 14
 
