@@ -144,7 +144,7 @@ FrozenCookies.preferenceValues = {
     
     // Spell options
     SpellOptions: {
-        hint: "Grimoire options",
+        hint: "Grimoire options:",
     },
     autoSpell: {
         hint: "Automatically cast selected spell when your mana is full",
