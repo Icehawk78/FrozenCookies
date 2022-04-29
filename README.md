@@ -8,6 +8,7 @@ Current differences from the oficial release:
 * Smarter Force the Hand of Fate auto-spellcasting by not blindly selecting clots and other negative effects
 * Smarter season behaviour by swapping to Easter on Cookie Storms when not all eggs are unlocked 
 * Implemented two advanced Auto Cast behaviours, see documentation below
+* Automatically buys brokers and upgrades the market office
 * Preparation for the new release with new building and new synergies (not yet complete, do not use with beta)
 
 ----------
@@ -59,6 +60,10 @@ https://discord.gg/Cpw8csuypT
 \*Note: Not guaranteed to actually be the most efficient purchase. Just the most efficient that I currently know of.
 
 ## What's new?
+
+2022 Apr 29
+
+- Add an option to automatically buy stock brokers and upgrade bank office levels
 
 2022 Apr 14
 
