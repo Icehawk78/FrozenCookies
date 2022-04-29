@@ -126,6 +126,11 @@ FrozenCookies.preferenceValues = {
         ],
         default: 0,
     },
+    autoBroker: {
+        hint: "Automatically buy stock brokers and upgrade the market",
+        display: ["Auto-Broker OFF", "Auto-Broker ON"],
+        default: 0,
+    }
     autoGS: {
         hint: "Automatically turn on the Golden Switch during Dragonflight and Click Frenzy (and turn back off at the end)",
         display: ["Auto-GS-Switch OFF", "Auto-GS-Switch ON"],
@@ -147,6 +152,17 @@ FrozenCookies.preferenceValues = {
         ],
         default: 0,
         extras: '<a class="option" id="minCpSMult" onclick="updateCpSMultMin(\'minCpSMult\');">x${minCpSMult} minimum Frenzy</a>',
+    },
+    // experimental options
+    autoFTHOFCombo: {
+        'hint': 'This replaces Auto Cast\. If 2 subsequent FTHOF spells are Click Frenzy and Elder Frenzy, or Click Frenzy and Building Special, it will attempt to double cast. Make sure to have enough mana to make double casting possible.',
+        'display': ["Auto FTHOF Combo OFF", "Auto FTHOF Combo ON"],
+        'default': 0
+    },
+    auto100ConsistencyCombo: {
+        'hint': 'HIGHLY EXPERIMENTAL: Does the 100% Consistency Combo, but with 2 building specials. Fully replaces Godzamok, do not limit building numbers! WARNING: This will spend a sugar lump!',
+        'display': ["Auto 100% Consistency Combo OFF", "Auto 100% Consistency Combo ON"],
+        'default': 0
     },
 
     //Display options
@@ -289,18 +305,6 @@ FrozenCookies.preferenceValues = {
             "Default Season VALENTINE'S DAY",
         ],
         default: 0,
-    },
-
-    // experimental options
-    autoFTHOFCombo: {
-        'hint': 'This replaces Auto Cast\. If 2 subsequent FTHOF spells are Click Frenzy and Elder Frenzy, or Click Frenzy and Building Special, it will attempt to double cast. Make sure to have enough mana to make double casting possible.',
-        'display': ["Auto FTHOF Combo OFF", "Auto FTHOF Combo ON"],
-        'default': 0
-    },
-    auto100ConsistencyCombo: {
-        'hint': 'HIGHLY EXPERIMENTAL: Does the 100% Consistency Combo, but with 2 building specials. Fully replaces Godzamok, do not limit building numbers! WARNING: This will spend a sugar lump!',
-        'display': ["Auto 100% Consistency Combo OFF", "Auto 100% Consistency Combo ON"],
-        'default': 0
     },
     autoEaster: {
         'hint': 'Switches to Easter season if Cookie Storm is active and you do not have all eggs yet',
