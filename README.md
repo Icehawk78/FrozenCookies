@@ -16,8 +16,6 @@ Current differences from the oficial release:
 * Implemented two advanced Auto Cast behaviours, see documentation below
 * Preparation for the new release with new building and new synergies (not yet complete, do not use with beta)
 
-----------
-
 ## Discord
 
 For developers / code intended behavior purposes only.
