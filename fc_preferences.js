@@ -130,7 +130,7 @@ FrozenCookies.preferenceValues = {
         hint: "Automatically buy stock brokers and upgrade the market",
         display: ["Auto-Broker OFF", "Auto-Broker ON"],
         default: 0,
-    }
+    },
     autoGS: {
         hint: "Automatically turn on the Golden Switch during Dragonflight and Click Frenzy (and turn back off at the end)",
         display: ["Auto-GS-Switch OFF", "Auto-GS-Switch ON"],
