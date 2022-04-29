@@ -730,6 +730,7 @@ function toggleFrozen(setting) {
 
 var T = Game.Objects["Temple"].minigame;
 var M = Game.Objects["Wizard tower"].minigame;
+var B = Game.Objects["Bank"].minigame;
 
 function rigiSell() {
     //Sell enough cursors to enable Rigidels effect
@@ -1598,6 +1599,25 @@ function autoBlacklistOff() {
             FrozenCookies.blacklist =
                 haveAll("halloween") ? 0 : 3;
             break;
+    }
+}
+
+function autoBrokerAction() {
+
+    if (!B) { // Just leave if you don't have the bank
+        return;
+    }
+    
+    //Hire brokers
+    if (B.brokers < B.getMaxBrokers() && Game.cookies >= B.getBrokerPrice())
+    {
+        l('bankBrokersBuy').click();
+    }
+    //Upgrade bank level
+    let currentOffice = B.offices[B.officeLevel];
+    if (currentOffice.cost && Game.Objects['Cursor'].amount >= currentOffice.cost[0] && Game.Objects['Cursor'].level >= currentOffice.cost[1])
+    {
+        l('bankOfficeUpgrade').click();
     }
 }
 
@@ -3830,6 +3850,11 @@ function FCStart() {
         FrozenCookies.autoEasterBot = 0;
     }
 
+    if (FrozenCookies.autoBrokerBot) {
+        clearInterval(FrozenCookies.autoBrokerBot);
+        FrozenCookies.autoBrokerBot = 0;
+    }
+
     // Remove until timing issues are fixed
     //  if (FrozenCookies.goldenCookieBot) {
     //    clearInterval(FrozenCookies.goldenCookieBot);
@@ -3895,6 +3920,10 @@ function FCStart() {
 
     if (FrozenCookies.autoEaster) {
         FrozenCookies.autoEasterBot = setInterval(autoEasterAction, FrozenCookies.frequency)
+    }
+
+    if (FrozenCookies.autoBroker) {
+        FrozenCookies.autoBrokerBot = setInterval(autoBrokerAction, FrozenCookies.frequency)
     }
 
     if (statSpeed(FrozenCookies.trackStats) > 0) {
