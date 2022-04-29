@@ -12,6 +12,8 @@ Current differences from the oficial release:
 
 ----------
 
+![frozen](https://user-images.githubusercontent.com/6014923/165900996-4726d38f-3c7c-4932-8d2e-f98bed93a836.png)
+
 # FrozenCookies
 
 An automated Cookie Clicker tool.
