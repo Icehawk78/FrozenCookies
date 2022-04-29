@@ -141,7 +141,7 @@ FrozenCookies.preferenceValues = {
         display: ["Auto-Godzamok OFF", "Auto-Godzamok ON"],
         default: 0,
     },
-    autoDragon: {
+    autoDragon: { // Use same option for upgrading?
         hint: "Automatically pet the dragon",
         display: ["Auto-Dragon OFF", "Auto-Dragon ON"],
         default: 0,
@@ -149,7 +149,7 @@ FrozenCookies.preferenceValues = {
     
     // Spell options
     SpellOptions: {
-        hint: "Grimoire options:",
+        hint: "Grimoire options",
     },
     autoSpell: {
         hint: "Automatically cast selected spell when your mana is full",
