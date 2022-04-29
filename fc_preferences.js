@@ -97,6 +97,11 @@ FrozenCookies.preferenceValues = {
         display: ["Pastemode OFF", "Pastemode ON"],
         default: 0,
     },
+    autoBroker: {
+        hint: "Automatically buy stock brokers and upgrade the market",
+        display: ["Auto-Broker OFF", "Auto-Broker ON"],
+        default: 0,
+    },
 
     // other auto options
     autoOtherOptions: {
@@ -126,11 +131,6 @@ FrozenCookies.preferenceValues = {
         ],
         default: 0,
     },
-    autoBroker: {
-        hint: "Automatically buy stock brokers and upgrade the market",
-        display: ["Auto-Broker OFF", "Auto-Broker ON"],
-        default: 0,
-    },
     autoGS: {
         hint: "Automatically turn on the Golden Switch during Dragonflight and Click Frenzy (and turn back off at the end)",
         display: ["Auto-GS-Switch OFF", "Auto-GS-Switch ON"],
@@ -140,6 +140,11 @@ FrozenCookies.preferenceValues = {
         hint: "Automatically sell all cursors and farms (except one farm) during Dragonflight and Click Frenzy if you worship Godzamok and prevents rapid buy/sell spam",
         display: ["Auto-Godzamok OFF", "Auto-Godzamok ON"],
         default: 0,
+    },
+    
+    // Spell options
+    SpellOptions: {
+        hint: "Grimoire options",
     },
     autoSpell: {
         hint: "Automatically cast selected spell when your mana is full",
@@ -153,7 +158,6 @@ FrozenCookies.preferenceValues = {
         default: 0,
         extras: '<a class="option" id="minCpSMult" onclick="updateCpSMultMin(\'minCpSMult\');">x${minCpSMult} minimum Frenzy</a>',
     },
-    // experimental options
     autoFTHOFCombo: {
         'hint': 'This replaces Auto Cast\. If 2 subsequent FTHOF spells are Click Frenzy and Elder Frenzy, or Click Frenzy and Building Special, it will attempt to double cast. Make sure to have enough mana to make double casting possible.',
         'display': ["Auto FTHOF Combo OFF", "Auto FTHOF Combo ON"],
@@ -307,7 +311,7 @@ FrozenCookies.preferenceValues = {
         default: 0,
     },
     autoEaster: {
-        'hint': 'Switches to Easter season if Cookie Storm is active and you do not have all eggs yet',
+        'hint': 'Switch to Easter season if Cookie Storm is active and you do not have all eggs yet',
         'display': ["Auto Easter OFF", "Auto Easter ON"],
         'default': 0,
     },
