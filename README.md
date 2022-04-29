@@ -1,3 +1,9 @@
+![frozen](https://user-images.githubusercontent.com/6014923/165900996-4726d38f-3c7c-4932-8d2e-f98bed93a836.png)
+
+# FrozenCookies
+
+An automated Cookie Clicker tool.
+
 ## Changes in this fork
 
 Includes features that may not be as well thought out or are still in testing. If you don't want to risk your save, use Icehawk78's instead. Although, I will try to fix any issues as soon as they crop up.
@@ -11,12 +17,6 @@ Current differences from the oficial release:
 * Preparation for the new release with new building and new synergies (not yet complete, do not use with beta)
 
 ----------
-
-![frozen](https://user-images.githubusercontent.com/6014923/165900996-4726d38f-3c7c-4932-8d2e-f98bed93a836.png)
-
-# FrozenCookies
-
-An automated Cookie Clicker tool.
 
 ## Discord
 
