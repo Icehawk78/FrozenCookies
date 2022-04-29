@@ -1623,7 +1623,7 @@ function autoBrokerAction() {
 
 function autoDragonAction() {
     
-    if((Game.dragonLevel < 8) || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
+    if(Game.dragonLevel < 8) || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
         return;
     }
     
@@ -3876,11 +3876,6 @@ function FCStart() {
     if (FrozenCookies.autoBrokerBot) {
         clearInterval(FrozenCookies.autoBrokerBot);
         FrozenCookies.autoBrokerBot = 0;
-    }
-
-    if (FrozenCookies.autoDragonBot) {
-        clearInterval(FrozenCookies.autoDragonBot);
-        FrozenCookies.autoDragonBot = 0;
     }
 
     // Remove until timing issues are fixed
