@@ -15,6 +15,7 @@ Current differences from the oficial release:
 * Smarter season behaviour by swapping to Easter on Cookie Storms when not all eggs are unlocked 
 * Implemented two advanced Auto Cast behaviours, see documentation below
 * Automatically buys brokers and upgrades the market office
+* Shortens time if a debuff if active
 * Preparation for the new release with new building and new synergies (not yet complete, do not use with beta)
 
 ## Discord
@@ -60,6 +61,10 @@ https://discord.gg/Cpw8csuypT
 \*Note: Not guaranteed to actually be the most efficient purchase. Just the most efficient that I currently know of.
 
 ## What's new?
+
+2022 May 03
+
+- Change the smart FTHOF behaviour to cast a negative Stretch Time spell, if the next FTHOF spell would be Ruin or Clot and a timed debuff like a Clot or loan repayment is active.
 
 2022 Apr 29
 

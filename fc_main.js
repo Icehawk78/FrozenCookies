@@ -862,6 +862,12 @@ function autoCast() {
                     var FTHOF = M.spellsById[1];
                     if (M.magicM < Math.floor(FTHOF.costMin + FTHOF.costPercent * M.magicM)) return;
 
+                    if ((cpsBonus() < 1) && (nextSpellName(0) == "Clot" || nextSpellName(0) == "Ruin Cookies")) {
+                        var streT = M.spellsById[2];
+                        M.castSpell(streT);
+                        logEvent('AutoSpell', 'Cast Stretch Time instead of Force the Hand of Fate');
+                    } // Should also go for negative Blabs but how to check?
+                    
                     if (nextSpellName(0) == "Clot" || nextSpellName(0) == "Blab" || nextSpellName(0) == "Cookie Storm (Drop)" || nextSpellName(0) == "Ruin Cookies") {
                         var hagC = M.spellsById[4];
                         M.castSpell(hagC);
@@ -1022,6 +1028,12 @@ function autoFTHOFComboAction() {
                 var FTHOF = M.spellsById[1];
                 if (M.magicM < Math.floor(FTHOF.costMin + FTHOF.costPercent * M.magicM)) return;
 
+                if ((cpsBonus() < 1) && (nextSpellName(0) == "Clot" || nextSpellName(0) == "Ruin Cookies")) {
+                    var streT = M.spellsById[2];
+                    M.castSpell(streT);
+                    logEvent('AutoSpell', 'Cast Stretch Time instead of Force the Hand of Fate');
+                }
+                    
                 if (nextSpellName(0) == "Clot" || nextSpellName(0) == "Blab" || nextSpellName(0) == "Cookie Storm (Drop)" || nextSpellName(0) == "Ruin Cookies") {
                     var hagC = M.spellsById[4];
                     M.castSpell(hagC);
