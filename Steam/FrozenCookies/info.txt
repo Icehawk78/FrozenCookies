@@ -1,11 +1,11 @@
 {
 	"Name": "Frozen Cookies",
 	"ID": "frozen_cookies",
-	"Author": "Icehawk78",
+	"Author": "Icehawk78 / erbkaiser",
 	"Description": "Optimize and Automate Everything",
 	"ModVersion": "2.0.0",
-	"GameVersion": 2.042,
-	"Date": "2021/09/11",
+	"GameVersion": 2.046,
+	"Date": "2022/05/11",
 	"Dependencies": [],
 	"Disabled": 0,
 	"AllowSteamAchievs": 1
