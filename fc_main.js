@@ -1631,12 +1631,14 @@ function autoBrokerAction() {
     if (B.brokers < B.getMaxBrokers() && Game.cookies >= B.getBrokerPrice())
     {
         l('bankBrokersBuy').click();
+        logEvent("AutoBroker", "Bought a broker for " + B.getBrokerPrice + " cookies");
     }
     //Upgrade bank level
     let currentOffice = B.offices[B.officeLevel];
     if (currentOffice.cost && Game.Objects['Cursor'].amount >= currentOffice.cost[0] && Game.Objects['Cursor'].level >= currentOffice.cost[1])
     {
         l('bankOfficeUpgrade').click();
+        logEvent("AutoBroker", "Upgrade bank level");
     }
 }
 
