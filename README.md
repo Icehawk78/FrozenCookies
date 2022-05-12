@@ -16,7 +16,7 @@ Current differences from the oficial release:
 * Implemented two advanced Auto Cast behaviours, see documentation below
 * Automatically buys brokers and upgrades the market office
 * Attempts to shortens time a debuff remains active
-* Preparation for the new release with new building and new synergies (not yet complete, do not use with beta)
+* Updated for 2.046 (Cortex bakers etc.)
 
 ## Discord
 
@@ -64,6 +64,7 @@ https://discord.gg/Cpw8csuypT
 
 2022 May 12
 
+- Updated for version 2.046 (beta)
 - Rigisell (used in Autoharvest SL with Rigidel) will now sell the cheapest building instead of always going for cursors, to keep Rigidel happy (from heshammourad)
 
 2022 May 03
