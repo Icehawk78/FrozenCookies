@@ -1,3 +1,3 @@
 javascript: (function() {
-    Game.LoadMod("https://icehawk78.github.io/FrozenCookies/frozen_cookies.js");
+    Game.LoadMod("http://github.erbkaiser.com/FrozenCookies/frozen_cookies.js");
 })();
