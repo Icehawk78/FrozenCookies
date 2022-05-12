@@ -733,10 +733,17 @@ var M = Game.Objects["Wizard tower"].minigame;
 var B = Game.Objects["Bank"].minigame;
 
 function rigiSell() {
-    //Sell enough cursors to enable Rigidels effect
-    if (Game.BuildingsOwned % 10)
-        Game.Objects["Cursor"].sell(Game.BuildingsOwned % 10);
-    return;
+  //Sell enough of the cheapest building to enable Rigidels effect
+  if (Game.BuildingsOwned % 10) {
+    var cheapest;
+    Game.ObjectsById.forEach(function (b) {
+      if (!cheapest || b.price < cheapest.price) {
+        cheapest = b; 
+      }
+    });
+    cheapest.sell(Game.BuildingsOwned % 10);
+  }
+  return;
 }
 
 function lumpIn(mins) {

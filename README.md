@@ -62,6 +62,10 @@ https://discord.gg/Cpw8csuypT
 
 ## What's new?
 
+2022 May 12
+
+- Rigisell (used in Autoharvest SL with Rigidel) will now sell the cheapest building instead of always going for cursors, to keep Rigidel happy (from heshammourad)
+
 2022 May 03
 
 - Change the smart FTHOF behaviour to cast a negative Stretch Time spell, if the next FTHOF spell would be Ruin or Clot and a timed debuff like a Clot or loan repayment is the only active effect
