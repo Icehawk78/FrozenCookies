@@ -963,27 +963,27 @@ function autoCast() {
                 case 3:
                     var SE = M.spellsById[3];
                     // This code apparently works under the following assumptions:
-                    //      - you want to spend your mana to get the highest value building (currently Idleverse)
-                    //      - therefore you'll manually keep your number of Idleverses < 400, or don't mind selling the excess for the chance to win a free one
-                    // If you don't have any Idleverse yet, or can't cast SE, just give up.
+                    //      - you want to spend your mana to get the highest value building (currently Cortex baker)
+                    //      - therefore you'll manually keep your number of Cortex bakers < 400, or don't mind selling the excess for the chance to win a free one
+                    // If you don't have any Cortex baker yet, or can't cast SE, just give up.
                     if (
-                        Game.Objects["Idleverse"].amount == 0 ||
+                        Game.Objects["Cortex baker"].amount == 0 ||
                         M.magicM < Math.floor(SE.costMin + SE.costPercent * M.magicM)
                     )
                         return;
-                    // If we have over 400 Idleverses, always going to sell down to 399.
-                    // If you don't have half a Idleverse's worth of cookies in bank, sell one or more until you do
+                    // If we have over 400 Cortex bakers, always going to sell down to 399.
+                    // If you don't have half a Cortex baker's worth of cookies in bank, sell one or more until you do
                     while (
-                        Game.Objects["Idleverse"].amount >= 400 ||
-                        Game.cookies < Game.Objects["Idleverse"].price / 2
+                        Game.Objects["Cortex baker"].amount >= 400 ||
+                        Game.cookies < Game.Objects["Cortex baker"].price / 2
                     ) {
-                        Game.Objects["Idleverse"].sell(1);
+                        Game.Objects["Cortex baker"].sell(1);
                         logEvent(
                             "Store",
-                            "Sold 1 Idleverse for " +
+                            "Sold 1 Cortex baker for " +
                             (Beautify(
-                                    Game.Objects["Idleverse"].price *
-                                    Game.Objects["Idleverse"].getSellMultiplier()
+                                    Game.Objects["Cortex baker"].price *
+                                    Game.Objects["Cortex baker"].getSellMultiplier()
                                 ) +
                                 " cookies")
                         );
@@ -2072,13 +2072,13 @@ function estimatedTimeRemaining(cookies) {
 }
 
 function canCastSE() {
-    if (M.magicM >= 80 && Game.Objects["Idleverse"].amount > 0) return 1;
+    if (M.magicM >= 80 && Game.Objects["Cortex baker"].amount > 0) return 1;
     return 0;
 }
 
 function edificeBank() {
     if (!canCastSE) return 0;
-    var cmCost = Game.Objects["Idleverse"].price;
+    var cmCost = Game.Objects["Cortex baker"].price;
     return Game.hasBuff("everything must go")
         ? (cmCost * (100 / 95)) / 2
         : cmCost / 2;
@@ -2151,6 +2151,7 @@ function harvestBank() {
             Game.Objects["Fractal engine"].amount,
             Game.Objects["Javascript console"].amount,
             Game.Objects["Idleverse"].amount,
+            Game.Objects["Cortex baker"].amount,
         ];
         harvestBuildingArray.sort(function(a, b) {
             return b - a;
@@ -2508,11 +2509,11 @@ function buildingStats(recalculate) {
             var buildingBlacklist = Array.from(
                 blacklist[FrozenCookies.blacklist].buildings
             );
-            //If autocasting Spontaneous Edifice, don't buy any Idleverse after 399
+            //If autocasting Spontaneous Edifice, don't buy any Cortex baker after 399
             if (
                 M &&
                 FrozenCookies.autoSpell == 3 &&
-                Game.Objects["Idleverse"].amount >= 399
+                Game.Objects["Cortex baker"].amount >= 399
             ) {
                 buildingBlacklist.push(16);
             }

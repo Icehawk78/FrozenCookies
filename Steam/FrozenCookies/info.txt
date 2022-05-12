@@ -4,7 +4,7 @@
 	"Author": "Icehawk78 / erbkaiser",
 	"Description": "Optimize and Automate Everything",
 	"ModVersion": "2.0.0",
-	"GameVersion": 2.043,
+	"GameVersion": 2.046,
 	"Date": "2022/05/11",
 	"Dependencies": [],
 	"Disabled": 0,
