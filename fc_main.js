@@ -1681,8 +1681,6 @@ function petDragonAction() {
     {
         Game.ClickSpecialPic();
     }
-    //Don't open the dragon menu
-    Game.ToggleSpecialMenu(false);
 }
 
 function generateProbabilities(upgradeMult, minBase, maxMult) {
