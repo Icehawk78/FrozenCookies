@@ -1665,7 +1665,7 @@ function autoDragonAction() {
 
 function petDragonAction() {
 
-    if(Game.dragonLevel < 8) || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
+    if((Game.dragonLevel < 8) || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
         return;
     }
 
