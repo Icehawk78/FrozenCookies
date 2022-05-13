@@ -1644,7 +1644,7 @@ function autoBrokerAction() {
 
 function autoDragonAction() {
     
-    if ((FrozenCookies.autoDragon == 0) || !(Game.Has('A crumbly egg'))) {
+    if ((FrozenCookies.autoDragon == 0) || !(Game.Has("A crumbly egg"))) {
         return;
     }
     
@@ -1677,7 +1677,7 @@ function petDragonAction() {
     let currentDrop = drops[Math.floor((new Date().getMinutes() / 60) * drops.length)];
 
     //Pet the dragon
-    if (!Game.Has(currentDrop) && !Game.HasUnlocked(currentDrop);)
+    if (!Game.Has(currentDrop) && !Game.HasUnlocked(currentDrop))
     {
         Game.ClickSpecialPic();
     }
