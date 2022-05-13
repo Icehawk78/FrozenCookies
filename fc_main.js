@@ -219,6 +219,18 @@ function setOverrides(gameSaveData) {
 		FrozenCookies.factoryMax = preferenceParse("factoryMax", 500);
 		// 38 max mana is fastest for FTHOF
         FrozenCookies.manaMax = preferenceParse("manaMax", 38);
+        
+        // Also set this on a reload
+        if (FrozenCookies.autoBulk != 0) {
+            if (FrozenCookies.autoBulk == 1) {
+                // Buy x10
+                document.getElementById("storeBulk10").click();
+            }
+            if (FrozenCookies.autoBulk == 2) {
+                // Buy x100
+                document.getElementById("storeBulk100").click();
+            }
+        }
 
         // Get historical data
         FrozenCookies.frenzyTimes =
@@ -1639,6 +1651,45 @@ function autoBrokerAction() {
     {
         l('bankOfficeUpgrade').click();
         logEvent("AutoBroker", "Upgrade bank level");
+    }
+}
+
+function autoDragonAction() {
+    
+    if ((FrozenCookies.autoDragon == 0) || !(Game.Has("A crumbly egg"))) {
+        return;
+    }
+    
+    if (Game.dragonLevel<5) {
+        if(Game.dragonLevels[Game.dragonLevel].cost()){
+            PlaySound('snd/shimmerClick.mp3');
+            Game.dragonLevels[Game.dragonLevel].buy();
+            Game.dragonLevel=(Game.dragonLevel+1)%Game.dragonLevels.length;
+            
+            if (Game.dragonLevel>=Game.dragonLevels.length-1) Game.Win('Here be dragon');
+            Game.recalculateGains=1;
+            Game.upgradesToRebuild=1;
+        }
+    }
+} //TODO: figure out how to check if you have enough buildings to automate further upgrades?
+
+function petDragonAction() {
+
+    if((Game.dragonLevel < 8) || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
+        return;
+    }
+
+    //Calculate current pet drop and if we have it
+    Math.seedrandom(Game.seed+'/dragonTime');
+    let drops = ['Dragon scale', 'Dragon claw', 'Dragon fang', 'Dragon teddy bear'];
+    drops=shuffle(drops);
+    Math.seedrandom();
+    let currentDrop = drops[Math.floor((new Date().getMinutes() / 60) * drops.length)];
+
+    //Pet the dragon
+    if (!Game.Has(currentDrop) && !Game.HasUnlocked(currentDrop))
+    {
+        Game.ClickSpecialPic();
     }
 }
 
@@ -3876,6 +3927,16 @@ function FCStart() {
         FrozenCookies.autoBrokerBot = 0;
     }
 
+    if (FrozenCookies.autoDragonBot) {
+        clearInterval(FrozenCookies.autoDragonBot);
+        FrozenCookies.autoDragonBot = 0;
+    }
+
+    if (FrozenCookies.petDragonBot) {
+        clearInterval(FrozenCookies.petDragonBot);
+        FrozenCookies.petDragonBot = 0;
+    }
+
     // Remove until timing issues are fixed
     //  if (FrozenCookies.goldenCookieBot) {
     //    clearInterval(FrozenCookies.goldenCookieBot);
@@ -3945,6 +4006,14 @@ function FCStart() {
 
     if (FrozenCookies.autoBroker) {
         FrozenCookies.autoBrokerBot = setInterval(autoBrokerAction, FrozenCookies.frequency)
+    }
+
+    if (FrozenCookies.autoDragon) {
+        FrozenCookies.autoDragonBot = setInterval(autoDragonAction, FrozenCookies.frequency)
+    }
+
+    if (FrozenCookies.petDragon) {
+        FrozenCookies.petDragonBot = setInterval(petDragonAction, FrozenCookies.frequency)
     }
 
     if (statSpeed(FrozenCookies.trackStats) > 0) {
