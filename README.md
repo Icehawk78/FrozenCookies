@@ -16,6 +16,7 @@ Current differences from the oficial release:
 * Implemented two advanced Auto Cast behaviours, see documentation below
 * Automatically buys brokers and upgrades the market office
 * Attempts to shortens time a debuff remains active
+* Automatically upgrades and pets Krumblor
 * Updated for 2.046 (Cortex bakers etc.)
 
 ## Discord
@@ -61,6 +62,10 @@ https://discord.gg/Cpw8csuypT
 \*Note: Not guaranteed to actually be the most efficient purchase. Just the most efficient that I currently know of.
 
 ## What's new?
+
+2022 May 13
+
+- Automatic dragon upgrading (to level 5) and dragon petting
 
 2022 May 12
 
