@@ -219,6 +219,18 @@ function setOverrides(gameSaveData) {
 		FrozenCookies.factoryMax = preferenceParse("factoryMax", 500);
 		// 38 max mana is fastest for FTHOF
         FrozenCookies.manaMax = preferenceParse("manaMax", 38);
+        
+        // Also set this on a reload
+        if (FrozenCookies.autoBulk != 0) {
+            if (FrozenCookies.autoBulk == 1) {
+                // Buy x10
+                document.getElementById("storeBulk10").click();
+            }
+            if (FrozenCookies.autoBulk == 2) {
+                // Buy x100
+                document.getElementById("storeBulk100").click();
+            }
+        }
 
         // Get historical data
         FrozenCookies.frenzyTimes =
