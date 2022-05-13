@@ -1670,8 +1670,6 @@ function autoDragonAction() {
             Game.recalculateGains=1;
             Game.upgradesToRebuild=1;
         }
-    } else {
-        Game.dragonAura = 1; //Breath of Milk
     }
 } //TODO: figure out how to check if you have enough buildings to automate further upgrades?
 
