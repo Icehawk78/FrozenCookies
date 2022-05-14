@@ -29,13 +29,13 @@ function registerMod(mod_id = "frozen_cookies") {
                 }
             });
             Game.registerHook("draw", updateTimers); // called every draw tick
-            Game.registerHook("ticker", function() {
+            // Game.registerHook("ticker", function() {
                 // called when determining news ticker text (about every ten seconds); should return an array of possible choices to add
-                return [
-                    "News: Debate about whether using Frozen Cookies constitutes cheating continues to rage. Violence escalating.",
-                    "News: Supreme Court rules Frozen Cookies not unauthorized cheating after all.",
-                ];
-            });
+                // return [
+                //     "News: Debate about whether using Frozen Cookies constitutes cheating continues to rage. Violence escalating.",
+                //     "News: Supreme Court rules Frozen Cookies not unauthorized cheating after all.",
+                // ];
+            // });
             Game.registerHook("reset", function(hard) {
                 // the parameter will be true if it's a hard reset, and false (not passed) if it's just an ascension
                 if (hard) {
