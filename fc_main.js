@@ -1656,7 +1656,7 @@ function autoBrokerAction() {
 
 function autoDragonAction() {
     
-    if ((FrozenCookies.autoDragon == 0) || !(Game.Has("A crumbly egg"))) {
+    if (!(Game.Has("A crumbly egg"))) {
         return;
     }
     
@@ -1689,8 +1689,11 @@ function petDragonAction() {
     //Pet the dragon
     if (!Game.Has(currentDrop) && !Game.HasUnlocked(currentDrop))
     {
+        Game.specialTab = "dragon";
         Game.ClickSpecialPic();
     }
+    //Don't open the dragon menu
+    Game.ToggleSpecialMenu(false);
 }
 
 function generateProbabilities(upgradeMult, minBase, maxMult) {
