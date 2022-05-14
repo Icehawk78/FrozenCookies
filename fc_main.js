@@ -1662,7 +1662,7 @@ function autoDragonAction() {
         return;
     }
     
-    if (Game.dragonLevel<5) {
+    //if (Game.dragonLevel<5) {
         if(Game.dragonLevels[Game.dragonLevel].cost()){
             PlaySound('snd/shimmerClick.mp3');
             Game.dragonLevels[Game.dragonLevel].buy();
@@ -1672,8 +1672,8 @@ function autoDragonAction() {
             Game.recalculateGains=1;
             Game.upgradesToRebuild=1;
         }
-    }
-} //TODO: figure out how to check if you have enough buildings to automate further upgrades?
+    //}
+}
 
 function petDragonAction() {
 
