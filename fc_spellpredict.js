@@ -37,119 +37,123 @@
 })();
 
 nextSpell = function(i) {
-    season = Game.season;
-    var obj = obj || {};
-    M = Game.ObjectsById[7].minigame;
-    spell = M.spellsById[1];
-    var failChance = M.getFailChance(spell);
-    if (typeof obj.failChanceSet !== "undefined") failChance = obj.failChanceSet;
-    if (typeof obj.failChanceAdd !== "undefined") failChance += obj.failChanceAdd;
-    if (typeof obj.failChanceMult !== "undefined")
-        failChance *= obj.failChanceMult;
-    if (typeof obj.failChanceMax !== "undefined")
-        failChance = Math.max(failChance, obj.failChanceMax);
-    Math.seedrandom(Game.seed + "/" + (M.spellsCastTotal + i));
-    var choices = [];
-    if (!spell.fail || Math.random() < 1 - failChance) {
-        Math.random();
-        Math.random();
-        if (Game.season == "valentines" || Game.season == "easter") {
+    if (Game.ObjectsById[7].minigameLoaded) {
+        season = Game.season;
+        var obj = obj || {};
+        M = Game.ObjectsById[7].minigame;
+        spell = M.spellsById[1];
+        var failChance = M.getFailChance(spell);
+        if (typeof obj.failChanceSet !== "undefined") failChance = obj.failChanceSet;
+        if (typeof obj.failChanceAdd !== "undefined") failChance += obj.failChanceAdd;
+        if (typeof obj.failChanceMult !== "undefined")
+            failChance *= obj.failChanceMult;
+        if (typeof obj.failChanceMax !== "undefined")
+            failChance = Math.max(failChance, obj.failChanceMax);
+        Math.seedrandom(Game.seed + "/" + (M.spellsCastTotal + i));
+        var choices = [];
+        if (!spell.fail || Math.random() < 1 - failChance) {
             Math.random();
-        }
-        choices.push(
-            '<b style="color:#FFDE5F">Frenzy',
-            '<b style="color:#FFDE5F">Lucky'
-        );
-        if (!Game.hasBuff("Dragonflight"))
-            choices.push('<b style="color:#FFD700">Click Frenzy');
-        if (Math.random() < 0.1)
-            choices.push(
-                '<b style="color:#FFDE5F">Cookie Chain',
-                '<b style="color:#FFDE5F">Cookie Storm',
-                "Blab"
-            );
-        if (Game.BuildingsOwned >= 10 && Math.random() < 0.25)
-            choices.push('<b style="color:#DAA520">Building Special');
-        if (Math.random() < 0.15) choices = ["Cookie Storm (Drop)"];
-        if (Math.random() < 0.0001)
-            choices.push('<b style="color:#5FFFFC">Sugar Lump');
-    } else {
-        Math.random();
-        Math.random();
-        if (Game.season == "valentines" || Game.season == "easter") {
             Math.random();
-        }
-        choices.push(
-            '<b style="color:#FF3605">Clot',
-            '<b style="color:#FF3605">Ruin Cookies'
-        );
-        if (Math.random() < 0.1)
+            if (Game.season == "valentines" || Game.season == "easter") {
+                Math.random();
+            }
             choices.push(
-                '<b style="color:#DAA520">Cursed Finger',
-                '<b style="color:#DAA520">Elder Frenzy'
+                '<b style="color:#FFDE5F">Frenzy',
+                '<b style="color:#FFDE5F">Lucky'
             );
-        if (Math.random() < 0.003)
-            choices.push('<b style="color:#5FFFFC">Sugar Lump');
-        if (Math.random() < 0.1) choices = ["Blab"];
+            if (!Game.hasBuff("Dragonflight"))
+                choices.push('<b style="color:#FFD700">Click Frenzy');
+            if (Math.random() < 0.1)
+                choices.push(
+                    '<b style="color:#FFDE5F">Cookie Chain',
+                    '<b style="color:#FFDE5F">Cookie Storm',
+                    "Blab"
+                );
+            if (Game.BuildingsOwned >= 10 && Math.random() < 0.25)
+                choices.push('<b style="color:#DAA520">Building Special');
+            if (Math.random() < 0.15) choices = ["Cookie Storm (Drop)"];
+            if (Math.random() < 0.0001)
+                choices.push('<b style="color:#5FFFFC">Sugar Lump');
+        } else {
+            Math.random();
+            Math.random();
+            if (Game.season == "valentines" || Game.season == "easter") {
+                Math.random();
+            }
+            choices.push(
+                '<b style="color:#FF3605">Clot',
+                '<b style="color:#FF3605">Ruin Cookies'
+            );
+            if (Math.random() < 0.1)
+                choices.push(
+                    '<b style="color:#DAA520">Cursed Finger',
+                    '<b style="color:#DAA520">Elder Frenzy'
+                );
+            if (Math.random() < 0.003)
+                choices.push('<b style="color:#5FFFFC">Sugar Lump');
+            if (Math.random() < 0.1) choices = ["Blab"];
+        }
+        ret = choose(choices);
+        Math.seedrandom();
+        return "<small>" + ret + "</b></small>";
     }
-    ret = choose(choices);
-    Math.seedrandom();
-    return "<small>" + ret + "</b></small>";
 };
 
 // This converts the nextSpell(i) to a string to be used for checking conditions for auto casting Force The Hand of Fate in fc_main.
 nextSpellName = function(i) {
-    for (var v = i; v <= i; v++) {
-        if (nextSpell(v) == '<small><b style="color:#FFDE5F">Lucky</b></small>') {
-            return "Lucky";
-        }
+    if (Game.ObjectsById[7].minigameLoaded) {
+        for (var v = i; v <= i; v++) {
+            if (nextSpell(v) == '<small><b style="color:#FFDE5F">Lucky</b></small>') {
+                return "Lucky";
+            }
 
-        if (nextSpell(v) == '<small><b style="color:#FFDE5F">Frenzy</b></small>') {
-            return "Frenzy";
-        }
+            if (nextSpell(v) == '<small><b style="color:#FFDE5F">Frenzy</b></small>') {
+                return "Frenzy";
+            }
 
-        if (nextSpell(v) == '<small><b style="color:#FFD700">Click Frenzy</b></small>') {
-            return "Click Frenzy";
-        }
+            if (nextSpell(v) == '<small><b style="color:#FFD700">Click Frenzy</b></small>') {
+                return "Click Frenzy";
+            }
 
-        if (nextSpell(v) == '<small><b style="color:#FFDE5F">Cookie Chain</b></small>') {
-            return "Cookie Chain";
-        }
+            if (nextSpell(v) == '<small><b style="color:#FFDE5F">Cookie Chain</b></small>') {
+                return "Cookie Chain";
+            }
 
-        if (nextSpell(v) == '<small><b style="color:#FFDE5F">Cookie Storm</b></small>') {
-            return "Cookie Storm";
-        }
+            if (nextSpell(v) == '<small><b style="color:#FFDE5F">Cookie Storm</b></small>') {
+                return "Cookie Storm";
+            }
 
-        if (nextSpell(v) == '<small>Cookie Storm (Drop)</b></small>') {
-            return "Cookie Storm (Drop)";
-        }
+            if (nextSpell(v) == '<small>Cookie Storm (Drop)</b></small>') {
+                return "Cookie Storm (Drop)";
+            }
 
-        if (nextSpell(v) == '<small><b style="color:#DAA520">Building Special</b></small>') {
-            return "Building Special";
-        }
+            if (nextSpell(v) == '<small><b style="color:#DAA520">Building Special</b></small>') {
+                return "Building Special";
+            }
 
-        if (nextSpell(v) == '<small>Blab</b></small>') {
-            return "Blab";
-        }
+            if (nextSpell(v) == '<small>Blab</b></small>') {
+                return "Blab";
+            }
 
-        if (nextSpell(v) == '<small><b style="color:#FF3605">Ruin Cookies</b></small>') {
-            return "Ruin Cookies";
-        }
+            if (nextSpell(v) == '<small><b style="color:#FF3605">Ruin Cookies</b></small>') {
+                return "Ruin Cookies";
+            }
 
-        if (nextSpell(v) == '<small><b style="color:#FF3605">Clot</b></small>') {
-            return "Clot";
-        }
+            if (nextSpell(v) == '<small><b style="color:#FF3605">Clot</b></small>') {
+                return "Clot";
+            }
 
-        if (nextSpell(v) == '<small><b style="color:#DAA520">Cursed Finger</b></small>') {
-            return "Cursed Finger";
-        }
+            if (nextSpell(v) == '<small><b style="color:#DAA520">Cursed Finger</b></small>') {
+                return "Cursed Finger";
+            }
 
-        if (nextSpell(v) == '<small><b style="color:#DAA520">Elder Frenzy</b></small>') {
-            return "Elder Frenzy";
-        }
+            if (nextSpell(v) == '<small><b style="color:#DAA520">Elder Frenzy</b></small>') {
+                return "Elder Frenzy";
+            }
 
-        if (nextSpell(v) == '<small><b style="color:#5FFFFC">Sugar Lump</b></small>') {
-            return "Sugar Lump";
+            if (nextSpell(v) == '<small><b style="color:#5FFFFC">Sugar Lump</b></small>') {
+                return "Sugar Lump";
+            }
         }
     }
 }
