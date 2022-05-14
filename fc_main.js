@@ -213,12 +213,12 @@ function setOverrides(gameSaveData) {
         FrozenCookies.maxSpecials = preferenceParse("maxSpecials", 1);
 
         // building max values
-        // FrozenCookies.cursorMax = preferenceParse("cursorMax", 500);
-        // FrozenCookies.farmMax = preferenceParse("farmMax", 500);
-        FrozenCookies.mineMax = preferenceParse("mineMax", 500);
-		FrozenCookies.factoryMax = preferenceParse("factoryMax", 500);
-		// 38 max mana is fastest for FTHOF
-        FrozenCookies.manaMax = preferenceParse("manaMax", 38);
+        // FrozenCookies.cursorMax = preferenceParse("cursorMax", 0);
+        // FrozenCookies.farmMax = preferenceParse("farmMax", 0);
+        FrozenCookies.mineMax = preferenceParse("mineMax", 0);
+		FrozenCookies.factoryMax = preferenceParse("factoryMax", 0);
+        
+        FrozenCookies.manaMax = preferenceParse("manaMax", 0);
         
         // Also set this on a reload
         if (FrozenCookies.autoBulk != 0) {
