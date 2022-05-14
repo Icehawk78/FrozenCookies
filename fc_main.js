@@ -1017,6 +1017,7 @@ function autoCast() {
 
 // Thank goodness for static variables otherwise this function would not have worked as intended.
 function autoFTHOFComboAction() {
+    if (!M) return; // Just leave if you don't have grimoire
     if (Game.Objects['Wizard tower'].level > 10 || FrozenCookies.autoFTHOFCombo == 0) return; // THIS WILL NOT WORK IF TOWER LEVEL IS ABOVE 10
 
     if (typeof autoFTHOFComboAction.count == 'undefined') {
@@ -1289,6 +1290,7 @@ function autoFTHOFComboAction() {
 }
 
 function auto100ConsistencyComboAction() {
+    if (!M) return; // Just leave if you don't have grimoire
     if (Game.Objects['Wizard tower'].level < 10 || FrozenCookies.auto100ConsistencyCombo == 0) return; // For now only works with wizard towers level 10
 
     if (typeof auto100ConsistencyComboAction.countFarm == 'undefined') {
