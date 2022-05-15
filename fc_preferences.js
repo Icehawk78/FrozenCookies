@@ -61,19 +61,6 @@ FrozenCookies.preferenceValues = {
         ],
         default: 0,
     },
-    // cursorLimit: {
-    //  hint: "Limit max number of cursors to keep Godzamok useful",
-    //  display: ["Cursor Limit OFF", "Cursor Limit ON"],
-    //  default: 0,
-    //  extras:
-    //    '<a class="option" id="cursorMax" onclick="updateCursorMax(\'cursorMax\');">${cursorMax} Cursors</a>',
-    // },
-    // farmLimit: {
-    //  hint: "Limit max number of farms to keep Godzamok useful",
-    //  display: ["Farm Limit OFF", "Farm Limit ON"],
-    //  default: 0,
-    //  extras: '<a class="option" id="farmMax" onclick="updateFarmMax(\'farmMax\');">${farmMax} Farms</a>',
-    // },
     mineLimit: {
         hint: "Limit max number of mines to keep Godzamok useful",
         display: ["Mine Limit OFF", "Mine Limit ON"],
@@ -142,7 +129,7 @@ FrozenCookies.preferenceValues = {
         default: 0,
     },
     autoDragon: {
-        hint: "Automatically upgrade the dragon (up to level 5)",
+        hint: "Automatically upgrade the dragon",
         display: ["Auto-Dragon OFF", "Auto-Dragon ON"],
         default: 0,
     },
