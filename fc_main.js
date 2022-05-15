@@ -450,7 +450,7 @@ function fcDraw(from, text, origin) {
 function fcReset() {
     Game.CollectWrinklers();
     if ((Game.dragonLevel>5 && !Game.hasAura("Earth Shatterer")) && Game.HasUnlocked("Chocolate egg") && !Game.Has("Chocolate egg")) {
-        Game.SetDragonAura(5, 0);
+        Game.dragonAura = 5;
         Game.ObjectsById.forEach(function(b) {
             b.sell(-1);
         });
