@@ -1706,8 +1706,8 @@ function petDragonAction() {
     {
         Game.specialTab = "dragon";
         Game.ClickSpecialPic();
+        logEvent("petDragon", "Petted Krumblor until he dropped something");
     }
-    logEvent("petDragon", "Petted Krumblor until he dropped something");
 }
 
 function generateProbabilities(upgradeMult, minBase, maxMult) {
