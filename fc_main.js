@@ -452,6 +452,7 @@ function fcReset() {
     if ((Game.dragonLevel>5 && !Game.hasAura("Earth Shatterer")) && Game.HasUnlocked("Chocolate egg") && !Game.Has("Chocolate egg")) {
         Game.dragonAura = 5;
         Game.ObjectsById['+highestBuilding.id+'].sacrifice(1); // Cost of swapping auras
+        logEvent("Reset", "Sacrificed 1 " +highestBuilding.id+ " for Earth Shatterer");
         Game.ObjectsById.forEach(function(b) {
             b.sell(-1);
         });
