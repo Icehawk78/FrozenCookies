@@ -1670,12 +1670,26 @@ function autoDragonAction() {
         return;
     }
     
-    Game.UpgradeDragon();
+    if (Game.HasUnlocked("A crumbly egg") && !Game.Has("A crumbly egg")) {
+        Game.Upgrades["A crumbly egg"].buy();
+    }
+    
+    if (Game.Has("A crumbly egg") && (Game.dragonLevel<Game.dragonLevels.length-1 && Game.dragonLevels[Game.dragonLevel].cost())) {
+        PlaySound('snd/shimmerClick.mp3');
+        Game.dragonLevels[Game.dragonLevel].buy();
+        Game.dragonLevel=(Game.dragonLevel+1)%Game.dragonLevels.length;
+        
+        if (Game.dragonLevel>=Game.dragonLevels.length-1) Game.Win('Here be dragon');
+        Game.ToggleSpecialMenu(1);
+        if (l('specialPic')){var rect=l('specialPic').getBounds();Game.SparkleAt((rect.left+rect.right)/2,(rect.top+rect.bottom)/2)+32-TopBarOffset;}
+        Game.recalculateGains=1;
+        Game.upgradesToRebuild=1;
+    }
 }
 
 function petDragonAction() {
 
-    if((Game.dragonLevel < 8) || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
+    if(Game.dragonLevel<4 || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
         return;
     }
 
