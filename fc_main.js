@@ -1676,7 +1676,7 @@ function autoDragonAction() {
         logEvent("autoDragon", "Bought an egg");
     }
     
-    if(Game.dragonLevels[Game.dragonLevel].cost()){
+    if (Game.dragonLevel<Game.dragonLevels.length-1 && Game.dragonLevels[Game.dragonLevel].cost()){
         PlaySound('snd/shimmerClick.mp3');
         Game.dragonLevels[Game.dragonLevel].buy();
         Game.dragonLevel=(Game.dragonLevel+1)%Game.dragonLevels.length;
