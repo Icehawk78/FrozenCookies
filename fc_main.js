@@ -1706,7 +1706,7 @@ function petDragonAction() {
     {
         Game.specialTab = "dragon";
         Game.ClickSpecialPic();
-        logEvent("petDragon", "Petted Krumblor until he dropped something");
+        logEvent("petDragon", "Petting Krumblor until he drops something");
     }
 }
 
@@ -4031,7 +4031,7 @@ function FCStart() {
     }
 
     if (FrozenCookies.petDragon) {
-        FrozenCookies.petDragonBot = setInterval(petDragonAction, FrozenCookies.frequency)
+        FrozenCookies.petDragonBot = setInterval(petDragonAction, FrozenCookies.frequency * 10)
     }
 
     if (statSpeed(FrozenCookies.trackStats) > 0) {
