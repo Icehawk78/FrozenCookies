@@ -451,8 +451,8 @@ function fcReset() {
     Game.CollectWrinklers();
     if ((Game.dragonLevel>5 && !Game.hasAura("Earth Shatterer")) && Game.HasUnlocked("Chocolate egg") && !Game.Has("Chocolate egg")) {
         Game.dragonAura = 5;
-        Game.ObjectsById['+highestBuilding.id+'].sacrifice(1); // Cost of swapping auras
-        logEvent("Reset", "Sacrificed 1 " +highestBuilding.id+ " for Earth Shatterer");
+        //Game.ObjectsById['+highestBuilding.id+'].sacrifice(1); // Cost of swapping auras
+        //logEvent("Reset", "Sacrificed 1 " +highestBuilding.id+ " for Earth Shatterer");
         Game.ObjectsById.forEach(function(b) {
             b.sell(-1);
         });
@@ -1625,6 +1625,7 @@ function autoEasterAction() {
 
     if (Game.hasBuff('Cookie storm') && !haveAll('easter') && Game.season != 'easter') {
         Game.UpgradesById[209].buy()
+        logEvent("autoEaster", "Swapping to Easter for Cookie Storm");
     }
 }
 
@@ -1666,24 +1667,24 @@ function autoBrokerAction() {
 
 function autoDragonAction() {
     
-    if (!(Game.Has("A crumbly egg"))) {
+    if (!(Game.HasUnlocked("A crumbly egg"))) {
         return;
     }
     
     if (Game.HasUnlocked("A crumbly egg") && !Game.Has("A crumbly egg")) {
         Game.Upgrades["A crumbly egg"].buy();
+        logEvent("autoDragon", "Bought an egg");
     }
     
-    if (Game.Has("A crumbly egg") && (Game.dragonLevel<Game.dragonLevels.length-1 && Game.dragonLevels[Game.dragonLevel].cost())) {
+    if(Game.dragonLevels[Game.dragonLevel].cost()){
         PlaySound('snd/shimmerClick.mp3');
         Game.dragonLevels[Game.dragonLevel].buy();
         Game.dragonLevel=(Game.dragonLevel+1)%Game.dragonLevels.length;
         
         if (Game.dragonLevel>=Game.dragonLevels.length-1) Game.Win('Here be dragon');
-        Game.ToggleSpecialMenu(1);
-        if (l('specialPic')){var rect=l('specialPic').getBounds();Game.SparkleAt((rect.left+rect.right)/2,(rect.top+rect.bottom)/2)+32-TopBarOffset;}
         Game.recalculateGains=1;
         Game.upgradesToRebuild=1;
+        logEvent("autoDragon", "Upgraded Krumblor");
     }
 }
 
@@ -1706,6 +1707,7 @@ function petDragonAction() {
         Game.specialTab = "dragon";
         Game.ClickSpecialPic();
     }
+    logEvent("petDragon", "Petted Krumblor until he dropped something");
 }
 
 function generateProbabilities(upgradeMult, minBase, maxMult) {
