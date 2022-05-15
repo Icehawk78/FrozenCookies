@@ -1670,7 +1670,7 @@ function autoDragonAction() {
         return;
     }
     
-    Game.UpgradeDragon;
+    Game.UpgradeDragon();
 }
 
 function petDragonAction() {
