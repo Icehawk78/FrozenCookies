@@ -451,6 +451,7 @@ function fcReset() {
     Game.CollectWrinklers();
     if ((Game.dragonLevel>5 && !Game.hasAura("Earth Shatterer")) && Game.HasUnlocked("Chocolate egg") && !Game.Has("Chocolate egg")) {
         Game.dragonAura = 5;
+        Game.ObjectsById['+highestBuilding.id+'].sacrifice(1); // Cost of swapping auras
         Game.ObjectsById.forEach(function(b) {
             b.sell(-1);
         });
