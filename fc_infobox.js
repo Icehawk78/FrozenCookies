@@ -206,7 +206,7 @@ function updateTimers() {
             ),
         });
     }
-    if (purchaseTotal > 0) {
+    if (!(chainTotal) && (purchaseTotal > 0)) {
         t_draw.push({
             f_percent: purchaseCompletion,
             c1: "rgba(17, 17, 17, 1)",
