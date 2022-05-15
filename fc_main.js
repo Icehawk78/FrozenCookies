@@ -1669,17 +1669,7 @@ function autoDragonAction() {
         return;
     }
     
-    //if (Game.dragonLevel<5) {
-        if(Game.dragonLevels[Game.dragonLevel].cost()){
-            PlaySound('snd/shimmerClick.mp3');
-            Game.dragonLevels[Game.dragonLevel].buy();
-            Game.dragonLevel=(Game.dragonLevel+1)%Game.dragonLevels.length;
-            
-            if (Game.dragonLevel>=Game.dragonLevels.length-1) Game.Win('Here be dragon');
-            Game.recalculateGains=1;
-            Game.upgradesToRebuild=1;
-        }
-    //}
+    Game.UpgradeDragon;
 }
 
 function petDragonAction() {
