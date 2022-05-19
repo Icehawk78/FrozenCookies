@@ -74,7 +74,7 @@ FrozenCookies.preferenceValues = {
         extras: '<a class="option" id="factoryMax" onclick="updateFactoryMax(\'factoryMax\');">${factoryMax} Factories</a>',
     },
     towerLimit: {
-        hint: "Stop autobuying Wizard Towers at selected Max Mana, for efficiency. Recommended: 37 for FTHOF, 82 for double casting.",
+        hint: "Stop autobuying Wizard Towers at selected Max Mana, for efficiency. 100 max is recommended. Refer to the readme for details.",
         display: ["Wizard Tower Cap OFF", "Wizard Tower Cap ON"],
         default: 1,
         extras: '<a class="option" id="manaMax" onclick="updateManaMax(\'manaMax\');">${manaMax} max Mana</a>',
