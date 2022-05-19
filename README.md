@@ -65,7 +65,7 @@ https://discord.gg/Cpw8csuypT
 
 2022 May 13
 
-- Automatic dragon upgrading (to level 5) and dragon petting
+- Automatic dragon upgrading and dragon petting
 
 2022 May 12
 
