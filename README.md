@@ -63,6 +63,10 @@ https://discord.gg/Cpw8csuypT
 
 ## What's new?
 
+2022 May 19
+
+- Rebalanced the auto FTHOF combo and updated the readme with info about it
+
 2022 May 13
 
 - Automatic dragon upgrading (to level 5) and dragon petting
@@ -410,20 +414,15 @@ This fork includes two different FTHOF casting combo mechanics. Brief documentat
 
 Auto FTHOF Combo extends and replaces Auto Cast by switching to a special logic if two subsequent spells are Click Frenzy and either Elder Frenzy or a Building Special. If such a combo is detected, it will not cast another spell until a natural Frenzy + Building Special boost is active, and then quickly cast the first spell, sell wizard towers, and cast the second spell, for a four way boost in total. This can earn decades of cookies in a single combo.
 It will also take all three Stock Market loans if possible, for a further boost.
-This does require some manual tracking of minimum total wizard towers depending on your wizard tower sugar level, as follows:
+This does require a set value of minimum mana, depending on your WT levels:
 
-* 1 Lump: 316 WT
-* 2 Lumps: 312 WT
-* 3 Lumps: 308 WT
-* 4 Lumps: 304 WT
-* 5 Lumps: 309 WT
-* 6 Lumps: 390 WT
-* 7 Lumps: 445 WT
-* 8 Lumps: 506 WT
-* 9 Lumps: 530 WT
-* 10 Lumps: 598 WT
+* WT level  1-4: 82 max mana
+* WT level  5: 83 max mana
+* WT level 6 onwards: 100 max mana
 
-The combo will not work if you upgrade Wizard Towers to 11 or higher, so don't do that.
+The combo will work with larger values of max mana or with unlimited mana, but because of how the mana refueling system works setting this to any value higher than 100 is not recommended.
+
+The combo will not work if you upgrade Wizard Towers to 11 or higher.
 
 ## Auto 100% Consistency Combo
 
