@@ -1640,6 +1640,9 @@ function autoBrokerAction() {
     if (!B) { // Just leave if you don't have the bank
         return;
     }
+    if (hasClickBuff()) { // Don't buy during click buff
+        return;
+    }
     
     //Hire brokers
     if (B.brokers < B.getMaxBrokers() && Game.cookies >= B.getBrokerPrice())
@@ -1661,6 +1664,9 @@ function autoDragonAction() {
     if (!(Game.Has("A crumbly egg"))) {
         return;
     }
+    if (hasClickBuff()) { // Don't buy during click buff
+        return;
+    }
     
     //if (Game.dragonLevel<5) {
         if(Game.dragonLevels[Game.dragonLevel].cost()){
@@ -1678,6 +1684,9 @@ function autoDragonAction() {
 function petDragonAction() {
 
     if((Game.dragonLevel < 8) || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
+        return;
+    }
+    if (hasClickBuff()) { // Don't pet during click buff
         return;
     }
 
@@ -2713,6 +2722,10 @@ function isUnavailable(upgrade, upgradeBlacklist) {
 
     // check if the upgrade is in the selected blacklist, or is an upgrade that shouldn't be recommended
     if (upgradeBlacklist.concat(recommendationBlacklist).includes(upgrade.id)) {
+        return true;
+    }
+    
+    if (Game.season == "halloween" && upgrade.id == 74 && !haveAll("halloween")) { // Don't pledge during Halloween
         return true;
     }
 
