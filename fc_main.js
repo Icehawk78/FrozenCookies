@@ -1645,7 +1645,7 @@ function autoBrokerAction() {
     if (B.brokers < B.getMaxBrokers() && Game.cookies >= B.getBrokerPrice())
     {
         l('bankBrokersBuy').click();
-        logEvent("AutoBroker", "Bought a broker for " + B.getBrokerPrice + " cookies");
+        logEvent("AutoBroker", "Bought a broker for " + B.getBrokerPrice() + " cookies");
     }
     //Upgrade bank level
     let currentOffice = B.offices[B.officeLevel];
