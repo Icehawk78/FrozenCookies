@@ -4044,7 +4044,7 @@ function FCStart() {
     }
 
     if (FrozenCookies.petDragon) {
-        FrozenCookies.petDragonBot = setInterval(petDragonAction, FrozenCookies.frequency * 10)
+        FrozenCookies.petDragonBot = setInterval(petDragonAction, FrozenCookies.frequency * 2)
     }
 
     if (statSpeed(FrozenCookies.trackStats) > 0) {
