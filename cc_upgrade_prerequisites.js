@@ -1886,8 +1886,6 @@ var recommendationBlacklist = [
     563,
     564, // blacklist shimmering veil from being included in the recommendationList
     806, // blacklist jukebox from being included in the recommendationList
-    816,
-    817, // blacklist Web and Steamed cookies from being included in the recommendationList - maybe check with if (App)?
 ];
 
 var seasons = ["", "fools", "christmas", "easter", "halloween", "valentines"];

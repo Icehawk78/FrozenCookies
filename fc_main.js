@@ -2743,6 +2743,14 @@ function isUnavailable(upgrade, upgradeBlacklist) {
     if (Game.season == "halloween" && upgrade.id == 74 && !haveAll("halloween")) { // Don't pledge during Halloween
         return true;
     }
+    
+    if (App && upgrade.id == 816)) { // Web cookies are only on Browser
+        return true;
+    }
+    
+    if (!App && upgrade.id == 817)) { // Steamed cookies are only on Steam
+        return true;
+    }
 
     var result = false;
 
