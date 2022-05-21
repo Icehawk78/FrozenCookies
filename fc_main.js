@@ -2744,11 +2744,11 @@ function isUnavailable(upgrade, upgradeBlacklist) {
         return true;
     }
     
-    if (App && upgrade.id == 816)) { // Web cookies are only on Browser
+    if (App && upgrade.id == 816) { // Web cookies are only on Browser
         return true;
     }
     
-    if (!App && upgrade.id == 817)) { // Steamed cookies are only on Steam
+    if (!App && upgrade.id == 817) { // Steamed cookies are only on Steam
         return true;
     }
 
