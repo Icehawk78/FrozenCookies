@@ -810,32 +810,42 @@ function autoRigidel() {
     switch (orderLvl) {
         case 0: //Rigidel isn't in a slot
             if (T.swaps < 2 || (T.swaps == 1 && T.slot[0] == -1)) return; //Don't do anything if we can't swap Rigidel in
+            if (FrozenCookies.autoBuy == 1) { // Prevent buying while swap is active
+                RigiSell.autobuyyes = 1;
+                FrozenCookies.autoBuy = 0;
+            } else {
+                RigiSell.autobuyyes = 0;
+            }
             if (timeToRipe < 60) {
                 var prev = T.slot[0]; //cache whatever god you have equipped
                 swapIn(10, 0); //swap in rigidel
                 Game.computeLumpTimes();
+                if (Game.buyMode == -1) { Game.buyMode = 1; }
                 rigiSell(); //Meet the %10 condition
                 Game.clickLump(); //harvest the ripe lump, AutoSL probably covers this but this should avoid issues with autoBuy going first and disrupting Rigidel
                 if (prev != -1) swapIn(prev, 0); //put the old one back
             }
-            case 1: //Rigidel is already in diamond slot
-                if (timeToRipe < 60 && Game.BuildingsOwned % 10) {
-                    rigiSell();
-                    Game.computeLumpTimes();
-                    Game.clickLump();
-                }
-                case 2: //Rigidel in Ruby slot,
-                    if (timeToRipe < 40 && Game.BuildingsOwned % 10) {
-                        rigiSell();
-                        Game.computeLumpTimes();
-                        Game.clickLump();
-                    }
-                    case 3: //Rigidel in Jade slot
-                        if (timeToRipe < 20 && Game.BuildingsOwned % 10) {
-                            rigiSell();
-                            Game.computeLumpTimes();
-                            Game.clickLump();
-                        }
+            if (RigiSell.autobuyyes == 1) {
+                FrozenCookies.autoBuy = 1;
+            }
+        case 1: //Rigidel is already in diamond slot
+            if (timeToRipe < 60 && Game.BuildingsOwned % 10) {
+                rigiSell();
+                Game.computeLumpTimes();
+                Game.clickLump();
+            }
+        case 2: //Rigidel in Ruby slot,
+            if (timeToRipe < 40 && Game.BuildingsOwned % 10) {
+                rigiSell();
+                Game.computeLumpTimes();
+                Game.clickLump();
+            }
+        case 3: //Rigidel in Jade slot
+            if (timeToRipe < 20 && Game.BuildingsOwned % 10) {
+                rigiSell();
+                Game.computeLumpTimes();
+                Game.clickLump();
+            }
     }
 }
 
