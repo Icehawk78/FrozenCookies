@@ -811,10 +811,10 @@ function autoRigidel() {
         case 0: //Rigidel isn't in a slot
             if (T.swaps < 2 || (T.swaps == 1 && T.slot[0] == -1)) return; //Don't do anything if we can't swap Rigidel in
             if (FrozenCookies.autoBuy == 1) { // Prevent buying while swap is active
-                RigiSell.autobuyyes = 1;
+                autoRigidel.autobuyyes = 1;
                 FrozenCookies.autoBuy = 0;
             } else {
-                RigiSell.autobuyyes = 0;
+                autoRigidel.autobuyyes = 0;
             }
             if (timeToRipe < 60) {
                 var prev = T.slot[0]; //cache whatever god you have equipped
@@ -825,7 +825,7 @@ function autoRigidel() {
                 Game.clickLump(); //harvest the ripe lump, AutoSL probably covers this but this should avoid issues with autoBuy going first and disrupting Rigidel
                 if (prev != -1) swapIn(prev, 0); //put the old one back
             }
-            if (RigiSell.autobuyyes == 1) {
+            if (autoRigidel.autobuyyes == 1) {
                 FrozenCookies.autoBuy = 1;
             }
         case 1: //Rigidel is already in diamond slot
