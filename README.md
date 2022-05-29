@@ -17,7 +17,7 @@ Current differences from the oficial release:
 * Automatically buys brokers and upgrades the market office
 * Attempts to shortens time a debuff remains active
 * Automatically upgrades and pets Krumblor
-* Updated for 2.046 (Cortex bakers etc.)
+* Updated for 2.047 (Cortex bakers etc.)
 
 ## Discord
 
