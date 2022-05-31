@@ -37,7 +37,7 @@ https://discord.gg/Cpw8csuypT
 2. Go to the Console tab.
 3. Type the following on the commandline and press enter after: 
 **Game.LoadMod("http://github.erbkaiser.com/FrozenCookies/frozen_cookies.js");**
-4. Frozen Cookies should tell you it's loaded in the console now. Feel free to close it, or keep it open.
+4. Frozen Cookies should tell you it's loaded in the console now. Feel free to close the browser console, or keep it open. If you keep it open, you'll get some detailed info whenever FC does its thing.
 
 ## Bookmarklet install (untested)
 
