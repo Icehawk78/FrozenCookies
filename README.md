@@ -32,13 +32,20 @@ https://discord.gg/Cpw8csuypT
 3. Load up Cookie Clicker via Steam
 4. Enable Frozen Cookies at 'Manage mods' on the Options page
 
+## Web version
+1. Open the browser dev tools by whatever works for your browser. F12 might do it.
+2. Go to the Console tab.
+3. Type the following on the commandline and press enter after: 
+**Game.LoadMod("http://github.erbkaiser.com/FrozenCookies/frozen_cookies.js");**
+4. Frozen Cookies should tell you it's loaded in the console now. Feel free to close it, or keep it open.
+
 ## Bookmarklet install (untested)
 
 1. Paste the _contents_ (not the url) of http://erbkaiser.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark.
 2. Load up Cookie Clicker.
 3. Load the recently created bookmark.
 
-## Userscript install (untested)
+## Userscript install
 
 0. If you don't already have it, install the required browser add-on. [Tampermonkey (Chrome)](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) or [Greasemonkey (Firefox)](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/)
 1. Go to http://erbkaiser.github.io/FrozenCookies/fc_userscript_loader.user.js
