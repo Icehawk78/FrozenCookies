@@ -4,8 +4,8 @@
 	"Author": "Icehawk78 / erbkaiser",
 	"Description": "Optimize and Automate Everything",
 	"ModVersion": "2.0.0",
-	"GameVersion": 2.047,
-	"Date": "2022/05/29",
+	"GameVersion": 2.048,
+	"Date": "2022/05/31",
 	"Dependencies": [],
 	"Disabled": 1,
 	"AllowSteamAchievs": 1
