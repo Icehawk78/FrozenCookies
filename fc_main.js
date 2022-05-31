@@ -1702,6 +1702,9 @@ function petDragonAction() {
     if (hasClickBuff()) { // Don't pet during click buff
         return;
     }
+    if (hasClickBuff()) { // Don't pet during click buff
+        return;
+    }
 
     //Calculate current pet drop and if we have it
     Math.seedrandom(Game.seed+'/dragonTime');
@@ -2743,7 +2746,7 @@ function isUnavailable(upgrade, upgradeBlacklist) {
     if (Game.season == "halloween" && upgrade.id == 74 && !haveAll("halloween")) { // Don't pledge during Halloween
         return true;
     }
-    
+  
     if (App && upgrade.id == 816) { // Web cookies are only on Browser
         return true;
     }
