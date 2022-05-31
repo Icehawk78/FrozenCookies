@@ -449,7 +449,15 @@ function fcDraw(from, text, origin) {
 
 function fcReset() {
     Game.CollectWrinklers();
-    if (Game.HasUnlocked("Chocolate egg") && !Game.Has("Chocolate egg")) {
+    if ((Game.dragonLevel>5 && !Game.hasAura("Earth Shatterer")) && Game.HasUnlocked("Chocolate egg") && !Game.Has("Chocolate egg")) {
+        Game.dragonAura = 5;
+        //Game.ObjectsById['+highestBuilding.id+'].sacrifice(1); // Cost of swapping auras
+        //logEvent("Reset", "Sacrificed 1 " +highestBuilding.id+ " for Earth Shatterer");
+        Game.ObjectsById.forEach(function(b) {
+            b.sell(-1);
+        });
+        Game.Upgrades["Chocolate egg"].buy();
+    } else if (Game.HasUnlocked("Chocolate egg") && !Game.Has("Chocolate egg")) {
         Game.ObjectsById.forEach(function(b) {
             b.sell(-1);
         });
@@ -975,27 +983,27 @@ function autoCast() {
                 case 3:
                     var SE = M.spellsById[3];
                     // This code apparently works under the following assumptions:
-                    //      - you want to spend your mana to get the highest value building (currently Idleverse)
-                    //      - therefore you'll manually keep your number of Idleverses < 400, or don't mind selling the excess for the chance to win a free one
-                    // If you don't have any Idleverse yet, or can't cast SE, just give up.
+                    //      - you want to spend your mana to get the highest value building (currently Cortex baker)
+                    //      - therefore you'll manually keep your number of Cortex bakers < 400, or don't mind selling the excess for the chance to win a free one
+                    // If you don't have any Cortex baker yet, or can't cast SE, just give up.
                     if (
-                        Game.Objects["Idleverse"].amount == 0 ||
+                        Game.Objects["Cortex baker"].amount == 0 ||
                         M.magicM < Math.floor(SE.costMin + SE.costPercent * M.magicM)
                     )
                         return;
-                    // If we have over 400 Idleverses, always going to sell down to 399.
-                    // If you don't have half a Idleverse's worth of cookies in bank, sell one or more until you do
+                    // If we have over 400 Cortex bakers, always going to sell down to 399.
+                    // If you don't have half a Cortex baker's worth of cookies in bank, sell one or more until you do
                     while (
-                        Game.Objects["Idleverse"].amount >= 400 ||
-                        Game.cookies < Game.Objects["Idleverse"].price / 2
+                        Game.Objects["Cortex baker"].amount >= 400 ||
+                        Game.cookies < Game.Objects["Cortex baker"].price / 2
                     ) {
-                        Game.Objects["Idleverse"].sell(1);
+                        Game.Objects["Cortex baker"].sell(1);
                         logEvent(
                             "Store",
-                            "Sold 1 Idleverse for " +
+                            "Sold 1 Cortex baker for " +
                             (Beautify(
-                                    Game.Objects["Idleverse"].price *
-                                    Game.Objects["Idleverse"].getSellMultiplier()
+                                    Game.Objects["Cortex baker"].price *
+                                    Game.Objects["Cortex baker"].getSellMultiplier()
                                 ) +
                                 " cookies")
                         );
@@ -1617,6 +1625,7 @@ function autoEasterAction() {
 
     if (Game.hasBuff('Cookie storm') && !haveAll('easter') && Game.season != 'easter') {
         Game.UpgradesById[209].buy()
+        logEvent("autoEaster", "Swapping to Easter for Cookie Storm");
     }
 }
 
@@ -1661,29 +1670,36 @@ function autoBrokerAction() {
 
 function autoDragonAction() {
     
-    if (!(Game.Has("A crumbly egg"))) {
+    if (!(Game.HasUnlocked("A crumbly egg"))) {
         return;
     }
     if (hasClickBuff()) { // Don't buy during click buff
         return;
     }
     
-    //if (Game.dragonLevel<5) {
-        if(Game.dragonLevels[Game.dragonLevel].cost()){
-            PlaySound('snd/shimmerClick.mp3');
-            Game.dragonLevels[Game.dragonLevel].buy();
-            Game.dragonLevel=(Game.dragonLevel+1)%Game.dragonLevels.length;
-            
-            if (Game.dragonLevel>=Game.dragonLevels.length-1) Game.Win('Here be dragon');
-            Game.recalculateGains=1;
-            Game.upgradesToRebuild=1;
-        }
-    //}
+    if (Game.HasUnlocked("A crumbly egg") && !Game.Has("A crumbly egg")) {
+        Game.Upgrades["A crumbly egg"].buy();
+        logEvent("autoDragon", "Bought an egg");
+    }
+    
+    if (Game.dragonLevel<Game.dragonLevels.length-1 && Game.dragonLevels[Game.dragonLevel].cost()){
+        PlaySound('snd/shimmerClick.mp3');
+        Game.dragonLevels[Game.dragonLevel].buy();
+        Game.dragonLevel=(Game.dragonLevel+1)%Game.dragonLevels.length;
+        
+        if (Game.dragonLevel>=Game.dragonLevels.length-1) Game.Win('Here be dragon');
+        Game.recalculateGains=1;
+        Game.upgradesToRebuild=1;
+        logEvent("autoDragon", "Upgraded Krumblor");
+    }
 }
 
 function petDragonAction() {
 
-    if((Game.dragonLevel < 8) || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
+    if(Game.dragonLevel<4 || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
+        return;
+    }
+    if (hasClickBuff()) { // Don't pet during click buff
         return;
     }
     if (hasClickBuff()) { // Don't pet during click buff
@@ -1702,6 +1718,7 @@ function petDragonAction() {
     {
         Game.specialTab = "dragon";
         Game.ClickSpecialPic();
+        logEvent("petDragon", "Petting Krumblor until he drops something");
     }
 }
 
@@ -2137,13 +2154,13 @@ function estimatedTimeRemaining(cookies) {
 }
 
 function canCastSE() {
-    if (M.magicM >= 80 && Game.Objects["Idleverse"].amount > 0) return 1;
+    if (M.magicM >= 80 && Game.Objects["Cortex baker"].amount > 0) return 1;
     return 0;
 }
 
 function edificeBank() {
     if (!canCastSE) return 0;
-    var cmCost = Game.Objects["Idleverse"].price;
+    var cmCost = Game.Objects["Cortex baker"].price;
     return Game.hasBuff("everything must go")
         ? (cmCost * (100 / 95)) / 2
         : cmCost / 2;
@@ -2216,6 +2233,7 @@ function harvestBank() {
             Game.Objects["Fractal engine"].amount,
             Game.Objects["Javascript console"].amount,
             Game.Objects["Idleverse"].amount,
+            Game.Objects["Cortex baker"].amount,
         ];
         harvestBuildingArray.sort(function(a, b) {
             return b - a;
@@ -2573,11 +2591,11 @@ function buildingStats(recalculate) {
             var buildingBlacklist = Array.from(
                 blacklist[FrozenCookies.blacklist].buildings
             );
-            //If autocasting Spontaneous Edifice, don't buy any Idleverse after 399
+            //If autocasting Spontaneous Edifice, don't buy any Cortex baker after 399
             if (
                 M &&
                 FrozenCookies.autoSpell == 3 &&
-                Game.Objects["Idleverse"].amount >= 399
+                Game.Objects["Cortex baker"].amount >= 399
             ) {
                 buildingBlacklist.push(16);
             }
@@ -2726,6 +2744,14 @@ function isUnavailable(upgrade, upgradeBlacklist) {
     }
     
     if (Game.season == "halloween" && upgrade.id == 74 && !haveAll("halloween")) { // Don't pledge during Halloween
+        return true;
+    }
+  
+    if (App && upgrade.id == 816) { // Web cookies are only on Browser
+        return true;
+    }
+    
+    if (!App && upgrade.id == 817) { // Steamed cookies are only on Steam
         return true;
     }
 

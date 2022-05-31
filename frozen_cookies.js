@@ -1,5 +1,5 @@
 // Global Variables
-var lastCompatibleVersion = 2.043;
+var lastCompatibleVersion = 2.048;
 if (Game.version > lastCompatibleVersion) {
     console.log(
         "WARNING: The Cookie Clicker version is newer than this version of Frozen Cookies."
