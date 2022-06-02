@@ -70,6 +70,10 @@ https://discord.gg/Cpw8csuypT
 
 ## What's new?
 
+2022 Jun 02
+
+- Reverted the Apr 14 change to automatically take loans during normal double casting as the gains aren't guaranteed to be worth it.
+
 2022 May 19
 
 - Rebalanced the auto FTHOF combo and updated the readme with info about it
@@ -333,7 +337,10 @@ https://discord.gg/Cpw8csuypT
 
 ## Upcoming features!
 
-- Support for the new building and upgrades
+- Fix the known issues
+- Improve Season switching so Halloween is taken at a logical point, to minimize time spent in Elder Apocalypse
+- Logic to go past building limits, needed for some building upgrades and building biscuits (550 owned etc.) -- and then sell back to the limit
+- Automatically set dragon auras
 
 # Efficiency? What's that?
 
@@ -438,9 +445,8 @@ It's also necessary to turn off any building caps in Frozen Cookies settings bef
 
 # Known Issues
 
-- Currently will not ever buy or recommend buying the Sacrificial Rolling Pin. (Due to not modelling the cost of the Elder Pact as lost CPS.)
-- Reports of people buying upgrades and having the cost deducted, but the purchase reverted has been noted. This is difficult to reproduce and _may_ have already been fixed, but that is not currently guaranteed. Recommend saving before making any large upgrade purchases, just in case.
-- Possibly other things?
+- Currently will not ever buy or recommend buying the Sacrificial Rolling Pin. (Due to not modelling the cost of the Elder Pact as lost CpS.)
+- Will not buy some other upgrades as well as they don't directly gain CpS
 
 # Contact Us!
 
