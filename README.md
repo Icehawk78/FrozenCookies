@@ -36,19 +36,19 @@ https://discord.gg/Cpw8csuypT
 1. Open the browser dev tools by whatever works for your browser. F12 might do it.
 2. Go to the Console tab.
 3. Type the following on the commandline and press enter after: 
-**Game.LoadMod("http://github.erbkaiser.com/FrozenCookies/frozen_cookies.js");**
+**Game.LoadMod("https://github.erbkaiser.com/FrozenCookies/frozen_cookies.js");**
 4. Frozen Cookies should tell you it's loaded in the console now. Feel free to close the browser console, or keep it open. If you keep it open, you'll get some detailed info whenever FC does its thing.
 
 ## Bookmarklet install (untested)
 
-1. Paste the _contents_ (not the url) of http://erbkaiser.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark.
+1. Paste the _contents_ (not the url) of https://erbkaiser.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark.
 2. Load up Cookie Clicker.
 3. Load the recently created bookmark.
 
 ## Userscript install
 
 0. If you don't already have it, install the required browser add-on. [Tampermonkey (Chrome)](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) or [Greasemonkey (Firefox)](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/)
-1. Go to http://erbkaiser.github.io/FrozenCookies/fc_userscript_loader.user.js
+1. Go to https://erbkaiser.github.io/FrozenCookies/fc_userscript_loader.user.js
 2. Click the 'install' button in the upper right corner.
 3. Load up Cookie Clicker.
 

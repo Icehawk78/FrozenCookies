@@ -10,12 +10,12 @@
 // @downloadURL    https://github.erbkaiser.com/FrozenCookies/fc_userscript_loader.user.js
 // ==/UserScript==
 
-// Source:    https://github.com/Icehawk78/FrozenCookies/main/
-// Github.io: http://icehawk78.github.io/FrozenCookies/
+// Source:    https://github.com/erbkaiser/FrozenCookies/main/
+// Github.io: https://erbkaiser.github.io/FrozenCookies/
 var loadInterval = setInterval(function() {
     const Game = unsafeWindow.Game;
     if (Game && Game.ready) {
         clearInterval(loadInterval);
-        Game.LoadMod("http://github.erbkaiser.com/FrozenCookies/frozen_cookies.js");
+        Game.LoadMod("https://github.erbkaiser.com/FrozenCookies/frozen_cookies.js");
     }
 }, 1000);
