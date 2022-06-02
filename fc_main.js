@@ -1279,9 +1279,9 @@ function autoFTHOFComboAction() {
                 logEvent('AutoSpell', 'Double Casted Force the Hand of Fate');
                 
                 // Take Stock Market loans
-                Game.Objects['Bank'].minigame.takeLoan(1);
-                Game.Objects['Bank'].minigame.takeLoan(2);
-                Game.Objects['Bank'].minigame.takeLoan(3);
+                // Game.Objects['Bank'].minigame.takeLoan(1);
+                // Game.Objects['Bank'].minigame.takeLoan(2);
+                // Game.Objects['Bank'].minigame.takeLoan(3);
                 
                 safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
@@ -1697,9 +1697,6 @@ function autoDragonAction() {
 function petDragonAction() {
 
     if(Game.dragonLevel<4 || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
-        return;
-    }
-    if (hasClickBuff()) { // Don't pet during click buff
         return;
     }
     if (hasClickBuff()) { // Don't pet during click buff
