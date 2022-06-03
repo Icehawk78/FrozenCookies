@@ -1654,17 +1654,21 @@ function autoBrokerAction() {
     }
     
     //Hire brokers
-    if (B.brokers < B.getMaxBrokers() && Game.cookies >= B.getBrokerPrice())
+    var delay = delayAmount();
+    if (B.brokers < B.getMaxBrokers() && Game.cookies >= (delay + B.getBrokerPrice()))
     {
         l('bankBrokersBuy').click();
         logEvent("AutoBroker", "Bought a broker for " + Beautify(B.getBrokerPrice()) + " cookies");
     }
     //Upgrade bank level
+    var countCursor = Game.Objects["Cursor"].amount;
     let currentOffice = B.offices[B.officeLevel];
     if (currentOffice.cost && Game.Objects['Cursor'].amount >= currentOffice.cost[0] && Game.Objects['Cursor'].level >= currentOffice.cost[1])
     {
         l('bankOfficeUpgrade').click();
         logEvent("AutoBroker", "Upgrade bank level");
+        safeBuy(Game.Objects["Cursor"], countCursor);
+        logEvent("AutoBroker", "Bought " + countCursor + " cursors");
     }
 }
 
