@@ -68,7 +68,7 @@ FrozenCookies.preferenceValues = {
         extras: '<a class="option" id="mineMax" onclick="updateMineMax(\'mineMax\');">${mineMax} Mines</a>',
     },
     factoryLimit: {
-        hint: "Limit max number of mines to keep Godzamok useful",
+        hint: "Limit max number of factories to keep Godzamok useful",
         display: ["Factory Limit OFF", "Factory Limit ON"],
         default: 1,
         extras: '<a class="option" id="factoryMax" onclick="updateFactoryMax(\'factoryMax\');">${factoryMax} Factories</a>',
@@ -124,7 +124,7 @@ FrozenCookies.preferenceValues = {
         default: 0,
     },
     autoGodzamok: {
-        hint: "Automatically sell all cursors and farms (except one farm) during Dragonflight and Click Frenzy if you worship Godzamok and prevents rapid buy/sell spam",
+        hint: "Automatically sell all mines and factories during Dragonflight and Click Frenzy if you worship Godzamok and prevents rapid buy/sell spam",
         display: ["Auto-Godzamok OFF", "Auto-Godzamok ON"],
         default: 0,
     },
