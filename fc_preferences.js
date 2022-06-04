@@ -156,7 +156,7 @@ FrozenCookies.preferenceValues = {
         extras: '<a class="option" id="minCpSMult" onclick="updateCpSMultMin(\'minCpSMult\');">x${minCpSMult} minimum Frenzy</a>',
     },
     autoFTHOFCombo: {
-        'hint': 'This replaces Auto Cast\. If 2 subsequent FTHOF spells are Click Frenzy and Elder Frenzy, or Click Frenzy and Building Special, it will attempt to double cast. Make sure to have enough mana to make double casting possible.',
+        'hint': 'This replaces Auto Cast. Will cast FTHOF until a double cast of Click Frenzy and Elder Frenzy, or Click Frenzy and Building Special is possible. Make sure to have enough mana for double casting!',
         'display': ["Auto FTHOF Combo OFF", "Auto FTHOF Combo ON"],
         'default': 0
     },

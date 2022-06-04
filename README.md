@@ -426,15 +426,14 @@ This fork includes two different FTHOF casting combo mechanics. Brief documentat
 
 ## Auto FTHOF Combo
 
-Auto FTHOF Combo extends and replaces Auto Cast by switching to a special logic if two subsequent spells are Click Frenzy and either Elder Frenzy or a Building Special. If such a combo is detected, it will not cast another spell until a natural Frenzy + Building Special boost is active, and then quickly cast the first spell, sell wizard towers, and cast the second spell, for a four way boost in total. This can earn decades of cookies in a single combo.
-It will also take all three Stock Market loans if possible, for a further boost.
+Auto FTHOF Combo extends and replaces Auto Cast. If the combo is enabled, it will always cast FTHOF if a 'good' spell is detected, and will switch to a special logic if two subsequent spells are Click Frenzy and either Elder Frenzy or a Building Special. If such a combo is detected, it will save the spells until a natural Frenzy + Building Special boost is active, and then quickly cast the first spell, sell wizard towers, and cast the second spell, for a four way boost in total. This can earn decades of cookies in a single combo.
 This does require a set value of minimum mana, depending on your WT levels:
 
 * WT level  1-4: 82 max mana
 * WT level  5: 83 max mana
 * WT level 6 onwards: 100 max mana
 
-The combo will work with larger values of max mana or with unlimited mana, but because of how the mana refueling system works setting this to any value higher than 100 is not recommended.
+The combo will work with larger values of max mana or with unlimited mana, but because of how the mana refueling system works setting having any higher than 100 mana is not recommended.
 
 The combo will not work if you upgrade Wizard Towers to 11 or higher.
 
