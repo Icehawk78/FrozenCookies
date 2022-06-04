@@ -39,7 +39,7 @@ https://discord.gg/Cpw8csuypT
 **Game.LoadMod("https://github.erbkaiser.com/FrozenCookies/frozen_cookies.js");**
 4. Frozen Cookies should tell you it's loaded in the console now. Feel free to close the browser console, or keep it open. If you keep it open, you'll get some detailed info whenever FC does its thing.
 
-## Bookmarklet install (untested)
+## Bookmarklet install
 
 1. Paste the _contents_ (not the url) of https://erbkaiser.github.io/FrozenCookies/fc_bookmarklet_loader.js into a bookmark.
 2. Load up Cookie Clicker.
