@@ -342,6 +342,13 @@ https://discord.gg/Cpw8csuypT
 - Logic to go past building limits, needed for some building upgrades and building biscuits (550 owned etc.) -- and then sell back to the limit
 - Automatically set dragon auras
 
+# Known Issues
+
+- Currently will not ever buy or recommend buying the Sacrificial Rolling Pin. (Due to not modelling the cost of the Elder Pact as lost CpS.)
+- Will not buy some other upgrades as well as they don't directly gain CpS
+- Cosmetic bug: raw cookies per second reports (highest this ascension: 70.4 quadrillion) when nothing has been done yet.
+- Not compatible with the __CCSE__ mod (up to version 2.048). This is because of problems in CCSE.
+
 # Efficiency? What's that?
 
 Frozen Cookies uses a custom tweaked Efficiency calculation to determine what the optimal purchase at the current point in time is. The current raw efficiency formula is the following:
@@ -363,6 +370,28 @@ Initially, this was just simplified down to (cost/cps + cost/Δ cps), but thanks
 For Golden Cookies, it was determined that using the naïve cost/Δ cps to determine when it is optimal to begin building a bank for Golden Cookies is superior to our primary efficiency algorithm, since you actually gain effective CPS increases continually while building bank (from increased Lucky payouts).
 
 All of these calculations are subject to change if it is revealed that a different algorithm will build (and maintain) a CPS base faster than the current one. Additionally, there is uncompleted code that will simplify these numbers to a simple percentage-based system for easier user reference.
+
+# Special casting combos
+
+This fork includes two different FTHOF casting combo mechanics. Brief documentation and setup guides follow.
+
+## Auto FTHOF Combo
+
+Auto FTHOF Combo extends and replaces Auto Cast. If the combo is enabled, it will always cast FTHOF if a 'good' spell is detected, and will switch to a special logic if two subsequent spells are Click Frenzy and either Elder Frenzy or a Building Special. If such a combo is detected, it will save the spells until a natural Frenzy + Building Special boost is active, and then quickly cast the first spell, sell wizard towers, and cast the second spell, for a four way boost in total. This can earn decades of cookies in a single combo.
+This does require a set value of minimum mana, depending on your WT levels:
+
+* WT level  1-4: 82 max mana
+* WT level  5: 83 max mana
+* WT level 6 onwards: 100 max mana
+
+The combo will work with larger values of max mana or with unlimited mana, but because of how the mana refueling system works setting having any higher than 100 mana is not recommended.
+
+The combo will not work if you upgrade Wizard Towers to 11 or higher.
+
+## Auto 100% Consistency Combo
+
+This is basically the Auto FTHOF Combo on steroids and will only work with Wizard Towers on level 10.  It will completely automate the building purchases, garden, and grimoire and use a sugar lump to cast up to four spells in succession, selling and rebuying buildings, fully harvesting the garden regardless of what is growing to plant whiskerblooms for a milk combo. If you opt to use this, make sure to have at least 110 sugar lumps in reserve and that you're not trying to grow a specific garden type.
+It's also necessary to turn off any building caps in Frozen Cookies settings before enabling this.
 
 # Information about Frozen Cookies' Data
 
@@ -420,35 +449,10 @@ This is actually a table of literally every purchase that Frozen Cookies is curr
 - **Cost**: The cost of either the individual purchase, or the entire chain, for chained upgrades.
 - **Δ CPS**: The full CPS change that buying this purchase would have. Includes estimated Golden Cookie CPS changes, meaning that it may be negative (especially for Elder Covenant.)
 
-# Special casting combos
+# Contact info and credits
+Below info is for the official Frozen Cookies.
 
-This fork includes two different FTHOF casting combo mechanics. Brief documentation and setup guides follow.
-
-## Auto FTHOF Combo
-
-Auto FTHOF Combo extends and replaces Auto Cast. If the combo is enabled, it will always cast FTHOF if a 'good' spell is detected, and will switch to a special logic if two subsequent spells are Click Frenzy and either Elder Frenzy or a Building Special. If such a combo is detected, it will save the spells until a natural Frenzy + Building Special boost is active, and then quickly cast the first spell, sell wizard towers, and cast the second spell, for a four way boost in total. This can earn decades of cookies in a single combo.
-This does require a set value of minimum mana, depending on your WT levels:
-
-* WT level  1-4: 82 max mana
-* WT level  5: 83 max mana
-* WT level 6 onwards: 100 max mana
-
-The combo will work with larger values of max mana or with unlimited mana, but because of how the mana refueling system works setting having any higher than 100 mana is not recommended.
-
-The combo will not work if you upgrade Wizard Towers to 11 or higher.
-
-## Auto 100% Consistency Combo
-
-This is basically the Auto FTHOF Combo on steroids and will only work with Wizard Towers on level 10.  It will completely automate the building purchases, garden, and grimoire and use a sugar lump to cast up to four spells in succession, selling and rebuying buildings, fully harvesting the garden regardless of what is growing to plant whiskerblooms for a milk combo. If you opt to use this, make sure to have at least 110 sugar lumps in reserve and that you're not trying to grow a specific garden type.
-It's also necessary to turn off any building caps in Frozen Cookies settings before enabling this.
-
-# Known Issues
-
-- Currently will not ever buy or recommend buying the Sacrificial Rolling Pin. (Due to not modelling the cost of the Elder Pact as lost CpS.)
-- Will not buy some other upgrades as well as they don't directly gain CpS
-- Cosmetic bug: raw cookies per second reports (highest this ascension: 70.4 quadrillion) when nothing has been done yet.
-
-# Contact Us!
+## Contact Us!
 
 Everyone who is contributing to this project can be found at some time or another on the Cookie Clicker IRC.
 
@@ -456,7 +460,7 @@ Server: irc.gamesurge.net
 
 Channel: #ccdev or #dashnet
 
-# Special Thanks
+## Special Thanks
 
 From the Cookie Clicker IRC, thanks to the following users:
 
