@@ -69,6 +69,10 @@ Current differences from the oficial release:
 
 ## What's new?
 
+2022 Jun 06
+
+- Prevent rebuy spam if autoGodz is enabled but there is no building limit set, and over 500 buildings are owned
+
 2022 Jun 02
 
 - Reverted the Apr 14 change to automatically take loans during normal double casting as the gains aren't guaranteed to be worth it.

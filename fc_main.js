@@ -213,8 +213,6 @@ function setOverrides(gameSaveData) {
         FrozenCookies.maxSpecials = preferenceParse("maxSpecials", 1);
 
         // building max values
-        // FrozenCookies.cursorMax = preferenceParse("cursorMax", 0);
-        // FrozenCookies.farmMax = preferenceParse("farmMax", 0);
         FrozenCookies.mineMax = preferenceParse("mineMax", 0);
 		FrozenCookies.factoryMax = preferenceParse("factoryMax", 0);
         
@@ -489,8 +487,6 @@ function saveFCData() {
     saveString.frenzyClickSpeed = FrozenCookies.frenzyClickSpeed;
     saveString.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
     saveString.HCAscendAmount = FrozenCookies.HCAscendAmount;
-    // saveString.cursorMax = FrozenCookies.cursorMax;
-    // saveString.farmMax = FrozenCookies.farmMax;
     saveString.mineMax = FrozenCookies.mineMax;
 	saveString.factoryMax = FrozenCookies.factoryMax;
     saveString.minCpSMult = FrozenCookies.minCpSMult;
@@ -670,24 +666,6 @@ function updateMaxSpecials(base) {
         storeNumberCallback(base, 0)
     );
 }
-
-// function updateCursorMax(base) {
-//    userInputPrompt(
-//        'Cursor Cap!',
-//        'How many Cursors should Autobuy stop at?',
-//        FrozenCookies[base],
-//        storeNumberCallback(base, 0)
-//    );
-// }
-
-// function updateFarmMax(base) {
-//  userInputPrompt(
-//      'Farm Cap!',
-//      'How many Farms should Autobuy stop at?',
-//      FrozenCookies[base],
-//      storeNumberCallback(base, 0)
-//  );
-// }
 
 function updateMineMax(base) {
     userInputPrompt(
@@ -2604,20 +2582,6 @@ function buildingStats(recalculate) {
             if (M && FrozenCookies.towerLimit && M.magicM >= FrozenCookies.manaMax) {
                 buildingBlacklist.push(7);
             }
-            //Stop buying Cursors if at set limit
-            // if (
-            //  FrozenCookies.cursorLimit &&
-            //  Game.Objects["Cursor"].amount >= FrozenCookies.cursorMax
-            // ) {
-            //  buildingBlacklist.push(0);
-            // }
-            //Stop buying Farms if at set limit
-            // if (
-            //  FrozenCookies.farmLimit &&
-            //  Game.Objects["Farm"].amount >= FrozenCookies.farmMax
-            // ) {
-            //  buildingBlacklist.push(2);
-            // }
             //Stop buying Mines if at set limit
             if (
                 FrozenCookies.mineLimit &&
@@ -3612,7 +3576,7 @@ function autoGodzamokAction() {
             return;
         }
 
-        //Automatically sell all mines and factories during Dragonflight and Click Frenzy if you worship Godzamok and prevent rapid buy/sell spam
+        //Automatically sell up to 500 mines and factories during Dragonflight and Click Frenzy if you worship Godzamok and prevent rapid buy/sell spam
         if (
             FrozenCookies.autoGodzamok >= 1 && hasClickBuff() && !Game.hasBuff("Devastation")
         ) {
@@ -3620,39 +3584,11 @@ function autoGodzamokAction() {
             Game.Objects["Factory"].sell(countFactory);
 
             if (FrozenCookies.autoBuy == 1) {
-				if (Game.Objects["Mine"].amount >= 400 && Game.Objects["Mine"].amount <= 450) {
-					safeBuy(Game.Objects["Mine"], 100);
-                    logEvent("AutoGodzamok", "Bought 100 mines");
-				} else if (Game.Objects["Mine"].amount >= 300 && Game.Objects["Mine"].amount < 400) {
-					safeBuy(Game.Objects["Mine"], 200);
-                    logEvent("AutoGodzamok", "Bought 200 mines");
-				} else if (Game.Objects["Mine"].amount >= 200 && Game.Objects["Mine"].amount < 300) {
-					safeBuy(Game.Objects["Mine"], 300);
-                    logEvent("AutoGodzamok", "Bought 300 mines");
-				} else if (Game.Objects["Mine"].amount >= 100 && Game.Objects["Mine"].amount < 200) {
-					safeBuy(Game.Objects["Mine"], 400);
-                    logEvent("AutoGodzamok", "Bought 400 mines");
-				} else {
-                    safeBuy(Game.Objects["Mine"], countMine);
-                    logEvent("AutoGodzamok", "Bought " + countMine + " mines");
-				}
+				safeBuy(Game.Objects["Mine"], countMine);
+                logEvent("AutoGodzamok", "Bought " + countMine + " mines");
 				
-                if (Game.Objects["Factory"].amount >= 400 && Game.Objects["Factory"].amount <= 450) {
-					safeBuy(Game.Objects["Factory"], 100);
-                    logEvent("AutoGodzamok", "Bought 100 factories");
-				} else if (Game.Objects["Factory"].amount >= 300 && Game.Objects["Factory"].amount < 400) {
-					safeBuy(Game.Objects["Factory"], 200);
-                    logEvent("AutoGodzamok", "Bought 200 factories");
-				} else if (Game.Objects["Factory"].amount >= 200 && Game.Objects["Factory"].amount < 300) {
-					safeBuy(Game.Objects["Factory"], 300);
-                    logEvent("AutoGodzamok", "Bought 300 factories");
-				} else if (Game.Objects["Factory"].amount >= 100 && Game.Objects["Factory"].amount < 200) {
-					safeBuy(Game.Objects["Factory"], 400);
-                    logEvent("AutoGodzamok", "Bought 400 factories");
-				} else {
-                    safeBuy(Game.Objects["Factory"], countFactory);
-                    logEvent("AutoGodzamok", "Bought " + countFactory + " factories");
-				}
+                safeBuy(Game.Objects["Factory"], countFactory);
+                logEvent("AutoGodzamok", "Bought " + countFactory + " factories");
             }
         }
     }
