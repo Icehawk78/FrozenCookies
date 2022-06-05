@@ -4,6 +4,10 @@
 
 An automated Cookie Clicker tool.
 
+## Warning
+
+NOT currently compatible with __CCSE__. CCSE changes base game functions that break the switches like the season switch and the elder pledge. This problem exists in version **2.033** of CCSE and older, when used with Cookie Clicker version 2.048.
+
 ## Changes in this fork
 
 Includes features that may not be as well thought out or are still in testing. If you don't want to risk your save, use Icehawk78's instead. Although, I will try to fix any issues as soon as they crop up.
