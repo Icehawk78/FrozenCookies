@@ -446,6 +446,7 @@ It's also necessary to turn off any building caps in Frozen Cookies settings bef
 
 - Currently will not ever buy or recommend buying the Sacrificial Rolling Pin. (Due to not modelling the cost of the Elder Pact as lost CpS.)
 - Will not buy some other upgrades as well as they don't directly gain CpS
+- Cosmetic bug: raw cookies per second reports (highest this ascension: 70.4 quadrillion) when nothing has been done yet.
 
 # Contact Us!
 
