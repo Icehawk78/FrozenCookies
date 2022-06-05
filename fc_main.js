@@ -3559,18 +3559,31 @@ function safeBuy(bldg, count) {
 
 function autoGodzamokAction() {
     if (T && FrozenCookies.autoGodzamok) {
+        // Break if not at least 10 of each building
+        if (Game.Objects["Mine"].amount <= 10 || Game.Objects["Factory"].amount <= 10) {
+            return;
+        }
+        
         // if Pantheon is here and autoGodzamok is set
         if (
-            Game.hasGod("ruin") &&
-            (Game.Objects["Mine"].amount > 10 && Game.Objects["Mine"].amount < 500 || Game.Objects["Factory"].amount > 10 && Game.Objects["Factory"].amount < 500)
+            Game.hasGod("ruin") && (Game.Objects["Mine"].amount > 10 && Game.Objects["Mine"].amount < 500)
         ) {
             var countMine = Game.Objects["Mine"].amount;
-            var countFactory = Game.Objects["Factory"].amount;
         } else if (
-            Game.hasGod("ruin") &&
-            (Game.Objects["Mine"].amount >= 500 || Game.Objects["Factory"].amount >= 500)
+            Game.hasGod("ruin") && Game.Objects["Mine"].amount >= 500
         ) {
             var countMine = 500;
+        } else {
+            return;
+        }
+        
+        if (
+            Game.hasGod("ruin") && (Game.Objects["Factory"].amount > 10 && Game.Objects["Factory"].amount < 500)
+        ) {
+            var countFactory = Game.Objects["Factory"].amount;
+        } else if (
+            Game.hasGod("ruin") && Game.Objects["Factory"].amount >= 500
+        ) {
             var countFactory = 500;
         } else {
             return;
