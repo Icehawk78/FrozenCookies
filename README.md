@@ -19,11 +19,6 @@ Current differences from the oficial release:
 * Automatically upgrades and pets Krumblor
 * Updated for 2.048 (Cortex bakers etc.)
 
-## Discord
-
-For developers / code intended behavior purposes only.
-https://discord.gg/Cpw8csuypT
-
 ## How to use
 
 ## Steam Install
@@ -451,6 +446,11 @@ This is actually a table of literally every purchase that Frozen Cookies is curr
 
 # Contact info and credits
 Below info is for the official Frozen Cookies.
+
+## Discord
+
+For developers / code intended behavior purposes only.
+https://discord.gg/Cpw8csuypT
 
 ## Contact Us!
 
