@@ -211,6 +211,7 @@ function setOverrides(gameSaveData) {
         FrozenCookies.HCAscendAmount = preferenceParse("HCAscendAmount", 0);
         FrozenCookies.minCpSMult = preferenceParse("minCpSMult", 1);
         FrozenCookies.maxSpecials = preferenceParse("maxSpecials", 1);
+        FrozenCookies.minLoanMult = preferenceParse("minLoanMult", 1);
 
         // building max values
         FrozenCookies.mineMax = preferenceParse("mineMax", 0);
@@ -490,6 +491,7 @@ function saveFCData() {
     saveString.mineMax = FrozenCookies.mineMax;
 	saveString.factoryMax = FrozenCookies.factoryMax;
     saveString.minCpSMult = FrozenCookies.minCpSMult;
+    saveString.minLoanMult = FrozenCookies.minLoanMult;
     saveString.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
     //  saveString.nonFrenzyTime = FrozenCookies.non_gc_time;
     //  saveString.frenzyTime = FrozenCookies.gc_time;
@@ -691,6 +693,15 @@ function updateTimeTravelAmount() {
         "Warning: Time travel is highly unstable, and large values are highly likely to either cause long delays or crash the game. Be careful!\nHow much do you want to time travel by? This will happen instantly.",
         FrozenCookies.timeTravelAmount,
         storeNumberCallback('timeTravelAmount', 0)
+    );
+}
+
+function updateLoanMultMin(base) {
+    userInputPrompt(
+        'Loans!',
+        'What CpS multiplier should trigger taking loans (e.g. "7" will trigger for a normal Frenzy, "500" will require a huge building buff combo, etc.)?',
+        FrozenCookies[base],
+        storeNumberCallback(base, 0)
     );
 }
 
@@ -1256,11 +1267,6 @@ function autoFTHOFComboAction() {
                 M.castSpell(FTHOF);
                 logEvent('AutoSpell', 'Double Casted Force the Hand of Fate');
                 
-                // Take Stock Market loans
-                // Game.Objects['Bank'].minigame.takeLoan(1);
-                // Game.Objects['Bank'].minigame.takeLoan(2);
-                // Game.Objects['Bank'].minigame.takeLoan(3);
-                
                 safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
 
@@ -1459,9 +1465,11 @@ function auto100ConsistencyComboAction() {
             return;
 
         case 10: // Take Stock Market loans
-            Game.Objects['Bank'].minigame.takeLoan(1);
-            Game.Objects['Bank'].minigame.takeLoan(2);
-            Game.Objects['Bank'].minigame.takeLoan(3);
+            if (B) {
+                Game.Objects['Bank'].minigame.takeLoan(1);
+                Game.Objects['Bank'].minigame.takeLoan(2);
+                Game.Objects['Bank'].minigame.takeLoan(3);
+            }
 
             auto100ConsistencyComboAction.state = 11;
 
@@ -1698,6 +1706,18 @@ function petDragonAction() {
         Game.specialTab = "dragon";
         Game.ClickSpecialPic();
         logEvent("petDragon", "Petting Krumblor until he drops something");
+    }
+}
+
+function autoLoanBuy() {
+    if (!B) { // Just leave if you don't have the bank
+        return;
+    }
+    
+    if (hasClickBuff() && (cpsBonus() >= FrozenCookies.minLoanMult)) {
+        Game.Objects['Bank'].minigame.takeLoan(1);
+        Game.Objects['Bank'].minigame.takeLoan(2);
+        // Game.Objects['Bank'].minigame.takeLoan(3);
     }
 }
 
@@ -3929,6 +3949,11 @@ function FCStart() {
         FrozenCookies.petDragonBot = 0;
     }
 
+    if (FrozenCookies.autoLoanBot) {
+        clearInterval(FrozenCookies.autoLoanBot);
+        FrozenCookies.autoLoanBot = 0;
+    }
+
     // Remove until timing issues are fixed
     //  if (FrozenCookies.goldenCookieBot) {
     //    clearInterval(FrozenCookies.goldenCookieBot);
@@ -4006,6 +4031,10 @@ function FCStart() {
 
     if (FrozenCookies.petDragon) {
         FrozenCookies.petDragonBot = setInterval(petDragonAction, FrozenCookies.frequency * 2)
+    }
+
+    if (FrozenCookies.autoLoan) {
+        FrozenCookies.autoLoanBot = setInterval(autoLoanBuy, FrozenCookies.frequency);
     }
 
     if (statSpeed(FrozenCookies.trackStats) > 0) {
