@@ -138,6 +138,12 @@ FrozenCookies.preferenceValues = {
         display: ["Auto-Petting OFF", "Auto-Petting ON"],
         default: 0,
     },
+    autoLoan: {
+        hint: "Automatically take loans 1 and 2 during click buffs with frenzies",
+        display: ["Auto-Loan OFF", "Auto-Loan ON"],
+        default: 0,
+        extras: '<a class="option" id="minLoanMult" onclick="updateLoanMultMin(\'minLoanMult\');">x${minLoanMult} minimum Frenzy</a>',
+    },
     
     // Spell options
     SpellOptions: {

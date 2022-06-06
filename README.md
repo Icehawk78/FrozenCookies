@@ -22,6 +22,7 @@ Current differences from the oficial release:
 * Attempts to shortens time a debuff remains active
 * Automatically upgrades and pets Krumblor
 * Updated for 2.048 (Cortex bakers etc.)
+* Automatically take loans during big click frenzy combos
 
 ## How to use
 
@@ -73,6 +74,7 @@ Current differences from the oficial release:
 
 - Prevent rebuy spam if autoGodz is enabled but there is no building limit set, and over 500 buildings are owned
 - Turn keyboard shortcuts into an option
+- Add autoLoan function: take loans 1 and 2 if a big click frenzy starts
 
 2022 Jun 02
 
