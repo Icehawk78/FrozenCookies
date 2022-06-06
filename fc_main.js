@@ -545,7 +545,7 @@ function getBuildingSpread() {
 // Press 's' to do a manual save
 // Press 'w' to display a wrinkler-info window
 document.addEventListener("keydown", function(event) {
-    if (!Game.promptOn) {
+    if ((!Game.promptOn) && FrozenCookies.FCshortcuts) {
         if (event.keyCode == 65) {
             Game.Toggle("autoBuy", "autobuyButton", "Autobuy OFF", "Autobuy ON");
             toggleFrozen("autoBuy");

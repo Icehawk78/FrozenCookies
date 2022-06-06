@@ -203,6 +203,11 @@ FrozenCookies.preferenceValues = {
           'default':0
       },
       */
+    FCshortcuts: {
+        hint: "Use a variety of helpful keyboard shortcuts: 'a' for autobuy. 'b' for building spread. 'c' to toggle auto-GC. 'e' for save export. 'r' for reset. 's' for manual save. 'w' for wrinkler info",
+        display: ["Shortcuts OFF", "Shortcuts ON"],
+        default: 1,
+    },
     holdSEBank: {
         hint: "Maintain a bank for Spontaneous Edifice (already enabled if Auto Casting SE)",
         display: ["SE Bank OFF", "SE Bank ON"],
