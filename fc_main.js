@@ -699,7 +699,7 @@ function updateTimeTravelAmount() {
 function updateLoanMultMin(base) {
     userInputPrompt(
         'Loans!',
-        'What CpS multiplier should trigger taking loans (e.g. "7" will trigger for a normal Frenzy, "500" will require a big building buff, etc.)?',
+        'What CpS multiplier should trigger taking loans (e.g. "7" will trigger for a normal Frenzy, "500" will require a huge building buff combo, etc.)?',
         FrozenCookies[base],
         storeNumberCallback(base, 0)
     );
