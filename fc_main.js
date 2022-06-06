@@ -696,6 +696,15 @@ function updateTimeTravelAmount() {
     );
 }
 
+function updateLoanMultMin(base) {
+    userInputPrompt(
+        'Loans!',
+        'What CpS multiplier should trigger taking loans (e.g. "7" will trigger for a normal Frenzy, "500" will require a big building buff, etc.)?',
+        FrozenCookies[base],
+        storeNumberCallback(base, 0)
+    );
+}
+
 function cyclePreference(preferenceName) {
     var preference = FrozenCookies.preferenceValues[preferenceName];
     if (preference) {
