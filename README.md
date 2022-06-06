@@ -72,6 +72,7 @@ Current differences from the oficial release:
 2022 Jun 06
 
 - Prevent rebuy spam if autoGodz is enabled but there is no building limit set, and over 500 buildings are owned
+- Turn keyboard shortcuts into an option
 
 2022 Jun 02
 
@@ -349,7 +350,8 @@ Current differences from the oficial release:
 
 - Currently will not ever buy or recommend buying the Sacrificial Rolling Pin. (Due to not modelling the cost of the Elder Pact as lost CpS.)
 - Will not buy some other upgrades as well as they don't directly gain CpS
-- Cosmetic bug: raw cookies per second reports (highest this ascension: 70.4 quadrillion) when nothing has been done yet.
+- Raw cookies per second reports (highest this ascension: 70.4 quadrillion) when nothing has been done yet. Mostly cosmetic, but does mess with early market prices.
+- Not all keyboard shortcuts work
 - Not compatible with the __CCSE__ mod (up to version 2.048). This is because of problems in CCSE.
 
 # Efficiency? What's that?
