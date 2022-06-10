@@ -2728,7 +2728,11 @@ function isUnavailable(upgrade, upgradeBlacklist) {
         return true;
     }
     
-    if (Game.season == "halloween" && upgrade.id == 74 && !haveAll("halloween")) { // Don't pledge during Halloween
+    // if (upgrade.id == 74 && Game.season == "halloween" && !haveAll("halloween")) { // Don't pledge during Halloween
+    //    return true;
+    // }
+    
+    if (upgrade.id == 74 && (Game.season == "halloween" || Game.season == "easter") && !haveAll(Game.season)) { // Don't pledge if Easter or Halloween not complete
         return true;
     }
   
@@ -3480,10 +3484,7 @@ function shouldPopWrinklers() {
     var toPop = [];
     var living = liveWrinklers();
     if (living.length > 0) {
-        if (
-            (Game.season == "halloween" || Game.season == "easter") &&
-            !haveAll(Game.season)
-        ) {
+        if ( (Game.season == "halloween" || Game.season == "easter") && !haveAll(Game.season) ) {
             toPop = living.map(function(w) {
                 return w.id;
             });
