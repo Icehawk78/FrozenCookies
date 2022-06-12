@@ -3617,15 +3617,16 @@ function autoGodzamokAction() {
             Game.Objects["Mine"].sell(countMine);
             Game.Objects["Factory"].sell(countFactory);
 
-            if (FrozenCookies.autoBuy == 1) {
-                if (!FrozenCookies.mineLimit || (FrozenCookies.mineLimit && (Game.Objects["Mine"].amount + countMine) <= FrozenCookies.mineMax )) {
-                    safeBuy(Game.Objects["Mine"], countMine);
-                    logEvent("AutoGodzamok", "Bought " + countMine + " mines");
-                }
-                if (!FrozenCookies.factoryLimit || (FrozenCookies.factoryLimit && (Game.Objects["Factory"].amount + countFactory) <= FrozenCookies.factoryMax )) {
-                    safeBuy(Game.Objects["Factory"], countFactory);
-                    logEvent("AutoGodzamok", "Bought " + countFactory + " factories");
-                }
+            if (FrozenCookies.autoBuy == 1 && (FrozenCookies.mineLimit == 0 || 
+              (Game.Objects["Mine"].amount + countMine) <= FrozenCookies.mineMax )) {
+                safeBuy(Game.Objects["Mine"], countMine);
+                logEvent("AutoGodzamok", "Bought " + countMine + " mines");
+            }
+            
+            if (FrozenCookies.autoBuy == 1 && (FrozenCookies.factoryLimit == 0 || 
+              (Game.Objects["Factory"].amount + countFactory) <= FrozenCookies.factoryMax )) {
+                safeBuy(Game.Objects["Factory"], countFactory);
+                logEvent("AutoGodzamok", "Bought " + countFactory + " factories");
             }
         }
     }
