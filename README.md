@@ -352,7 +352,7 @@ Current differences from the oficial release:
 
 - Currently will not ever buy or recommend buying the Sacrificial Rolling Pin. (Due to not modelling the cost of the Elder Pact as lost CpS.)
 - Will not buy some other upgrades as well as they don't directly gain CpS
-- Raw cookies per second reports (highest this ascension: 70.4 quadrillion) when nothing has been done yet. Mostly cosmetic, but does mess with early market prices.
+- Raw cookies per second reports (highest this ascension: 70.4 quadrillion) in a clean safe, even when nothing has been done yet. This messes with early market prices.
 - Not all keyboard shortcuts work
 - Not compatible with the __CCSE__ mod (up to version 2.048). This is because of problems in CCSE.
 
