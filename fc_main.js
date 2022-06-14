@@ -30,11 +30,11 @@ function registerMod(mod_id = "frozen_cookies") {
             });
             Game.registerHook("draw", updateTimers); // called every draw tick
             // Game.registerHook("ticker", function() {
-                // called when determining news ticker text (about every ten seconds); should return an array of possible choices to add
-                // return [
-                //     "News: Debate about whether using Frozen Cookies constitutes cheating continues to rage. Violence escalating.",
-                //     "News: Supreme Court rules Frozen Cookies not unauthorized cheating after all.",
-                // ];
+            // called when determining news ticker text (about every ten seconds); should return an array of possible choices to add
+            // return [
+            //     "News: Debate about whether using Frozen Cookies constitutes cheating continues to rage. Violence escalating.",
+            //     "News: Supreme Court rules Frozen Cookies not unauthorized cheating after all.",
+            // ];
             // });
             Game.registerHook("reset", function(hard) {
                 // the parameter will be true if it's a hard reset, and false (not passed) if it's just an ascension
@@ -215,10 +215,10 @@ function setOverrides(gameSaveData) {
 
         // building max values
         FrozenCookies.mineMax = preferenceParse("mineMax", 0);
-		FrozenCookies.factoryMax = preferenceParse("factoryMax", 0);
-        
+        FrozenCookies.factoryMax = preferenceParse("factoryMax", 0);
+
         FrozenCookies.manaMax = preferenceParse("manaMax", 0);
-        
+
         // Also set this on a reload
         if (FrozenCookies.autoBulk != 0) {
             if (FrozenCookies.autoBulk == 1) {
@@ -489,7 +489,7 @@ function saveFCData() {
     saveString.cookieClickSpeed = FrozenCookies.cookieClickSpeed;
     saveString.HCAscendAmount = FrozenCookies.HCAscendAmount;
     saveString.mineMax = FrozenCookies.mineMax;
-	saveString.factoryMax = FrozenCookies.factoryMax;
+    saveString.factoryMax = FrozenCookies.factoryMax;
     saveString.minCpSMult = FrozenCookies.minCpSMult;
     saveString.minLoanMult = FrozenCookies.minLoanMult;
     saveString.frenzyTimes = JSON.stringify(FrozenCookies.frenzyTimes);
@@ -742,17 +742,17 @@ var M = Game.Objects["Wizard tower"].minigame;
 var B = Game.Objects["Bank"].minigame;
 
 function rigiSell() {
-  //Sell enough of the cheapest building to enable Rigidels effect
-  if (Game.BuildingsOwned % 10) {
-    var cheapest;
-    Game.ObjectsById.forEach(function (b) {
-      if (!cheapest || b.price < cheapest.price) {
-        cheapest = b; 
-      }
-    });
-    cheapest.sell(Game.BuildingsOwned % 10);
-  }
-  return;
+    //Sell enough of the cheapest building to enable Rigidels effect
+    if (Game.BuildingsOwned % 10) {
+        var cheapest;
+        Game.ObjectsById.forEach(function(b) {
+            if (!cheapest || b.price < cheapest.price) {
+                cheapest = b;
+            }
+        });
+        cheapest.sell(Game.BuildingsOwned % 10);
+    }
+    return;
 }
 
 function lumpIn(mins) {
@@ -807,24 +807,24 @@ function autoRigidel() {
                 Game.clickLump(); //harvest the ripe lump, AutoSL probably covers this but this should avoid issues with autoBuy going first and disrupting Rigidel
                 if (prev != -1) swapIn(prev, 0); //put the old one back
             }
-            case 1: //Rigidel is already in diamond slot
-                if (timeToRipe < 60 && Game.BuildingsOwned % 10) {
-                    rigiSell();
-                    Game.computeLumpTimes();
-                    Game.clickLump();
-                }
-                case 2: //Rigidel in Ruby slot,
-                    if (timeToRipe < 40 && Game.BuildingsOwned % 10) {
-                        rigiSell();
-                        Game.computeLumpTimes();
-                        Game.clickLump();
-                    }
-                    case 3: //Rigidel in Jade slot
-                        if (timeToRipe < 20 && Game.BuildingsOwned % 10) {
-                            rigiSell();
-                            Game.computeLumpTimes();
-                            Game.clickLump();
-                        }
+        case 1: //Rigidel is already in diamond slot
+            if (timeToRipe < 60 && Game.BuildingsOwned % 10) {
+                rigiSell();
+                Game.computeLumpTimes();
+                Game.clickLump();
+            }
+        case 2: //Rigidel in Ruby slot,
+            if (timeToRipe < 40 && Game.BuildingsOwned % 10) {
+                rigiSell();
+                Game.computeLumpTimes();
+                Game.clickLump();
+            }
+        case 3: //Rigidel in Jade slot
+            if (timeToRipe < 20 && Game.BuildingsOwned % 10) {
+                rigiSell();
+                Game.computeLumpTimes();
+                Game.clickLump();
+            }
     }
 }
 
@@ -883,7 +883,7 @@ function autoCast() {
                         M.castSpell(streT);
                         logEvent('AutoSpell', 'Cast Stretch Time instead of Force the Hand of Fate');
                     } // Should also go for negative Blabs but how to check?
-                    
+
                     if (nextSpellName(0) == "Clot" || nextSpellName(0) == "Blab" || nextSpellName(0) == "Cookie Storm (Drop)" || nextSpellName(0) == "Ruin Cookies") {
                         var hagC = M.spellsById[4];
                         M.castSpell(hagC);
@@ -1050,7 +1050,7 @@ function autoFTHOFComboAction() {
                     M.castSpell(streT);
                     logEvent('AutoSpell', 'Cast Stretch Time instead of Force the Hand of Fate');
                 }
-                    
+
                 if (nextSpellName(0) == "Clot" || nextSpellName(0) == "Blab" || nextSpellName(0) == "Cookie Storm (Drop)" || nextSpellName(0) == "Ruin Cookies") {
                     var hagC = M.spellsById[4];
                     M.castSpell(hagC);
@@ -1266,7 +1266,7 @@ function autoFTHOFComboAction() {
             case 2:
                 M.castSpell(FTHOF);
                 logEvent('AutoSpell', 'Double Casted Force the Hand of Fate');
-                
+
                 safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
 
@@ -1341,7 +1341,7 @@ function auto100ConsistencyComboAction() {
     var FTHOF = M.spellsById[1];
 
     switch (auto100ConsistencyComboAction.state) {
-        case 0: 
+        case 0:
             //Continue casting Haggler's Charm - unless it's a sugar lump
             if (M.magic == M.magicM) {
                 if (nextSpellName(0) == "Sugar Lump") {
@@ -1364,7 +1364,9 @@ function auto100ConsistencyComboAction() {
                 } else {
                     auto100ConsistencyComboAction.autobuyyes = 0;
                 }
-                if (Game.buyMode == -1) { Game.buyMode = 1; }
+                if (Game.buyMode == -1) {
+                    Game.buyMode = 1;
+                }
 
                 auto100ConsistencyComboAction.state = 2;
             }
@@ -1638,19 +1640,17 @@ function autoBrokerAction() {
     if (hasClickBuff()) { // Don't buy during click buff
         return;
     }
-    
+
     //Hire brokers
     var delay = delayAmount();
-    if (B.brokers < B.getMaxBrokers() && Game.cookies >= (delay + B.getBrokerPrice()))
-    {
+    if (B.brokers < B.getMaxBrokers() && Game.cookies >= (delay + B.getBrokerPrice())) {
         l('bankBrokersBuy').click();
         logEvent("AutoBroker", "Bought a broker for " + Beautify(B.getBrokerPrice()) + " cookies");
     }
     //Upgrade bank level
     var countCursor = Game.Objects["Cursor"].amount;
     let currentOffice = B.offices[B.officeLevel];
-    if (currentOffice.cost && Game.Objects['Cursor'].amount >= currentOffice.cost[0] && Game.Objects['Cursor'].level >= currentOffice.cost[1])
-    {
+    if (currentOffice.cost && Game.Objects['Cursor'].amount >= currentOffice.cost[0] && Game.Objects['Cursor'].level >= currentOffice.cost[1]) {
         l('bankOfficeUpgrade').click();
         logEvent("AutoBroker", "Upgrade bank level");
         safeBuy(Game.Objects["Cursor"], countCursor);
@@ -1659,34 +1659,34 @@ function autoBrokerAction() {
 }
 
 function autoDragonAction() {
-    
+
     if (!(Game.HasUnlocked("A crumbly egg"))) {
         return;
     }
     if (hasClickBuff()) { // Don't buy during click buff
         return;
     }
-    
+
     if (Game.HasUnlocked("A crumbly egg") && !Game.Has("A crumbly egg")) {
         Game.Upgrades["A crumbly egg"].buy();
         logEvent("autoDragon", "Bought an egg");
     }
-    
-    if (Game.dragonLevel<Game.dragonLevels.length-1 && Game.dragonLevels[Game.dragonLevel].cost()){
+
+    if (Game.dragonLevel < Game.dragonLevels.length - 1 && Game.dragonLevels[Game.dragonLevel].cost()) {
         PlaySound('snd/shimmerClick.mp3');
         Game.dragonLevels[Game.dragonLevel].buy();
-        Game.dragonLevel=(Game.dragonLevel+1)%Game.dragonLevels.length;
-        
-        if (Game.dragonLevel>=Game.dragonLevels.length-1) Game.Win('Here be dragon');
-        Game.recalculateGains=1;
-        Game.upgradesToRebuild=1;
+        Game.dragonLevel = (Game.dragonLevel + 1) % Game.dragonLevels.length;
+
+        if (Game.dragonLevel >= Game.dragonLevels.length - 1) Game.Win('Here be dragon');
+        Game.recalculateGains = 1;
+        Game.upgradesToRebuild = 1;
         logEvent("autoDragon", "Upgraded Krumblor");
     }
 }
 
 function petDragonAction() {
 
-    if(Game.dragonLevel<4 || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
+    if (Game.dragonLevel < 4 || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
         return;
     }
     if (hasClickBuff()) { // Don't pet during click buff
@@ -1694,15 +1694,14 @@ function petDragonAction() {
     }
 
     //Calculate current pet drop and if we have it
-    Math.seedrandom(Game.seed+'/dragonTime');
+    Math.seedrandom(Game.seed + '/dragonTime');
     let drops = ['Dragon scale', 'Dragon claw', 'Dragon fang', 'Dragon teddy bear'];
-    drops=shuffle(drops);
+    drops = shuffle(drops);
     Math.seedrandom();
     let currentDrop = drops[Math.floor((new Date().getMinutes() / 60) * drops.length)];
 
     //Pet the dragon
-    if (!Game.Has(currentDrop) && !Game.HasUnlocked(currentDrop))
-    {
+    if (!Game.Has(currentDrop) && !Game.HasUnlocked(currentDrop)) {
         Game.specialTab = "dragon";
         Game.ClickSpecialPic();
         logEvent("petDragon", "Petting Krumblor until he drops something");
@@ -1713,7 +1712,7 @@ function autoLoanBuy() {
     if (!B) { // Just leave if you don't have the bank
         return;
     }
-    
+
     if (hasClickBuff() && (cpsBonus() >= FrozenCookies.minLoanMult)) {
         Game.Objects['Bank'].minigame.takeLoan(1);
         Game.Objects['Bank'].minigame.takeLoan(2);
@@ -1964,8 +1963,7 @@ function cookieStats(bankAmount, wrathValue, wrinklerCount) {
 
     var result = {};
     // Clot
-    result.clot = 
-    	-1 *
+    result.clot = -1 *
         cookieInfo.clot.odds[wrathValue] *
         (wrinkler * cps + clickCps) *
         luckyMod *
@@ -1990,18 +1988,15 @@ function cookieStats(bankAmount, wrathValue, wrinklerCount) {
         cookieInfo.chain.odds[wrathValue] *
         calculateChainValue(bankAmount, cps, 7 - wrathValue / 3);
     // Ruin
-    result.ruin = 
-    	-1 *
+    result.ruin = -1 *
         cookieInfo.ruin.odds[wrathValue] *
         (Math.min(bankAmount * 0.05, cps * 60 * 10) + 13);
     // Frenzy + Ruin
-    result.frenzyRuin = 
-    	-1 *
+    result.frenzyRuin = -1 *
         cookieInfo.frenzyRuin.odds[wrathValue] *
         (Math.min(bankAmount * 0.05, cps * 60 * 10 * 7) + 13);
     // Clot + Ruin
-    result.clotRuin = 
-    	-1 *
+    result.clotRuin = -1 *
         cookieInfo.clotRuin.odds[wrathValue] *
         (Math.min(bankAmount * 0.05, cps * 60 * 10 * 0.5) + 13);
     // Lucky
@@ -2160,9 +2155,9 @@ function canCastSE() {
 function edificeBank() {
     if (!canCastSE) return 0;
     var cmCost = Game.Objects["Cortex baker"].price;
-    return Game.hasBuff("everything must go")
-        ? (cmCost * (100 / 95)) / 2
-        : cmCost / 2;
+    return Game.hasBuff("everything must go") ?
+        (cmCost * (100 / 95)) / 2 :
+        cmCost / 2;
 }
 
 function luckyBank() {
@@ -2239,9 +2234,7 @@ function harvestBank() {
         });
 
         for (
-            var buildingLoop = 0; 
-            buildingLoop < FrozenCookies.maxSpecials; 
-            buildingLoop++
+            var buildingLoop = 0; buildingLoop < FrozenCookies.maxSpecials; buildingLoop++
         ) {
             FrozenCookies.harvestBuilding *= harvestBuildingArray[buildingLoop];
         }
@@ -2328,9 +2321,9 @@ function cookieEfficiency(startingPoint, bankAmount) {
 function bestBank(minEfficiency) {
     var results = {};
     var edifice =
-        FrozenCookies.autoSpell == 3 || FrozenCookies.holdSEBank
-        ? edificeBank()
-        : 0;
+        FrozenCookies.autoSpell == 3 || FrozenCookies.holdSEBank ?
+        edificeBank() :
+        0;
     var bankLevels = [0, luckyBank(), luckyFrenzyBank(), harvestBank()]
         .sort(function(a, b) {
             return b - a;
@@ -2343,9 +2336,9 @@ function bestBank(minEfficiency) {
         })
         .filter(function(bank) {
             return (bank.efficiency >= 0 && bank.efficiency <= minEfficiency) ||
-                FrozenCookies.setHarvestBankPlant
-                ? bank
-                : null;
+                FrozenCookies.setHarvestBankPlant ?
+                bank :
+                null;
         });
     if (bankLevels[0].cost > edifice || FrozenCookies.setHarvestBankPlant) {
         return bankLevels[0];
@@ -2367,9 +2360,7 @@ function weightedCookieValue(useCurrent) {
         var startingValue = "6666";
         var rollingEstimate = 0;
         for (
-            var i = 5; 
-            i < Math.min(Math.floor(Game.cookies).toString().length, 12); 
-            i++
+            var i = 5; i < Math.min(Math.floor(Game.cookies).toString().length, 12); i++
         ) {
             startingValue += "6";
             rollingEstimate += 0.1 * remainingProbability * startingValue;
@@ -2451,24 +2442,24 @@ function checkPrices(currentUpgrade) {
             return i.id != currentUpgrade.id;
         })[0];
         var nextPrereq =
-            nextRec.type == "upgrade"
-            ? unfinishedUpgradePrereqs(nextRec.purchase)
-            : null;
+            nextRec.type == "upgrade" ?
+            unfinishedUpgradePrereqs(nextRec.purchase) :
+            null;
         nextRec =
             nextPrereq == null ||
             nextPrereq.filter(function(u) {
                 return u.cost != null;
-            }).length == 0
-            ? nextRec
-            : FrozenCookies.caches.recommendationList.filter(function(a) {
+            }).length == 0 ?
+            nextRec :
+            FrozenCookies.caches.recommendationList.filter(function(a) {
                 return nextPrereq.some(function(b) {
                     return b.id == a.id && b.type == a.type;
                 });
             })[0];
         value =
-            nextRec.cost == null
-            ? 0
-            : nextRec.cost / totalDiscount(nextRec.type == "building") -
+            nextRec.cost == null ?
+            0 :
+            nextRec.cost / totalDiscount(nextRec.type == "building") -
             nextRec.cost;
     }
     return value;
@@ -2686,20 +2677,20 @@ function upgradeStats(recalculate) {
                     var baseCpsNew = baseCps();
                     var cpsNew = effectiveCps(currentBank);
                     var priceReduction =
-                        discounts == totalDiscount() + totalDiscount(true)
-                        ? 0
-                        : checkPrices(current);
+                        discounts == totalDiscount() + totalDiscount(true) ?
+                        0 :
+                        checkPrices(current);
                     upgradeToggle(current, existingAchievements, reverseFunctions);
                     Game.elderWrath = existingWrath;
                     var deltaCps = cpsNew - cpsOrig;
                     var baseDeltaCps = baseCpsNew - baseCpsOrig;
                     var efficiency =
                         current.season &&
-                        current.season == seasons[FrozenCookies.defaultSeason]
-                        ? cost / baseCpsOrig
-                        : priceReduction > cost
-                        ? 1
-                        : purchaseEfficiency(cost, deltaCps, baseDeltaCps, cpsOrig);
+                        current.season == seasons[FrozenCookies.defaultSeason] ?
+                        cost / baseCpsOrig :
+                        priceReduction > cost ?
+                        1 :
+                        purchaseEfficiency(cost, deltaCps, baseDeltaCps, cpsOrig);
                     return {
                         id: current.id,
                         efficiency: efficiency,
@@ -2728,19 +2719,19 @@ function isUnavailable(upgrade, upgradeBlacklist) {
     if (upgradeBlacklist.concat(recommendationBlacklist).includes(upgrade.id)) {
         return true;
     }
-    
+
     // if (upgrade.id == 74 && Game.season == "halloween" && !haveAll("halloween")) { // Don't pledge during Halloween
     //    return true;
     // }
-    
+
     if (upgrade.id == 74 && (Game.season == "halloween" || Game.season == "easter") && !haveAll(Game.season)) { // Don't pledge if Easter or Halloween not complete
         return true;
     }
-  
+
     if (App && upgrade.id == 816) { // Web cookies are only on Browser
         return true;
     }
-    
+
     if (!App && upgrade.id == 817) { // Steamed cookies are only on Steam
         return true;
     }
@@ -2775,8 +2766,8 @@ function isUnavailable(upgrade, upgradeBlacklist) {
 
 function santaStats() {
     return Game.Has("A festive hat") &&
-        Game.santaLevel + 1 < Game.santaLevels.length
-        ? {
+        Game.santaLevel + 1 < Game.santaLevels.length ?
+        {
             id: 0,
             efficiency: Infinity,
             base_delta_cps: 0,
@@ -2785,8 +2776,7 @@ function santaStats() {
             type: "santa",
             purchase: {
                 id: 0,
-                name: 
-                	"Santa Stage Upgrade (" +
+                name: "Santa Stage Upgrade (" +
                     Game.santaLevels[(Game.santaLevel + 1) % Game.santaLevels.length] +
                     ")",
                 buy: buySanta,
@@ -2794,8 +2784,8 @@ function santaStats() {
                     return cumulativeSantaCost(1);
                 },
             },
-        }
-        : [];
+        } :
+        [];
 }
 
 function defaultPurchase() {
@@ -2850,8 +2840,7 @@ function cumulativeBuildingCost(basePrice, startingNumber, endingNumber) {
 
 function cumulativeSantaCost(amount) {
     var total = 0;
-    if (!amount) {} 
-    else if (Game.santaLevel + amount < Game.santaLevels.length) {
+    if (!amount) {} else if (Game.santaLevel + amount < Game.santaLevels.length) {
         for (var i = Game.santaLevel + 1; i <= Game.santaLevel + amount; i++) {
             total += Math.pow(i, i);
         }
@@ -3186,9 +3175,9 @@ function saveStats(fromGraph) {
 
 function viewStatGraphs() {
     saveStats(true);
-    var containerDiv = $("#statGraphContainer").length
-        ? $("#statGraphContainer")
-        : $("<div>")
+    var containerDiv = $("#statGraphContainer").length ?
+        $("#statGraphContainer") :
+        $("<div>")
         .attr("id", "statGraphContainer")
         .html($("<div>").attr("id", "statGraphs"))
         .appendTo("body")
@@ -3259,8 +3248,7 @@ function viewStatGraphs() {
                     show: true,
                     sizeAdjust: 15,
                 },
-                series: [
-                	{
+                series: [{
                         label: "Base CPS",
                     },
                     {
@@ -3328,8 +3316,7 @@ function doTimeTravel() {
             var fullCps = effectiveCps();
             if (fullCps) {
                 var neededCookies = 0;
-                if (timeTravelMethod === 1) {} 
-                else if (timeTravelMethod === 3) {}
+                if (timeTravelMethod === 1) {} else if (timeTravelMethod === 3) {}
             }
         } else {}
     } else {
@@ -3355,9 +3342,9 @@ function fcWin(what) {
     if (typeof what === "string") {
         if (Game.Achievements[what]) {
             if (Game.Achievements[what].won == 0) {
-                var achname = Game.Achievements[what].shortName
-                    ? Game.Achievements[what].shortName
-                    : Game.Achievements[what].name;
+                var achname = Game.Achievements[what].shortName ?
+                    Game.Achievements[what].shortName :
+                    Game.Achievements[what].name;
                 Game.Achievements[what].won = 1;
                 //This happens a ton of times on CPS achievements; it seems like they would be CHECKED for, but a degbug message placed
                 //here gets repeatedly called seeming to indicate that the achievements.won value is 1, even though the achievement isn't
@@ -3437,11 +3424,11 @@ function smartTrackingStats(delay) {
     saveStats();
     if (FrozenCookies.trackStats == 6) {
         delay /=
-            FrozenCookies.delayPurchaseCount == 0
-            ? 1 / 1.5
-            : delay > FrozenCookies.minDelay
-            ? 2
-            : 1;
+            FrozenCookies.delayPurchaseCount == 0 ?
+            1 / 1.5 :
+            delay > FrozenCookies.minDelay ?
+            2 :
+            1;
         FrozenCookies.smartTrackingBot = setTimeout(function() {
             smartTrackingStats(delay);
         }, delay);
@@ -3486,16 +3473,16 @@ function shouldPopWrinklers() {
     var toPop = [];
     var living = liveWrinklers();
     if (living.length > 0) {
-        if ( (Game.season == "halloween" || Game.season == "easter") && !haveAll(Game.season) ) {
+        if ((Game.season == "halloween" || Game.season == "easter") && !haveAll(Game.season)) {
             toPop = living.map(function(w) {
                 return w.id;
             });
         } else {
             var delay = delayAmount();
             var wrinklerList =
-                FrozenCookies.shinyPop == 0
-                ? Game.wrinklers.filter(v >= v.type == 0)
-                : Game.wrinklers;
+                FrozenCookies.shinyPop == 0 ?
+                Game.wrinklers.filter(v >= v.type == 0) :
+                Game.wrinklers;
             var nextRecNeeded = nextPurchase().cost + delay - Game.cookies;
             var nextRecCps = nextPurchase().delta_cps;
             var wrinklersNeeded = wrinklerList
@@ -3515,8 +3502,7 @@ function shouldPopWrinklers() {
                             current.total += popValue(w);
                         }
                         return current;
-                    }, 
-                    {
+                    }, {
                         total: 0,
                         ids: [],
                     }
@@ -3586,7 +3572,7 @@ function autoGodzamokAction() {
         if (Game.Objects["Mine"].amount <= 10 || Game.Objects["Factory"].amount <= 10) {
             return;
         }
-        
+
         // if Pantheon is here and autoGodzamok is set
         if (
             Game.hasGod("ruin") && (Game.Objects["Mine"].amount > 10 && Game.Objects["Mine"].amount < 500)
@@ -3599,7 +3585,7 @@ function autoGodzamokAction() {
         } else {
             return;
         }
-        
+
         if (
             Game.hasGod("ruin") && (Game.Objects["Factory"].amount > 10 && Game.Objects["Factory"].amount < 500)
         ) {
@@ -3619,14 +3605,14 @@ function autoGodzamokAction() {
             Game.Objects["Mine"].sell(countMine);
             Game.Objects["Factory"].sell(countFactory);
 
-            if (FrozenCookies.autoBuy == 1 && (FrozenCookies.mineLimit == 0 || 
-              (Game.Objects["Mine"].amount + countMine) <= FrozenCookies.mineMax )) {
+            if (FrozenCookies.autoBuy == 1 && (FrozenCookies.mineLimit == 0 ||
+                    (Game.Objects["Mine"].amount + countMine) <= FrozenCookies.mineMax)) {
                 safeBuy(Game.Objects["Mine"], countMine);
                 logEvent("AutoGodzamok", "Bought " + countMine + " mines");
             }
-            
-            if (FrozenCookies.autoBuy == 1 && (FrozenCookies.factoryLimit == 0 || 
-              (Game.Objects["Factory"].amount + countFactory) <= FrozenCookies.factoryMax )) {
+
+            if (FrozenCookies.autoBuy == 1 && (FrozenCookies.factoryLimit == 0 ||
+                    (Game.Objects["Factory"].amount + countFactory) <= FrozenCookies.factoryMax)) {
                 safeBuy(Game.Objects["Factory"], countFactory);
                 logEvent("AutoGodzamok", "Bought " + countFactory + " factories");
             }

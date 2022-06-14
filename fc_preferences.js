@@ -144,7 +144,7 @@ FrozenCookies.preferenceValues = {
         default: 0,
         extras: '<a class="option" id="minLoanMult" onclick="updateLoanMultMin(\'minLoanMult\');">x${minLoanMult} minimum Frenzy</a>',
     },
-    
+
     // Spell options
     SpellOptions: {
         hint: "Grimoire options:",

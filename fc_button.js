@@ -312,9 +312,9 @@ function FCMenu() {
             actualCps =
             Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed,
             chocolateRecoup =
-            (recommendation.type == "upgrade"
-                ? recommendation.cost
-                : recommendation.cost * 0.425) /
+            (recommendation.type == "upgrade" ?
+                recommendation.cost :
+                recommendation.cost * 0.425) /
             (recommendation.delta_cps * 21);
 
         function buildListing(label, name) {
@@ -473,10 +473,10 @@ function FCMenu() {
             buildListing("Last Golden Cookie Effect", Game.shimmerTypes.golden.last)
         );
         menu.append(subsection);
-		
-		// Frenzy Times
-		
-		subsection = $("<div style='height: 200px; overflow: scroll;'>").addClass("subsection");
+
+        // Frenzy Times
+
+        subsection = $("<div style='height: 200px; overflow: scroll;'>").addClass("subsection");
         subsection.append(
             $("<div>").addClass("title").text("Frenzy Times")
         );
@@ -585,9 +585,9 @@ function FCMenu() {
                 buildListing(
                     "Single " +
                     FrozenCookies.harvestPlant +
-                    (FrozenCookies.setHarvestBankPlant < 6
-                        ? " harvesting"
-                        : " exploding") +
+                    (FrozenCookies.setHarvestBankPlant < 6 ?
+                        " harvesting" :
+                        " exploding") +
                     "",
                     Beautify(
                         (baseCps() *
@@ -602,9 +602,9 @@ function FCMenu() {
             subsection.append(
                 buildListing(
                     "Full garden " +
-                    (FrozenCookies.setHarvestBankPlant < 6
-                        ? " harvesting"
-                        : " exploding") +
+                    (FrozenCookies.setHarvestBankPlant < 6 ?
+                        " harvesting" :
+                        " exploding") +
                     " (36 plots)",
                     Beautify(
                         (36 *
@@ -764,8 +764,7 @@ function FCMenu() {
             .append($("<td>").attr("colspan", "5").html("&nbsp;")),
         ];
 
-        var banks = [
-        	{
+        var banks = [{
                 name: "Lucky Bank",
                 cost: luckyBank(),
                 efficiency: cookieEfficiency(Game.cookies, luckyBank()),
@@ -782,8 +781,7 @@ function FCMenu() {
             },
         ];
 
-        var elderWrathLevels = [
-        	{
+        var elderWrathLevels = [{
                 name: "Pledging/Appeased",
                 level: 0
             },
@@ -842,7 +840,7 @@ function FCMenu() {
         });
         subsection.append($("<div>").addClass("listing").append(buildTable));
         menu.append(subsection);
-        
-        if (!Game.HasAchiev('Olden days')) subsection.append($('<div id="oldenDays" style="text-align:right;width:100%;"><div '+Game.clickStr+'="Game.SparkleAt(Game.mouseX,Game.mouseY);PlaySound(\'snd/tick.mp3\');PlaySound(\'snd/shimmerClick.mp3\');Game.Win(\'Olden days\');Game.UpdateMenu();" class="icon" style="display:inline-block;transform:scale(0.5);cursor:pointer;width:48px;height:48px;background-position:'+(-12*48)+'px '+(-3*48)+'px;"></div></div>'));
+
+        if (!Game.HasAchiev('Olden days')) subsection.append($('<div id="oldenDays" style="text-align:right;width:100%;"><div ' + Game.clickStr + '="Game.SparkleAt(Game.mouseX,Game.mouseY);PlaySound(\'snd/tick.mp3\');PlaySound(\'snd/shimmerClick.mp3\');Game.Win(\'Olden days\');Game.UpdateMenu();" class="icon" style="display:inline-block;transform:scale(0.5);cursor:pointer;width:48px;height:48px;background-position:' + (-12 * 48) + 'px ' + (-3 * 48) + 'px;"></div></div>'));
     };
 }

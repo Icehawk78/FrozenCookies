@@ -1103,7 +1103,7 @@ var upgradeJson = {
         buildings: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 550],
         upgrades: [],
     }, // The land of dreams
-    
+
     // Grandma upgrades
     57: {
         buildings: [0, 1, 15],
@@ -1443,7 +1443,7 @@ var upgradeJson = {
     479: {
         buildings: [
             450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450,
-            450, 450, 450, 450, 
+            450, 450, 450, 450,
         ],
         upgrades: [],
     }, // Ultra-concentrated high-energy chocolate butter biscuit
@@ -1464,7 +1464,7 @@ var upgradeJson = {
     699: {
         buildings: [
             600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600,
-            600, 600, 600, 600, 
+            600, 600, 600, 600,
         ],
         upgrades: [],
     }, // Butter biscuit (with butter)
