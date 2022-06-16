@@ -70,6 +70,11 @@ Current differences from the oficial release:
 
 ## What's new?
 
+2022 Jun 16
+
+- Changed layout of Frozen Cookies menu so options are at the top
+- Removed not really working overflow for Frenzy Times
+
 2022 Jun 06
 
 - Prevent rebuy spam if autoGodz is enabled but there is no building limit set, and over 500 buildings are owned
