@@ -74,7 +74,7 @@ Current differences from the oficial release:
 
 - Removed not really working overflow for Frenzy Times
 - Edited Frozen Cookies menu layout
-- Tweaked smart FTHOF behaviour (should no longer waste a click frenzy)
+- Tweaked smart FTHOF behaviour (should no longer waste a click frenzy if Dragonflight is active)
 
 2022 Jun 06
 
@@ -356,11 +356,7 @@ Current differences from the oficial release:
 
 # Known Issues
 
-- Currently will not ever buy or recommend buying the Sacrificial Rolling Pin. (Due to not modelling the cost of the Elder Pact as lost CpS.)
-- Will not buy some other upgrades as well as they don't directly gain CpS
-- Raw cookies per second reports (highest this ascension: 70.4 quadrillion) in a clean safe, even when nothing has been done yet. This messes with early market prices.
-- Not all keyboard shortcuts work
-- Not compatible with the __CCSE__ mod (up to version 2.048). This is because of problems in CCSE.
+- See the Github issues
 
 # Efficiency? What's that?
 
