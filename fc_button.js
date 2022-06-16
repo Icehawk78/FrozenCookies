@@ -299,70 +299,6 @@ function FCMenu() {
                 FrozenCookies.version
             )
         ),
-       
-        // build preference menu items
-        if (FrozenCookies.preferenceValues) {
-            subsection = $("<div>").addClass("subsection");
-            subsection.append(
-                $("<div>").addClass("title").text("Frozen Cookie Controls")
-            );
-            _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
-                var listing,
-                    prefVal = FrozenCookies.preferenceValues[preference],
-                    hint = prefVal.hint,
-                    display = prefVal.display,
-                    extras = prefVal.extras,
-                    current = FrozenCookies[preference],
-                    preferenceButtonId = preference + "Button";
-                if (display && display.length > 0 && display.length > current) {
-                    listing = $("<div>").addClass("listing");
-                    listing.append(
-                        $("<a>")
-                        .addClass("option")
-                        .prop("id", preferenceButtonId)
-                        .click(function() {
-                            cyclePreference(preference);
-                        })
-                        .text(display[current])
-                    );
-                    if (hint) {
-                        listing.append(
-                            $("<label>").text(
-                                hint.replace(/\$\{(.+)\}/g, function(s, id) {
-                                    return FrozenCookies[id];
-                                })
-                            )
-                        );
-                    }
-                    if (extras) {
-                        listing.append(
-                            $(
-                                extras.replace(/\$\{(.+)\}/g, function(s, id) {
-                                    return fcBeautify(FrozenCookies[id]);
-                                })
-                            )
-                        );
-                    }
-                    subsection.append(listing);
-                }
-                // if no options, still display the hint as a subsection head
-                if (!display) {
-                    listing = $("<div>").addClass("listing");
-                    if (hint) {
-                        listing.append(
-                            $("<br>"),
-                            $("<label>").text(
-                                hint.replace(/\$\{(.+)\}/g, function(s, id) {
-                                    return FrozenCookies[id];
-                                })
-                            )
-                        );
-                    }
-                    subsection.append(listing);
-                }
-            });
-            menu.append(subsection);
-        }
 
         //Autobuy
         subsection = $("<div>")
@@ -492,6 +428,70 @@ function FCMenu() {
                 )
             );
         });
+       
+        // build preference menu items
+        if (FrozenCookies.preferenceValues) {
+            subsection = $("<div>").addClass("subsection");
+            subsection.append(
+                $("<div>").addClass("title").text("Frozen Cookie Controls")
+            );
+            _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
+                var listing,
+                    prefVal = FrozenCookies.preferenceValues[preference],
+                    hint = prefVal.hint,
+                    display = prefVal.display,
+                    extras = prefVal.extras,
+                    current = FrozenCookies[preference],
+                    preferenceButtonId = preference + "Button";
+                if (display && display.length > 0 && display.length > current) {
+                    listing = $("<div>").addClass("listing");
+                    listing.append(
+                        $("<a>")
+                        .addClass("option")
+                        .prop("id", preferenceButtonId)
+                        .click(function() {
+                            cyclePreference(preference);
+                        })
+                        .text(display[current])
+                    );
+                    if (hint) {
+                        listing.append(
+                            $("<label>").text(
+                                hint.replace(/\$\{(.+)\}/g, function(s, id) {
+                                    return FrozenCookies[id];
+                                })
+                            )
+                        );
+                    }
+                    if (extras) {
+                        listing.append(
+                            $(
+                                extras.replace(/\$\{(.+)\}/g, function(s, id) {
+                                    return fcBeautify(FrozenCookies[id]);
+                                })
+                            )
+                        );
+                    }
+                    subsection.append(listing);
+                }
+                // if no options, still display the hint as a subsection head
+                if (!display) {
+                    listing = $("<div>").addClass("listing");
+                    if (hint) {
+                        listing.append(
+                            $("<br>"),
+                            $("<label>").text(
+                                hint.replace(/\$\{(.+)\}/g, function(s, id) {
+                                    return FrozenCookies[id];
+                                })
+                            )
+                        );
+                    }
+                    subsection.append(listing);
+                }
+            });
+            menu.append(subsection);
+        }
 
         // Golden Cookies
         subsection = $("<div>").addClass("subsection");
