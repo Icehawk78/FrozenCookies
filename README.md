@@ -72,7 +72,6 @@ Current differences from the oficial release:
 
 2022 Jun 16
 
-- Changed layout of Frozen Cookies menu so options are at the top
 - Removed not really working overflow for Frenzy Times
 
 2022 Jun 06
