@@ -859,6 +859,7 @@ function autoCast() {
     if (!M) return; // Just leave if you don't have grimoire
     if (M.magic == M.magicM) {
         if (FrozenCookies.autoFTHOFCombo == 1) return; // FTHOF combo option will override any auto cast function
+        if (Game.hasBuff("Dragonflight")) return; // Safety exit since DF will remove click frenzy, potentially wasting it
         if (
             cpsBonus() >= FrozenCookies.minCpSMult ||
             Game.hasBuff("Dragonflight") ||
@@ -1016,6 +1017,7 @@ function autoCast() {
 function autoFTHOFComboAction() {
     if (!M) return; // Just leave if you don't have grimoire
     if (Game.Objects['Wizard tower'].level > 10 || FrozenCookies.autoFTHOFCombo == 0) return; // THIS WILL NOT WORK IF TOWER LEVEL IS ABOVE 10
+    if (Game.hasBuff("Dragonflight")) return; // Safety exit since DF will remove click frenzy, potentially wasting it
 
     if (typeof autoFTHOFComboAction.count == 'undefined') {
         autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
@@ -1284,6 +1286,7 @@ function autoFTHOFComboAction() {
 function auto100ConsistencyComboAction() {
     if (!M) return; // Just leave if you don't have grimoire
     if (Game.Objects['Wizard tower'].level < 10 || FrozenCookies.auto100ConsistencyCombo == 0) return; // For now only works with wizard towers level 10
+    if (Game.hasBuff("Dragonflight")) return; // Safety exit since DF will remove click frenzy, potentially wasting it
 
     if (typeof auto100ConsistencyComboAction.countFarm == 'undefined') {
         auto100ConsistencyComboAction.countFarm = Game.Objects['Farm'].amount;
