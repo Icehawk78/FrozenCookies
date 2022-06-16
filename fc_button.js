@@ -397,37 +397,6 @@ function FCMenu() {
             );
         }
         menu.append(subsection);
- 
-        subsection = $("<div>").addClass("subsection");
-        subsection.append(
-            $("<div>").addClass("title").text("Internal Information")
-        );
-        buildTable = $("<table>")
-            .prop("id", "fcEfficiencyTable")
-            .append(
-                $("<tr>").append(
-                    $("<th>").text("Building"),
-                    $("<th>").text("Eff%"),
-                    $("<th>").text("Efficiency"),
-                    $("<th>").text("Cost"),
-                    $("<th>").text("Δ CPS")
-                )
-            );
-        recommendationList().forEach(function(rec) {
-            var item = rec.purchase,
-                chainStr = item.unlocked === 0 ? " (C)" : "";
-            buildTable.append(
-                $("<tr>").append(
-                    $("<td>").append($("<b>").text(item.name + chainStr)),
-                    $("<td>").text(
-                        (Math.floor(rec.efficiencyScore * 10000) / 100).toString() + "%"
-                    ),
-                    $("<td>").text(Beautify(rec.efficiency)),
-                    $("<td>").text(Beautify(rec.cost)),
-                    $("<td>").text(Beautify(rec.delta_cps))
-                )
-            );
-        });
        
         // build preference menu items
         if (FrozenCookies.preferenceValues) {
@@ -754,7 +723,39 @@ function FCMenu() {
             );
         }
         menu.append(subsection);
-
+ 
+        // Internal Information
+        subsection = $("<div>").addClass("subsection");
+        subsection.append(
+            $("<div>").addClass("title").text("Internal Information")
+        );
+        buildTable = $("<table>")
+            .prop("id", "fcEfficiencyTable")
+            .append(
+                $("<tr>").append(
+                    $("<th>").text("Building"),
+                    $("<th>").text("Eff%"),
+                    $("<th>").text("Efficiency"),
+                    $("<th>").text("Cost"),
+                    $("<th>").text("Δ CPS")
+                )
+            );
+        recommendationList().forEach(function(rec) {
+            var item = rec.purchase,
+                chainStr = item.unlocked === 0 ? " (C)" : "";
+            buildTable.append(
+                $("<tr>").append(
+                    $("<td>").append($("<b>").text(item.name + chainStr)),
+                    $("<td>").text(
+                        (Math.floor(rec.efficiencyScore * 10000) / 100).toString() + "%"
+                    ),
+                    $("<td>").text(Beautify(rec.efficiency)),
+                    $("<td>").text(Beautify(rec.cost)),
+                    $("<td>").text(Beautify(rec.delta_cps))
+                )
+            );
+        });
+        
         // Table Dividers
         var dividers = [
             $("<tr>").append($("<td>").attr("colspan", "5").html("&nbsp;")),
