@@ -73,6 +73,8 @@ Current differences from the oficial release:
 2022 Jun 16
 
 - Removed not really working overflow for Frenzy Times
+- Edited Frozen Cookies menu layout
+- Tweaked smart FTHOF behaviour (should no longer waste a click frenzy)
 
 2022 Jun 06
 

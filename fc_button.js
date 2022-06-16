@@ -287,37 +287,101 @@ function FCMenu() {
             bankLucky,
             bankLuckyFrenzy,
             bankChain,
-            menu = $("#menu")
-            .empty()
-            .append(
-                $("<div>")
-                .addClass("section")
-                .text(
-                    "Frozen Cookies v " +
-                    FrozenCookies.branch +
-                    "." +
-                    FrozenCookies.version
-                )
-            ),
-           
-            //Autobuy
-            subsection = $("<div>")
-            .addClass("subsection")
-            .append($("<div>").addClass("title").text("Autobuy Information")),
-            recommendation = nextPurchase(),
-            chainRecommendation = nextChainedPurchase(),
-            isChained = !(
-                recommendation.id == chainRecommendation.id &&
-                recommendation.type == chainRecommendation.type
-            ),
-            bankLevel = bestBank(chainRecommendation.efficiency),
-            actualCps =
-            Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed,
-            chocolateRecoup =
-            (recommendation.type == "upgrade" ?
-                recommendation.cost :
-                recommendation.cost * 0.425) /
-            (recommendation.delta_cps * 21);
+        menu = $("#menu")
+        .empty()
+        .append(
+            $("<div>")
+            .addClass("section")
+            .text(
+                "Frozen Cookies v " +
+                FrozenCookies.branch +
+                "." +
+                FrozenCookies.version
+            )
+        ),
+       
+        // build preference menu items
+        if (FrozenCookies.preferenceValues) {
+            subsection = $("<div>").addClass("subsection");
+            subsection.append(
+                $("<div>").addClass("title").text("Frozen Cookie Controls")
+            );
+            _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
+                var listing,
+                    prefVal = FrozenCookies.preferenceValues[preference],
+                    hint = prefVal.hint,
+                    display = prefVal.display,
+                    extras = prefVal.extras,
+                    current = FrozenCookies[preference],
+                    preferenceButtonId = preference + "Button";
+                if (display && display.length > 0 && display.length > current) {
+                    listing = $("<div>").addClass("listing");
+                    listing.append(
+                        $("<a>")
+                        .addClass("option")
+                        .prop("id", preferenceButtonId)
+                        .click(function() {
+                            cyclePreference(preference);
+                        })
+                        .text(display[current])
+                    );
+                    if (hint) {
+                        listing.append(
+                            $("<label>").text(
+                                hint.replace(/\$\{(.+)\}/g, function(s, id) {
+                                    return FrozenCookies[id];
+                                })
+                            )
+                        );
+                    }
+                    if (extras) {
+                        listing.append(
+                            $(
+                                extras.replace(/\$\{(.+)\}/g, function(s, id) {
+                                    return fcBeautify(FrozenCookies[id]);
+                                })
+                            )
+                        );
+                    }
+                    subsection.append(listing);
+                }
+                // if no options, still display the hint as a subsection head
+                if (!display) {
+                    listing = $("<div>").addClass("listing");
+                    if (hint) {
+                        listing.append(
+                            $("<br>"),
+                            $("<label>").text(
+                                hint.replace(/\$\{(.+)\}/g, function(s, id) {
+                                    return FrozenCookies[id];
+                                })
+                            )
+                        );
+                    }
+                    subsection.append(listing);
+                }
+            });
+            menu.append(subsection);
+        }
+
+        //Autobuy
+        subsection = $("<div>")
+        .addClass("subsection")
+        .append($("<div>").addClass("title").text("Autobuy Information")),
+        recommendation = nextPurchase(),
+        chainRecommendation = nextChainedPurchase(),
+        isChained = !(
+            recommendation.id == chainRecommendation.id &&
+            recommendation.type == chainRecommendation.type
+        ),
+        bankLevel = bestBank(chainRecommendation.efficiency),
+        actualCps =
+        Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed,
+        chocolateRecoup =
+        (recommendation.type == "upgrade" ?
+            recommendation.cost :
+            recommendation.cost * 0.425) /
+        (recommendation.delta_cps * 21);
 
         function buildListing(label, name) {
             return $("<div>")
@@ -397,9 +461,39 @@ function FCMenu() {
             );
         }
         menu.append(subsection);
+ 
+        subsection = $("<div>").addClass("subsection");
+        subsection.append(
+            $("<div>").addClass("title").text("Internal Information")
+        );
+        buildTable = $("<table>")
+            .prop("id", "fcEfficiencyTable")
+            .append(
+                $("<tr>").append(
+                    $("<th>").text("Building"),
+                    $("<th>").text("Eff%"),
+                    $("<th>").text("Efficiency"),
+                    $("<th>").text("Cost"),
+                    $("<th>").text("Δ CPS")
+                )
+            );
+        recommendationList().forEach(function(rec) {
+            var item = rec.purchase,
+                chainStr = item.unlocked === 0 ? " (C)" : "";
+            buildTable.append(
+                $("<tr>").append(
+                    $("<td>").append($("<b>").text(item.name + chainStr)),
+                    $("<td>").text(
+                        (Math.floor(rec.efficiencyScore * 10000) / 100).toString() + "%"
+                    ),
+                    $("<td>").text(Beautify(rec.efficiency)),
+                    $("<td>").text(Beautify(rec.cost)),
+                    $("<td>").text(Beautify(rec.delta_cps))
+                )
+            );
+        });
 
         // Golden Cookies
-
         subsection = $("<div>").addClass("subsection");
         subsection.append(
             $("<div>").addClass("title").text("Golden Cookie Information")
@@ -476,26 +570,7 @@ function FCMenu() {
         );
         menu.append(subsection);
 
-        // Frenzy Times
-
-        subsection = $("<div>").addClass("subsection");
-        subsection.append(
-            $("<div>").addClass("title").text("Frenzy Times")
-        );
-        $.each(Object.keys(FrozenCookies.frenzyTimes)
-            .sort((a, b) => parseInt(a) - parseInt(b))
-            .reduce((result, rate) => {
-                result[parseInt(rate)] = (result[parseInt(rate)] || 0) + FrozenCookies.frenzyTimes[rate]
-                return result
-            }, {}), (rate, time) => {
-                subsection.append(
-                    buildListing("Total Recorded Time at x" + rate, timeDisplay(time / 1000))
-                );
-            });
-        menu.append(subsection);
-
         // Heavenly Chips
-
         subsection = $("<div>").addClass("subsection");
         subsection.append(
             $("<div>").addClass("title").text("Heavenly Chips Information")
@@ -663,100 +738,22 @@ function FCMenu() {
         }
         menu.append(subsection);
 
-        // build preference menu items
-        if (FrozenCookies.preferenceValues) {
-            subsection = $("<div>").addClass("subsection");
-            subsection.append(
-                $("<div>").addClass("title").text("Frozen Cookie Controls")
-            );
-            _.keys(FrozenCookies.preferenceValues).forEach(function(preference) {
-                var listing,
-                    prefVal = FrozenCookies.preferenceValues[preference],
-                    hint = prefVal.hint,
-                    display = prefVal.display,
-                    extras = prefVal.extras,
-                    current = FrozenCookies[preference],
-                    preferenceButtonId = preference + "Button";
-                if (display && display.length > 0 && display.length > current) {
-                    listing = $("<div>").addClass("listing");
-                    listing.append(
-                        $("<a>")
-                        .addClass("option")
-                        .prop("id", preferenceButtonId)
-                        .click(function() {
-                            cyclePreference(preference);
-                        })
-                        .text(display[current])
-                    );
-                    if (hint) {
-                        listing.append(
-                            $("<label>").text(
-                                hint.replace(/\$\{(.+)\}/g, function(s, id) {
-                                    return FrozenCookies[id];
-                                })
-                            )
-                        );
-                    }
-                    if (extras) {
-                        listing.append(
-                            $(
-                                extras.replace(/\$\{(.+)\}/g, function(s, id) {
-                                    return fcBeautify(FrozenCookies[id]);
-                                })
-                            )
-                        );
-                    }
-                    subsection.append(listing);
-                }
-                // if no options, still display the hint as a subsection head
-                if (!display) {
-                    listing = $("<div>").addClass("listing");
-                    if (hint) {
-                        listing.append(
-                            $("<br>"),
-                            $("<label>").text(
-                                hint.replace(/\$\{(.+)\}/g, function(s, id) {
-                                    return FrozenCookies[id];
-                                })
-                            )
-                        );
-                    }
-                    subsection.append(listing);
-                }
-            });
-            menu.append(subsection);
-        }
- 
+        // Frenzy Times
         subsection = $("<div>").addClass("subsection");
         subsection.append(
-            $("<div>").addClass("title").text("Internal Information")
+            $("<div>").addClass("title").text("Frenzy Times")
         );
-        buildTable = $("<table>")
-            .prop("id", "fcEfficiencyTable")
-            .append(
-                $("<tr>").append(
-                    $("<th>").text("Building"),
-                    $("<th>").text("Eff%"),
-                    $("<th>").text("Efficiency"),
-                    $("<th>").text("Cost"),
-                    $("<th>").text("Δ CPS")
-                )
-            );
-        recommendationList().forEach(function(rec) {
-            var item = rec.purchase,
-                chainStr = item.unlocked === 0 ? " (C)" : "";
-            buildTable.append(
-                $("<tr>").append(
-                    $("<td>").append($("<b>").text(item.name + chainStr)),
-                    $("<td>").text(
-                        (Math.floor(rec.efficiencyScore * 10000) / 100).toString() + "%"
-                    ),
-                    $("<td>").text(Beautify(rec.efficiency)),
-                    $("<td>").text(Beautify(rec.cost)),
-                    $("<td>").text(Beautify(rec.delta_cps))
-                )
-            );
-        });
+        $.each(Object.keys(FrozenCookies.frenzyTimes)
+            .sort((a, b) => parseInt(a) - parseInt(b))
+            .reduce((result, rate) => {
+                result[parseInt(rate)] = (result[parseInt(rate)] || 0) + FrozenCookies.frenzyTimes[rate]
+                return result
+            }, {}), (rate, time) => {
+                subsection.append(
+                    buildListing("Total Recorded Time at x" + rate, timeDisplay(time / 1000))
+                );
+            });
+        menu.append(subsection);
 
         // Table Dividers
         var dividers = [
