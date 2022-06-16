@@ -570,6 +570,23 @@ function FCMenu() {
         );
         menu.append(subsection);
 
+        // Frenzy Times
+        subsection = $("<div>").addClass("subsection");
+        subsection.append(
+            $("<div>").addClass("title").text("Frenzy Times")
+        );
+        $.each(Object.keys(FrozenCookies.frenzyTimes)
+            .sort((a, b) => parseInt(a) - parseInt(b))
+            .reduce((result, rate) => {
+                result[parseInt(rate)] = (result[parseInt(rate)] || 0) + FrozenCookies.frenzyTimes[rate]
+                return result
+            }, {}), (rate, time) => {
+                subsection.append(
+                    buildListing("Total Recorded Time at x" + rate, timeDisplay(time / 1000))
+                );
+            });
+        menu.append(subsection);
+        
         // Heavenly Chips
         subsection = $("<div>").addClass("subsection");
         subsection.append(
@@ -736,23 +753,6 @@ function FCMenu() {
                 buildListing("Wrinkler Value", Beautify(wrinklerValue()))
             );
         }
-        menu.append(subsection);
-
-        // Frenzy Times
-        subsection = $("<div>").addClass("subsection");
-        subsection.append(
-            $("<div>").addClass("title").text("Frenzy Times")
-        );
-        $.each(Object.keys(FrozenCookies.frenzyTimes)
-            .sort((a, b) => parseInt(a) - parseInt(b))
-            .reduce((result, rate) => {
-                result[parseInt(rate)] = (result[parseInt(rate)] || 0) + FrozenCookies.frenzyTimes[rate]
-                return result
-            }, {}), (rate, time) => {
-                subsection.append(
-                    buildListing("Total Recorded Time at x" + rate, timeDisplay(time / 1000))
-                );
-            });
         menu.append(subsection);
 
         // Table Dividers
