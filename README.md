@@ -25,6 +25,9 @@ Current differences from the oficial release:
 ## How to use
 
 ## Steam Install
+Get it from the Workshop: https://steamcommunity.com/sharedfiles/filedetails/?id=2816199538
+
+If you want to manually install it:
 1. Download the Steam folder at https://erbkaiser.github.io/FrozenCookies/Steam/ and put the Steam folder in your mods/local folder. Remove or disable any other variants of FC.
 2. Close Cookie Clicker if it is running, or refresh it
 3. Load up Cookie Clicker via Steam
