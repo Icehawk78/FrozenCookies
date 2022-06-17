@@ -399,8 +399,11 @@ The combo will not work if you upgrade Wizard Towers to 11 or higher.
 
 ## Auto 100% Consistency Combo
 
-This is basically the Auto FTHOF Combo on steroids and will only work with Wizard Towers on level 10.  It will completely automate the building purchases, garden, and grimoire and use a sugar lump to cast up to four spells in succession, selling and rebuying buildings, fully harvesting the garden regardless of what is growing to plant whiskerblooms for a milk combo. If you opt to use this, make sure to have at least 110 sugar lumps in reserve and that you're not trying to grow a specific garden type.
-It's also necessary to turn off any building caps in Frozen Cookies settings before enabling this.
+Based on the 100% Consistency endgame click combo\*, this is basically the Auto FTHOF Combo on steroids and will only work with Wizard Towers on level 10.  It will completely automate the building purchases, garden, and grimoire and use a sugar lump to cast up to four spells in succession, selling and rebuying buildings, fully harvesting the garden regardless of what is growing to plant whiskerblooms for a milk combo.  
+If you opt to use this, make sure to have at least 110 sugar lumps in reserve and that you have whiskerblooms unlocked in the garden, and are not trying to grow a hard to get plant like the Juicy queenbeet.
+For optimal use,  turn off the mine and factory building caps in Frozen Cookies settings before enabling this.
+
+\*https://pastebin.com/raw/bMHEJ3R9
 
 # Information about Frozen Cookies' Data
 
