@@ -216,7 +216,6 @@ function setOverrides(gameSaveData) {
         // building max values
         FrozenCookies.mineMax = preferenceParse("mineMax", 0);
         FrozenCookies.factoryMax = preferenceParse("factoryMax", 0);
-
         FrozenCookies.manaMax = preferenceParse("manaMax", 0);
 
         // Also set this on a reload
@@ -1247,11 +1246,6 @@ function auto100ConsistencyComboAction() {
     if (Game.hasBuff("Dragonflight")) return; // Safety exit since DF will remove click frenzy, potentially wasting it
 
     var FTHOF = M.spellsById[1];
-    if (nextSpellName(0) == "Sugar Lump") { // Always get the lump
-        M.castSpell(FTHOF);
-        logEvent('AutoSpell', 'Cast Force the Hand of Fate');
-        return;
-    }
 
     if (typeof auto100ConsistencyComboAction.countFarm == 'undefined') {
         auto100ConsistencyComboAction.countFarm = Game.Objects['Farm'].amount;
@@ -2557,7 +2551,11 @@ function buildingStats(recalculate) {
                 buildingBlacklist.push(16);
             }
             //Stop buying wizard towers at max Mana if enabled
-            if (M && FrozenCookies.towerLimit && M.magicM >= FrozenCookies.manaMax) {
+            if (
+                M && 
+                FrozenCookies.towerLimit && 
+                M.magicM >= FrozenCookies.manaMax
+            ) {
                 buildingBlacklist.push(7);
             }
             //Stop buying Mines if at set limit
@@ -3840,7 +3838,10 @@ function autoCookie() {
             );
         }
     } else if (!FrozenCookies.processing && FrozenCookies.frequency) {
-        FrozenCookies.cookieBot = setTimeout(autoCookie, FrozenCookies.frequency);
+        FrozenCookies.cookieBot = setTimeout(
+            autoCookie, 
+            FrozenCookies.frequency
+        );
     }
 }
 
@@ -3922,11 +3923,17 @@ function FCStart() {
     // Now create new intervals with their specified frequencies.
 
     if (FrozenCookies.frequency) {
-        FrozenCookies.cookieBot = setTimeout(autoCookie, FrozenCookies.frequency);
+        FrozenCookies.cookieBot = setTimeout(
+            autoCookie, 
+            FrozenCookies.frequency
+        );
     }
 
     /*if (FrozenCookies.autoGC) {
-          FrozenCookies.goldenCookieBot = setInterval(autoGoldenCookie, FrozenCookies.frequency);
+          FrozenCookies.goldenCookieBot = setInterval(
+            autoGoldenCookie, 
+            FrozenCookies.frequency
+          );
       }*/
 
     if (FrozenCookies.autoClick && FrozenCookies.cookieClickSpeed) {
@@ -3944,7 +3951,10 @@ function FCStart() {
     }
 
     if (FrozenCookies.autoGS) {
-        FrozenCookies.autoGSBot = setInterval(autoGSBuy, FrozenCookies.frequency);
+        FrozenCookies.autoGSBot = setInterval(
+            autoGSBuy, 
+            FrozenCookies.frequency
+        );
     }
 
     if (FrozenCookies.autoGodzamok) {
@@ -3969,31 +3979,52 @@ function FCStart() {
     }
 
     if (FrozenCookies.autoFTHOFCombo) {
-        FrozenCookies.autoFTHOFComboBot = setInterval(autoFTHOFComboAction, FrozenCookies.frequency * 2)
+        FrozenCookies.autoFTHOFComboBot = setInterval(
+            autoFTHOFComboAction, 
+            FrozenCookies.frequency * 2
+        );
     }
 
     if (FrozenCookies.auto100ConsistencyCombo) {
-        FrozenCookies.auto100ConsistencyComboBot = setInterval(auto100ConsistencyComboAction, FrozenCookies.frequency * 2)
+        FrozenCookies.auto100ConsistencyComboBot = setInterval(
+            auto100ConsistencyComboAction, 
+            FrozenCookies.frequency * 2
+        );
     }
 
     if (FrozenCookies.autoEaster) {
-        FrozenCookies.autoEasterBot = setInterval(autoEasterAction, FrozenCookies.frequency)
+        FrozenCookies.autoEasterBot = setInterval(
+            autoEasterAction, 
+            FrozenCookies.frequency
+        );
     }
 
     if (FrozenCookies.autoBroker) {
-        FrozenCookies.autoBrokerBot = setInterval(autoBrokerAction, FrozenCookies.frequency)
+        FrozenCookies.autoBrokerBot = setInterval(
+            autoBrokerAction, 
+            FrozenCookies.frequency
+        );
     }
 
     if (FrozenCookies.autoDragon) {
-        FrozenCookies.autoDragonBot = setInterval(autoDragonAction, FrozenCookies.frequency)
+        FrozenCookies.autoDragonBot = setInterval(
+            autoDragonAction, 
+            FrozenCookies.frequency
+        );
     }
 
     if (FrozenCookies.petDragon) {
-        FrozenCookies.petDragonBot = setInterval(petDragonAction, FrozenCookies.frequency * 2)
+        FrozenCookies.petDragonBot = setInterval(
+            petDragonAction, 
+            FrozenCookies.frequency * 2
+        );
     }
 
     if (FrozenCookies.autoLoan) {
-        FrozenCookies.autoLoanBot = setInterval(autoLoanBuy, FrozenCookies.frequency);
+        FrozenCookies.autoLoanBot = setInterval(
+            autoLoanBuy, 
+            FrozenCookies.frequency
+        );
     }
 
     if (statSpeed(FrozenCookies.trackStats) > 0) {
