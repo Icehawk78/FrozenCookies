@@ -736,9 +736,10 @@ function toggleFrozen(setting) {
     FCStart();
 }
 
+//var G = Game.Objects["Farm"].minigame;
+var B = Game.Objects["Bank"].minigame;
 var T = Game.Objects["Temple"].minigame;
 var M = Game.Objects["Wizard tower"].minigame;
-var B = Game.Objects["Bank"].minigame;
 
 function rigiSell() {
     //Sell enough of the cheapest building to enable Rigidels effect
@@ -857,7 +858,7 @@ function BuffTimeFactor() {
 function autoCast() {
     if (!M) return; // Just leave if you don't have grimoire
     if (M.magic == M.magicM) {
-        if (FrozenCookies.autoFTHOFCombo == 1) return; // FTHOF combo option will override any auto cast function
+        if (FrozenCookies.autoFTHOFCombo == 1 || FrozenCookies.auto100ConsistencyCombo == 1) return; // combo option will override any auto cast function
         
         if (
             cpsBonus() >= FrozenCookies.minCpSMult ||
@@ -992,7 +993,8 @@ function autoCast() {
 // Thank goodness for static variables otherwise this function would not have worked as intended.
 function autoFTHOFComboAction() {
     if (!M) return; // Just leave if you don't have grimoire
-    if (Game.Objects['Wizard tower'].level > 10 || FrozenCookies.autoFTHOFCombo == 0) return; // THIS WILL NOT WORK IF TOWER LEVEL IS ABOVE 10
+    if (FrozenCookies.auto100ConsistencyCombo == 1) return; // 100% combo should override
+    if (Game.Objects['Wizard tower'].level > 10) return; // THIS WILL NOT WORK IF TOWER LEVEL IS ABOVE 10
     if (Game.hasBuff("Dragonflight")) return; // Safety exit since DF will remove click frenzy, potentially wasting it
 
     var FTHOF = M.spellsById[1];
@@ -1242,8 +1244,10 @@ function autoFTHOFComboAction() {
 
 function auto100ConsistencyComboAction() {
     if (!M) return; // Just leave if you don't have grimoire
-    if (Game.Objects['Wizard tower'].level < 10 || FrozenCookies.auto100ConsistencyCombo == 0) return; // For now only works with wizard towers level 10
+    if (Game.Objects['Wizard tower'].level < 10) return; // For now only works with wizard towers level 10
     if (Game.hasBuff("Dragonflight")) return; // Safety exit since DF will remove click frenzy, potentially wasting it
+    if (Game.lumps < 1) return; // Needs at least 1 lump
+    //Todo: check if garden is unlocked and whiskerbloom can be planted
 
     var FTHOF = M.spellsById[1];
 
