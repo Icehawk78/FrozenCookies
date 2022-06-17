@@ -167,7 +167,7 @@ FrozenCookies.preferenceValues = {
         'default': 0
     },
     auto100ConsistencyCombo: {
-        'hint': 'HIGHLY EXPERIMENTAL: Does the 100% Consistency Combo, but with 2 building specials. Fully replaces Godzamok, do not limit building numbers! WARNING: This will spend a sugar lump!',
+        'hint': 'HIGHLY EXPERIMENTAL: Does the 100% Consistency Combo. WARNING: This will spend a sugar lump, do not enable unless you know what this is!',
         'display': ["Auto 100% Consistency Combo OFF", "Auto 100% Consistency Combo ON"],
         'default': 0
     },
