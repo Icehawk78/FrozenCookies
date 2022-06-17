@@ -10,8 +10,6 @@ NOT currently compatible with __CCSE__. CCSE changes base game functions that br
 
 ## Changes in this fork
 
-Includes features that may not be as well thought out or are still in testing. If you don't want to risk your save, use Icehawk78's instead. Although, I will try to fix any issues as soon as they crop up.
-
 Current differences from the oficial release:
 * Fix to auto-Godzamok behaviour so that cookie count will not decrease drastically if enabled
 * With auto-Godz active, cap rebuy at 500 buildings to balance gain and loss
