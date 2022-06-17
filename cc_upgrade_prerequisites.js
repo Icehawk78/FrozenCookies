@@ -1117,42 +1117,42 @@ var upgradeJson = {
         buildings: [0, 1, 0, 0, 15],
         upgrades: []
     }, // Worker grandmas
-    60: {
-        buildings: [0, 1, 0, 0, 0, 15],
-        upgrades: []
-    }, // Cosmic grandmas
-    61: {
-        buildings: [0, 1, 0, 0, 0, 0, 15],
-        upgrades: []
-    }, // Transmuted grandmas
-    62: {
-        buildings: [0, 1, 0, 0, 0, 0, 0, 15],
-        upgrades: []
-    }, // Altered grandmas
-    63: {
-        buildings: [0, 1, 0, 0, 0, 0, 0, 0, 15],
-        upgrades: []
-    }, // Grandmas' grandmas
-    103: {
-        buildings: [0, 1, 0, 0, 0, 0, 0, 0, 0, 15],
-        upgrades: []
-    }, // Antigrandmas
-    180: {
-        buildings: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 15],
-        upgrades: []
-    }, // Rainbow grandmas
     250: {
-        buildings: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15],
+        buildings: [0, 1, 0, 0, 0, 15],
         upgrades: []
     }, // Banker grandmas
     251: {
-        buildings: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15],
+        buildings: [0, 1, 0, 0, 0, 0, 15],
         upgrades: []
     }, // Priestess grandmas
     252: {
-        buildings: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15],
+        buildings: [0, 1, 0, 0, 0, 0, 0, 15],
         upgrades: []
     }, // Witch grandmas
+    60: {
+        buildings: [0, 1, 0, 0, 0, 0, 0, 0, 15],
+        upgrades: []
+    }, // Cosmic grandmas
+    61: {
+        buildings: [0, 1, 0, 0, 0, 0, 0, 0, 0, 15],
+        upgrades: []
+    }, // Transmuted grandmas
+    62: {
+        buildings: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 15],
+        upgrades: []
+    }, // Altered grandmas
+    63: {
+        buildings: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15],
+        upgrades: []
+    }, // Grandmas' grandmas
+    103: {
+        buildings: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15],
+        upgrades: []
+    }, // Antigrandmas
+    180: {
+        buildings: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15],
+        upgrades: []
+    }, // Rainbow grandmas
     415: {
         buildings: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15],
         upgrades: [],
