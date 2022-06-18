@@ -933,11 +933,12 @@ function autoCast() {
                     var FTHOF = M.spellsById[1];
                     if (M.magicM < Math.floor(FTHOF.costMin + FTHOF.costPercent * M.magicM)) return;
 
+                    // Can we shorten a negative buff?
                     if ((cpsBonus() < 1) && (nextSpellName(0) == "Clot" || nextSpellName(0) == "Ruin Cookies")) {
                         var streT = M.spellsById[2];
                         M.castSpell(streT);
                         logEvent('AutoSpell', 'Cast Stretch Time instead of Force the Hand of Fate');
-                    } // Should also go for negative Blabs but how to check?
+                    }
 
                     if (nextSpellName(0) == "Clot" || nextSpellName(0) == "Blab" || nextSpellName(0) == "Cookie Storm (Drop)" || nextSpellName(0) == "Ruin Cookies") {
                         var hagC = M.spellsById[4];
@@ -1051,11 +1052,6 @@ function autoFTHOFComboAction() {
     if (Game.hasBuff("Dragonflight")) return; // Safety exit since DF will remove click frenzy, potentially wasting it
 
     var FTHOF = M.spellsById[1];
-    if (nextSpellName(0) == "Sugar Lump") { // Always get the lump
-        M.castSpell(FTHOF);
-        logEvent('AutoSpell', 'Cast Force the Hand of Fate');
-        return;
-    }
     
     if (typeof autoFTHOFComboAction.count == 'undefined') {
         autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
@@ -1081,11 +1077,26 @@ function autoFTHOFComboAction() {
 
         switch (autoFTHOFComboAction.state) {
             case 0:
-				var hagC = M.spellsById[4];
-				M.castSpell(hagC);
-				logEvent('AutoSpell', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
-							
-				return;
+                //Continue casting Haggler's Charm - unless it's a sugar lump or we can use it to shorten wait time
+                if (M.magic == M.magicM) {
+                    if (nextSpellName(0) == "Sugar Lump") {
+                        M.castSpell(FTHOF);
+                        logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+                    } 
+                    
+                    else if ((cpsBonus() < 1) && (nextSpellName(0) == "Clot" || nextSpellName(0) == "Ruin Cookies")) {
+                        var streT = M.spellsById[2];
+                        M.castSpell(streT);
+                        logEvent('AutoSpell', 'Cast Stretch Time instead of Force the Hand of Fate');
+                    }
+                    
+                    else {
+                        var hagC = M.spellsById[4];
+                        M.castSpell(hagC);
+                        logEvent('AutoSpell', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
+                    }
+                }
+                
             case 1:
                 if (Game.hasBuff('Frenzy') && BuildingSpecialBuff() == 1 && Game.hasBuff('Frenzy').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1 && BuildingBuffTime() >= Math.ceil(13 * BuffTimeFactor())) {
                     // Turn off auto buy
@@ -1296,12 +1307,20 @@ function auto100ConsistencyComboAction() {
 
     switch (auto100ConsistencyComboAction.state) {
         case 0:
-            //Continue casting Haggler's Charm - unless it's a sugar lump
+            //Continue casting Haggler's Charm - unless it's a sugar lump or we can use it to shorten wait time
             if (M.magic == M.magicM) {
                 if (nextSpellName(0) == "Sugar Lump") {
                     M.castSpell(FTHOF);
                     logEvent('AutoSpell', 'Cast Force the Hand of Fate');
-                } else {
+                } 
+                
+                else if ((cpsBonus() < 1) && (nextSpellName(0) == "Clot" || nextSpellName(0) == "Ruin Cookies")) {
+                    var streT = M.spellsById[2];
+                    M.castSpell(streT);
+                    logEvent('AutoSpell', 'Cast Stretch Time instead of Force the Hand of Fate');
+                }
+                
+                else {
                     var hagC = M.spellsById[4];
                     M.castSpell(hagC);
                     logEvent('AutoSpell', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
