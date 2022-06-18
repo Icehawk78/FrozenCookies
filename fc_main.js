@@ -1096,6 +1096,8 @@ function autoFTHOFComboAction() {
                         logEvent('AutoSpell', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
                     }
                 }
+                    
+                return;
                 
             case 1:
                 if (Game.hasBuff('Frenzy') && BuildingSpecialBuff() == 1 && Game.hasBuff('Frenzy').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1 && BuildingBuffTime() >= Math.ceil(13 * BuffTimeFactor())) {
