@@ -352,7 +352,7 @@ If you want to manually install it:
 
 - Added Chained Upgrade purchases
 
-# Planned Features and Known Issues
+## Planned Features and Known Issues
 
 - See the Github issues
 
