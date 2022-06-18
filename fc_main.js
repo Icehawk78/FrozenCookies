@@ -736,7 +736,7 @@ function toggleFrozen(setting) {
     FCStart();
 }
 
-//var G = Game.Objects["Farm"].minigame;
+var G = Game.Objects["Farm"].minigame;
 var B = Game.Objects["Bank"].minigame;
 var T = Game.Objects["Temple"].minigame;
 var M = Game.Objects["Wizard tower"].minigame;
@@ -1048,7 +1048,16 @@ function autoCast() {
 function autoFTHOFComboAction() {
     if (!M) return; // Just leave if you don't have grimoire
     if (FrozenCookies.auto100ConsistencyCombo == 1) return; // 100% combo should override
-    if (Game.Objects['Wizard tower'].level > 10) return; // THIS WILL NOT WORK IF TOWER LEVEL IS ABOVE 10
+    
+    // Prereqs check
+    if (
+        Game.Objects['Wizard tower'].level > 10 || // THIS WILL NOT WORK IF TOWER LEVEL IS ABOVE 10
+        M.magicM < 82 // Below min mana for double cast
+    ){ 
+        FrozenCookies.autoFTHOFComboAction = 0;
+        return;
+    }
+    
     if (Game.hasBuff("Dragonflight")) return; // Safety exit since DF will remove click frenzy, potentially wasting it
 
     var FTHOF = M.spellsById[1];
@@ -1247,10 +1256,18 @@ function autoFTHOFComboAction() {
 
 function auto100ConsistencyComboAction() {
     if (!M) return; // Just leave if you don't have grimoire
-    if (Game.Objects['Wizard tower'].level < 10) return; // For now only works with wizard towers level 10
+    
+    // Prereqs check
+    if (
+        Game.Objects['Wizard tower'].level < 10 || // Only works with wizard towers level 10
+        Game.lumps < 1 || // Needs a lump - Todo: add option for 101+ lumps?
+        !G // Garden must exist - Todo: also check if whiskerbloom can be planted
+    ){ 
+        FrozenCookies.auto100ConsistencyCombo = 0;
+        return;
+    }
+    
     if (Game.hasBuff("Dragonflight")) return; // Safety exit since DF will remove click frenzy, potentially wasting it
-    if (Game.lumps < 1) return; // Needs at least 1 lump
-    //Todo: check if garden is unlocked and whiskerbloom can be planted
 
     var FTHOF = M.spellsById[1];
 
