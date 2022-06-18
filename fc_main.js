@@ -1054,7 +1054,7 @@ function autoFTHOFComboAction() {
         Game.Objects['Wizard tower'].level > 10 || // THIS WILL NOT WORK IF TOWER LEVEL IS ABOVE 10
         M.magicM < 82 // Below min mana for double cast
     ){ 
-        FrozenCookies.autoFTHOFComboAction = 0;
+        FrozenCookies.autoFTHOFCombo = 0;
         return;
     }
     
