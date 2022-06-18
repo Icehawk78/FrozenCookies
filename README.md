@@ -352,14 +352,7 @@ If you want to manually install it:
 
 - Added Chained Upgrade purchases
 
-## Upcoming features!
-
-- Fix the known issues
-- Improve Season switching so Halloween is taken at a logical point, to minimize time spent in Elder Apocalypse
-- Logic to go past building limits, needed for some building upgrades and building biscuits (550 owned etc.) -- and then sell back to the limit
-- Automatically set dragon auras
-
-# Known Issues
+# Planned Features and Known Issues
 
 - See the Github issues
 
