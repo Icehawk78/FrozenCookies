@@ -546,7 +546,7 @@ function getBuildingSpread() {
 // Press 's' to do a manual save
 // Press 'w' to display a wrinkler-info window
 document.addEventListener("keydown", function(event) {
-    if ((!Game.promptOn) && FrozenCookies.FCshortcuts) {
+    if (!Game.promptOn && FrozenCookies.FCshortcuts) {
         if (event.keyCode == 65) {
             Game.Toggle("autoBuy", "autobuyButton", "Autobuy OFF", "Autobuy ON");
             toggleFrozen("autoBuy");
@@ -802,28 +802,81 @@ function autoRigidel() {
             if (timeToRipe < 60) {
                 var prev = T.slot[0]; //cache whatever god you have equipped
                 swapIn(10, 0); //swap in rigidel
-                Game.computeLumpTimes();
+                // Prevent autobuy while Rigisell is doing its thing
+                if (FrozenCookies.autoBuy == 1) {
+                    autoRigidel.autobuyyes = 1;
+                    FrozenCookies.autoBuy = 0;
+                } else {
+                    autoRigidel.autobuyyes = 0;
+                }
                 rigiSell(); //Meet the %10 condition
-                Game.clickLump(); //harvest the ripe lump, AutoSL probably covers this but this should avoid issues with autoBuy going first and disrupting Rigidel
+                Game.computeLumpTimes();
+                if (Date.now() - started >= ripeAge) {
+                    Game.clickLump();
+                }
+                // Game.clickLump(); //harvest the ripe lump, AutoSL probably covers this but this should avoid issues with autoBuy going first and disrupting Rigidel
+                // Turn autobuy back on if on before
+                if (rigiSell.autobuyyes == 1) {
+                    FrozenCookies.autoBuy = 1;
+                }
                 if (prev != -1) swapIn(prev, 0); //put the old one back
             }
         case 1: //Rigidel is already in diamond slot
             if (timeToRipe < 60 && Game.BuildingsOwned % 10) {
+                // Prevent autobuy while Rigisell is doing its thing
+                if (FrozenCookies.autoBuy == 1) {
+                    autoRigidel.autobuyyes = 1;
+                    FrozenCookies.autoBuy = 0;
+                } else {
+                    autoRigidel.autobuyyes = 0;
+                }
                 rigiSell();
                 Game.computeLumpTimes();
-                Game.clickLump();
+                if (Date.now() - started >= ripeAge) {
+                    Game.clickLump();
+                }
+                // Turn autobuy back on if on before
+                if (rigiSell.autobuyyes == 1) {
+                    FrozenCookies.autoBuy = 1;
+                }
             }
         case 2: //Rigidel in Ruby slot,
             if (timeToRipe < 40 && Game.BuildingsOwned % 10) {
+                // Prevent autobuy while Rigisell is doing its thing
+                if (FrozenCookies.autoBuy == 1) {
+                    autoRigidel.autobuyyes = 1;
+                    FrozenCookies.autoBuy = 0;
+                } else {
+                    autoRigidel.autobuyyes = 0;
+                }
                 rigiSell();
                 Game.computeLumpTimes();
-                Game.clickLump();
+                if (Date.now() - started >= ripeAge) {
+                    Game.clickLump();
+                }
+                // Turn autobuy back on if on before
+                if (rigiSell.autobuyyes == 1) {
+                    FrozenCookies.autoBuy = 1;
+                }
             }
         case 3: //Rigidel in Jade slot
             if (timeToRipe < 20 && Game.BuildingsOwned % 10) {
+                // Prevent autobuy while Rigisell is doing its thing
+                if (FrozenCookies.autoBuy == 1) {
+                    autoRigidel.autobuyyes = 1;
+                    FrozenCookies.autoBuy = 0;
+                } else {
+                    autoRigidel.autobuyyes = 0;
+                }
                 rigiSell();
                 Game.computeLumpTimes();
-                Game.clickLump();
+                if (Date.now() - started >= ripeAge) {
+                    Game.clickLump();
+                }
+                // Turn autobuy back on if on before
+                if (rigiSell.autobuyyes == 1) {
+                    FrozenCookies.autoBuy = 1;
+                }
             }
     }
 }
@@ -1035,6 +1088,7 @@ function autoFTHOFComboAction() {
 				return;
             case 1:
                 if (Game.hasBuff('Frenzy') && BuildingSpecialBuff() == 1 && Game.hasBuff('Frenzy').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1 && BuildingBuffTime() >= Math.ceil(13 * BuffTimeFactor())) {
+                    // Turn off auto buy
                     if (FrozenCookies.autoBuy == 1) {
                         autoFTHOFComboAction.autobuyyes = 1;
                         FrozenCookies.autoBuy = 0;
@@ -1165,7 +1219,8 @@ function autoFTHOFComboAction() {
 
                 safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
-
+                
+                // Turn autobuy back on if on before
                 if (autoFTHOFComboAction.autobuyyes == 1) {
                     FrozenCookies.autoBuy = 1;
                 }
@@ -1255,8 +1310,9 @@ function auto100ConsistencyComboAction() {
 
             return;
 
-        case 1: // Turn off auto buy and make sure we're not in sell mode
+        case 1: 
             if (Game.hasBuff('Frenzy') && Game.hasBuff('Dragon Harvest') && BuildingSpecialBuff() == 1 && Game.hasBuff('Frenzy').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1 && Game.hasBuff('Dragon Harvest').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1 && BuildingBuffTime() >= Math.ceil(13 * BuffTimeFactor())) {
+                // Turn off auto buy and make sure we're not in sell mode
                 if (FrozenCookies.autoBuy == 1) {
                     auto100ConsistencyComboAction.autobuyyes = 1;
                     FrozenCookies.autoBuy = 0;
