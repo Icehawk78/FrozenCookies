@@ -73,20 +73,9 @@ FrozenCookies.preferenceValues = {
         default: 0,
         extras: '<a class="option" id="factoryMax" onclick="updateFactoryMax(\'factoryMax\');">${factoryMax} Factories</a>',
     },
-    towerLimit: {
-        hint: "Stop autobuying Wizard Towers at selected Max Mana, for efficiency. Do not set over 100. Refer to the readme for details.",
-        display: ["Wizard Tower Cap OFF", "Wizard Tower Cap ON"],
-        default: 0,
-        extras: '<a class="option" id="manaMax" onclick="updateManaMax(\'manaMax\');">${manaMax} max Mana</a>',
-    },
     pastemode: {
         hint: "Always autobuy the least efficient purchase. This is a stupid idea, you should never turn this on.",
         display: ["Pastemode OFF", "Pastemode ON"],
-        default: 0,
-    },
-    autoBroker: {
-        hint: "Automatically buy stock brokers and upgrade the market",
-        display: ["Auto-Broker OFF", "Auto-Broker ON"],
         default: 0,
     },
 
@@ -95,7 +84,7 @@ FrozenCookies.preferenceValues = {
         hint: "Other automatic actions:",
     },
     autoAscend: {
-        hint: "Automatically ascend when your heavenly chip count hits a certain number. (Note: this will skip the upgrade screen)",
+        hint: "Automatically ascend when your heavenly chip count hits a certain number. Note: this will skip the upgrade screen.",
         display: ["Autoascend OFF", "Autoascend ON"],
         default: 0,
         extras: '<a class="option" id="chipsToAscend" onclick="updateAscendAmount(\'HCAscendAmount\');">${HCAscendAmount} heavenly chips</a>',
@@ -109,6 +98,13 @@ FrozenCookies.preferenceValues = {
         ],
         default: 0,
     },
+    /* Not working yet
+    shinyPop:{
+        hint: "Protect the endangered Shiny Wrinkler from being auomatically popped",
+        display: ["Save Shiny Wrinklers ON", "Save Shiny Wrinklers OFF"],
+        default: 0
+    },
+    */
     autoSL: {
         hint: "Automatically harvest sugar lumps when ripe, with option to automatically swap in Rigidel",
         display: [
@@ -128,6 +124,17 @@ FrozenCookies.preferenceValues = {
         display: ["Auto-Godzamok OFF", "Auto-Godzamok ON"],
         default: 0,
     },
+    autoBroker: {
+        hint: "Automatically buy stock brokers and upgrade the market",
+        display: ["Auto-Broker OFF", "Auto-Broker ON"],
+        default: 0,
+    },
+    autoLoan: {
+        hint: "Automatically take loans 1 and 2 during click buffs with frenzies",
+        display: ["Auto-Loan OFF", "Auto-Loan ON"],
+        default: 0,
+        extras: '<a class="option" id="minLoanMult" onclick="updateLoanMultMin(\'minLoanMult\');">x${minLoanMult} minimum Frenzy</a>',
+    },
     autoDragon: {
         hint: "Automatically upgrade the dragon",
         display: ["Auto-Dragon OFF", "Auto-Dragon ON"],
@@ -138,16 +145,33 @@ FrozenCookies.preferenceValues = {
         display: ["Auto-Petting OFF", "Auto-Petting ON"],
         default: 0,
     },
-    autoLoan: {
-        hint: "Automatically take loans 1 and 2 during click buffs with frenzies",
-        display: ["Auto-Loan OFF", "Auto-Loan ON"],
+    defaultSeason: {
+        hint: "Autobuy a selected season when no others have needed upgrades",
+        display: [
+            "Default Season OFF",
+            "Default Season BUSINESS DAY",
+            "Default Season CHRISTMAS",
+            "Default Season EASTER",
+            "Default Season HALLOWEEN",
+            "Default Season VALENTINE'S DAY",
+        ],
         default: 0,
-        extras: '<a class="option" id="minLoanMult" onclick="updateLoanMultMin(\'minLoanMult\');">x${minLoanMult} minimum Frenzy</a>',
+    },
+    autoEaster: {
+        'hint': 'Switch to Easter season if Cookie Storm is active and you do not have all eggs yet',
+        'display': ["Auto Easter OFF", "Auto Easter ON"],
+        'default': 0,
     },
 
     // Spell options
     SpellOptions: {
         hint: "Grimoire options:",
+    },
+    towerLimit: {
+        hint: "Stop autobuying Wizard Towers at selected Max Mana, for efficiency. 37 for max effiency for single casting FTHOF. Do not set over 100. Refer to the readme for details.",
+        display: ["Wizard Tower Cap OFF", "Wizard Tower Cap ON"],
+        default: 0,
+        extras: '<a class="option" id="manaMax" onclick="updateManaMax(\'manaMax\');">${manaMax} max Mana</a>',
     },
     autoSpell: {
         hint: "Automatically cast selected spell when your mana is full",
@@ -162,12 +186,12 @@ FrozenCookies.preferenceValues = {
         extras: '<a class="option" id="minCpSMult" onclick="updateCpSMultMin(\'minCpSMult\');">x${minCpSMult} minimum Frenzy</a>',
     },
     autoFTHOFCombo: {
-        'hint': 'This replaces Auto Cast. Will cast Haggler\'s charm until a double cast of Click Frenzy and Elder Frenzy, or Click Frenzy and Building Special is possible. Make sure to have enough mana for double casting!',
+        'hint': 'This replaces Auto Cast. Will cast Haggler\'s charm until a double cast of Click Frenzy and either Elder Frenzy or Building Special is possible. Make sure to have enough mana for double casting!',
         'display': ["Auto FTHOF Combo OFF", "Auto FTHOF Combo ON"],
         'default': 0
     },
     auto100ConsistencyCombo: {
-        'hint': 'HIGHLY EXPERIMENTAL: Does the 100% Consistency Combo. WARNING: This will spend a sugar lump, do not enable unless you know what this is!',
+        'hint': 'EXPERIMENTAL: Does the 100% Consistency Combo with two building specials. WARNING: This will spend a sugar lump, do not enable unless you know what this is!',
         'display': ["Auto 100% Consistency Combo OFF", "Auto 100% Consistency Combo ON"],
         'default': 0
     },
@@ -202,13 +226,6 @@ FrozenCookies.preferenceValues = {
     otherOptions: {
         hint: "Other options:",
     },
-    /*Not working yet
-      'shinyPop':{
-          'hint':'Protect the endangered Shiny Wrinkler from being auomatically popped',
-          'display':['Save Shiny Wrinklers ON', 'Save Shiny Wrinklers OFF'],
-          'default':0
-      },
-      */
     FCshortcuts: {
         hint: "Use a variety of helpful keyboard shortcuts: 'a' for autobuy. 'b' for building spread. 'c' to toggle auto-GC. 'e' for save export. 'r' for reset. 's' for manual save. 'w' for wrinkler info",
         display: ["Shortcuts OFF", "Shortcuts ON"],
@@ -298,29 +315,11 @@ FrozenCookies.preferenceValues = {
         extras: '<a class="option" id="viewStats" onclick="viewStatGraphs();">View Stat Graphs</a>',
     },
 
-    /*Doesnt work
-      'showAchievements':{
-          'hint':'Show achievement popups (Kind of broken early game)',
-          'display':['Achievement Popups OFF', 'Achievement Popups ON'],
-          'default':0
-      },
-      */
-
-    defaultSeason: {
-        hint: "Autobuy a selected season when no others have needed upgrades",
-        display: [
-            "Default Season OFF",
-            "Default Season BUSINESS DAY",
-            "Default Season CHRISTMAS",
-            "Default Season EASTER",
-            "Default Season HALLOWEEN",
-            "Default Season VALENTINE'S DAY",
-        ],
-        default: 0,
+    /* Doesnt work
+    showAchievements:{
+        hint: "Show achievement popups (Kind of broken early game)",
+        display: ["Achievement Popups OFF", "Achievement Popups ON"],
+        default: 0
     },
-    autoEaster: {
-        'hint': 'Switch to Easter season if Cookie Storm is active and you do not have all eggs yet',
-        'display': ["Auto Easter OFF", "Auto Easter ON"],
-        'default': 0,
-    },
+    */
 }
