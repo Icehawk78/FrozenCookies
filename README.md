@@ -10,8 +10,6 @@ NOT currently compatible with __CCSE__. CCSE changes base game functions that br
 
 ## Changes in this fork
 
-Includes features that may not be as well thought out or are still in testing. If you don't want to risk your save, use Icehawk78's instead. Although, I will try to fix any issues as soon as they crop up.
-
 Current differences from the oficial release:
 * Fix to auto-Godzamok behaviour so that cookie count will not decrease drastically if enabled
 * With auto-Godz active, cap rebuy at 500 buildings to balance gain and loss
@@ -27,7 +25,10 @@ Current differences from the oficial release:
 ## How to use
 
 ## Steam Install
-1. Download the Steam folder at https://erbkaiser.github.io/FrozenCookies/Steam/ and put the Steam folder in your mods/local folder. Remove or disable any other variants of FC.
+Get it from the Workshop: https://steamcommunity.com/sharedfiles/filedetails/?id=2816199538
+
+If you want to manually install it:
+1. Download the Steam folder at https://erbkaiser.github.io/FrozenCookies/Steam/ and put the FrozenCookies folder in your mods/local folder. Remove or disable any other variants of FC.
 2. Close Cookie Clicker if it is running, or refresh it
 3. Load up Cookie Clicker via Steam
 4. Enable Frozen Cookies at 'Manage mods' on the Options page
