@@ -70,6 +70,10 @@ Current differences from the oficial release:
 
 ## What's new?
 
+2022 Jun 18
+
+- Revert FTHOF combo (mostly) to original method where only the combo is cast. Exception is made for the sugar lump spell.
+
 2022 Jun 16
 
 - Removed not really working overflow for Frenzy Times
@@ -386,7 +390,7 @@ This fork includes two different FTHOF casting combo mechanics. Brief documentat
 
 ## Auto FTHOF Combo
 
-Auto FTHOF Combo extends and replaces Auto Cast. If the combo is enabled, it will always cast FTHOF if a 'good' spell is detected, and will switch to a special logic if two subsequent spells are Click Frenzy and either Elder Frenzy or a Building Special. If such a combo is detected, it will save the spells until a natural Frenzy + Building Special boost is active, and then quickly cast the first spell, sell wizard towers, and cast the second spell, for a four way boost in total. This can earn decades of cookies in a single combo.
+Auto FTHOF Combo replaces Auto Cast. If the combo is enabled, it will always cast Haggler's charm until two subsequent spells are Click Frenzy and either Elder Frenzy or a Building Special. If such a combo is detected, it will save the spells until a natural Frenzy + Building Special boost is active, and then quickly cast the first spell, sell wizard towers, and cast the second spell, for a four way boost in total. This can earn decades of cookies in a single combo.
 This does require a set value of minimum mana, depending on your WT levels:
 
 * WT level  1-4: 82 max mana

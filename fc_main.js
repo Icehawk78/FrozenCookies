@@ -1028,76 +1028,11 @@ function autoFTHOFComboAction() {
 
         switch (autoFTHOFComboAction.state) {
             case 0:
-                if (M.magicM < Math.floor(FTHOF.costMin + FTHOF.costPercent * M.magicM)) return;
-
-                if ((cpsBonus() < 1) && (nextSpellName(0) == "Clot" || nextSpellName(0) == "Ruin Cookies")) {
-                    var streT = M.spellsById[2];
-                    M.castSpell(streT);
-                    logEvent('AutoSpell', 'Cast Stretch Time instead of Force the Hand of Fate');
-                }
-
-                if (nextSpellName(0) == "Clot" || nextSpellName(0) == "Blab" || nextSpellName(0) == "Cookie Storm (Drop)" || nextSpellName(0) == "Ruin Cookies") {
-                    var hagC = M.spellsById[4];
-                    M.castSpell(hagC);
-                    logEvent('AutoSpell', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
-                }
-
-                if (nextSpellName(0) == "Cookie Chain") {
-                    M.castSpell(FTHOF);
-                    logEvent('AutoSpell', 'Cast Force the Hand of Fate');
-                }
-
-                if (nextSpellName(0) == "Lucky") {
-                    if (cpsBonus() >= 7) {
-                        M.castSpell(FTHOF);
-                        logEvent('AutoSpell', 'Cast Force the Hand of Fate');
-                    }
-                }
-
-                if (nextSpellName(0) == "Elder Frenzy") {
-                    if (Game.Upgrades["Elder Pact"].bought == 1) {
-                        if (Game.hasBuff('Click frenzy') && Game.hasBuff('Click frenzy').time / 30 >= Math.ceil(6 * BuffTimeFactor()) - 1) {
-                            M.castSpell(FTHOF);
-                            logEvent('AutoSpell', 'Cast Force the Hand of Fate');
-                        }
-                    } else if (Game.Upgrades["Elder Pact"].bought == 0) {
-                        if (Game.hasBuff('Frenzy') && Game.hasBuff('Click frenzy') && Game.hasBuff('Click frenzy').time / 30 >= Math.ceil(6 * BuffTimeFactor()) - 1) {
-                            M.castSpell(FTHOF);
-                            logEvent('AutoSpell', 'Cast Force the Hand of Fate');
-                        }
-                    }
-                }
-
-                if (nextSpellName(0) == "Frenzy" || nextSpellName(0) == "Building Special") {
-                    if (Game.hasBuff('Click frenzy') && Game.hasBuff('Click frenzy').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1) {
-                        M.castSpell(FTHOF);
-                        logEvent('AutoSpell', 'Cast Force the Hand of Fate');
-                    }
-                }
-
-                if (nextSpellName(0) == "Click Frenzy") {
-                    if (Game.hasBuff('Frenzy') && BuildingSpecialBuff() == 1 && Game.hasBuff('Frenzy').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1 && BuildingBuffTime() >= Math.ceil(13 * BuffTimeFactor())) {
-                        M.castSpell(FTHOF);
-                        logEvent('AutoSpell', 'Cast Force the Hand of Fate');
-                    }
-                }
-
-                if (nextSpellName(0) == "Cookie Storm") {
-                    if (Game.hasBuff('Frenzy') && BuildingSpecialBuff() == 1 && Game.hasBuff('Frenzy').time / 30 >= Math.ceil(7 * BuffTimeFactor()) - 1 && BuildingBuffTime() >= Math.ceil(7 * BuffTimeFactor())) {
-                        M.castSpell(FTHOF);
-                        logEvent('AutoSpell', 'Cast Force the Hand of Fate');
-                    }
-                }
-
-                if (nextSpellName(0) == "Cursed Finger") {
-                    if (Game.hasBuff('Click frenzy') && Game.hasBuff('Click frenzy').time / 30 >= Math.ceil(10 * BuffTimeFactor()) - 1) {
-                        M.castSpell(FTHOF);
-                        logEvent('AutoSpell', 'Cast Force the Hand of Fate');
-                    }
-                }
-
-                return;
-
+				var hagC = M.spellsById[4];
+				M.castSpell(hagC);
+				logEvent('AutoSpell', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
+							
+				return;
             case 1:
                 if (Game.hasBuff('Frenzy') && BuildingSpecialBuff() == 1 && Game.hasBuff('Frenzy').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1 && BuildingBuffTime() >= Math.ceil(13 * BuffTimeFactor())) {
                     if (FrozenCookies.autoBuy == 1) {
