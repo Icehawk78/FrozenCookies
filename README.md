@@ -74,6 +74,7 @@ If you want to manually install it:
 2022 Jun 19
 
 - Add autoHalloween option
+- Rewrote auto FTHOF combo
 
 2022 Jun 18
 
@@ -391,15 +392,17 @@ This fork includes two different FTHOF casting combo mechanics. Brief documentat
 Auto FTHOF Combo replaces Auto Cast. If the combo is enabled, it will always cast Haggler's charm until two subsequent spells are Click Frenzy and either Elder Frenzy or a Building Special. If such a combo is detected, it will save the spells until a natural Frenzy + Building Special boost is active, and then quickly cast the first spell, sell wizard towers, and cast the second spell, for a four way boost in total. This can earn decades of cookies in a single combo.
 This does require a set value of minimum mana, depending on your WT levels:
 
-* WT level  1-4: 82 max mana
-* WT level  5: 83 max mana
-* WT level 6 onwards: 100 max mana
+* WT level   1-4: 81 min mana
+* WT level   5: 83 min mana
+* WT level   6: 88 min mana
+* WT level   7: 91 min mana
+* WT level   8: 93 min mana
+* WT level   9: 96 min mana
+* WT level  10: 98 min mana
 
 (Calculated with https://lookas123.github.io/CCGrimoireCalculator/ and https://www.desmos.com/calculator/r9mywixego)
 
-For convenience sake, setting max mana to 100 for all WT levels is easiest. The code will check for both values.
-
-The combo will work with larger values of max mana or with unlimited mana, but because of how the mana refueling system works setting having any higher than 100 mana is not recommended.
+For convenience sake, you can just set max mana to 100 for all WT levels. The code will work with any value equal to or higher than the minimum, but because of how the mana refueling system works setting having any higher than 100 mana is not recommended.
 
 The combo will not work if you upgrade Wizard Towers to 11 or higher.
 
