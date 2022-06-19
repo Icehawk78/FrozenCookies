@@ -594,7 +594,7 @@ function userInputPrompt(title, description, existingValue, callback) {
             'Confirm',
             'Cancel'
         ]);
-    $('#promptOption0').click(() => {
+    $('#promptOption0').click(() >= {
         callback(l('fcGenericInput').value)
     });
     l('fcGenericInput').focus();
@@ -613,7 +613,7 @@ function validateNumber(value, minValue = null, maxValue = null) {
 }
 
 function storeNumberCallback(base, min, max) {
-    return (result) => {
+    return (result) >= {
         if (!validateNumber(result, min, max)) {
             result = FrozenCookies[base];
         }
@@ -1122,7 +1122,7 @@ function autoFTHOFComboAction() {
                             
                         // Calculated with https://lookas123.github.io/CCGrimoireCalculator/
                         case 1:
-                            if (M.magicM => 81) {
+                            if (M.magicM >= 81) {
                                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 21;
                                 M.castSpell(FTHOF);
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1132,7 +1132,7 @@ function autoFTHOFComboAction() {
                         return;
 
                         case 2:
-                            if (M.magicM => 81) {
+                            if (M.magicM >= 81) {
                                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 14;
                                 M.castSpell(FTHOF);
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1142,7 +1142,7 @@ function autoFTHOFComboAction() {
                         return;
 
                         case 3:
-                            if (M.magicM => 81) {
+                            if (M.magicM >= 81) {
                                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 8;
                                 M.castSpell(FTHOF);
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1152,7 +1152,7 @@ function autoFTHOFComboAction() {
                         return;
 
                         case 4:
-                            if (M.magicM => 81) {
+                            if (M.magicM >= 81) {
                                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 3;
                                 M.castSpell(FTHOF);
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1162,7 +1162,7 @@ function autoFTHOFComboAction() {
                         return;
 
                         case 5:
-                            if (M.magicM => 83) {
+                            if (M.magicM >= 83) {
                                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
                                 M.castSpell(FTHOF);
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1172,7 +1172,7 @@ function autoFTHOFComboAction() {
                         return;
 
                         case 6:
-                            if (M.magicM => 88) {
+                            if (M.magicM >= 88) {
                                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
                                 M.castSpell(FTHOF);
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1182,7 +1182,7 @@ function autoFTHOFComboAction() {
                         return;
 
                         case 7:
-                            if (M.magicM => 91) {
+                            if (M.magicM >= 91) {
                                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
                                 M.castSpell(FTHOF);
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1192,7 +1192,7 @@ function autoFTHOFComboAction() {
                         return;
 
                         case 8:
-                            if (M.magicM => 93) {
+                            if (M.magicM >= 93) {
                                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
                                 M.castSpell(FTHOF);
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1202,7 +1202,7 @@ function autoFTHOFComboAction() {
                         return;
 
                         case 9:
-                            if (M.magicM => 96) {
+                            if (M.magicM >= 96) {
                                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
                                 M.castSpell(FTHOF);
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1212,7 +1212,7 @@ function autoFTHOFComboAction() {
                         return;
 
                         case 10:
-                            if (M.magicM => 98) {
+                            if (M.magicM >= 98) {
                                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
                                 M.castSpell(FTHOF);
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1393,7 +1393,7 @@ function auto100ConsistencyComboAction() {
         return;
 
         case 5: // Cast FTHOF then sell
-            if (M.magicM => 98) {
+            if (M.magicM >= 98) {
                 auto100ConsistencyComboAction.count = Game.Objects['Wizard tower'].amount - 1;
                 M.castSpell(FTHOF);
                 Game.Objects['Wizard tower'].sell(auto100ConsistencyComboAction.count);
@@ -1419,7 +1419,7 @@ function auto100ConsistencyComboAction() {
             return;
 
         case 8: // Cast FTHOF then sell
-            if (M.magicM => 98) {
+            if (M.magicM >= 98) {
                 auto100ConsistencyComboAction.count = Game.Objects['Wizard tower'].amount - 1;
                 M.castSpell(FTHOF);
                 Game.Objects['Wizard tower'].sell(auto100ConsistencyComboAction.count);
