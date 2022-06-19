@@ -594,7 +594,7 @@ function userInputPrompt(title, description, existingValue, callback) {
             'Confirm',
             'Cancel'
         ]);
-    $('#promptOption0').click(() >= {
+    $('#promptOption0').click(() => {
         callback(l('fcGenericInput').value)
     });
     l('fcGenericInput').focus();
@@ -613,7 +613,7 @@ function validateNumber(value, minValue = null, maxValue = null) {
 }
 
 function storeNumberCallback(base, min, max) {
-    return (result) >= {
+    return (result) => {
         if (!validateNumber(result, min, max)) {
             result = FrozenCookies[base];
         }
