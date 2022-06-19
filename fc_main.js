@@ -1217,7 +1217,19 @@ function autoFTHOFComboAction() {
                                 M.castSpell(FTHOF);
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
 
-                                autoFTHOFComboAction.state = 2;
+                                
+                M.castSpell(FTHOF);
+                logEvent('AutoSpell', 'Double cast Force the Hand of Fate');
+                
+                safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
+                
+                // Turn autobuy back on if on before
+                if (autoFTHOFComboAction.autobuyyes == 1) {
+                    FrozenCookies.autoBuy = 1;
+                }
+
+                autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
+                autoFTHOFComboAction.state = 0;
                             }
                         return;
                     }
