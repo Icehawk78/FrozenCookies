@@ -1669,7 +1669,7 @@ function autoHalloweenAction() {
     }
     var living = liveWrinklers();
     if (living.length > 0) {
-        if (Game.season != 'halloween' && !haveAll('halloween')) {
+        if (Game.season != 'easter' && Game.season != 'halloween' && !haveAll('halloween')) {
             Game.UpgradesById[183].buy()
             logEvent("autoHalloween", "Swapping to Halloween season");
         }
