@@ -398,6 +398,10 @@ This does require a set value of minimum mana, depending on your WT levels:
 * WT level  5: 83 max mana
 * WT level 6 onwards: 100 max mana
 
+(Calculated with https://lookas123.github.io/CCGrimoireCalculator/ and https://www.desmos.com/calculator/r9mywixego)
+
+For convenience sake, setting max mana to 100 for all WT levels is easiest. The code will check for both values.
+
 The combo will work with larger values of max mana or with unlimited mana, but because of how the mana refueling system works setting having any higher than 100 mana is not recommended.
 
 The combo will not work if you upgrade Wizard Towers to 11 or higher.

@@ -1120,10 +1120,19 @@ function autoFTHOFComboAction() {
                     switch (SugarLevel) {
                         case 0:
                             return;
-
+                            
+                        // Calculated with https://lookas123.github.io/CCGrimoireCalculator/
                         case 1: //min mana 82
-                            if (Game.Objects['Wizard tower'].amount >= 316) {
-                                autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 22;
+                            if (Game.Objects['Wizard tower'].amount >= 316 && Game.Objects['Wizard tower'].amount < 517) {
+                                autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 21;
+                                M.castSpell(FTHOF);
+
+                                Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
+
+                                autoFTHOFComboAction.state = 2;
+                            } // If 100
+                            if (Game.Objects['Wizard tower'].amount >= 517) {
+                                autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 30;
                                 M.castSpell(FTHOF);
 
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1133,8 +1142,16 @@ function autoFTHOFComboAction() {
                             return;
 
                         case 2:
-                            if (Game.Objects['Wizard tower'].amount >= 312) {
-                                autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 15;
+                            if (Game.Objects['Wizard tower'].amount >= 312 && Game.Objects['Wizard tower'].amount < 514) {
+                                autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 14;
+                                M.castSpell(FTHOF);
+
+                                Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
+
+                                autoFTHOFComboAction.state = 2;
+                            } // If 100
+                            if (Game.Objects['Wizard tower'].amount >= 514) {
+                                autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 23;
                                 M.castSpell(FTHOF);
 
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1144,8 +1161,16 @@ function autoFTHOFComboAction() {
                             return;
 
                         case 3:
-                            if (Game.Objects['Wizard tower'].amount >= 308) {
-                                autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 9;
+                            if (Game.Objects['Wizard tower'].amount >= 308 && Game.Objects['Wizard tower'].amount < 510) {
+                                autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 8;
+                                M.castSpell(FTHOF);
+
+                                Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
+
+                                autoFTHOFComboAction.state = 2;
+                            } // If 100
+                            if (Game.Objects['Wizard tower'].amount >= 510) {
+                                autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 17;
                                 M.castSpell(FTHOF);
 
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1155,8 +1180,16 @@ function autoFTHOFComboAction() {
                             return;
 
                         case 4:
-                            if (Game.Objects['Wizard tower'].amount >= 304) {
+                            if (Game.Objects['Wizard tower'].amount >= 304 && Game.Objects['Wizard tower'].amount < 507) {
                                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 3;
+                                M.castSpell(FTHOF);
+
+                                Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
+
+                                autoFTHOFComboAction.state = 2;
+                            } // If 100
+                            if (Game.Objects['Wizard tower'].amount >= 507) {
+                                autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 12;
                                 M.castSpell(FTHOF);
 
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1166,8 +1199,16 @@ function autoFTHOFComboAction() {
                             return;
 
                         case 5: //min mana 83
-                            if (Game.Objects['Wizard tower'].amount >= 309) {
+                            if (Game.Objects['Wizard tower'].amount >= 309 && Game.Objects['Wizard tower'].amount < 503) {
                                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
+                                M.castSpell(FTHOF);
+
+                                Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
+
+                                autoFTHOFComboAction.state = 2;
+                            } // If 100
+                            if (Game.Objects['Wizard tower'].amount >= 503) {
+                                autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 7;
                                 M.castSpell(FTHOF);
 
                                 Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
@@ -1188,7 +1229,7 @@ function autoFTHOFComboAction() {
                             return;
 
                         case 7:
-                            if (Game.Objects['Wizard tower'].amount >= 493) {
+                            if (Game.Objects['Wizard tower'].amount >= 496) {
                                 autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
                                 M.castSpell(FTHOF);
                                 logEvent('AutoSpell', 'Cast Force the Hand of Fate');
@@ -1239,7 +1280,6 @@ function autoFTHOFComboAction() {
                 logEvent('AutoSpell', 'Double Casted Force the Hand of Fate');
 
                 safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
-                autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
                 
                 // Turn autobuy back on if on before
                 if (autoFTHOFComboAction.autobuyyes == 1) {
