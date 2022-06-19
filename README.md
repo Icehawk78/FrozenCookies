@@ -71,6 +71,10 @@ If you want to manually install it:
 
 ## What's new?
 
+2022 Jun 19
+
+- Add autoHalloween option
+
 2022 Jun 18
 
 - Revert FTHOF combo (mostly) to original method where only the combo is cast. Exception is made for the sugar lump spell.
