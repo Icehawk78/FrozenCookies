@@ -1661,6 +1661,21 @@ function autoEasterAction() {
     }
 }
 
+function autoHalloweenAction() {
+
+    if (FrozenCookies.autoHalloween == 0) {
+        return;
+    }
+    var living = liveWrinklers();
+    if (living.length > 0) {
+        if (Game.season != 'easter' && Game.season != 'halloween' && !haveAll('halloween')) {
+            Game.UpgradesById[183].buy()
+            logEvent("autoHalloween", "Swapping to Halloween season");
+        }
+    }
+}
+
+
 function autoBlacklistOff() {
     switch (FrozenCookies.blacklist) {
         case 1:
@@ -3976,6 +3991,11 @@ function FCStart() {
         FrozenCookies.autoEasterBot = 0;
     }
 
+    if (FrozenCookies.autoHalloweenBot) {
+        clearInterval(FrozenCookies.autoHalloweenBot);
+        FrozenCookies.autoHalloweenBot = 0;
+    }
+
     if (FrozenCookies.autoBrokerBot) {
         clearInterval(FrozenCookies.autoBrokerBot);
         FrozenCookies.autoBrokerBot = 0;
@@ -4077,6 +4097,13 @@ function FCStart() {
     if (FrozenCookies.autoEaster) {
         FrozenCookies.autoEasterBot = setInterval(
             autoEasterAction, 
+            FrozenCookies.frequency
+        );
+    }
+
+    if (FrozenCookies.autoHalloween) {
+        FrozenCookies.autoHalloweenBot = setInterval(
+            autoHalloweenAction, 
             FrozenCookies.frequency
         );
     }
