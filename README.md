@@ -417,8 +417,8 @@ In order to use this, you must meet the following requirements:
 
 * Have at least 1 sugar lump in reserve (101 recommended to keep the Sugar baking bonus)
 * Have whiskerblooms unlocked in the garden (any current plants will be harvested -- this includes growing Juicy queenbeets!)
-* The dragon must be fully upgraded, so you can have two auras
-* Have Reaper of Fields and/or Reality Bending as your dragon auras, to enable Dragon Harvest
+* The dragon must be fully upgraded, so you can have two aurasauras
+* Have Reaper of Fields or Reality Bending as one of your dragon auras, to enable Dragon Harvest
 
 For optimal use, also turn off the mine and factory building caps in Frozen Cookies settings before enabling the combo.
 

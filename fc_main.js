@@ -1432,7 +1432,13 @@ function auto100ConsistencyComboAction() {
             
         return;
 
-        case 4: // Change dragon auras to radiant appetite and dragon's fortune
+        case 4: // Register current dragon harvest aura then set auras to radiant appetite and dragon's fortune
+            if (Game.hasAura('Reaper of Fields'){
+                auto100ConsistencyComboAction.oldaura = 4
+            } elseif (Game.hasAura('Reality Bending')){
+                auto100ConsistencyComboAction.oldaura = 18
+            }
+            
             if (!Game.hasAura("Dragon\'s Fortune")){
                 Game.SetDragonAura(16, 1);
                 Game.ConfirmPrompt();
@@ -1634,9 +1640,12 @@ function auto100ConsistencyComboAction() {
 
         return;
         
-        case 20: // Re-set Reaper of Fields as the second dragon aura
-            if (!Game.hasAura('Reaper of Fields')) {
+        case 20: // Re-set Reaper of Fields or Reality Bending as the second dragon aura
+            if (auto100ConsistencyComboAction.oldaura == 4) {
                 Game.SetDragonAura(4, 1);
+                Game.ConfirmPrompt();
+            } else if (auto100ConsistencyComboAction.oldaura == 18) {
+                Game.SetDragonAura(18, 1);
                 Game.ConfirmPrompt();
             }
             logEvent('auto100ConsistencyCombo', 'Completed auto100ConsistencyCombo');
