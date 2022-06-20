@@ -920,7 +920,7 @@ function autoCast() {
                     logEvent("AutoSpell", "Cast Conjure Baked Goods");
                     return;
                 case 2:
-                    if (Game.hasBuff("Dragonflight")) return; // Safety exit since DF will remove click frenzy, potentially wasting it
+                    if (Game.hasBuff("Dragonflight")) return; // DF will remove click frenzy, potentially wasting it
 
                     var FTHOF = M.spellsById[1];
                     if (M.magicM < Math.floor(FTHOF.costMin + FTHOF.costPercent * M.magicM)) return;
@@ -1041,12 +1041,11 @@ function autoCast() {
 }
 
 // Thank goodness for static variables otherwise this function would not have worked as intended.
-function autoFTHOFComboAction() {
-    if (!M) return; // Just leave if you don't have grimoire
-    if (FrozenCookies.auto100ConsistencyCombo == 1) return; // 100% combo should override
-    
+function autoFTHOFComboAction() {    
     // Prereqs check
     if (
+        !M || // Just leave if you don't have grimoire
+        FrozenCookies.auto100ConsistencyCombo == 1 || // 100% combo should override
         Game.Objects['Wizard tower'].level > 10 // THIS WILL NOT WORK IF TOWER LEVEL IS ABOVE 10
     ){ 
         logEvent('autoFTHOFCombo', 'Impossible to run autoFTHOFCombo at this time');
@@ -1054,9 +1053,7 @@ function autoFTHOFComboAction() {
         return;
     }
     
-    if (Game.hasBuff("Dragonflight")) return; // Safety exit since DF will remove click frenzy, potentially wasting it
-
-    var FTHOF = M.spellsById[1];
+    if (Game.hasBuff("Dragonflight")) return; // DF will remove click frenzy, potentially wasting it
     
     if (typeof autoFTHOFComboAction.count == 'undefined') {
         autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
@@ -1080,6 +1077,7 @@ function autoFTHOFComboAction() {
     }
 
     var SugarLevel = Game.Objects['Wizard tower'].level;
+    var FTHOF = M.spellsById[1];
 
     switch (autoFTHOFComboAction.state) {
         case 0:
@@ -1269,13 +1267,12 @@ function autoFTHOFComboAction() {
     }
 }
 
-function auto100ConsistencyComboAction() {
-    if (!M) return; // Just leave if you don't have grimoire
-    
+function auto100ConsistencyComboAction() {    
     // Prereqs check
     if (
+        !M || // Just leave if you don't have grimoire
         Game.Objects['Wizard tower'].level < 10 || // Only works with wizard towers level 10
-        !G // Garden must exist - Todo: also check if whiskerbloom can be planted
+        !G // Garden must exist
     ){
         logEvent('auto100ConsistencyCombo', 'Impossible to run auto100ConsistencyCombo at this time');
         FrozenCookies.auto100ConsistencyCombo = 0;
@@ -1284,17 +1281,17 @@ function auto100ConsistencyComboAction() {
     
     // Not currently possible to do the combo
     if (
-        !(Game.hasGod("mother") || T.swaps >= 1) || // Need to have Moka slotted or a swap left
+        Game.hasBuff("Dragonflight") || // DF will remove click frenzy, potentially wasting it
         Game.lumps < 1 || // Needs at least 1 lump
-        Game.dragonLevel<26 || // Fully upgraded dragon needed for two auras
-        !(Game.hasAura('Reaper of Fields') || Game.hasAura('Reality Bending')) // Will only work if Dragon Harvest is possible
+        (!(Game.hasGod("mother") || T.swaps < 1)) ||
+        (!(Game.hasGod("ruin") || T.swaps < 1)) ||
+        (!Game.hasGod("mother") && !Game.hasGod("ruin") && T.swaps < 2) || // Need to have Moka and Godz or enough swaps
+        Game.dragonLevel < 26 || // Fully upgraded dragon needed for two auras
+        !(Game.hasAura('Reaper of Fields') || Game.hasAura('Reality Bending')) || // Will only work if Dragon Harvest is possible
+        G.plants['whiskerbloom'].id.unlocked != 1 // Whiskerbloom must be unlocked
     ){
         return;
     }
-    
-    if (Game.hasBuff("Dragonflight")) return; // Safety exit since DF will remove click frenzy, potentially wasting it
-
-    var FTHOF = M.spellsById[1];
 
     if (typeof auto100ConsistencyComboAction.countFarm == 'undefined') {
         auto100ConsistencyComboAction.countFarm = Game.Objects['Farm'].amount;
@@ -1350,6 +1347,8 @@ function auto100ConsistencyComboAction() {
             auto100ConsistencyComboAction.state = 1;
         }
     }
+
+    var FTHOF = M.spellsById[1];
 
     switch (auto100ConsistencyComboAction.state) {
         case 0:
@@ -1550,7 +1549,7 @@ function auto100ConsistencyComboAction() {
         return;
 
         case 14: // Swap Mokalsium to ruby slot
-            if (!Game.hasGod("mother")){
+            if (!Game.hasGod("mother") && T.swaps >= 1){
                 swapIn(8, 1);
             }
 
@@ -1574,8 +1573,11 @@ function auto100ConsistencyComboAction() {
 
         return;
 
-        case 16: // Perform custom autogodzamok
-            if (((Game.hasGod('ruin')) && (!Game.hasBuff('Devastation'))) && hasClickBuff()) {
+        case 16: // Put Godz in diamond and perform custom autogodzamok
+            if (!Game.hasGod("ruin") && T.swaps >= 1){
+                swapIn(2, 0);
+            }
+            if (!Game.hasBuff('Devastation') && hasClickBuff()) {
                 if (Game.Objects['Farm'].amount >= 10) {
                     Game.Objects['Farm'].sell(auto100ConsistencyComboAction.countFarm - 1);
                     Game.Objects['Mine'].sell(auto100ConsistencyComboAction.countMine);
