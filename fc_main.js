@@ -218,18 +218,6 @@ function setOverrides(gameSaveData) {
         FrozenCookies.factoryMax = preferenceParse("factoryMax", 0);
         FrozenCookies.manaMax = preferenceParse("manaMax", 0);
 
-        // Also set this on a reload
-        if (FrozenCookies.autoBulk != 0) {
-            if (FrozenCookies.autoBulk == 1) {
-                // Buy x10
-                document.getElementById("storeBulk10").click();
-            }
-            if (FrozenCookies.autoBulk == 2) {
-                // Buy x100
-                document.getElementById("storeBulk100").click();
-            }
-        }
-
         // Get historical data
         FrozenCookies.frenzyTimes =
             JSON.parse(
@@ -803,7 +791,7 @@ function autoRigidel() {
             if (timeToRipe < 60) {
                 var prev = T.slot[0]; //cache whatever god you have equipped
                 swapIn(10, 0); //swap in rigidel
-                // Prevent autobuy while Rigisell is doing its thing
+                // Turn off autobuy
                 if (FrozenCookies.autoBuy == 1) {
                     autoRigidel.autobuyyes = 1;
                     FrozenCookies.autoBuy = 0;
@@ -817,14 +805,14 @@ function autoRigidel() {
                 }
                 // Game.clickLump(); //harvest the ripe lump, AutoSL probably covers this but this should avoid issues with autoBuy going first and disrupting Rigidel
                 // Turn autobuy back on if on before
-                if (rigiSell.autobuyyes == 1) {
+                if (autoRigidel.autobuyyes == 1) {
                     FrozenCookies.autoBuy = 1;
                 }
                 if (prev != -1) swapIn(prev, 0); //put the old one back
             }
         case 1: //Rigidel is already in diamond slot
             if (timeToRipe < 60 && Game.BuildingsOwned % 10) {
-                // Prevent autobuy while Rigisell is doing its thing
+                // Turn off autobuy
                 if (FrozenCookies.autoBuy == 1) {
                     autoRigidel.autobuyyes = 1;
                     FrozenCookies.autoBuy = 0;
@@ -837,13 +825,13 @@ function autoRigidel() {
                     Game.clickLump();
                 }
                 // Turn autobuy back on if on before
-                if (rigiSell.autobuyyes == 1) {
+                if (autoRigidel.autobuyyes == 1) {
                     FrozenCookies.autoBuy = 1;
                 }
             }
         case 2: //Rigidel in Ruby slot,
             if (timeToRipe < 40 && Game.BuildingsOwned % 10) {
-                // Prevent autobuy while Rigisell is doing its thing
+                // Turn off autobuy
                 if (FrozenCookies.autoBuy == 1) {
                     autoRigidel.autobuyyes = 1;
                     FrozenCookies.autoBuy = 0;
@@ -856,13 +844,13 @@ function autoRigidel() {
                     Game.clickLump();
                 }
                 // Turn autobuy back on if on before
-                if (rigiSell.autobuyyes == 1) {
+                if (autoRigidel.autobuyyes == 1) {
                     FrozenCookies.autoBuy = 1;
                 }
             }
         case 3: //Rigidel in Jade slot
             if (timeToRipe < 20 && Game.BuildingsOwned % 10) {
-                // Prevent autobuy while Rigisell is doing its thing
+                // Turn off autobuy
                 if (FrozenCookies.autoBuy == 1) {
                     autoRigidel.autobuyyes = 1;
                     FrozenCookies.autoBuy = 0;
@@ -875,7 +863,7 @@ function autoRigidel() {
                     Game.clickLump();
                 }
                 // Turn autobuy back on if on before
-                if (rigiSell.autobuyyes == 1) {
+                if (autoRigidel.autobuyyes == 1) {
                     FrozenCookies.autoBuy = 1;
                 }
             }
@@ -1530,7 +1518,6 @@ function auto100ConsistencyComboAction() {
             } else {
                 auto100ConsistencyComboAction.autogodyes = 0;
             }
-
             FrozenCookies.autoGodzamok = 0;
 
             auto100ConsistencyComboAction.state = 12;
