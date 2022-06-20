@@ -3992,7 +3992,7 @@ function FCStart() {
 
     if (FrozenCookies.auto100ConsistencyComboBot) {
         clearInterval(FrozenCookies.auto100ConsistencyComboBot);
-        FrozenCookies.autoFTHOFComboBot = 0;
+        FrozenCookies.auto100ConsistencyComboBot = 0;
     }
 
     if (FrozenCookies.autoEasterBot) {
