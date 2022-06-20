@@ -1275,7 +1275,10 @@ function auto100ConsistencyComboAction() {
     if (
         !M || // Just leave if you don't have grimoire
         Game.Objects['Wizard tower'].level < 10 || // Only works with wizard towers level 10
-        !G // Garden must exist
+        Game.dragonLevel < 26 || // Fully upgraded dragon needed for two auras
+        !(Game.hasAura('Reaper of Fields') || Game.hasAura('Reality Bending')) // Will only work if Dragon Harvest is possible
+        !G || // Garden must exist
+        G.plants['whiskerbloom'].id.unlocked != 1 // Whiskerbloom must be unlocked
     ){
         logEvent('auto100ConsistencyCombo', 'Impossible to run auto100ConsistencyCombo at this time');
         FrozenCookies.auto100ConsistencyCombo = 0;
@@ -1288,10 +1291,7 @@ function auto100ConsistencyComboAction() {
         Game.lumps < 1 || // Needs at least 1 lump
         (!(Game.hasGod("mother") || T.swaps < 1)) ||
         (!(Game.hasGod("ruin") || T.swaps < 1)) ||
-        (!Game.hasGod("mother") && !Game.hasGod("ruin") && T.swaps < 2) || // Need to have Moka and Godz or enough swaps
-        Game.dragonLevel < 26 || // Fully upgraded dragon needed for two auras
-        !(Game.hasAura('Reaper of Fields') || Game.hasAura('Reality Bending')) || // Will only work if Dragon Harvest is possible
-        G.plants['whiskerbloom'].id.unlocked != 1 // Whiskerbloom must be unlocked
+        (!Game.hasGod("mother") && !Game.hasGod("ruin") && T.swaps < 2) // Need to have Moka and Godz or enough swaps
     ){
         return;
     }
