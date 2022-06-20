@@ -71,6 +71,10 @@ If you want to manually install it:
 
 ## What's new?
 
+2022 Jun 20
+
+- Once again rewrote auto FTHOF and 100% consistency combo + updated documentation
+
 2022 Jun 19
 
 - Add autoHalloween option
@@ -408,9 +412,15 @@ The combo will not work if you upgrade Wizard Towers to 11 or higher.
 
 ## Auto 100% Consistency Combo
 
-Based on the 100% Consistency endgame click combo\*, this is basically the Auto FTHOF Combo on steroids and will only work with Wizard Towers on level 10.  It will completely automate the building purchases, garden, and grimoire and use a sugar lump to cast up to four spells in succession, selling and rebuying buildings, fully harvesting the garden regardless of what is growing to plant whiskerblooms for a milk combo.  
-If you opt to use this, make sure to have at least 110 sugar lumps in reserve and that you have whiskerblooms unlocked in the garden, and are not trying to grow a hard to get plant like the Juicy queenbeet.
-For optimal use,  turn off the mine and factory building caps in Frozen Cookies settings before enabling this.
+Based on the 100% Consistency endgame click combo\*, this is basically the Auto FTHOF Combo on steroids and will only work with Wizard Towers on level 10 and a max mana of 100 (or higher).  It will completely automate the building purchases, garden, and grimoire and use a sugar lump to cast up to four spells in succession, selling and rebuying buildings, fully harvesting the garden regardless of what is growing to plant whiskerblooms for a milk combo.  
+In order to use this, you must meet the following requirements: 
+
+* Have at least 1 sugar lump in reserve (101 recommended to keep the Sugar baking bonus)
+* Have whiskerblooms unlocked in the garden (any current plants will be harvested -- this includes growing Juicy queenbeets!)
+* The dragon must be fully upgraded, so you can have two auras
+* Have Reaper of Fields and/or Reality Bending as your dragon auras, to enable Dragon Harvest
+
+For optimal use, also turn off the mine and factory building caps in Frozen Cookies settings before enabling the combo.
 
 \*https://pastebin.com/raw/bMHEJ3R9
 
