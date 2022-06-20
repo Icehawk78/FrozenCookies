@@ -989,6 +989,11 @@ function autoCast() {
                             logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                         }
                     }
+                    
+                    if (nextSpellName(0) == "Cookie Storm" && !haveAll('easter')) {
+                        M.castSpell(FTHOF);
+                        logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+                    }
 
                     if (nextSpellName(0) == "Cookie Storm") {
                         if (Game.hasBuff('Frenzy') && BuildingSpecialBuff() == 1 && Game.hasBuff('Frenzy').time / 30 >= Math.ceil(7 * BuffTimeFactor()) - 1 && BuildingBuffTime() >= Math.ceil(7 * BuffTimeFactor())) {
@@ -1092,7 +1097,7 @@ function autoFTHOFComboAction() {
     switch (autoFTHOFComboAction.state) {
         case 0:
             if (M.magic == M.magicM) {
-                //Continue casting Haggler's Charm - unless it's a sugar lump or we can use it to shorten wait time
+                //Continue casting Haggler's Charm - unless it's something we need right now
                 if (nextSpellName(0) == "Sugar Lump") {
                     M.castSpell(FTHOF);
                     logEvent('autoFTHOFCombo', 'Cast Force the Hand of Fate');
@@ -1101,6 +1106,10 @@ function autoFTHOFComboAction() {
                     var streT = M.spellsById[2];
                     M.castSpell(streT);
                     logEvent('autoFTHOFCombo', 'Cast Stretch Time instead of Force the Hand of Fate');
+                }
+                else if (nextSpellName(0) == "Cookie Storm" && !haveAll('easter')) {
+                    M.castSpell(FTHOF);
+                    logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                 }
                 else {
                     var hagC = M.spellsById[4];
@@ -1357,19 +1366,21 @@ function auto100ConsistencyComboAction() {
 
     switch (auto100ConsistencyComboAction.state) {
         case 0:
-            //Continue casting Haggler's Charm - unless it's a sugar lump or we can use it to shorten wait time
+            //Continue casting Haggler's Charm - unless it's something we need right now
             if (M.magic == M.magicM) {
                 if (nextSpellName(0) == "Sugar Lump") {
                     M.castSpell(FTHOF);
                     logEvent('auto100ConsistencyCombo', 'Cast Force the Hand of Fate');
-                } 
-                
+                }
                 else if ((cpsBonus() < 1) && (nextSpellName(0) == "Clot" || nextSpellName(0) == "Ruin Cookies")) {
                     var streT = M.spellsById[2];
                     M.castSpell(streT);
                     logEvent('auto100ConsistencyCombo', 'Cast Stretch Time instead of Force the Hand of Fate');
                 }
-                
+                else if (nextSpellName(0) == "Cookie Storm" && !haveAll('easter')) {
+                    M.castSpell(FTHOF);
+                    logEvent('auto100ConsistencyCombo', 'Cast Force the Hand of Fate');
+                }
                 else {
                     var hagC = M.spellsById[4];
                     M.castSpell(hagC);
