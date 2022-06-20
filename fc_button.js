@@ -287,37 +287,37 @@ function FCMenu() {
             bankLucky,
             bankLuckyFrenzy,
             bankChain,
-        menu = $("#menu")
-        .empty()
-        .append(
-            $("<div>")
-            .addClass("section")
-            .text(
-                "Frozen Cookies v " +
-                FrozenCookies.branch +
-                "." +
-                FrozenCookies.version
-            )
-        ),
+            menu = $("#menu")
+            .empty()
+            .append(
+                $("<div>")
+                .addClass("section")
+                .text(
+                    "Frozen Cookies v " +
+                    FrozenCookies.branch +
+                    "." +
+                    FrozenCookies.version
+                )
+            ),
 
-        //Autobuy
-        subsection = $("<div>")
-        .addClass("subsection")
-        .append($("<div>").addClass("title").text("Autobuy Information")),
-        recommendation = nextPurchase(),
-        chainRecommendation = nextChainedPurchase(),
-        isChained = !(
-            recommendation.id == chainRecommendation.id &&
-            recommendation.type == chainRecommendation.type
-        ),
-        bankLevel = bestBank(chainRecommendation.efficiency),
-        actualCps =
-        Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed,
-        chocolateRecoup =
-        (recommendation.type == "upgrade" ?
-            recommendation.cost :
-            recommendation.cost * 0.425) /
-        (recommendation.delta_cps * 21);
+            //Autobuy
+            subsection = $("<div>")
+            .addClass("subsection")
+            .append($("<div>").addClass("title").text("Autobuy Information")),
+            recommendation = nextPurchase(),
+            chainRecommendation = nextChainedPurchase(),
+            isChained = !(
+                recommendation.id == chainRecommendation.id &&
+                recommendation.type == chainRecommendation.type
+            ),
+            bankLevel = bestBank(chainRecommendation.efficiency),
+            actualCps =
+            Game.cookiesPs + Game.mouseCps() * FrozenCookies.cookieClickSpeed,
+            chocolateRecoup =
+            (recommendation.type == "upgrade" ?
+                recommendation.cost :
+                recommendation.cost * 0.425) /
+            (recommendation.delta_cps * 21);
 
         function buildListing(label, name) {
             return $("<div>")
@@ -397,7 +397,7 @@ function FCMenu() {
             );
         }
         menu.append(subsection);
-       
+
         // build preference menu items
         if (FrozenCookies.preferenceValues) {
             subsection = $("<div>").addClass("subsection");
@@ -555,7 +555,7 @@ function FCMenu() {
                 );
             });
         menu.append(subsection);
-        
+
         // Heavenly Chips
         subsection = $("<div>").addClass("subsection");
         subsection.append(
@@ -723,7 +723,7 @@ function FCMenu() {
             );
         }
         menu.append(subsection);
- 
+
         // Internal Information
         subsection = $("<div>").addClass("subsection");
         subsection.append(
@@ -755,7 +755,7 @@ function FCMenu() {
                 )
             );
         });
-        
+
         // Table Dividers
         var dividers = [
             $("<tr>").append($("<td>").attr("colspan", "5").html("&nbsp;")),
