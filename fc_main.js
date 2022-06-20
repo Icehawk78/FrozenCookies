@@ -1081,7 +1081,6 @@ function autoFTHOFComboAction() {
             (nextSpellName(0) == "Click Frenzy" && nextSpellName(1) == "Elder Frenzy") ||
             (nextSpellName(1) == "Click Frenzy" && nextSpellName(0) == "Elder Frenzy")
         ) {
-            logEvent('autoFTHOFCombo', 'autoFTHOFCombo ready');
             autoFTHOFComboAction.state = 1;
         } else {
             autoFTHOFComboAction.state = 0;
@@ -1352,7 +1351,6 @@ function auto100ConsistencyComboAction() {
             (nextSpellName(0) == "Click Frenzy" && nextSpellName(1) == "Elder Frenzy") ||
             (nextSpellName(1) == "Click Frenzy" && nextSpellName(0) == "Elder Frenzy")
         ) {
-            logEvent('auto100ConsistencyCombo', 'auto100ConsistencyCombo ready');
             auto100ConsistencyComboAction.state = 1;
         }
     }
@@ -1400,6 +1398,7 @@ function auto100ConsistencyComboAction() {
                 if (Game.buyMode == -1) {
                     Game.buyMode = 1;
                 }
+                logEvent('auto100ConsistencyCombo', 'Starting auto100ConsistencyCombo');
 
                 auto100ConsistencyComboAction.state = 2;
             }
