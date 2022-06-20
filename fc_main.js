@@ -1045,15 +1045,18 @@ function autoFTHOFComboAction() {
     // Prereqs check
     if (
         !M || // Just leave if you don't have grimoire
-        FrozenCookies.auto100ConsistencyCombo == 1 || // 100% combo should override
-        Game.Objects['Wizard tower'].level > 10 // THIS WILL NOT WORK IF TOWER LEVEL IS ABOVE 10
+        Game.Objects['Wizard tower'].level > 10 // Will not work with wizard tower level > 10
     ){ 
         logEvent('autoFTHOFCombo', 'Impossible to run autoFTHOFCombo at this time');
         FrozenCookies.autoFTHOFCombo = 0;
         return;
     }
     
-    if (Game.hasBuff("Dragonflight")) return; // DF will remove click frenzy, potentially wasting it
+    // Not currently possible to do the combo
+    if (
+        FrozenCookies.auto100ConsistencyCombo == 1 || // 100% combo should override
+        Game.hasBuff("Dragonflight") // DF will remove click frenzy, potentially wasting it
+    ) return; 
     
     if (typeof autoFTHOFComboAction.count == 'undefined') {
         autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
