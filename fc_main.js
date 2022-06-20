@@ -989,14 +989,13 @@ function autoCast() {
                             logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                         }
                     }
-                    
-                    if (nextSpellName(0) == "Cookie Storm" && !haveAll('easter')) {
-                        M.castSpell(FTHOF);
-                        logEvent('AutoSpell', 'Cast Force the Hand of Fate');
-                    }
 
                     if (nextSpellName(0) == "Cookie Storm") {
                         if (Game.hasBuff('Frenzy') && BuildingSpecialBuff() == 1 && Game.hasBuff('Frenzy').time / 30 >= Math.ceil(7 * BuffTimeFactor()) - 1 && BuildingBuffTime() >= Math.ceil(7 * BuffTimeFactor())) {
+                            M.castSpell(FTHOF);
+                            logEvent('AutoSpell', 'Cast Force the Hand of Fate');
+                        }
+                        if (FrozenCookies.autoEaster && !haveAll('easter')) {
                             M.castSpell(FTHOF);
                             logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                         }
@@ -1102,12 +1101,12 @@ function autoFTHOFComboAction() {
                     M.castSpell(FTHOF);
                     logEvent('autoFTHOFCombo', 'Cast Force the Hand of Fate');
                 }
-                else if ((cpsBonus() < 1) && (nextSpellName(0) == "Clot" || nextSpellName(0) == "Ruin Cookies")) {
+                else if ((nextSpellName(0) == "Clot" || nextSpellName(0) == "Ruin Cookies") && cpsBonus() < 1) {
                     var streT = M.spellsById[2];
                     M.castSpell(streT);
                     logEvent('autoFTHOFCombo', 'Cast Stretch Time instead of Force the Hand of Fate');
                 }
-                else if (nextSpellName(0) == "Cookie Storm" && !haveAll('easter')) {
+                else if (nextSpellName(0) == "Cookie Storm" && FrozenCookies.autoEaster && !haveAll('easter')) {
                     M.castSpell(FTHOF);
                     logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                 }
@@ -1372,12 +1371,12 @@ function auto100ConsistencyComboAction() {
                     M.castSpell(FTHOF);
                     logEvent('auto100ConsistencyCombo', 'Cast Force the Hand of Fate');
                 }
-                else if ((cpsBonus() < 1) && (nextSpellName(0) == "Clot" || nextSpellName(0) == "Ruin Cookies")) {
+                else if ((nextSpellName(0) == "Clot" || nextSpellName(0) == "Ruin Cookies") && cpsBonus() < 1) {
                     var streT = M.spellsById[2];
                     M.castSpell(streT);
                     logEvent('auto100ConsistencyCombo', 'Cast Stretch Time instead of Force the Hand of Fate');
                 }
-                else if (nextSpellName(0) == "Cookie Storm" && !haveAll('easter')) {
+                else if (nextSpellName(0) == "Cookie Storm" && FrozenCookies.autoEaster && !haveAll('easter')) {
                     M.castSpell(FTHOF);
                     logEvent('auto100ConsistencyCombo', 'Cast Force the Hand of Fate');
                 }
@@ -1689,11 +1688,10 @@ function autoHalloweenAction() {
     if (living.length > 0) {
         if (Game.season != 'easter' && Game.season != 'halloween' && !haveAll('halloween')) {
             Game.UpgradesById[183].buy()
-            logEvent("autoHalloween", "Swapping to Halloween season");
+            logEvent("autoHalloween", "Swapping to Halloween season to use wrinklers");
         }
     }
 }
-
 
 function autoBlacklistOff() {
     switch (FrozenCookies.blacklist) {
@@ -1705,7 +1703,7 @@ function autoBlacklistOff() {
             break;
         case 3:
             FrozenCookies.blacklist =
-                haveAll("halloween") ? 0 : 3;
+                haveAll("halloween") && haveAll("easter") ? 0 : 3;
             break;
     }
 }
@@ -2805,10 +2803,6 @@ function isUnavailable(upgrade, upgradeBlacklist) {
     if (upgradeBlacklist.concat(recommendationBlacklist).includes(upgrade.id)) {
         return true;
     }
-
-    // if (upgrade.id == 74 && Game.season == "halloween" && !haveAll("halloween")) { // Don't pledge during Halloween
-    //    return true;
-    // }
 
     if (upgrade.id == 74 && (Game.season == "halloween" || Game.season == "easter") && !haveAll(Game.season)) { // Don't pledge if Easter or Halloween not complete
         return true;
