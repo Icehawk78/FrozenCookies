@@ -1276,7 +1276,7 @@ function auto100ConsistencyComboAction() {
         !M || // Just leave if you don't have grimoire
         Game.Objects['Wizard tower'].level < 10 || // Only works with wizard towers level 10
         Game.dragonLevel < 26 || // Fully upgraded dragon needed for two auras
-        !(Game.hasAura('Reaper of Fields') || Game.hasAura('Reality Bending')) // Will only work if Dragon Harvest is possible
+        !(Game.hasAura('Reaper of Fields') || Game.hasAura('Reality Bending')) || // Will only work if Dragon Harvest is possible
         !G || // Garden must exist
         G.plants['whiskerbloom'].id.unlocked != 1 // Whiskerbloom must be unlocked
     ){
