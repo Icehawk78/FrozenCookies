@@ -625,9 +625,9 @@ function storeNumberCallback(base, min, max) {
 function updateSpeed(base) {
     userInputPrompt(
         'Autoclicking!',
-        "How many times per second do you want to click? (Current maximum is 250 clicks per second)",
+        "How many times per second do you want to click?",
         FrozenCookies[base],
-        storeNumberCallback(base, 0, 250)
+        storeNumberCallback(base, 0, 999)
     );
 }
 

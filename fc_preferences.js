@@ -173,7 +173,7 @@ FrozenCookies.preferenceValues = {
         hint: "Grimoire options:",
     },
     towerLimit: {
-        hint: "Stop autobuying Wizard Towers at selected Max Mana, for efficiency. 37 for max effiency for single casting FTHOF. Do not set over 100. Refer to the readme for details.",
+        hint: "Stop autobuying Wizard Towers at selected Max Mana. 37 for max efficiency for single casting FTHOF. Not recommended to set over 100. Refer to the readme for details.",
         display: ["Wizard Tower Cap OFF", "Wizard Tower Cap ON"],
         default: 0,
         extras: '<a class="option" id="manaMax" onclick="updateManaMax(\'manaMax\');">${manaMax} max Mana</a>',
