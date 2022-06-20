@@ -1433,7 +1433,7 @@ function auto100ConsistencyComboAction() {
         return;
 
         case 4: // Register current dragon harvest aura then set auras to radiant appetite and dragon's fortune
-            if (Game.hasAura('Reaper of Fields'){
+            if (Game.hasAura('Reaper of Fields')){
                 auto100ConsistencyComboAction.oldaura = 4
             } elseif (Game.hasAura('Reality Bending')){
                 auto100ConsistencyComboAction.oldaura = 18
