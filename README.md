@@ -73,7 +73,7 @@ If you want to manually install it:
 
 2022 Jun 20
 
-- Once again rewrote auto FTHOF and 100% consistency combo + updated documentation
+- Once again rewrote auto FTHOF and 100% consistency combo + updated documentation. Should now work better.
 
 2022 Jun 19
 
