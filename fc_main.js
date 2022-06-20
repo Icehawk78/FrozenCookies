@@ -1271,7 +1271,7 @@ function auto100ConsistencyComboAction() {
     if (
         !M || // Just leave if you don't have grimoire
         Game.Objects['Wizard tower'].level < 10 || // Only works with wizard towers level 10
-        !G || // Garden must exist
+        !G // Garden must exist
     ) {
         FrozenCookies.auto100ConsistencyCombo = 0;
         return;
