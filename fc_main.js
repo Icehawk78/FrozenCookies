@@ -4152,10 +4152,12 @@ function FCStart() {
     if (FrozenCookies.autoWorship2Bot) {
         clearInterval(FrozenCookies.autoWorship2Bot);
         FrozenCookies.autoWorship2Bot = 0;
+    }
 
     if (FrozenCookies.autoWorship3Bot) {
         clearInterval(FrozenCookies.autoWorship3Bot);
         FrozenCookies.autoWorship3Bot = 0;
+    }
 
     // Remove until timing issues are fixed
     //  if (FrozenCookies.goldenCookieBot) {
