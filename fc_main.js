@@ -1433,10 +1433,16 @@ function auto100ConsistencyComboAction() {
             }
 
             if (!Game.hasAura("Dragon\'s Fortune")) {
+                if (FrozenCookies.autoDragonAura2 != 0 {
+                    FrozenCookies.autoDragonAura2 = 16
+                }
                 Game.SetDragonAura(16, 1);
                 Game.ConfirmPrompt();
             }
             if (!Game.hasAura("Radiant Appetite")) {
+                if (FrozenCookies.autoDragonAura1 != 0 {
+                    FrozenCookies.autoDragonAura1 = 15
+                }
                 Game.SetDragonAura(15, 0);
                 Game.ConfirmPrompt();
             }
@@ -1639,9 +1645,15 @@ function auto100ConsistencyComboAction() {
             if (auto100ConsistencyComboAction.oldaura == 4) {
                 Game.SetDragonAura(4, 1);
                 Game.ConfirmPrompt();
+                if (FrozenCookies.autoDragonAura2 = 16 {
+                    FrozenCookies.autoDragonAura2 = 4
+                }
             } else if (auto100ConsistencyComboAction.oldaura == 18) {
                 Game.SetDragonAura(18, 1);
                 Game.ConfirmPrompt();
+                if (FrozenCookies.autoDragonAura2 = 16 {
+                    FrozenCookies.autoDragonAura2 = 18
+                }
             }
             logEvent('auto100ConsistencyCombo', 'Completed auto100ConsistencyCombo');
 
