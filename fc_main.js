@@ -4172,7 +4172,7 @@ function FCStart() {
 
     if (FrozenCookies.autoSugarFrenzy) {
         FrozenCookies.autoSugarFrenzyBot = setInterval(
-            autoSugarFrenzy,
+            autoSugarFrenzyAction,
             FrozenCookies.frequency * 2
         );
     }
