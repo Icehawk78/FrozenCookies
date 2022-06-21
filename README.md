@@ -21,6 +21,7 @@ Current differences from the oficial release:
 * Automatically upgrades and pets Krumblor
 * Updated for 2.048 (Cortex bakers etc.)
 * Automatically take loans during big click frenzy combos
+* Automatically start a Sugar Frenzy during big combos
 
 ## How to use
 
@@ -70,6 +71,11 @@ If you want to manually install it:
 \*Note: Not guaranteed to actually be the most efficient purchase. Just the most efficient that I currently know of.
 
 ## What's new?
+
+2022 Jun 21
+
+- Add automatic Sugar Frenzy
+- Add Sugar Baking protection so the mod will only auto-spend sugar lumps if you have 101 or more stored
 
 2022 Jun 20
 
