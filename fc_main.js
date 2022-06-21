@@ -1665,10 +1665,8 @@ function auto100ConsistencyComboAction() {
 }
 
 function autoEasterAction() {
-
-    if (FrozenCookies.autoEaster == 0) {
-        return;
-    }
+    if (FrozenCookies.autoEaster == 0) return;
+    if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
 
     if (Game.hasBuff('Cookie storm') && !haveAll('easter') && Game.season != 'easter') {
         Game.UpgradesById[209].buy()
@@ -1677,10 +1675,9 @@ function autoEasterAction() {
 }
 
 function autoHalloweenAction() {
-
-    if (FrozenCookies.autoHalloween == 0) {
-        return;
-    }
+    if (FrozenCookies.autoHalloween == 0)  return;
+    if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
+    
     var living = liveWrinklers();
     if (living.length > 0) {
         if (Game.season != 'easter' && Game.season != 'halloween' && !haveAll('halloween')) {
@@ -1706,13 +1703,9 @@ function autoBlacklistOff() {
 }
 
 function autoBrokerAction() {
-
-    if (!B) { // Just leave if you don't have the bank
-        return;
-    }
-    if (hasClickBuff()) { // Don't buy during click buff
-        return;
-    }
+    if (!B) return; // Just leave if you don't have the bank
+    if (hasClickBuff()) return; // Don't pet during click buff
+    if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
 
     //Hire brokers
     var delay = delayAmount();
@@ -1736,13 +1729,9 @@ function autoBrokerAction() {
 }
 
 function autoDragonAction() {
-
-    if (!(Game.HasUnlocked("A crumbly egg"))) {
-        return;
-    }
-    if (hasClickBuff()) { // Don't buy during click buff
-        return;
-    }
+    if (!Game.HasUnlocked("A crumbly egg")) return;
+    if (hasClickBuff()) return; // Don't pet during click buff
+    if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
 
     if (Game.HasUnlocked("A crumbly egg") && !Game.Has("A crumbly egg")) {
         Game.Upgrades["A crumbly egg"].buy();
@@ -1762,13 +1751,11 @@ function autoDragonAction() {
 }
 
 function petDragonAction() {
-
     if (Game.dragonLevel < 4 || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
         return;
     }
-    if (hasClickBuff()) { // Don't pet during click buff
-        return;
-    }
+    if (hasClickBuff()) return; // Don't pet during click buff
+    if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
 
     //Calculate current pet drop and if we have it
     Math.seedrandom(Game.seed + '/dragonTime');
@@ -1786,9 +1773,8 @@ function petDragonAction() {
 }
 
 function autoLoanBuy() {
-    if (!B) { // Just leave if you don't have the bank
-        return;
-    }
+    if (!B) return;
+    if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
 
     if (hasClickBuff() && (cpsBonus() >= FrozenCookies.minLoanMult)) {
         Game.Objects['Bank'].minigame.takeLoan(1);
@@ -1819,8 +1805,8 @@ function autoSugarFrenzyAction() {
 }
 
 function autoDragonAura1Action() {
-     
     if (Game.dragonLevel < 5 || FrozenCookies.autoDragonAura1 == 0) return;
+    if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
     
     if (Game.dragonAura == FrozenCookies.autoDragonAura1) return;
     
@@ -1834,6 +1820,7 @@ function autoDragonAura1Action() {
 function autoDragonAura2Action() {
     
     if (Game.dragonLevel < 26 || FrozenCookies.autoDragonAura2 == 0) return;
+    if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
     
     if (Game.dragonAura2 == FrozenCookies.autoDragonAura2) return;
     

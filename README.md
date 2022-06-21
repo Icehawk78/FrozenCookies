@@ -78,6 +78,7 @@ If you want to manually install it:
 - Add automatic Sugar Frenzy
 - Add Sugar Baking protection so the mod will only auto-spend sugar lumps if you have 101 or more stored
 - Added options to automatically set dragon auras
+- Turn the autobuy option into an on/off toggle for various automated actions like autoBroker, autoDragon. This allows changing the values without the game immediately buying.
 
 2022 Jun 20
 
