@@ -149,7 +149,6 @@ FrozenCookies.preferenceValues = {
         hint: "Automatically slots desired god in DIAMOND slot in Pantheon. Turn off autoBuy option while changing. It's not possible to put the same god in all slots.",
         display: [
             "No God", 
-            "Holobore",
             "Vomitrax",
             "Godzamok",
             "Cyclius",
@@ -160,6 +159,7 @@ FrozenCookies.preferenceValues = {
             "Mokalsium",
             "Skruuia",
             "Rigidel",
+            "Holobore",
         ],
         default: 0,
     },
@@ -167,7 +167,6 @@ FrozenCookies.preferenceValues = {
         hint: "Automatically slots desired god in RUBY slot in Pantheon.",
         display: [
             "No God", 
-            "Holobore",
             "Vomitrax",
             "Godzamok",
             "Cyclius",
@@ -178,6 +177,7 @@ FrozenCookies.preferenceValues = {
             "Mokalsium",
             "Skruuia",
             "Rigidel",
+            "Holobore",
         ],
         default: 0,
     },
@@ -185,7 +185,6 @@ FrozenCookies.preferenceValues = {
         hint: "Automatically slots desired god in JADE slot in Pantheon.",
         display: [
             "No God", 
-            "Holobore",
             "Vomitrax",
             "Godzamok",
             "Cyclius",
@@ -196,6 +195,7 @@ FrozenCookies.preferenceValues = {
             "Mokalsium",
             "Skruuia",
             "Rigidel",
+            "Holobore",
         ],
         default: 0,
     },
