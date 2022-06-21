@@ -194,7 +194,7 @@ FrozenCookies.preferenceValues = {
         default: 0,
     },
     autoDragonAura1: {
-        hint: "Automatically set FIRST dragon aura. Select your desired aura from the list and it will be set as soon as is possible.",
+        hint: "Automatically set FIRST dragon aura. Select your desired aura from the list and it will be set as soon as is possible. Turn off autoBuy option while changing.",
         display: [
             "No Aura", 
             "Breath of Milk",
@@ -221,7 +221,7 @@ FrozenCookies.preferenceValues = {
         default: 0,
     },
     autoDragonAura2: {
-        hint: "Automatically set SECOND dragon aura. Cannot set both slots to the same aura.",
+        hint: "Automatically set SECOND dragon aura. Cannot set both slots to the same aura. Turn off autoBuy option while changing.",
         display: [
             "No Aura", 
             "Breath of Milk",
@@ -253,7 +253,7 @@ FrozenCookies.preferenceValues = {
         hint: "Season options:",
     },
     defaultSeason: {
-        hint: "Autobuy a selected season when no others have needed upgrades",
+        hint: "Autobuy a selected season when no others have needed upgrades. Turn off autoBuy option while changing.",
         display: [
             "Default Season OFF",
             "Default Season BUSINESS DAY",
