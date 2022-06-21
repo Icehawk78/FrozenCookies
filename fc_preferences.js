@@ -114,6 +114,11 @@ FrozenCookies.preferenceValues = {
         ],
         default: 0,
     },
+    sugarBakingGuard: {
+        'hint': 'Ignore options that spend a sugar lump until you have 101 stored, to keep the max Sugar Baking boost',
+        'display': ["Sugar Baking Guard OFF", "Sugar Baking Guard ON"],
+        'default': 0,
+    },
     autoGS: {
         hint: "Automatically turn on the Golden Switch during Dragonflight and Click Frenzy (and turn back off at the end)",
         display: ["Auto-GS-Switch OFF", "Auto-GS-Switch ON"],
@@ -134,38 +139,6 @@ FrozenCookies.preferenceValues = {
         display: ["Auto-Loan OFF", "Auto-Loan ON"],
         default: 0,
         extras: '<a class="option" id="minLoanMult" onclick="updateLoanMultMin(\'minLoanMult\');">x${minLoanMult} minimum Frenzy</a>',
-    },
-    sugarBakingGuard: {
-        'hint': 'Ignore options that spend a sugar lump until you have 101 stored, to keep the max Sugar Baking boost',
-        'display': ["Sugar Baking Guard OFF", "Sugar Baking Guard ON"],
-        'default': 0,
-    },
-    
-    // Season options
-    SeasonOptions: {
-        hint: "Season options:",
-    },
-    defaultSeason: {
-        hint: "Autobuy a selected season when no others have needed upgrades",
-        display: [
-            "Default Season OFF",
-            "Default Season BUSINESS DAY",
-            "Default Season CHRISTMAS",
-            "Default Season EASTER",
-            "Default Season HALLOWEEN",
-            "Default Season VALENTINE'S DAY",
-        ],
-        default: 0,
-    },
-    autoEaster: {
-        'hint': 'Switch to Easter season if Cookie Storm is active and you do not have all eggs yet',
-        'display': ["Auto Easter OFF", "Auto Easter ON"],
-        'default': 0,
-    },
-    autoHalloween: {
-        'hint': 'Switch to Halloween season if you have wrinklers and you do not have all spooky biscuits yet',
-        'display': ["Auto Halloween OFF", "Auto Halloween ON"],
-        'default': 0,
     },
 
     // Spell options
@@ -273,6 +246,33 @@ FrozenCookies.preferenceValues = {
             "Supreme Intellect",
         ],
         default: 0,
+    },
+    
+    // Season options
+    SeasonOptions: {
+        hint: "Season options:",
+    },
+    defaultSeason: {
+        hint: "Autobuy a selected season when no others have needed upgrades",
+        display: [
+            "Default Season OFF",
+            "Default Season BUSINESS DAY",
+            "Default Season CHRISTMAS",
+            "Default Season EASTER",
+            "Default Season HALLOWEEN",
+            "Default Season VALENTINE'S DAY",
+        ],
+        default: 0,
+    },
+    autoEaster: {
+        'hint': 'Switch to Easter season if Cookie Storm is active and you do not have all eggs yet',
+        'display': ["Auto Easter OFF", "Auto Easter ON"],
+        'default': 0,
+    },
+    autoHalloween: {
+        'hint': 'Switch to Halloween season if you have wrinklers and you do not have all spooky biscuits yet',
+        'display': ["Auto Halloween OFF", "Auto Halloween ON"],
+        'default': 0,
     },
 
     //Display options
