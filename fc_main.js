@@ -1433,14 +1433,14 @@ function auto100ConsistencyComboAction() {
             }
 
             if (!Game.hasAura("Dragon\'s Fortune")) {
-                if (FrozenCookies.autoDragonAura2 != 0 {
+                if (FrozenCookies.autoDragonAura2 != 0) {
                     FrozenCookies.autoDragonAura2 = 16
                 }
                 Game.SetDragonAura(16, 1);
                 Game.ConfirmPrompt();
             }
             if (!Game.hasAura("Radiant Appetite")) {
-                if (FrozenCookies.autoDragonAura1 != 0 {
+                if (FrozenCookies.autoDragonAura1 != 0) {
                     FrozenCookies.autoDragonAura1 = 15
                 }
                 Game.SetDragonAura(15, 0);
