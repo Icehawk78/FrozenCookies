@@ -1281,7 +1281,7 @@ function auto100ConsistencyComboAction() {
     if (
         Game.hasBuff("Dragonflight") || // DF will remove click frenzy, potentially wasting it
         Game.lumps < 101 || // Needs at least 101 lumps with guard
-        (FrozenCookies.sugarBakingGuard == 0 && Game.lumps < 1 || // Needs at least 1 lump
+        (FrozenCookies.sugarBakingGuard == 0 && Game.lumps < 1) || // Needs at least 1 lump
         Game.dragonLevel < 26 || // Fully upgraded dragon needed for two auras
         !(Game.hasAura('Reaper of Fields') || Game.hasAura('Reality Bending')) || // Will only work if Dragon Harvest is possible
         (!(Game.hasGod("mother") || T.swaps < 1)) ||

@@ -171,7 +171,7 @@ FrozenCookies.preferenceValues = {
         'hint': 'Ignore options that spend a sugard lump until you have 101 stored, to keep the max Sugar Baking boost',
         'display': ["Sugar Baking Guard OFF", "Sugar Baking Guard ON"],
         'default': 0,
-    }
+    },
 
     // Spell options
     SpellOptions: {
