@@ -1844,7 +1844,7 @@ function autoWorship1Action() {
     if (T.slot[0] == FrozenCookies.autoWorship1) return;
     
     if (T.swaps > 0) {
-        swapIn(autoWorship1, 0) 
+        swapIn(FrozenCookies.autoWorship1, 0) 
         return;
     }
 }
@@ -1862,7 +1862,7 @@ function autoWorship2Action() {
     }
     
     if (T.swaps > 0) {
-        swapIn(autoWorship2, 1) 
+        swapIn(FrozenCookies.autoWorship2, 1) 
         return;
     }
 }
@@ -1883,7 +1883,7 @@ function autoWorship3Action() {
     }
     
     if (T.swaps > 0) {
-        swapIn(autoWorship3, 2) 
+        swapIn(FrozenCookies.autoWorship3, 2) 
         return;
     }
 }
