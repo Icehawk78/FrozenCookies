@@ -789,8 +789,6 @@ function autoRigidel() {
         case 0: //Rigidel isn't in a slot
             if (T.swaps < 2 || (T.swaps == 1 && T.slot[0] == -1)) return; //Don't do anything if we can't swap Rigidel in
             if (timeToRipe < 60) {
-                var prev = T.slot[0]; //cache whatever god you have equipped
-                swapIn(10, 0); //swap in rigidel
                 // Turn off autobuy
                 if (FrozenCookies.autoBuy == 1) {
                     autoRigidel.autobuyyes = 1;
@@ -798,17 +796,19 @@ function autoRigidel() {
                 } else {
                     autoRigidel.autobuyyes = 0;
                 }
+                var prev = T.slot[0]; //cache whatever god you have equipped
+                swapIn(10, 0); //swap in rigidel
                 rigiSell(); //Meet the %10 condition
                 Game.computeLumpTimes();
                 if (Date.now() - started >= ripeAge) {
                     Game.clickLump();
                 }
                 // Game.clickLump(); //harvest the ripe lump, AutoSL probably covers this but this should avoid issues with autoBuy going first and disrupting Rigidel
+                if (prev != -1) swapIn(prev, 0); //put the old one back
                 // Turn autobuy back on if on before
                 if (autoRigidel.autobuyyes == 1) {
                     FrozenCookies.autoBuy = 1;
                 }
-                if (prev != -1) swapIn(prev, 0); //put the old one back
             }
         case 1: //Rigidel is already in diamond slot
             if (timeToRipe < 60 && Game.BuildingsOwned % 10) {
@@ -1825,6 +1825,7 @@ function autoDragonAura2Action() {
     if (Game.dragonAura2 == FrozenCookies.autoDragonAura2) return;
     
     if (FrozenCookies.autoDragonAura1 == FrozenCookies.autoDragonAura2) {
+        FrozenCookies.autoDragonAura2 = 0;
         logEvent("autoDragonAura", "Can't set both auras to the same one!");
         return;
     }
@@ -1832,6 +1833,57 @@ function autoDragonAura2Action() {
     if (Game.dragonLevel >= 26) {
         Game.SetDragonAura(FrozenCookies.autoDragonAura2, 1);
         Game.ConfirmPrompt();
+        return;
+    }
+}
+
+function autoWorship1Action() {
+    if (!T || T.swaps < 1 || FrozenCookies.autoWorship1 == 0) return;
+    if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
+    
+    if (T.slot[0] == FrozenCookies.autoWorship1) return;
+    
+    if (T.swaps > 0) {
+        swapIn(autoWorship1, 0) 
+        return;
+    }
+}
+
+function autoWorship2Action() {
+    if (!T || T.swaps < 1 || FrozenCookies.autoWorship2 == 0) return;
+    if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
+    
+    if (T.slot[1] == FrozenCookies.autoWorship2) return;
+    
+    if (FrozenCookies.autoworship1 == FrozenCookies.autoworship2) {
+        FrozenCookies.autoworship2 = 0;
+        logEvent("autoWorship", "Can't worship the same god twice!");
+        return;
+    }
+    
+    if (T.swaps > 0) {
+        swapIn(autoWorship2, 1) 
+        return;
+    }
+}
+
+function autoWorship3Action() {
+    if (!T || T.swaps < 1 || FrozenCookies.autoWorship3 == 0) return;
+    if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
+    
+    if (T.slot[2] == FrozenCookies.autoWorship3) return;
+    
+    if (
+        FrozenCookies.autoworship1 == FrozenCookies.autoworship3 || 
+        FrozenCookies.autoworship2 == FrozenCookies.autoworship3)
+    {
+        FrozenCookies.autoworship3 = 0;
+        logEvent("autoWorship", "Can't worship the same god twice!");
+        return;
+    }
+    
+    if (T.swaps > 0) {
+        swapIn(autoWorship3, 2) 
         return;
     }
 }
@@ -4092,6 +4144,19 @@ function FCStart() {
         FrozenCookies.autoDragonAura2Bot = 0;
     }
 
+    if (FrozenCookies.autoWorship1Bot) {
+        clearInterval(FrozenCookies.autoWorship1Bot);
+        FrozenCookies.autoWorship1Bot = 0;
+    }
+
+    if (FrozenCookies.autoWorship2Bot) {
+        clearInterval(FrozenCookies.autoWorship2Bot);
+        FrozenCookies.autoWorship2Bot = 0;
+
+    if (FrozenCookies.autoWorship3Bot) {
+        clearInterval(FrozenCookies.autoWorship3Bot);
+        FrozenCookies.autoWorship3Bot = 0;
+
     // Remove until timing issues are fixed
     //  if (FrozenCookies.goldenCookieBot) {
     //    clearInterval(FrozenCookies.goldenCookieBot);
@@ -4229,6 +4294,27 @@ function FCStart() {
     if (FrozenCookies.autoDragonAura2) {
         FrozenCookies.autoDragonAura2Bot = setInterval(
             autoDragonAura2Action,
+            FrozenCookies.frequency
+        );
+    }
+
+    if (FrozenCookies.autoWorship1) {
+        FrozenCookies.autoWorship1Bot = setInterval(
+            autoWorship1Action,
+            FrozenCookies.frequency
+        );
+    }
+
+    if (FrozenCookies.autoWorship2) {
+        FrozenCookies.autoWorship2Bot = setInterval(
+            autoWorship2Action,
+            FrozenCookies.frequency
+        );
+    }
+
+    if (FrozenCookies.autoWorship3) {
+        FrozenCookies.autoWorship3Bot = setInterval(
+            autoWorship3Action,
             FrozenCookies.frequency
         );
     }
