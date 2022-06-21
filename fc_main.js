@@ -1042,11 +1042,9 @@ function autoCast() {
 
 // Thank goodness for static variables otherwise this function would not have worked as intended.
 function autoFTHOFComboAction() {
+    if (!M) return; // Just leave if you don't have grimoire
     // Prereqs check
-    if (
-        !M || // Just leave if you don't have grimoire
-        Game.Objects['Wizard tower'].level > 10 // Will not work with wizard tower level > 10
-    ) {
+    if ( Game.Objects['Wizard tower'].level > 10 // Will not work with wizard tower level > 10) {
         FrozenCookies.autoFTHOFCombo = 0;
         return;
     }
@@ -1267,9 +1265,9 @@ function autoFTHOFComboAction() {
 }
 
 function auto100ConsistencyComboAction() {
+    if (!M) return; // Just leave if you don't have grimoire
     // Prereqs check
     if (
-        !M || // Just leave if you don't have grimoire
         Game.Objects['Wizard tower'].level < 10 || // Only works with wizard towers level 10
         !G // Garden must exist
     ) {
