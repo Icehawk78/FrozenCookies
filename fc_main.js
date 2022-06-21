@@ -1645,13 +1645,13 @@ function auto100ConsistencyComboAction() {
             if (auto100ConsistencyComboAction.oldaura == 4) {
                 Game.SetDragonAura(4, 1);
                 Game.ConfirmPrompt();
-                if (FrozenCookies.autoDragonAura2 = 16 {
+                if (FrozenCookies.autoDragonAura2 = 16) {
                     FrozenCookies.autoDragonAura2 = 4
                 }
             } else if (auto100ConsistencyComboAction.oldaura == 18) {
                 Game.SetDragonAura(18, 1);
                 Game.ConfirmPrompt();
-                if (FrozenCookies.autoDragonAura2 = 16 {
+                if (FrozenCookies.autoDragonAura2 = 16) {
                     FrozenCookies.autoDragonAura2 = 18
                 }
             }
