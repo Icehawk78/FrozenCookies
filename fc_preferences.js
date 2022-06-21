@@ -135,6 +135,81 @@ FrozenCookies.preferenceValues = {
         default: 0,
         extras: '<a class="option" id="minLoanMult" onclick="updateLoanMultMin(\'minLoanMult\');">x${minLoanMult} minimum Frenzy</a>',
     },
+    sugarBakingGuard: {
+        'hint': 'Ignore options that spend a sugar lump until you have 101 stored, to keep the max Sugar Baking boost',
+        'display': ["Sugar Baking Guard OFF", "Sugar Baking Guard ON"],
+        'default': 0,
+    },
+    
+    // Season options
+    SeasonOptions: {
+        hint: "Season options:",
+    },
+    defaultSeason: {
+        hint: "Autobuy a selected season when no others have needed upgrades",
+        display: [
+            "Default Season OFF",
+            "Default Season BUSINESS DAY",
+            "Default Season CHRISTMAS",
+            "Default Season EASTER",
+            "Default Season HALLOWEEN",
+            "Default Season VALENTINE'S DAY",
+        ],
+        default: 0,
+    },
+    autoEaster: {
+        'hint': 'Switch to Easter season if Cookie Storm is active and you do not have all eggs yet',
+        'display': ["Auto Easter OFF", "Auto Easter ON"],
+        'default': 0,
+    },
+    autoHalloween: {
+        'hint': 'Switch to Halloween season if you have wrinklers and you do not have all spooky biscuits yet',
+        'display': ["Auto Halloween OFF", "Auto Halloween ON"],
+        'default': 0,
+    },
+
+    // Spell options
+    SpellOptions: {
+        hint: "Grimoire options:",
+    },
+    towerLimit: {
+        hint: "Stop autobuying Wizard Towers at selected Max Mana. 37 for max efficiency for single casting FTHOF. Not recommended to set over 100. Refer to the readme for details.",
+        display: ["Wizard Tower Cap OFF", "Wizard Tower Cap ON"],
+        default: 0,
+        extras: '<a class="option" id="manaMax" onclick="updateManaMax(\'manaMax\');">${manaMax} max Mana</a>',
+    },
+    autoSpell: {
+        hint: "Automatically cast selected spell when your mana is full",
+        display: [
+            "Auto Cast OFF",
+            "Auto Cast CONJURE BAKED GOODS",
+            "Auto Cast FORCE THE HAND OF FATE",
+            "Auto Cast SPONTANEOUS EDIFICE",
+            "Auto Cast HAGGLER'S CHARM (cheapest)",
+        ],
+        default: 0,
+        extras: '<a class="option" id="minCpSMult" onclick="updateCpSMultMin(\'minCpSMult\');">x${minCpSMult} minimum Frenzy</a>',
+    },
+    autoFTHOFCombo: {
+        'hint': 'This replaces Auto Cast. Will cast Haggler\'s charm until a double cast of Click Frenzy and either Elder Frenzy or Building Special is possible. Make sure to have enough mana for double casting!',
+        'display': ["Auto FTHOF Combo OFF", "Auto FTHOF Combo ON"],
+        'default': 0
+    },
+    auto100ConsistencyCombo: {
+        'hint': 'EXPERIMENTAL: Does the 100% Consistency Combo with two building specials. WARNING: This will spend a sugar lump, do not enable unless you know what this is!',
+        'display': ["Auto 100% Consistency Combo OFF", "Auto 100% Consistency Combo ON"],
+        'default': 0
+    },
+    autoSugarFrenzy: {
+        'hint': 'Buy Sugar Frenzy during the first 100% Consistency and/or FTHOF combo - requires a sugar lump!',
+        'display': ["Auto Sugar Frenzy OFF", "ASF for 100% Consistency Combo", "ASF also for Auto FTHOF Combo", ],
+        'default': 0
+    },
+    
+    //Dragon options
+    dragonOptions: {
+        hint: "Dragon options:",
+    },
     autoDragon: {
         hint: "Automatically upgrade the dragon",
         display: ["Auto-Dragon OFF", "Auto-Dragon ON"],
@@ -198,71 +273,6 @@ FrozenCookies.preferenceValues = {
             "Supreme Intellect",
         ],
         default: 0,
-    },
-    defaultSeason: {
-        hint: "Autobuy a selected season when no others have needed upgrades",
-        display: [
-            "Default Season OFF",
-            "Default Season BUSINESS DAY",
-            "Default Season CHRISTMAS",
-            "Default Season EASTER",
-            "Default Season HALLOWEEN",
-            "Default Season VALENTINE'S DAY",
-        ],
-        default: 0,
-    },
-    autoEaster: {
-        'hint': 'Switch to Easter season if Cookie Storm is active and you do not have all eggs yet',
-        'display': ["Auto Easter OFF", "Auto Easter ON"],
-        'default': 0,
-    },
-    autoHalloween: {
-        'hint': 'Switch to Halloween season if you have wrinklers and you do not have all spooky biscuits yet',
-        'display': ["Auto Halloween OFF", "Auto Halloween ON"],
-        'default': 0,
-    },
-    sugarBakingGuard: {
-        'hint': 'Ignore options that spend a sugar lump until you have 101 stored, to keep the max Sugar Baking boost',
-        'display': ["Sugar Baking Guard OFF", "Sugar Baking Guard ON"],
-        'default': 0,
-    },
-
-    // Spell options
-    SpellOptions: {
-        hint: "Grimoire options:",
-    },
-    towerLimit: {
-        hint: "Stop autobuying Wizard Towers at selected Max Mana. 37 for max efficiency for single casting FTHOF. Not recommended to set over 100. Refer to the readme for details.",
-        display: ["Wizard Tower Cap OFF", "Wizard Tower Cap ON"],
-        default: 0,
-        extras: '<a class="option" id="manaMax" onclick="updateManaMax(\'manaMax\');">${manaMax} max Mana</a>',
-    },
-    autoSpell: {
-        hint: "Automatically cast selected spell when your mana is full",
-        display: [
-            "Auto Cast OFF",
-            "Auto Cast CONJURE BAKED GOODS",
-            "Auto Cast FORCE THE HAND OF FATE",
-            "Auto Cast SPONTANEOUS EDIFICE",
-            "Auto Cast HAGGLER'S CHARM (cheapest)",
-        ],
-        default: 0,
-        extras: '<a class="option" id="minCpSMult" onclick="updateCpSMultMin(\'minCpSMult\');">x${minCpSMult} minimum Frenzy</a>',
-    },
-    autoFTHOFCombo: {
-        'hint': 'This replaces Auto Cast. Will cast Haggler\'s charm until a double cast of Click Frenzy and either Elder Frenzy or Building Special is possible. Make sure to have enough mana for double casting!',
-        'display': ["Auto FTHOF Combo OFF", "Auto FTHOF Combo ON"],
-        'default': 0
-    },
-    auto100ConsistencyCombo: {
-        'hint': 'EXPERIMENTAL: Does the 100% Consistency Combo with two building specials. WARNING: This will spend a sugar lump, do not enable unless you know what this is!',
-        'display': ["Auto 100% Consistency Combo OFF", "Auto 100% Consistency Combo ON"],
-        'default': 0
-    },
-    autoSugarFrenzy: {
-        'hint': 'Buy Sugar Frenzy during the first 100% Consistency and/or FTHOF combo - requires a sugar lump!',
-        'display': ["Auto Sugar Frenzy OFF", "ASF for 100% Consistency Combo", "ASF also for Auto FTHOF Combo", ],
-        'default': 0
     },
 
     //Display options
