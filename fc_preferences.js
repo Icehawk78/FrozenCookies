@@ -150,6 +150,7 @@ FrozenCookies.preferenceValues = {
         display: [
             "No Aura", 
             "Breath of Milk",
+            "Dragon Cursor",
             "Elder Battalion",
             "Reaper of Fields",
             "Earth Shatterer",
@@ -176,6 +177,7 @@ FrozenCookies.preferenceValues = {
         display: [
             "No Aura", 
             "Breath of Milk",
+            "Dragon Cursor",
             "Elder Battalion",
             "Reaper of Fields",
             "Earth Shatterer",

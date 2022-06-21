@@ -1807,8 +1807,10 @@ function autoSugarFrenzyAction() {
 }
 
 function autoDragonAura1Action() {
-    
+     
     if (Game.dragonLevel < 5 || FrozenCookies.autoDragonAura1 == 0) return;
+    
+    if (Game.dragonAura == FrozenCookies.autoDragonAura1) return;
     
     if (Game.dragonLevel >= (FrozenCookies.autoDragonAura1 + 4)) {
         Game.SetDragonAura(FrozenCookies.autoDragonAura1, 0);
@@ -1820,6 +1822,8 @@ function autoDragonAura1Action() {
 function autoDragonAura2Action() {
     
     if (Game.dragonLevel < 26 || FrozenCookies.autoDragonAura2 == 0) return;
+    
+    if (Game.dragonAura2 == FrozenCookies.autoDragonAura2) return;
     
     if (FrozenCookies.autoDragonAura1 == FrozenCookies.autoDragonAura2) {
         logEvent("autoDragonAura", "Can't set both auras to the same one!");
