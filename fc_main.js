@@ -1873,10 +1873,12 @@ function autoWorship3Action() {
     
     if (T.slot[2] == FrozenCookies.autoWorship3) return;
     
-    if (
-        (FrozenCookies.autoworship1 == FrozenCookies.autoworship3) || 
-        (FrozenCookies.autoworship2 == FrozenCookies.autoworship3))
-    {
+    if (FrozenCookies.autoworship1 == FrozenCookies.autoworship3) {
+        FrozenCookies.autoworship3 = 0;
+        logEvent("autoWorship", "Can't worship the same god twice!");
+        return;
+    }
+    if (FrozenCookies.autoworship2 == FrozenCookies.autoworship3) {
         FrozenCookies.autoworship3 = 0;
         logEvent("autoWorship", "Can't worship the same god twice!");
         return;
