@@ -18,7 +18,8 @@ Current differences from the oficial release:
 * Implemented two advanced Auto Cast behaviours, see documentation below
 * Automatically buys brokers and upgrades the market office
 * Attempts to shortens time a debuff remains active
-* Automatically upgrades and pets Krumblor
+* Automatically upgrades and pets the dragon
+* Automatically sets dragon auras
 * Updated for 2.048 (Cortex bakers etc.)
 * Automatically take loans during big click frenzy combos
 * Automatically start a Sugar Frenzy during big combos
@@ -76,6 +77,7 @@ If you want to manually install it:
 
 - Add automatic Sugar Frenzy
 - Add Sugar Baking protection so the mod will only auto-spend sugar lumps if you have 101 or more stored
+- Added options to automatically set dragon auras
 
 2022 Jun 20
 

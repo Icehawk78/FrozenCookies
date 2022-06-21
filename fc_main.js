@@ -1433,10 +1433,16 @@ function auto100ConsistencyComboAction() {
             }
 
             if (!Game.hasAura("Dragon\'s Fortune")) {
+                if (FrozenCookies.autoDragonAura2 != 0) {
+                    FrozenCookies.autoDragonAura2 = 16
+                }
                 Game.SetDragonAura(16, 1);
                 Game.ConfirmPrompt();
             }
             if (!Game.hasAura("Radiant Appetite")) {
+                if (FrozenCookies.autoDragonAura1 != 0) {
+                    FrozenCookies.autoDragonAura1 = 15
+                }
                 Game.SetDragonAura(15, 0);
                 Game.ConfirmPrompt();
             }
@@ -1639,9 +1645,15 @@ function auto100ConsistencyComboAction() {
             if (auto100ConsistencyComboAction.oldaura == 4) {
                 Game.SetDragonAura(4, 1);
                 Game.ConfirmPrompt();
+                if (FrozenCookies.autoDragonAura2 = 16) {
+                    FrozenCookies.autoDragonAura2 = 4
+                }
             } else if (auto100ConsistencyComboAction.oldaura == 18) {
                 Game.SetDragonAura(18, 1);
                 Game.ConfirmPrompt();
+                if (FrozenCookies.autoDragonAura2 = 16) {
+                    FrozenCookies.autoDragonAura2 = 18
+                }
             }
             logEvent('auto100ConsistencyCombo', 'Completed auto100ConsistencyCombo');
 
@@ -1803,6 +1815,37 @@ function autoSugarFrenzyAction() {
         ||  auto100ConsistencyComboAction.state == 16)) { 
         Game.UpgradesById['452'].buy();
         logEvent("autoSugarFrenzy", "Started a Sugar Frenzy this ascension");
+    }
+}
+
+function autoDragonAura1Action() {
+     
+    if (Game.dragonLevel < 5 || FrozenCookies.autoDragonAura1 == 0) return;
+    
+    if (Game.dragonAura == FrozenCookies.autoDragonAura1) return;
+    
+    if (Game.dragonLevel >= (FrozenCookies.autoDragonAura1 + 4)) {
+        Game.SetDragonAura(FrozenCookies.autoDragonAura1, 0);
+        Game.ConfirmPrompt();
+        return;
+    }
+}
+
+function autoDragonAura2Action() {
+    
+    if (Game.dragonLevel < 26 || FrozenCookies.autoDragonAura2 == 0) return;
+    
+    if (Game.dragonAura2 == FrozenCookies.autoDragonAura2) return;
+    
+    if (FrozenCookies.autoDragonAura1 == FrozenCookies.autoDragonAura2) {
+        logEvent("autoDragonAura", "Can't set both auras to the same one!");
+        return;
+    }
+    
+    if (Game.dragonLevel >= 26) {
+        Game.SetDragonAura(FrozenCookies.autoDragonAura2, 1);
+        Game.ConfirmPrompt();
+        return;
     }
 }
 
@@ -4042,14 +4085,24 @@ function FCStart() {
         FrozenCookies.petDragonBot = 0;
     }
 
+    if (FrozenCookies.autoLoanBot) {
+        clearInterval(FrozenCookies.autoLoanBot);
+        FrozenCookies.autoLoanBot = 0;
+    }
+
     if (FrozenCookies.autoSugarFrenzyBot) {
         clearInterval(FrozenCookies.autoSugarFrenzyBot);
         FrozenCookies.autoSugarFrenzyBot = 0;
     }
 
-    if (FrozenCookies.autoLoanBot) {
-        clearInterval(FrozenCookies.autoLoanBot);
-        FrozenCookies.autoLoanBot = 0;
+    if (FrozenCookies.autoDragonAura1Bot) {
+        clearInterval(FrozenCookies.autoDragonAura1Bot);
+        FrozenCookies.autoDragonAura1Bot = 0;
+    }
+
+    if (FrozenCookies.autoDragonAura2Bot) {
+        clearInterval(FrozenCookies.autoDragonAura2Bot);
+        FrozenCookies.autoDragonAura2Bot = 0;
     }
 
     // Remove until timing issues are fixed
@@ -4176,6 +4229,20 @@ function FCStart() {
         FrozenCookies.autoSugarFrenzyBot = setInterval(
             autoSugarFrenzyAction,
             FrozenCookies.frequency * 2
+        );
+    }
+
+    if (FrozenCookies.autoDragonAura1) {
+        FrozenCookies.autoDragonAura1Bot = setInterval(
+            autoDragonAura1Action,
+            FrozenCookies.frequency
+        );
+    }
+
+    if (FrozenCookies.autoDragonAura2) {
+        FrozenCookies.autoDragonAura2Bot = setInterval(
+            autoDragonAura2Action,
+            FrozenCookies.frequency
         );
     }
 

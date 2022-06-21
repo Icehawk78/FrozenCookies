@@ -114,6 +114,11 @@ FrozenCookies.preferenceValues = {
         ],
         default: 0,
     },
+    sugarBakingGuard: {
+        'hint': 'Ignore options that spend a sugar lump until you have 101 stored, to keep the max Sugar Baking boost',
+        'display': ["Sugar Baking Guard OFF", "Sugar Baking Guard ON"],
+        'default': 0,
+    },
     autoGS: {
         hint: "Automatically turn on the Golden Switch during Dragonflight and Click Frenzy (and turn back off at the end)",
         display: ["Auto-GS-Switch OFF", "Auto-GS-Switch ON"],
@@ -134,43 +139,6 @@ FrozenCookies.preferenceValues = {
         display: ["Auto-Loan OFF", "Auto-Loan ON"],
         default: 0,
         extras: '<a class="option" id="minLoanMult" onclick="updateLoanMultMin(\'minLoanMult\');">x${minLoanMult} minimum Frenzy</a>',
-    },
-    autoDragon: {
-        hint: "Automatically upgrade the dragon",
-        display: ["Auto-Dragon OFF", "Auto-Dragon ON"],
-        default: 0,
-    },
-    petDragon: {
-        hint: "Automatically pet the dragon",
-        display: ["Auto-Petting OFF", "Auto-Petting ON"],
-        default: 0,
-    },
-    defaultSeason: {
-        hint: "Autobuy a selected season when no others have needed upgrades",
-        display: [
-            "Default Season OFF",
-            "Default Season BUSINESS DAY",
-            "Default Season CHRISTMAS",
-            "Default Season EASTER",
-            "Default Season HALLOWEEN",
-            "Default Season VALENTINE'S DAY",
-        ],
-        default: 0,
-    },
-    autoEaster: {
-        'hint': 'Switch to Easter season if Cookie Storm is active and you do not have all eggs yet',
-        'display': ["Auto Easter OFF", "Auto Easter ON"],
-        'default': 0,
-    },
-    autoHalloween: {
-        'hint': 'Switch to Halloween season if you have wrinklers and you do not have all spooky biscuits yet',
-        'display': ["Auto Halloween OFF", "Auto Halloween ON"],
-        'default': 0,
-    },
-    sugarBakingGuard: {
-        'hint': 'Ignore options that spend a sugar lump until you have 101 stored, to keep the max Sugar Baking boost',
-        'display': ["Sugar Baking Guard OFF", "Sugar Baking Guard ON"],
-        'default': 0,
     },
 
     // Spell options
@@ -209,6 +177,102 @@ FrozenCookies.preferenceValues = {
         'hint': 'Buy Sugar Frenzy during the first 100% Consistency and/or FTHOF combo - requires a sugar lump!',
         'display': ["Auto Sugar Frenzy OFF", "ASF for 100% Consistency Combo", "ASF also for Auto FTHOF Combo", ],
         'default': 0
+    },
+    
+    //Dragon options
+    dragonOptions: {
+        hint: "Dragon options:",
+    },
+    autoDragon: {
+        hint: "Automatically upgrade the dragon",
+        display: ["Auto-Dragon OFF", "Auto-Dragon ON"],
+        default: 0,
+    },
+    petDragon: {
+        hint: "Automatically pet the dragon",
+        display: ["Auto-Petting OFF", "Auto-Petting ON"],
+        default: 0,
+    },
+    autoDragonAura1: {
+        hint: "Automatically set FIRST dragon aura. Select your desired aura from the list and it will be set as soon as is possible.",
+        display: [
+            "No Aura", 
+            "Breath of Milk",
+            "Dragon Cursor",
+            "Elder Battalion",
+            "Reaper of Fields",
+            "Earth Shatterer",
+            "Master of the Armory",
+            "Fierce Hoarder",
+            "Dragon God",
+            "Arcane Aura",
+            "Dragonflight",
+            "Ancestral Metamorphosis",
+            "Unholy Dominion",
+            "Epoch Manipulator",
+            "Mind Over Matter",
+            "Radiant Appetite",
+            "Dragon\'s Fortune",
+            "Dragon\'s Curve",
+            "Reality Bending",
+            "Dragon Orbs",
+            "Supreme Intellect",
+        ],
+        default: 0,
+    },
+    autoDragonAura2: {
+        hint: "Automatically set SECOND dragon aura. Cannot set both slots to the same aura.",
+        display: [
+            "No Aura", 
+            "Breath of Milk",
+            "Dragon Cursor",
+            "Elder Battalion",
+            "Reaper of Fields",
+            "Earth Shatterer",
+            "Master of the Armory",
+            "Fierce Hoarder",
+            "Dragon God",
+            "Arcane Aura",
+            "Dragonflight",
+            "Ancestral Metamorphosis",
+            "Unholy Dominion",
+            "Epoch Manipulator",
+            "Mind Over Matter",
+            "Radiant Appetite",
+            "Dragon\'s Fortune",
+            "Dragon\'s Curve",
+            "Reality Bending",
+            "Dragon Orbs",
+            "Supreme Intellect",
+        ],
+        default: 0,
+    },
+    
+    // Season options
+    SeasonOptions: {
+        hint: "Season options:",
+    },
+    defaultSeason: {
+        hint: "Autobuy a selected season when no others have needed upgrades",
+        display: [
+            "Default Season OFF",
+            "Default Season BUSINESS DAY",
+            "Default Season CHRISTMAS",
+            "Default Season EASTER",
+            "Default Season HALLOWEEN",
+            "Default Season VALENTINE'S DAY",
+        ],
+        default: 0,
+    },
+    autoEaster: {
+        'hint': 'Switch to Easter season if Cookie Storm is active and you do not have all eggs yet',
+        'display': ["Auto Easter OFF", "Auto Easter ON"],
+        'default': 0,
+    },
+    autoHalloween: {
+        'hint': 'Switch to Halloween season if you have wrinklers and you do not have all spooky biscuits yet',
+        'display': ["Auto Halloween OFF", "Auto Halloween ON"],
+        'default': 0,
     },
 
     //Display options
