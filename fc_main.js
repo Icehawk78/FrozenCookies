@@ -1810,7 +1810,7 @@ function autoDragonAura1Action() {
     
     if (Game.dragonLevel < 5 || FrozenCookies.autoDragonAura1 == 0) return;
     
-    if (Game.dragonLevel >= FrozenCookies.autoDragonAura1 + 4) {
+    if (Game.dragonLevel >= (FrozenCookies.autoDragonAura1 + 4)) {
         Game.SetDragonAura(FrozenCookies.autoDragonAura1, 0);
         Game.ConfirmPrompt();
         return;
