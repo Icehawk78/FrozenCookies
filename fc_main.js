@@ -1280,7 +1280,8 @@ function auto100ConsistencyComboAction() {
     // Not currently possible to do the combo
     if (
         Game.hasBuff("Dragonflight") || // DF will remove click frenzy, potentially wasting it
-        Game.lumps < 1 || // Needs at least 1 lump
+        Game.lumps < 101 || // Needs at least 101 lumps with guard
+        (FrozenCookies.sugarBakingGuard == 0 && Game.lumps < 1 || // Needs at least 1 lump
         Game.dragonLevel < 26 || // Fully upgraded dragon needed for two auras
         !(Game.hasAura('Reaper of Fields') || Game.hasAura('Reality Bending')) || // Will only work if Dragon Harvest is possible
         (!(Game.hasGod("mother") || T.swaps < 1)) ||
@@ -1781,6 +1782,25 @@ function autoLoanBuy() {
         Game.Objects['Bank'].minigame.takeLoan(1);
         Game.Objects['Bank'].minigame.takeLoan(2);
         // Game.Objects['Bank'].minigame.takeLoan(3);
+    }
+}
+        
+function autoSugarFrenzyAction() {
+    if ((FrozenCookies.autoSugarFrenzy == 1
+        && (FrozenCookies.sugarBakingGuard == 0 && Game.lumps > 0 || Game.lumps > 100)
+	&& Game.UpgradesById['450'].unlocked == 1 // Check to see if Sugar craving prestige upgrade has been purchased
+        && Game.UpgradesById['452'].bought == 0) // Check to see if sugar frenzy has already been bought this ascension
+	&& auto100ConsistencyComboAction.state == 16) { 
+        Game.UpgradesById['452'].buy();
+    }
+    
+    if ((FrozenCookies.autoSugarFrenzy == 2
+        && (FrozenCookies.sugarBakingGuard == 0 && Game.lumps > 0 || Game.lumps > 100)
+	&& Game.UpgradesById['450'].unlocked == 1 // Check to see if Sugar craving prestige upgrade has been purchased
+        && Game.UpgradesById['452'].bought == 0) // Check to see if sugar frenzy has already been bought this ascension
+	&& (autoFTHOFComboAction.state == 2
+        ||  auto100ConsistencyComboAction.state == 16)) { 
+        Game.UpgradesById['452'].buy();
     }
 }
 
@@ -4020,6 +4040,11 @@ function FCStart() {
         FrozenCookies.petDragonBot = 0;
     }
 
+    if (FrozenCookies.autoSugarFrenzyBot) {
+        clearInterval(FrozenCookies.autoSugarFrenzyBot);
+        FrozenCookies.autoSugarFrenzyBot = 0;
+    }
+
     if (FrozenCookies.autoLoanBot) {
         clearInterval(FrozenCookies.autoLoanBot);
         FrozenCookies.autoLoanBot = 0;
@@ -4142,6 +4167,13 @@ function FCStart() {
         FrozenCookies.autoLoanBot = setInterval(
             autoLoanBuy,
             FrozenCookies.frequency
+        );
+    }
+
+    if (FrozenCookies.autoSugarFrenzy) {
+        FrozenCookies.autoSugarFrenzyBot = setInterval(
+            autoSugarFrenzy,
+            FrozenCookies.frequency * 2
         );
     }
 

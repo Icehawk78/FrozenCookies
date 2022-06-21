@@ -167,6 +167,11 @@ FrozenCookies.preferenceValues = {
         'display': ["Auto Halloween OFF", "Auto Halloween ON"],
         'default': 0,
     },
+    sugarBakingGuard: {
+        'hint': 'Ignore options that spend a sugard lump until you have 101 stored, to keep the max Sugar Baking boost',
+        'display': ["Sugar Baking Guard OFF", "Sugar Baking Guard ON"],
+        'default': 0,
+    }
 
     // Spell options
     SpellOptions: {
@@ -198,6 +203,11 @@ FrozenCookies.preferenceValues = {
     auto100ConsistencyCombo: {
         'hint': 'EXPERIMENTAL: Does the 100% Consistency Combo with two building specials. WARNING: This will spend a sugar lump, do not enable unless you know what this is!',
         'display': ["Auto 100% Consistency Combo OFF", "Auto 100% Consistency Combo ON"],
+        'default': 0
+    },
+    autoSugarFrenzy: {
+        'hint': 'Cast Sugar Frenzy during the first 100% Consistency and/or FTHOF combo - requires a sugar lump!',
+        'display': ["Auto Sugar Frenzy OFF", "ASF for 100% Consistency Combo", "ASF also for Auto FTHOF Combo", ],
         'default': 0
     },
 
