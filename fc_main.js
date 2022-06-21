@@ -1675,9 +1675,9 @@ function autoEasterAction() {
 }
 
 function autoHalloweenAction() {
-    if (FrozenCookies.autoHalloween == 0)  return;
+    if (FrozenCookies.autoHalloween == 0) return;
     if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
-    
+
     var living = liveWrinklers();
     if (living.length > 0) {
         if (Game.season != 'easter' && Game.season != 'halloween' && !haveAll('halloween')) {
@@ -1751,7 +1751,11 @@ function autoDragonAction() {
 }
 
 function petDragonAction() {
-    if (Game.dragonLevel < 4 || !(Game.Has("Pet the dragon"))) { //Need to actually be able to pet
+    if (
+        !Game.HasUnlocked("A crumbly egg") ||
+        Game.dragonLevel < 4 ||
+        !(Game.Has("Pet the dragon"))
+    ) { //Need to actually be able to pet
         return;
     }
     if (hasClickBuff()) return; // Don't pet during click buff
@@ -1782,34 +1786,41 @@ function autoLoanBuy() {
         // Game.Objects['Bank'].minigame.takeLoan(3);
     }
 }
-        
+
 function autoSugarFrenzyAction() {
-    if ((FrozenCookies.autoSugarFrenzy == 1
-        && (FrozenCookies.sugarBakingGuard == 0 && Game.lumps > 0 || Game.lumps > 100)
-	&& Game.UpgradesById['450'].unlocked == 1 // Check to see if Sugar craving prestige upgrade has been purchased
-        && Game.UpgradesById['452'].bought == 0) // Check to see if sugar frenzy has already been bought this ascension
-	&& auto100ConsistencyComboAction.state == 16) { 
+    if (
+        (FrozenCookies.autoSugarFrenzy == 1 &&
+            (FrozenCookies.sugarBakingGuard == 0 && Game.lumps > 0 ||
+                Game.lumps > 100) && Game.UpgradesById['450'].unlocked == 1 && // Check to see if Sugar craving prestige upgrade has been purchased
+            Game.UpgradesById['452'].bought == 0) && // Check to see if sugar frenzy has already been bought this ascension
+        auto100ConsistencyComboAction.state == 16) {
         Game.UpgradesById['452'].buy();
         logEvent("autoSugarFrenzy", "Started a Sugar Frenzy this ascension");
     }
-    
-    if ((FrozenCookies.autoSugarFrenzy == 2
-        && (FrozenCookies.sugarBakingGuard == 0 && Game.lumps > 0 || Game.lumps > 100)
-	&& Game.UpgradesById['450'].unlocked == 1 // Check to see if Sugar craving prestige upgrade has been purchased
-        && Game.UpgradesById['452'].bought == 0) // Check to see if sugar frenzy has already been bought this ascension
-	&& (autoFTHOFComboAction.state == 2
-        ||  auto100ConsistencyComboAction.state == 16)) { 
+
+    if ((FrozenCookies.autoSugarFrenzy == 2 &&
+            (FrozenCookies.sugarBakingGuard == 0 && Game.lumps > 0 || Game.lumps > 100) &&
+            Game.UpgradesById['450'].unlocked == 1 // Check to see if Sugar craving prestige upgrade has been purchased
+            &&
+            Game.UpgradesById['452'].bought == 0) // Check to see if sugar frenzy has already been bought this ascension
+        &&
+        (autoFTHOFComboAction.state == 2 ||
+            auto100ConsistencyComboAction.state == 16)) {
         Game.UpgradesById['452'].buy();
         logEvent("autoSugarFrenzy", "Started a Sugar Frenzy this ascension");
     }
 }
 
 function autoDragonAura1Action() {
-    if (Game.dragonLevel < 5 || FrozenCookies.autoDragonAura1 == 0) return;
+    if (
+        !Game.HasUnlocked("A crumbly egg") ||
+        Game.dragonLevel < 5 ||
+        FrozenCookies.autoDragonAura1 == 0
+    ) return;
     if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
-    
+
     if (Game.dragonAura == FrozenCookies.autoDragonAura1) return;
-    
+
     if (Game.dragonLevel >= (FrozenCookies.autoDragonAura1 + 4)) {
         Game.SetDragonAura(FrozenCookies.autoDragonAura1, 0);
         Game.ConfirmPrompt();
@@ -1818,18 +1829,22 @@ function autoDragonAura1Action() {
 }
 
 function autoDragonAura2Action() {
-    
-    if (Game.dragonLevel < 26 || FrozenCookies.autoDragonAura2 == 0) return;
+
+    if (
+        !Game.HasUnlocked("A crumbly egg") ||
+        Game.dragonLevel < 26 ||
+        FrozenCookies.autoDragonAura2 == 0
+    ) return;
     if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
-    
+
     if (Game.dragonAura2 == FrozenCookies.autoDragonAura2) return;
-    
+
     if (FrozenCookies.autoDragonAura1 == FrozenCookies.autoDragonAura2) {
         FrozenCookies.autoDragonAura2 = 0;
         logEvent("autoDragonAura", "Can't set both auras to the same one!");
         return;
     }
-    
+
     if (Game.dragonLevel >= 26) {
         Game.SetDragonAura(FrozenCookies.autoDragonAura2, 1);
         Game.ConfirmPrompt();
@@ -1840,11 +1855,11 @@ function autoDragonAura2Action() {
 function autoWorship0Action() {
     if (!T || T.swaps < 1 || FrozenCookies.autoWorship0 == 0) return;
     if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
-    
+
     if (T.slot[0] == FrozenCookies.autoWorship0) return;
-    
+
     if (T.swaps > 0) {
-        swapIn(FrozenCookies.autoWorship0, 0) 
+        swapIn(FrozenCookies.autoWorship0, 0)
         return;
     }
 }
@@ -1852,17 +1867,17 @@ function autoWorship0Action() {
 function autoWorship1Action() {
     if (!T || T.swaps < 1 || FrozenCookies.autoWorship1 == 0) return;
     if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
-    
+
     if (T.slot[1] == FrozenCookies.autoWorship1) return;
-    
+
     if (T.slot[0] == FrozenCookies.autoWorship1) {
         FrozenCookies.autoworship1 = 0;
         logEvent("autoWorship1", "Can't worship the same god twice!");
         return;
     }
-    
+
     if (T.swaps > 0) {
-        swapIn(FrozenCookies.autoWorship1, 1) 
+        swapIn(FrozenCookies.autoWorship1, 1)
         return;
     }
 }
@@ -1870,9 +1885,9 @@ function autoWorship1Action() {
 function autoWorship2Action() {
     if (!T || T.swaps < 1 || FrozenCookies.autoWorship2 == 0) return;
     if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
-    
+
     if (T.slot[2] == FrozenCookies.autoWorship2) return;
-    
+
     if (T.slot[0] == FrozenCookies.autoWorship2) {
         FrozenCookies.autoworship2 = 0;
         logEvent("autoWorship2-0", "Can't worship the same god twice!");
@@ -1883,9 +1898,9 @@ function autoWorship2Action() {
         logEvent("autoWorship2-1", "Can't worship the same god twice!");
         return;
     }
-    
+
     if (T.swaps > 0) {
-        swapIn(FrozenCookies.autoWorship2, 2) 
+        swapIn(FrozenCookies.autoWorship2, 2)
         return;
     }
 }
