@@ -1855,7 +1855,7 @@ function autoWorship1Action() {
     
     if (T.slot[1] == FrozenCookies.autoWorship1) return;
     
-    if (FrozenCookies.autoworship1 == FrozenCookies.autoworship0) {
+    if (T.slot[0] == FrozenCookies.autoWorship1) {
         FrozenCookies.autoworship1 = 0;
         logEvent("autoWorship1", "Can't worship the same god twice!");
         return;
@@ -1873,14 +1873,14 @@ function autoWorship2Action() {
     
     if (T.slot[2] == FrozenCookies.autoWorship2) return;
     
-    if (FrozenCookies.autoworship2 == FrozenCookies.autoworship0) {
+    if (T.slot[0] == FrozenCookies.autoWorship2) {
         FrozenCookies.autoworship2 = 0;
-        logEvent("autoWorship2", "Can't worship the same god twice!");
+        logEvent("autoWorship2-0", "Can't worship the same god twice!");
         return;
     }
-    if (FrozenCookies.autoworship2 == FrozenCookies.autoworship1) {
+    if (T.slot[1] == FrozenCookies.autoWorship2) {
         FrozenCookies.autoworship2 = 0;
-        logEvent("autoWorship21", "Can't worship the same god twice!");
+        logEvent("autoWorship2-1", "Can't worship the same god twice!");
         return;
     }
     
