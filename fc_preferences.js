@@ -140,9 +140,68 @@ FrozenCookies.preferenceValues = {
         default: 0,
         extras: '<a class="option" id="minLoanMult" onclick="updateLoanMultMin(\'minLoanMult\');">x${minLoanMult} minimum Frenzy</a>',
     },
+    
+    // Pantheon options
+    pantheonOptions: {
+        hint: "Pantheon options:",
+    },
+    autoWorship0: {
+        hint: "Automatically slots desired god in DIAMOND slot in Pantheon. Turn off autoBuy option while changing. It's not possible to put the same god in all slots.",
+        display: [
+            "No God", 
+            "Vomitrax",
+            "Godzamok",
+            "Cyclius",
+            "Selebrak",
+            "Dotjeiess",
+            "Muridal",
+            "Jeremy",
+            "Mokalsium",
+            "Skruuia",
+            "Rigidel",
+            "Holobore",
+        ],
+        default: 0,
+    },
+    autoWorship1: {
+        hint: "Automatically slots desired god in RUBY slot in Pantheon.",
+        display: [
+            "No God", 
+            "Vomitrax",
+            "Godzamok",
+            "Cyclius",
+            "Selebrak",
+            "Dotjeiess",
+            "Muridal",
+            "Jeremy",
+            "Mokalsium",
+            "Skruuia",
+            "Rigidel",
+            "Holobore",
+        ],
+        default: 0,
+    },
+    autoWorship2: {
+        hint: "Automatically slots desired god in JADE slot in Pantheon.",
+        display: [
+            "No God", 
+            "Vomitrax",
+            "Godzamok",
+            "Cyclius",
+            "Selebrak",
+            "Dotjeiess",
+            "Muridal",
+            "Jeremy",
+            "Mokalsium",
+            "Skruuia",
+            "Rigidel",
+            "Holobore",
+        ],
+        default: 0,
+    },
 
     // Spell options
-    SpellOptions: {
+    spellOptions: {
         hint: "Grimoire options:",
     },
     towerLimit: {

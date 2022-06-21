@@ -23,6 +23,7 @@ Current differences from the oficial release:
 * Updated for 2.048 (Cortex bakers etc.)
 * Automatically take loans during big click frenzy combos
 * Automatically start a Sugar Frenzy during big combos
+* Automatically sets the Pantheon
 
 ## How to use
 
@@ -78,6 +79,7 @@ If you want to manually install it:
 - Add automatic Sugar Frenzy
 - Add Sugar Baking protection so the mod will only auto-spend sugar lumps if you have 101 or more stored
 - Added options to automatically set dragon auras
+- Added options to automatically set the pantheon
 - Turn the autobuy option into an on/off toggle for various automated actions like autoBroker, autoDragon. This allows changing the values without the game immediately buying.
 
 2022 Jun 20
