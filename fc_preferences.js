@@ -168,7 +168,7 @@ FrozenCookies.preferenceValues = {
         'default': 0,
     },
     sugarBakingGuard: {
-        'hint': 'Ignore options that spend a sugard lump until you have 101 stored, to keep the max Sugar Baking boost',
+        'hint': 'Ignore options that spend a sugar lump until you have 101 stored, to keep the max Sugar Baking boost',
         'display': ["Sugar Baking Guard OFF", "Sugar Baking Guard ON"],
         'default': 0,
     },
@@ -206,7 +206,7 @@ FrozenCookies.preferenceValues = {
         'default': 0
     },
     autoSugarFrenzy: {
-        'hint': 'Cast Sugar Frenzy during the first 100% Consistency and/or FTHOF combo - requires a sugar lump!',
+        'hint': 'Buy Sugar Frenzy during the first 100% Consistency and/or FTHOF combo - requires a sugar lump!',
         'display': ["Auto Sugar Frenzy OFF", "ASF for 100% Consistency Combo", "ASF also for Auto FTHOF Combo", ],
         'default': 0
     },

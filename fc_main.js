@@ -1792,6 +1792,7 @@ function autoSugarFrenzyAction() {
         && Game.UpgradesById['452'].bought == 0) // Check to see if sugar frenzy has already been bought this ascension
 	&& auto100ConsistencyComboAction.state == 16) { 
         Game.UpgradesById['452'].buy();
+        logEvent("autoSugarFrenzy", "Started a Sugar Frenzy this ascension");
     }
     
     if ((FrozenCookies.autoSugarFrenzy == 2
@@ -1801,6 +1802,7 @@ function autoSugarFrenzyAction() {
 	&& (autoFTHOFComboAction.state == 2
         ||  auto100ConsistencyComboAction.state == 16)) { 
         Game.UpgradesById['452'].buy();
+        logEvent("autoSugarFrenzy", "Started a Sugar Frenzy this ascension");
     }
 }
 
