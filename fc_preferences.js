@@ -145,7 +145,7 @@ FrozenCookies.preferenceValues = {
     pantheonOptions: {
         hint: "Pantheon options:",
     },
-    autoWorship1: {
+    autoWorship0: {
         hint: "Automatically slots desired god in DIAMOND slot in Pantheon. Turn off autoBuy option while changing. It's not possible to put the same god in all slots.",
         display: [
             "No God", 
@@ -163,7 +163,7 @@ FrozenCookies.preferenceValues = {
         ],
         default: 0,
     },
-    autoWorship2: {
+    autoWorship1: {
         hint: "Automatically slots desired god in RUBY slot in Pantheon.",
         display: [
             "No God", 
@@ -181,7 +181,7 @@ FrozenCookies.preferenceValues = {
         ],
         default: 0,
     },
-    autoWorship3: {
+    autoWorship2: {
         hint: "Automatically slots desired god in JADE slot in Pantheon.",
         display: [
             "No God", 

@@ -1837,14 +1837,32 @@ function autoDragonAura2Action() {
     }
 }
 
+function autoWorship0Action() {
+    if (!T || T.swaps < 1 || FrozenCookies.autoWorship0 == 0) return;
+    if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
+    
+    if (T.slot[0] == FrozenCookies.autoWorship0) return;
+    
+    if (T.swaps > 0) {
+        swapIn(FrozenCookies.autoWorship0, 0) 
+        return;
+    }
+}
+
 function autoWorship1Action() {
     if (!T || T.swaps < 1 || FrozenCookies.autoWorship1 == 0) return;
     if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
     
-    if (T.slot[0] == FrozenCookies.autoWorship1) return;
+    if (T.slot[1] == FrozenCookies.autoWorship1) return;
+    
+    if (FrozenCookies.autoworship1 == FrozenCookies.autoworship0) {
+        FrozenCookies.autoworship1 = 0;
+        logEvent("autoWorship1", "Can't worship the same god twice!");
+        return;
+    }
     
     if (T.swaps > 0) {
-        swapIn(FrozenCookies.autoWorship1, 0) 
+        swapIn(FrozenCookies.autoWorship1, 1) 
         return;
     }
 }
@@ -1853,39 +1871,21 @@ function autoWorship2Action() {
     if (!T || T.swaps < 1 || FrozenCookies.autoWorship2 == 0) return;
     if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
     
-    if (T.slot[1] == FrozenCookies.autoWorship2) return;
+    if (T.slot[2] == FrozenCookies.autoWorship2) return;
     
-    if (FrozenCookies.autoworship1 == FrozenCookies.autoworship2) {
+    if (FrozenCookies.autoworship2 == FrozenCookies.autoworship0) {
         FrozenCookies.autoworship2 = 0;
-        logEvent("autoWorship", "Can't worship the same god twice!");
+        logEvent("autoWorship2", "Can't worship the same god twice!");
+        return;
+    }
+    if (FrozenCookies.autoworship2 == FrozenCookies.autoworship1) {
+        FrozenCookies.autoworship2 = 0;
+        logEvent("autoWorship21", "Can't worship the same god twice!");
         return;
     }
     
     if (T.swaps > 0) {
-        swapIn(FrozenCookies.autoWorship2, 1) 
-        return;
-    }
-}
-
-function autoWorship3Action() {
-    if (!T || T.swaps < 1 || FrozenCookies.autoWorship3 == 0) return;
-    if (FrozenCookies.autoBuy == 0) return; // Treat like global on/off switch
-    
-    if (T.slot[2] == FrozenCookies.autoWorship3) return;
-    
-    if (FrozenCookies.autoworship1 == FrozenCookies.autoworship3) {
-        FrozenCookies.autoworship3 = 0;
-        logEvent("autoWorship", "Can't worship the same god twice!");
-        return;
-    }
-    if (FrozenCookies.autoworship2 == FrozenCookies.autoworship3) {
-        FrozenCookies.autoworship3 = 0;
-        logEvent("autoWorship", "Can't worship the same god twice!");
-        return;
-    }
-    
-    if (T.swaps > 0) {
-        swapIn(FrozenCookies.autoWorship3, 2) 
+        swapIn(FrozenCookies.autoWorship2, 2) 
         return;
     }
 }
@@ -4146,6 +4146,11 @@ function FCStart() {
         FrozenCookies.autoDragonAura2Bot = 0;
     }
 
+    if (FrozenCookies.autoWorship0Bot) {
+        clearInterval(FrozenCookies.autoWorship0Bot);
+        FrozenCookies.autoWorship0Bot = 0;
+    }
+
     if (FrozenCookies.autoWorship1Bot) {
         clearInterval(FrozenCookies.autoWorship1Bot);
         FrozenCookies.autoWorship1Bot = 0;
@@ -4154,11 +4159,6 @@ function FCStart() {
     if (FrozenCookies.autoWorship2Bot) {
         clearInterval(FrozenCookies.autoWorship2Bot);
         FrozenCookies.autoWorship2Bot = 0;
-    }
-
-    if (FrozenCookies.autoWorship3Bot) {
-        clearInterval(FrozenCookies.autoWorship3Bot);
-        FrozenCookies.autoWorship3Bot = 0;
     }
 
     // Remove until timing issues are fixed
@@ -4302,6 +4302,13 @@ function FCStart() {
         );
     }
 
+    if (FrozenCookies.autoWorship0) {
+        FrozenCookies.autoWorship0Bot = setInterval(
+            autoWorship0Action,
+            FrozenCookies.frequency
+        );
+    }
+
     if (FrozenCookies.autoWorship1) {
         FrozenCookies.autoWorship1Bot = setInterval(
             autoWorship1Action,
@@ -4312,13 +4319,6 @@ function FCStart() {
     if (FrozenCookies.autoWorship2) {
         FrozenCookies.autoWorship2Bot = setInterval(
             autoWorship2Action,
-            FrozenCookies.frequency
-        );
-    }
-
-    if (FrozenCookies.autoWorship3) {
-        FrozenCookies.autoWorship3Bot = setInterval(
-            autoWorship3Action,
             FrozenCookies.frequency
         );
     }
