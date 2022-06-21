@@ -36,7 +36,7 @@ FrozenCookies.preferenceValues = {
         hint: "Auto buying options:",
     },
     autoBuy: {
-        hint: "Automatically buy the most efficient building when you've met its cost",
+        hint: "Automatically buy the most efficient building when you've met its cost. Also controls some other automated purchases.",
         display: ["AutoBuy OFF", "AutoBuy ON"],
         default: 0,
     },
