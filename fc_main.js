@@ -1044,7 +1044,7 @@ function autoCast() {
 function autoFTHOFComboAction() {
     if (!M) return; // Just leave if you don't have grimoire
     // Prereqs check
-    if (Game.Objects['Wizard tower'].level > 10) { // Will not work with wizard tower level > 10)
+    if (Game.Objects['Wizard tower'].level > 10) { // Will not work with wizard tower level > 10
         FrozenCookies.autoFTHOFCombo = 0;
         return;
     }
