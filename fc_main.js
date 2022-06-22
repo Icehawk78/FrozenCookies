@@ -3841,7 +3841,6 @@ function fcClickCookie() {
     }
 }
 
-
 function fcAutoBuyEnabler() {
     if (
         FrozenCookies.autoBuy == 0 &&
@@ -3850,8 +3849,21 @@ function fcAutoBuyEnabler() {
         autoFTHOFComboAction.autobuyyes == 1 ||
         auto100ConsistencyComboAction.autobuyyes == 1)
     ) {
-        FrozenCookies.autoBuy = 1;
-        logEvent("fcAutoBuyEnabler", "Re-enabled autoBuy");
+        if (autoRigidel.autobuyyes == 1) {
+            FrozenCookies.autoBuy = 1;
+            autoRigidel.autobuyyes = 0;
+            logEvent("autoRigidel", "Re-enabled autoBuy");
+        }
+        if (autoFTHOFComboAction.autobuyyes == 1) {
+            FrozenCookies.autoBuy = 1;
+            autoFTHOFComboAction.autobuyyes = 0;
+            logEvent("autoFTHOFComboAction", "Re-enabled autoBuy");
+        }
+        if (auto100ConsistencyComboAction.autobuyyes == 1) {
+            FrozenCookies.autoBuy = 1;
+            auto100ConsistencyComboAction.autobuyyes = 0;
+            logEvent("auto100ConsistencyComboAction", "Re-enabled autoBuy");
+        }
     }
 }
 
