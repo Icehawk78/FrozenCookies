@@ -808,6 +808,7 @@ function autoRigidel() {
                 // Turn autobuy back on if on before
                 if (autoRigidel.autobuyyes == 1) {
                     FrozenCookies.autoBuy = 1;
+                    autoRigidel.autobuyyes = 0;
                 }
             }
         case 1: //Rigidel is already in diamond slot
@@ -827,6 +828,7 @@ function autoRigidel() {
                 // Turn autobuy back on if on before
                 if (autoRigidel.autobuyyes == 1) {
                     FrozenCookies.autoBuy = 1;
+                    autoRigidel.autobuyyes = 0;
                 }
             }
         case 2: //Rigidel in Ruby slot,
@@ -846,6 +848,7 @@ function autoRigidel() {
                 // Turn autobuy back on if on before
                 if (autoRigidel.autobuyyes == 1) {
                     FrozenCookies.autoBuy = 1;
+                    autoRigidel.autobuyyes = 0;
                 }
             }
         case 3: //Rigidel in Jade slot
@@ -865,6 +868,7 @@ function autoRigidel() {
                 // Turn autobuy back on if on before
                 if (autoRigidel.autobuyyes == 1) {
                     FrozenCookies.autoBuy = 1;
+                    autoRigidel.autobuyyes = 0;
                 }
             }
     }
@@ -1256,6 +1260,7 @@ function autoFTHOFComboAction() {
             // Turn autobuy back on if on before
             if (autoFTHOFComboAction.autobuyyes == 1) {
                 FrozenCookies.autoBuy = 1;
+                autoFTHOFComboAction.autobuyyes = 0;
             }
 
             autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
@@ -1613,6 +1618,7 @@ function auto100ConsistencyComboAction() {
         case 17: // Turn autobuy back on if on before
             if (auto100ConsistencyComboAction.autobuyyes == 1) {
                 FrozenCookies.autoBuy = 1;
+                auto100ConsistencyComboAction.autobuyyes = 0;
             }
 
             auto100ConsistencyComboAction.state = 18;
@@ -3832,6 +3838,20 @@ function reindeerLife() {
 function fcClickCookie() {
     if (!Game.OnAscend && !Game.AscendTimer && !Game.specialTabHovered) {
         Game.ClickCookie();
+    }
+}
+
+
+function fcAutoBuyEnabler() {
+    if (
+        FrozenCookies.autoBuy == 0 &&
+        !hasClickBuff() &&
+        (autoRigidel.autobuyyes == 1 ||
+        autoFTHOFComboAction.autobuyyes == 1 ||
+        auto100ConsistencyComboAction.autobuyyes == 1)
+    ) {
+        FrozenCookies.autoBuy = 1;
+        logEvent("fcAutoBuyEnabler", "Re-enabled autoBuy");
     }
 }
 
