@@ -789,13 +789,6 @@ function autoRigidel() {
         case 0: //Rigidel isn't in a slot
             if (T.swaps < 2 || (T.swaps == 1 && T.slot[0] == -1)) return; //Don't do anything if we can't swap Rigidel in
             if (timeToRipe < 60) {
-                // Turn off autobuy
-                if (FrozenCookies.autoBuy == 1) {
-                    autoRigidel.autobuyyes = 1;
-                    FrozenCookies.autoBuy = 0;
-                } else {
-                    autoRigidel.autobuyyes = 0;
-                }
                 var prev = T.slot[0]; //cache whatever god you have equipped
                 swapIn(10, 0); //swap in rigidel
                 rigiSell(); //Meet the %10 condition
@@ -805,70 +798,29 @@ function autoRigidel() {
                 }
                 // Game.clickLump(); //harvest the ripe lump, AutoSL probably covers this but this should avoid issues with autoBuy going first and disrupting Rigidel
                 if (prev != -1) swapIn(prev, 0); //put the old one back
-                // Turn autobuy back on if on before
-                if (autoRigidel.autobuyyes == 1) {
-                    FrozenCookies.autoBuy = 1;
-                    autoRigidel.autobuyyes = 0;
-                }
             }
         case 1: //Rigidel is already in diamond slot
             if (timeToRipe < 60 && Game.BuildingsOwned % 10) {
-                // Turn off autobuy
-                if (FrozenCookies.autoBuy == 1) {
-                    autoRigidel.autobuyyes = 1;
-                    FrozenCookies.autoBuy = 0;
-                } else {
-                    autoRigidel.autobuyyes = 0;
-                }
                 rigiSell();
                 Game.computeLumpTimes();
                 if (Date.now() - started >= ripeAge) {
                     Game.clickLump();
-                }
-                // Turn autobuy back on if on before
-                if (autoRigidel.autobuyyes == 1) {
-                    FrozenCookies.autoBuy = 1;
-                    autoRigidel.autobuyyes = 0;
                 }
             }
         case 2: //Rigidel in Ruby slot,
             if (timeToRipe < 40 && Game.BuildingsOwned % 10) {
-                // Turn off autobuy
-                if (FrozenCookies.autoBuy == 1) {
-                    autoRigidel.autobuyyes = 1;
-                    FrozenCookies.autoBuy = 0;
-                } else {
-                    autoRigidel.autobuyyes = 0;
-                }
                 rigiSell();
                 Game.computeLumpTimes();
                 if (Date.now() - started >= ripeAge) {
                     Game.clickLump();
-                }
-                // Turn autobuy back on if on before
-                if (autoRigidel.autobuyyes == 1) {
-                    FrozenCookies.autoBuy = 1;
-                    autoRigidel.autobuyyes = 0;
                 }
             }
         case 3: //Rigidel in Jade slot
             if (timeToRipe < 20 && Game.BuildingsOwned % 10) {
-                // Turn off autobuy
-                if (FrozenCookies.autoBuy == 1) {
-                    autoRigidel.autobuyyes = 1;
-                    FrozenCookies.autoBuy = 0;
-                } else {
-                    autoRigidel.autobuyyes = 0;
-                }
                 rigiSell();
                 Game.computeLumpTimes();
                 if (Date.now() - started >= ripeAge) {
                     Game.clickLump();
-                }
-                // Turn autobuy back on if on before
-                if (autoRigidel.autobuyyes == 1) {
-                    FrozenCookies.autoBuy = 1;
-                    autoRigidel.autobuyyes = 0;
                 }
             }
     }
@@ -1113,14 +1065,6 @@ function autoFTHOFComboAction() {
                     Game.hasBuff('Dragon Harvest').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1) &&
                 BuildingBuffTime() >= Math.ceil(13 * BuffTimeFactor())
             ) {
-                // Turn off auto buy
-                if (FrozenCookies.autoBuy == 1) {
-                    autoFTHOFComboAction.autobuyyes = 1;
-                    FrozenCookies.autoBuy = 0;
-                } else {
-                    autoFTHOFComboAction.autobuyyes = 0;
-                }
-
                 switch (SugarLevel) {
                     case 0:
                         return;
@@ -1251,20 +1195,10 @@ function autoFTHOFComboAction() {
 
         case 2:
             M.computeMagicM(); //Recalc max after selling
-
             M.castSpell(FTHOF);
             logEvent('autoFTHOFCombo', 'Double cast Force the Hand of Fate');
-
             safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
-
-            // Turn autobuy back on if on before
-            if (autoFTHOFComboAction.autobuyyes == 1) {
-                FrozenCookies.autoBuy = 1;
-                autoFTHOFComboAction.autobuyyes = 0;
-            }
-
             autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount;
-
             autoFTHOFComboAction.state = 0;
     }
 }
@@ -3841,32 +3775,6 @@ function fcClickCookie() {
     }
 }
 
-function fcAutoBuyEnabler() {
-    if (
-        FrozenCookies.autoBuy == 0 &&
-        !hasClickBuff() &&
-        (autoRigidel.autobuyyes == 1 ||
-        autoFTHOFComboAction.autobuyyes == 1 ||
-        auto100ConsistencyComboAction.autobuyyes == 1)
-    ) {
-        if (autoRigidel.autobuyyes == 1) {
-            FrozenCookies.autoBuy = 1;
-            autoRigidel.autobuyyes = 0;
-            logEvent("autoRigidel", "Re-enabled autoBuy");
-        }
-        if (autoFTHOFComboAction.autobuyyes == 1) {
-            FrozenCookies.autoBuy = 1;
-            autoFTHOFComboAction.autobuyyes = 0;
-            logEvent("autoFTHOFComboAction", "Re-enabled autoBuy");
-        }
-        if (auto100ConsistencyComboAction.autobuyyes == 1) {
-            FrozenCookies.autoBuy = 1;
-            auto100ConsistencyComboAction.autobuyyes = 0;
-            logEvent("auto100ConsistencyComboAction", "Re-enabled autoBuy");
-        }
-    }
-}
-
 function autoCookie() {
     //console.log('autocookie called');
     if (!FrozenCookies.processing && !Game.OnAscend && !Game.AscendTimer) {
@@ -3936,6 +3844,7 @@ function autoCookie() {
 
         //var seConditions = (Game.cookies >= delay + recommendation.cost) || (!(FrozenCookies.autoSpell == 3) && !(FrozenCookies.holdSEBank))); //true == good on SE bank or don't care about it
         if (
+            !hasClickBuff() && // Don't buy during click combos
             FrozenCookies.autoBuy &&
             (Game.cookies >= delay + recommendation.cost ||
                 recommendation.purchase.name == "Elder Pledge") &&
