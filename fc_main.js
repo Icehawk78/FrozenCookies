@@ -1709,7 +1709,9 @@ function petDragonAction() {
     //Pet the dragon
     if (!Game.Has(currentDrop) && !Game.HasUnlocked(currentDrop)) {
         Game.specialTab = "dragon";
+        Game.ToggleSpecialMenu(1);
         Game.ClickSpecialPic();
+        Game.ToggleSpecialMenu(0);
         logEvent("petDragon", "Who's a good dragon? You are!");
     }
 }
