@@ -876,7 +876,9 @@ function autoCast() {
                     logEvent("AutoSpell", "Cast Conjure Baked Goods");
                     return;
                 case 2:
-                    if (Game.hasBuff("Dragonflight")) return; // DF will remove click frenzy, potentially wasting it
+                    if (
+                        Game.hasBuff("Dragonflight") // DF will remove click frenzy, potentially wasting it
+                    ) return; 
 
                     var FTHOF = M.spellsById[1];
                     if (M.magicM < Math.floor(FTHOF.costMin + FTHOF.costPercent * M.magicM)) return;
@@ -1549,7 +1551,7 @@ function auto100ConsistencyComboAction() {
 
             return;
 
-        case 17: // Turn autobuy back on if on before
+        case 17: // Turn autobuy back on if it was on before
             if (auto100ConsistencyComboAction.autobuyyes == 1) {
                 FrozenCookies.autoBuy = 1;
                 auto100ConsistencyComboAction.autobuyyes = 0;
@@ -1559,7 +1561,7 @@ function auto100ConsistencyComboAction() {
 
             return;
 
-        case 18: // Once click frenzy buff is gone, turn autoGC on if it were on previously
+        case 18: // Once click frenzy buff is gone, turn autoGC on if it was on previously
             if (!Game.hasBuff('Click frenzy')) {
                 if (auto100ConsistencyComboAction.autogcyes == 1) {
                     FrozenCookies.autoGC = 1;
@@ -1570,7 +1572,7 @@ function auto100ConsistencyComboAction() {
 
             return;
 
-        case 19: // Re-enable autoGodzamok if it were on previously
+        case 19: // Re-enable autoGodzamok if it was on previously
             if (auto100ConsistencyComboAction.autogodyes == 1) {
                 FrozenCookies.autoGodzamok = 1;
             }
