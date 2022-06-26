@@ -877,7 +877,8 @@ function autoCast() {
                     return;
                 case 2:
                     if (
-                        Game.hasBuff("Dragonflight") // DF will remove click frenzy, potentially wasting it
+                        Game.hasBuff("Dragonflight") || // DF will remove click frenzy, potentially wasting it
+                        (goldenCookieLife() && FrozenCookies.autoGC) // Active cookie on screen increases fail chance, so wait
                     ) return; 
 
                     var FTHOF = M.spellsById[1];
@@ -1010,7 +1011,8 @@ function autoFTHOFComboAction() {
     // Not currently possible to do the combo
     if (
         FrozenCookies.auto100ConsistencyCombo == 1 || // 100% combo should override
-        Game.hasBuff("Dragonflight") // DF will remove click frenzy, potentially wasting it
+        Game.hasBuff("Dragonflight") || // DF will remove click frenzy, potentially wasting it
+        (goldenCookieLife() && FrozenCookies.autoGC) // Active cookie on screen increases fail chance, so wait
     ) return;
 
     if (typeof autoFTHOFComboAction.count == 'undefined') {
@@ -1219,6 +1221,7 @@ function auto100ConsistencyComboAction() {
     // Not currently possible to do the combo
     if (
         Game.hasBuff("Dragonflight") || // DF will remove click frenzy, potentially wasting it
+        (goldenCookieLife() && FrozenCookies.autoGC) || // // Active cookie on screen increases fail chance, so wait
         Game.lumps < 101 || // Needs at least 101 lumps with guard
         (FrozenCookies.sugarBakingGuard == 0 && Game.lumps < 1) || // Needs at least 1 lump
         Game.dragonLevel < 26 || // Fully upgraded dragon needed for two auras
