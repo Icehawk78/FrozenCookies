@@ -1007,7 +1007,7 @@ function autoFTHOFComboAction() {
     
     // Not currently possible to do the combo
     if (
-        M.magicM >= 81 || // Below minimum mana
+        M.magicM < 81 || // Below minimum mana
         FrozenCookies.auto100ConsistencyCombo == 1 || // 100% combo should override
         Game.hasBuff("Dragonflight") || // DF will remove click frenzy, potentially wasting it
         goldenCookieLife() // Unclicked cookie on screen increases fail chance, so wait
