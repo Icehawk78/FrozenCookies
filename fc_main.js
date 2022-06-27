@@ -1089,7 +1089,7 @@ function autoFTHOFComboAction() {
                             Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
                             autoFTHOFComboAction.state = 2;
                         }
-                        break;
+                        return;
 
                     case 2:
                         if (M.magicM >= 81) {
@@ -1099,7 +1099,7 @@ function autoFTHOFComboAction() {
                             Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
                             autoFTHOFComboAction.state = 2;
                         }
-                        break;
+                        return;
 
                     case 3:
                         if (M.magicM >= 81) {
@@ -1109,7 +1109,7 @@ function autoFTHOFComboAction() {
                             Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
                             autoFTHOFComboAction.state = 2;
                         }
-                        break;
+                        return;
 
                     case 4:
                         if (M.magicM >= 81) {
@@ -1119,7 +1119,7 @@ function autoFTHOFComboAction() {
                             Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
                             autoFTHOFComboAction.state = 2;
                         }
-                        break;
+                        return;
 
                     case 5:
                         if (M.magicM >= 83) {
@@ -1129,7 +1129,7 @@ function autoFTHOFComboAction() {
                             Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
                             autoFTHOFComboAction.state = 2;
                         }
-                        break;
+                        return;
 
                     case 6:
                         if (M.magicM >= 88) {
@@ -1139,7 +1139,7 @@ function autoFTHOFComboAction() {
                             Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
                             autoFTHOFComboAction.state = 2;
                         }
-                        break;
+                        return;
 
                     case 7:
                         if (M.magicM >= 91) {
@@ -1149,7 +1149,7 @@ function autoFTHOFComboAction() {
                             Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
                             autoFTHOFComboAction.state = 2;
                         }
-                        break;
+                        return;
 
                     case 8:
                         if (M.magicM >= 93) {
@@ -1159,7 +1159,7 @@ function autoFTHOFComboAction() {
                             Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
                             autoFTHOFComboAction.state = 2;
                         }
-                        break;
+                        return;
 
                     case 9:
                         if (M.magicM >= 96) {
@@ -1169,7 +1169,7 @@ function autoFTHOFComboAction() {
                             Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
                             autoFTHOFComboAction.state = 2;
                         }
-                        break;
+                        return;
 
                     case 10:
                         if (M.magicM >= 98) {
@@ -1194,7 +1194,7 @@ function autoFTHOFComboAction() {
                         safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                         autoFTHOFComboAction.state = 0;
                     }
-                    break;
+                    return;
 
                 case 2:
                     if (M.Magic >= 23) {
@@ -1203,7 +1203,7 @@ function autoFTHOFComboAction() {
                         safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                         autoFTHOFComboAction.state = 0;
                     }
-                    break;
+                    return;
 
                 case 3:
                     if (M.Magic >= 23) {
@@ -1212,7 +1212,7 @@ function autoFTHOFComboAction() {
                         safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                         autoFTHOFComboAction.state = 0;
                     }
-                    break;
+                    return;
 
                 case 4:
                     if (M.Magic >= 23) {
@@ -1221,7 +1221,7 @@ function autoFTHOFComboAction() {
                         safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                         autoFTHOFComboAction.state = 0;
                     }
-                    break;
+                    return;
 
                 case 5:
                     if (M.Magic >= 24) {
@@ -1230,7 +1230,7 @@ function autoFTHOFComboAction() {
                         safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                         autoFTHOFComboAction.state = 0;
                     }
-                    break;
+                    return;
 
                 case 6:
                     if (M.Magic >= 26) {
@@ -1239,7 +1239,7 @@ function autoFTHOFComboAction() {
                         safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                         autoFTHOFComboAction.state = 0;
                     }
-                    break;
+                    return;
 
                 case 7:
                     if (M.Magic >= 27) {
@@ -1248,7 +1248,7 @@ function autoFTHOFComboAction() {
                         safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                         autoFTHOFComboAction.state = 0;
                     }
-                    break;
+                    return;
 
                 case 8:
                     if (M.Magic >= 28) {
@@ -1257,7 +1257,7 @@ function autoFTHOFComboAction() {
                         safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                         autoFTHOFComboAction.state = 0;
                     }
-                    break;
+                    return;
 
                 case 9:
                     if (M.Magic >= 29) {
@@ -1266,7 +1266,7 @@ function autoFTHOFComboAction() {
                         safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                         autoFTHOFComboAction.state = 0;
                     }
-                    break;
+                    return;
 
                 case 10:
                     if (M.Magic >= 30) {
