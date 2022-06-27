@@ -887,20 +887,17 @@ function autoCast() {
                         var streT = M.spellsById[2];
                         M.castSpell(streT);
                         logEvent('AutoSpell', 'Cast Stretch Time instead of Force the Hand of Fate');
-                        return;
                     }
 
                     if (nextSpellName(0) == "Clot" || nextSpellName(0) == "Blab" || nextSpellName(0) == "Cookie Storm (Drop)" || nextSpellName(0) == "Ruin Cookies") {
                         var hagC = M.spellsById[4];
                         M.castSpell(hagC);
                         logEvent('AutoSpell', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
-                        return;
                     }
 
                     if (nextSpellName(0) == "Sugar Lump" || nextSpellName(0) == "Cookie Chain") {
                         M.castSpell(FTHOF);
                         logEvent('AutoSpell', 'Cast Force the Hand of Fate');
-                        return;
                     }
 
                     if (nextSpellName(0) == "Lucky") {
@@ -908,7 +905,6 @@ function autoCast() {
                             M.castSpell(FTHOF);
                             logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                         }
-                        return;
                     }
 
                     if (nextSpellName(0) == "Elder Frenzy") {
@@ -923,7 +919,6 @@ function autoCast() {
                                 logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                             }
                         }
-                        return;
                     }
 
                     if (nextSpellName(0) == "Frenzy" || nextSpellName(0) == "Building Special") {
@@ -931,7 +926,6 @@ function autoCast() {
                             M.castSpell(FTHOF);
                             logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                         }
-                        return;
                     }
 
                     if (nextSpellName(0) == "Click Frenzy") {
@@ -939,7 +933,6 @@ function autoCast() {
                             M.castSpell(FTHOF);
                             logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                         }
-                        return;
                     }
 
                     if (nextSpellName(0) == "Cookie Storm") {
@@ -951,7 +944,6 @@ function autoCast() {
                             M.castSpell(FTHOF);
                             logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                         }
-                        return;
                     }
 
                     if (nextSpellName(0) == "Cursed Finger") {
@@ -959,7 +951,6 @@ function autoCast() {
                             M.castSpell(FTHOF);
                             logEvent('AutoSpell', 'Cast Force the Hand of Fate');
                         }
-                        return;
                     }
 
                     return;
@@ -998,6 +989,7 @@ function autoCast() {
                     if (M.magicM < Math.floor(hagC.costMin + hagC.costPercent * M.magicM)) return;
                     M.castSpell(hagC);
                     logEvent("AutoSpell", "Cast Haggler's Charm");
+                    return;
             }
         }
     }
@@ -1174,6 +1166,7 @@ function autoFTHOFComboAction() {
                             Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
                             autoFTHOFComboAction.state = 2;
                         }
+                        return;
                 }
             }
             return;
@@ -1270,6 +1263,7 @@ function autoFTHOFComboAction() {
                         safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
                         autoFTHOFComboAction.state = 0;
                     }
+                    return;
             }
     }
 }
@@ -1629,6 +1623,7 @@ function auto100ConsistencyComboAction() {
             }
             logEvent('auto100ConsistencyCombo', 'Completed auto100ConsistencyCombo');
             auto100ConsistencyComboAction.state = 0;
+            return;
     }
 }
 
@@ -1666,6 +1661,7 @@ function autoBlacklistOff() {
         case 3:
             FrozenCookies.blacklist =
                 haveAll("halloween") && haveAll("easter") ? 0 : 3;
+            break;
     }
 }
 
@@ -1916,6 +1912,7 @@ function getProbabilityModifiers(listType) {
             break;
         case "reindeer":
             result = Game.Has("Reindeer baking grounds") ? 0.5 : 1;
+            break;
     }
     return result;
 }
@@ -2435,6 +2432,7 @@ function harvestBank() {
             FrozenCookies.harvestPlant = "Doughshroom";
             FrozenCookies.harvestMinutes = 5;
             FrozenCookies.harvestMaxPercent = 0.03;
+            break;
     }
 
     if (FrozenCookies.maxSpecials == 0) {
@@ -3300,6 +3298,7 @@ function statSpeed() {
             break;
         case 4: // 24h
             speed = 1000 * 60 * 60 * 24;
+            break;
     }
     return speed;
 }
