@@ -798,7 +798,6 @@ function autoRigidel() {
                 }
                 // Game.clickLump(); //harvest the ripe lump, AutoSL probably covers this but this should avoid issues with autoBuy going first and disrupting Rigidel
                 if (prev != -1) swapIn(prev, 0); //put the old one back
-                break;
             }
         case 1: //Rigidel is already in diamond slot
             if (timeToRipe < 60 && Game.BuildingsOwned % 10) {
@@ -807,7 +806,6 @@ function autoRigidel() {
                 if (Date.now() - started >= ripeAge) {
                     Game.clickLump();
                 }
-                break;
             }
         case 2: //Rigidel in Ruby slot,
             if (timeToRipe < 40 && Game.BuildingsOwned % 10) {
@@ -816,7 +814,6 @@ function autoRigidel() {
                 if (Date.now() - started >= ripeAge) {
                     Game.clickLump();
                 }
-                break;
             }
         case 3: //Rigidel in Jade slot
             if (timeToRipe < 20 && Game.BuildingsOwned % 10) {
@@ -869,15 +866,13 @@ function autoCast() {
             Game.hasBuff("Click frenzy")
         ) {
             switch (FrozenCookies.autoSpell) {
-                case 0:
-                    break;
                 case 1:
                     var CBG = M.spellsById[0];
                     if (M.magicM < Math.floor(CBG.costMin + CBG.costPercent * M.magicM))
                         return;
                     M.castSpell(CBG);
                     logEvent("AutoSpell", "Cast Conjure Baked Goods");
-                    break;
+                    return;
                 case 2:
                     if (
                         Game.hasBuff("Dragonflight") || // DF will remove click frenzy, potentially wasting it
@@ -967,7 +962,7 @@ function autoCast() {
                         return;
                     }
 
-                    break;
+                    return;
                 case 3:
                     var SE = M.spellsById[3];
                     // This code apparently works under the following assumptions:
@@ -997,7 +992,7 @@ function autoCast() {
                     }
                     M.castSpell(SE);
                     logEvent("AutoSpell", "Cast Spontaneous Edifice");
-                    break;
+                    return;
                 case 4:
                     var hagC = M.spellsById[4];
                     if (M.magicM < Math.floor(hagC.costMin + hagC.costPercent * M.magicM)) return;
@@ -1068,7 +1063,7 @@ function autoFTHOFComboAction() {
                     logEvent('autoFTHOFCombo', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
                 }
             }
-            break;
+            return;
 
         case 1:
             if (
@@ -1377,7 +1372,7 @@ function auto100ConsistencyComboAction() {
                     logEvent('auto100ConsistencyCombo', 'Cast Haggler\'s Charm instead of Force the Hand of Fate');
                 }
             }
-            break;
+            return;
 
         case 1:
             if (
