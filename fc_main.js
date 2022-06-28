@@ -1183,98 +1183,11 @@ function autoFTHOFComboAction() {
 
         case 2:
             M.computeMagicM(); //Recalc max after selling
-            switch (SugarLevel) {
-                // Calculated with https://lookas123.github.io/CCGrimoireCalculator/
-                case 1:
-                    if (M.Magic >= 23) {
-                        M.castSpell(FTHOF);
-                        logEvent('autoFTHOFCombo', 'Double cast Force the Hand of Fate');
-                        safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
-                        autoFTHOFComboAction.state = 0;
-                    }
-                    return;
-
-                case 2:
-                    if (M.Magic >= 23) {
-                        M.castSpell(FTHOF);
-                        logEvent('autoFTHOFCombo', 'Double cast Force the Hand of Fate');
-                        safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
-                        autoFTHOFComboAction.state = 0;
-                    }
-                    return;
-
-                case 3:
-                    if (M.Magic >= 23) {
-                        M.castSpell(FTHOF);
-                        logEvent('autoFTHOFCombo', 'Double cast Force the Hand of Fate');
-                        safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
-                        autoFTHOFComboAction.state = 0;
-                    }
-                    return;
-
-                case 4:
-                    if (M.Magic >= 23) {
-                        M.castSpell(FTHOF);
-                        logEvent('autoFTHOFCombo', 'Double cast Force the Hand of Fate');
-                        safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
-                        autoFTHOFComboAction.state = 0;
-                    }
-                    return;
-
-                case 5:
-                    if (M.Magic >= 24) {
-                        M.castSpell(FTHOF);
-                        logEvent('autoFTHOFCombo', 'Double cast Force the Hand of Fate');
-                        safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
-                        autoFTHOFComboAction.state = 0;
-                    }
-                    return;
-
-                case 6:
-                    if (M.Magic >= 26) {
-                        M.castSpell(FTHOF);
-                        logEvent('autoFTHOFCombo', 'Double cast Force the Hand of Fate');
-                        safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
-                        autoFTHOFComboAction.state = 0;
-                    }
-                    return;
-
-                case 7:
-                    if (M.Magic >= 27) {
-                        M.castSpell(FTHOF);
-                        logEvent('autoFTHOFCombo', 'Double cast Force the Hand of Fate');
-                        safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
-                        autoFTHOFComboAction.state = 0;
-                    }
-                    return;
-
-                case 8:
-                    if (M.Magic >= 28) {
-                        M.castSpell(FTHOF);
-                        logEvent('autoFTHOFCombo', 'Double cast Force the Hand of Fate');
-                        safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
-                        autoFTHOFComboAction.state = 0;
-                    }
-                    return;
-
-                case 9:
-                    if (M.Magic >= 29) {
-                        M.castSpell(FTHOF);
-                        logEvent('autoFTHOFCombo', 'Double cast Force the Hand of Fate');
-                        safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
-                        autoFTHOFComboAction.state = 0;
-                    }
-                    return;
-
-                case 10:
-                    if (M.Magic >= 30) {
-                        M.castSpell(FTHOF);
-                        logEvent('autoFTHOFCombo', 'Double cast Force the Hand of Fate');
-                        safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
-                        autoFTHOFComboAction.state = 0;
-                    }
-                    return;
-            }
+            M.castSpell(FTHOF);
+            logEvent('autoFTHOFCombo', 'Double cast Force the Hand of Fate');
+            safeBuy(Game.Objects["Wizard tower"], autoFTHOFComboAction.count);
+            autoFTHOFComboAction.state = 0;
+            return;
     }
 }
 
