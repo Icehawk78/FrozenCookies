@@ -1011,7 +1011,7 @@ function autoFTHOFComboAction() {
         M.magicM < 81 || // Below minimum mana
         FrozenCookies.auto100ConsistencyCombo == 1 || // 100% combo should override
         Game.hasBuff("Dragonflight") || // DF will remove click frenzy, potentially wasting it
-        goldenCookieLife() // Unclicked cookie on screen increases fail chance, so wait
+        auto100ConsistencyComboAction.state < 2 && goldenCookieLife() // Unclicked cookie on screen increases fail chance, so wait
     ) return;
 
     if (typeof autoFTHOFComboAction.count == 'undefined') {
@@ -1020,6 +1020,16 @@ function autoFTHOFComboAction() {
 
     if (typeof autoFTHOFComboAction.state == 'undefined') {
         autoFTHOFComboAction.state = 0;
+    }
+
+    if (
+        autoFTHOFComboAction.state == 2 && 
+        M.magic == M.magicM &&
+        !Game.hasBuff('Click frenzy') &&
+        !(nextSpellName(0) == "Click Frenzy" || nextSpellName(1) == "Click Frenzy")
+    ) {
+        autoFTHOFComboAction.state = 0;
+        logEvent('autoFTHOFCombo', 'Soft fail, spell combo is gone');
     }
 
     if (autoFTHOFComboAction.state == 0) {
@@ -1031,16 +1041,6 @@ function autoFTHOFComboAction() {
         ) {
             autoFTHOFComboAction.state = 1;
         }
-    }
-
-    if (
-        autoFTHOFComboAction.state == 2 && 
-        M.magic == M.magicM &&
-        !Game.hasBuff('Click frenzy') &&
-        !(nextSpellName(0) == "Click Frenzy" || nextSpellName(1) == "Click Frenzy")
-    ) {
-        autoFTHOFComboAction.state = 0;
-        logEvent('autoFTHOFCombo', 'Soft fail, spell combo is gone');
     }
 
     var SugarLevel = Game.Objects['Wizard tower'].level;
@@ -1275,7 +1275,6 @@ function autoFTHOFComboAction() {
                     }
                     return;
             }
-            return;
     }
 }
 
@@ -1294,7 +1293,7 @@ function auto100ConsistencyComboAction() {
     // Not currently possible to do the combo
     if (
         Game.hasBuff("Dragonflight") || // DF will remove click frenzy, potentially wasting it
-        goldenCookieLife() || // // Unclicked cookie on screen increases fail chance, so wait
+        auto100ConsistencyComboAction.state < 2 && goldenCookieLife() || // // Unclicked cookie on screen increases fail chance, so wait
         Game.lumps < 101 || // Needs at least 101 lumps with guard
         (FrozenCookies.sugarBakingGuard == 0 && Game.lumps < 1) || // Needs at least 1 lump
         Game.dragonLevel < 26 || // Fully upgraded dragon needed for two auras
