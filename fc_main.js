@@ -1077,16 +1077,6 @@ function autoFTHOFComboAction() {
                     Game.hasBuff('Dragon Harvest').time / 30 >= Math.ceil(13 * BuffTimeFactor()) - 1) &&
                 BuildingBuffTime() >= Math.ceil(13 * BuffTimeFactor())
             ) {
-                // Turn off auto buy and make sure we're not in sell mode
-                if (FrozenCookies.autoBuy == 1) {
-                    autoFTHOFComboComboAction.autobuyyes = 1;
-                    FrozenCookies.autoBuy = 0;
-                } else {
-                    autoFTHOFComboComboAction.autobuyyes = 0;
-                }
-                if (Game.buyMode == -1) {
-                    Game.buyMode = 1;
-                }
                 switch (SugarLevel) {
                     case 0:
                         return;
@@ -1176,6 +1166,16 @@ function autoFTHOFComboAction() {
             return;
 
         case 2:
+            // Turn off auto buy and make sure we're not in sell mode
+            if (FrozenCookies.autoBuy == 1) {
+                autoFTHOFComboAction.autobuyyes = 1;
+                FrozenCookies.autoBuy = 0;
+            } else {
+                autoFTHOFComboAction.autobuyyes = 0;
+            }
+            if (Game.buyMode == -1) {
+                Game.buyMode = 1;
+            }
             autoFTHOFComboAction.count = Game.Objects['Wizard tower'].amount - 1;
             Game.Objects['Wizard tower'].sell(autoFTHOFComboAction.count);
             M.computeMagicM(); //Recalc max after selling
