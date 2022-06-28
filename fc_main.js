@@ -1035,6 +1035,7 @@ function autoFTHOFComboAction() {
 
     if (
         autoFTHOFComboAction.state == 2 && 
+        M.magic == M.magicM &&
         !Game.hasBuff('Click frenzy') &&
         !(nextSpellName(0) == "Click Frenzy" || nextSpellName(1) == "Click Frenzy")
     ) {
